@@ -68,7 +68,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 /* Estilos específicos para o Header */
 header {
   position: relative;

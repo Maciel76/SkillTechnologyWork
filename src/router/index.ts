@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import DashboadView from'@/components/views/DashboadView.vue'
+import Heroconfig from'@/components/Dashboad/HeroConfig.vue'
+
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -7,11 +10,8 @@ const routes: Array<RouteRecordRaw> = [
     name: 'home',
     component: HomeView
   },
-  {
-    path: '/about',
-    name: 'about',
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
+  { path: '/Dashboad', component: DashboadView },
+  { path: '/Heroconfig', component: Heroconfig },
 ]
 
 const router = createRouter({

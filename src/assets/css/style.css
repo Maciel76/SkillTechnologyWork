@@ -133,9 +133,7 @@ nav {
     margin-bottom: 1.5rem;
 }
 
-.highlight {
-    color: var(--primary-color);
-}
+
 
 .hero p {
     color: var(--gray-color);

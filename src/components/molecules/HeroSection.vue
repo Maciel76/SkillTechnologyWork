@@ -11,8 +11,7 @@
       <h1 v-html="texts[currentIndex].h1"></h1> <!-- Usando v-html para renderizar HTML --> 
       <p v-html="texts[currentIndex].p"></p> <!-- Usando v-html para renderizar HTML --> 
       <div class="cta-buttons">
-        <router-link to="#" class="cta-button">Nossos Serviços</router-link>
-        <router-link to="#" class="cta-button secondary">Portfólio</router-link>
+        <router-link :to="texts[currentIndex].link" class="cta-button">Saiba Mais</router-link>
       </div>
     </div>
     <div class="hero-image" @mouseenter="pauseSlider" @mouseleave="resumeSlider">
@@ -51,36 +50,40 @@
 export default {
   name: 'HeroSection',
   data() {
-    return {
-      images: [
-        { src: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3', alt: 'Team' },
-        { src: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3', alt: 'Collaboration' },
-        { src: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3', alt: 'Team Meeting' },
-        { src: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3', alt: 'Innovation' }
-      ],
-      texts: [
-        { 
-          h1: 'Transformando Ideias Em <span class="highlight">Soluções Inovadoras</span>', 
-          p: 'Soluções de TI e design personalizados para o seu <span class="highlight">negócio</span>.' 
-        },
-        { 
-          h1: 'A <span class="highlight">Colaboração</span> é o Futuro para sua Empresa', 
-          p: 'Trabalhando juntos para criar soluções de <span class="highlight">sucesso</span>.' 
-        },
-        { 
-          h1: 'Inovação e o <span class="highlight">Futuro para sua empresa </span>', 
-          p: 'Melhore a performance com novas soluções <span class="highlight">tecnológicas</span>.' 
-        },
-        { 
-          h1: 'Transforme sua Empresa com <span class="highlight">Tecnologia</span>', 
-          p: 'Criamos a tecnologia de amanhã para o seu <span class="highlight">negócio</span> de hoje.' 
-        }
-      ],
-      currentIndex: 0,
-      autoplayInterval: null,
-      transitionSpeed: 5000
-    };
-  },
+  return {
+    images: [
+      { src: require('@/assets/images/banners/hero1.jpg'), alt: 'Team', link: '/servicos' },
+      { src: require('@/assets/images/banners/hero8.webp'), alt: 'Collaboration', link: '/portfolio' },
+      { src: require('@/assets/images/banners/hero7.webp'), alt: 'Team Meeting', link: '/inovacao' },
+      { src: require('@/assets/images/banners/hero5.webp'), alt: 'Innovation', link: '/ia' }
+    ],
+    texts: [
+      { 
+        h1: 'Transformando Ideias Em <span class="highlight">Soluções Inovadoras</span>', 
+        p: 'Soluções de TI e design personalizados para o seu <span class="highlight">negócio</span>.',
+        link: '/servicos'
+      },
+      { 
+        h1: 'A <span class="highlight">Colaboração</span> é o Futuro para sua Empresa', 
+        p: 'Trabalhando juntos para criar soluções de <span class="highlight">sucesso</span>.',
+        link: '/portfolio'
+      },
+      { 
+        h1: 'Inovação e o <span class="highlight">Futuro para sua empresa </span>', 
+        p: 'Melhore a performance com novas soluções <span class="highlight">tecnológicas</span>.',
+        link: '/inovacao'
+      },
+      { 
+        h1: 'Potencialize seu Negócio com Inteligência Artificial!', 
+        p: 'Conectamos criatividade e tecnologia para impulsionar seu negócio com IA. Solicite uma consultoria gratuita!',
+        link: '/ia'
+      }
+    ],
+    currentIndex: 0,
+    autoplayInterval: null,
+    transitionSpeed: 5000
+  };
+},
   computed: {
     sliderStyle() {
       return {
@@ -126,6 +129,10 @@ export default {
 @keyframes slideIn {
   from { opacity: 0; transform: translateX(-30px); }
   to { opacity: 1; transform: translateX(0); }
+}
+.highlight {
+  color: #ff6347; /* Cor laranja, por exemplo */
+  font-weight: bold; /* Opcional: para destacar ainda mais */
 }
 
 .fade-in {
@@ -224,14 +231,13 @@ export default {
   font-weight: 600;
   text-decoration: none;
   transition: all 0.3s ease;
-  background-color: var(--primary-color);
+  background-color: #1861a7;
   color: white;
 }
 
 .cta-button.secondary {
-  background-color: transparent;
-  border: 2px solid var(--primary-color);
-  color: var(--primary-color);
+  background-color: #c06f3a;
+ 
 }
 
 .cta-button:hover {
@@ -240,7 +246,7 @@ export default {
 }
 
 .cta-button.secondary:hover {
-  background-color: var(--primary-color);
+ 
   color: white;
 }
 
@@ -250,7 +256,6 @@ export default {
 }
 
 .cta-button.secondary:hover {
-  background-color: var(--primary-color);
   color: white;
 }
 
@@ -376,7 +381,7 @@ border: 2px solid white;
   font-weight: 600;
   text-decoration: none;
   transition: all 0.3s ease;
-  background-color: var(--primary-color);
+  background-color: #0099DD;
   color: white;
 }
 }
