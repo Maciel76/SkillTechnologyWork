@@ -15,7 +15,7 @@
             <h3>Navegação do site</h3>
             <ul>
               <li><router-link to="#">Planos e preços</router-link></li>
-              <li><router-link to="#">Nossos Serviços</router-link></li>
+              <li><router-link to="/Services">Nossos Serviços</router-link></li>
               <li><router-link to="#">Nossa loja</router-link></li>
               <li><router-link to="#">Nosso Blog</router-link></li>
             </ul>
@@ -23,16 +23,16 @@
           <div class="footer-column">
             <h3>Sobre Nos</h3>
             <ul>
-              <li><router-link to="#">Sobre Nos</router-link></li>
-              <li><router-link to="#">Eventos e Programação</router-link></li>
-              <li><router-link to="#">Nossa missão</router-link></li>
+              <li><router-link to="/Sobre">Sobre Nos</router-link></li>
+              <li><router-link to="/Eventos">Eventos e Programação</router-link></li>
+              <li><router-link to="/Missao">Nossa missão</router-link></li>
             </ul>
           </div>
           <div class="footer-column">
             <h3>Informação útil</h3>
             <ul>
-              <li><router-link to="#">Política de Privacidade</router-link></li>
-              <li><router-link to="#">Termos de Uso</router-link></li>
+              <li><router-link to="/Privacidade">Política de Privacidade</router-link></li>
+              <li><router-link to="/Termos">Termos de Uso</router-link></li>
             </ul>
           </div>
           <div class="footer-column">
