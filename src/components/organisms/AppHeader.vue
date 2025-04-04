@@ -11,11 +11,12 @@
       </div>
       <ul class="nav-links" :class="{ 'active': isMenuOpen }">
         <li><router-link to="#" @click="closeMenu">Blog</router-link></li>
-        <li><router-link to="#" @click="closeMenu">Portfolio</router-link></li>
+        <li><router-link to="/Portfolio" @click="closeMenu">Portfolio</router-link></li>
         <li><router-link to="/Services" @click="closeMenu">Serviços</router-link></li>
-        <li><router-link to="#" @click="closeMenu">Planos e preços</router-link></li>
-        <li><router-link to="#" @click="closeMenu">Clientes</router-link></li>
-        <li><router-link to="#" @click="closeMenu">Loja</router-link></li>
+        <li><router-link to="/Precing" @click="closeMenu">Planos e preços</router-link></li>
+        <li><router-link to="/Clientes" @click="closeMenu">Clientes</router-link></li>
+        <li><router-link to="/Loja" @click="closeMenu">Loja</router-link></li>
+        
       </ul>
       <button class="cta-button">
         <span ref="typing"></span>

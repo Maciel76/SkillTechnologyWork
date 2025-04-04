@@ -1,145 +1,402 @@
 <template>
-    <main>
-      <!-- Conteúdo da página -->
-      <section class="services-section">
-        <h2>Nossas Soluções de IA</h2>
-        <div class="services-grid">
-            <div class="service-card">
-                <img src="https://api.iconify.design/heroicons:globe-alt.svg" alt="Websites">
-                <h3>Websites Inteligentes</h3>
-                <p>Sites personalizados que adaptam conteúdo com base no comportamento do usuário.</p>
-                <a href="#" class="learn-more">Saiba mais →</a>
-            </div>
-            <div class="service-card">
-                <img src="https://api.iconify.design/heroicons:device-phone-mobile.svg" alt="Apps">
-                <h3>Apps com IA</h3>
-                <p>Aplicativos que aprendem com o uso, oferecendo experiências otimizadas.</p>
-                <a href="#" class="learn-more">Saiba mais →</a>
-            </div>
-            <div class="service-card">
-                <img src="https://api.iconify.design/heroicons:photo.svg" alt="Content">
-                <h3>Geração de Conteúdo</h3>
-                <p>Criação automática de imagens e vídeos para campanhas e redes sociais.</p>
-                <a href="#" class="learn-more">Saiba mais →</a>
-            </div>
-            <div class="service-card">
-                <img src="https://api.iconify.design/heroicons:chat-bubble-left-right.svg" alt="Chatbot">
-                <h3>Chatbots Inteligentes</h3>
-                <p>Atendimento 24/7 com respostas rápidas e personalizadas.</p>
-                <a href="#" class="learn-more">Saiba mais →</a>
-            </div>
-            <div class="service-card">
-                <img src="https://api.iconify.design/heroicons:chart-bar.svg" alt="Analytics">
-                <h3>Análise de Dados e BI</h3>
-                <p>Insights valiosos para tomadas de decisão com base em análises preditivas.</p>
-                <a href="#" class="learn-more">Saiba mais →</a>
-            </div>
-            <div class="service-card">
-                <img src="https://api.iconify.design/heroicons:megaphone.svg" alt="Marketing">
-                <h3>Marketing Automatizado</h3>
-                <p>Segmentação de audiência e campanhas personalizadas automáticas.</p>
-                <a href="#" class="learn-more">Saiba mais →</a>
-            </div>
+    <section class="services-section">
+      <div class="section-container">
+        <div class="section-header">
+          <h2 class="section-title">Soluções de <span class="highlight">Inteligência Artificial</span> para Seu Negócio</h2>
+          <p class="section-subtitle">Tecnologia avançada para transformar seus processos e resultados</p>
         </div>
+        
+        <div class="services-grid">
+          <div 
+            class="service-card" 
+            v-for="(service, index) in services" 
+            :key="index"
+            :style="{ '--card-color': service.color }"
+          >
+            <div class="card-icon">
+              <img :src="service.icon" :alt="service.title" class="icon-img">
+            </div>
+            <h3 class="card-title">{{ service.title }}</h3>
+            <p class="card-description">{{ service.description }}</p>
+            <div class="card-features">
+              <div class="feature-item" v-for="(feature, fIndex) in service.features" :key="fIndex">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>{{ feature }}</span>
+              </div>
+            </div>
+            <div class="card-actions">
+              <a href="#" class="learn-more">
+                <span>Saiba mais</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="section-footer">
+          <button class="cta-button">
+            <span>Fale com um especialista</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M22 2L11 13M22 2L15 22L11 13M11 13L2 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
     </section>
-    </main>  
-</template>
-
-<script>  
-export default {
-  name: 'ServicesPage',
-};
-</script>
-
-<style scoped >
-/* Estilos globais ou específicos da página */
-/* Services Grid */
-.services-section {
-    padding: 5rem 5%;
-    background: #E5E7EB;
-}
-
-.services-section h2 {
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 3rem;
-}
-
-.services-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+  </template>
+  
+  <script>
+  export default {
+    name: 'ServicesPage',
+    data() {
+      return {
+        services: [
+          {
+            icon: 'https://api.iconify.design/heroicons:globe-alt.svg',
+            title: 'Websites Inteligentes',
+            description: 'Sites que se adaptam em tempo real ao comportamento do usuário',
+            features: [
+              'Personalização dinâmica',
+              'SEO inteligente',
+              'A/B testing automático'
+            ],
+            color: '#3B82F6'
+          },
+          {
+            icon: 'https://api.iconify.design/heroicons:device-phone-mobile.svg',
+            title: 'Apps com IA',
+            description: 'Aplicativos que aprendem e melhoram com cada interação',
+            features: [
+              'Recomendações personalizadas',
+              'Reconhecimento de padrões',
+              'Otimização de performance'
+            ],
+            color: '#10B981'
+          },
+          {
+            icon: 'https://api.iconify.design/heroicons:photo.svg',
+            title: 'Geração de Conteúdo',
+            description: 'Criação automática de materiais visuais e textuais',
+            features: [
+              'Imagens e vídeos sob demanda',
+              'Redação automatizada',
+              'Branding consistente'
+            ],
+            color: '#EC4899'
+          },
+          {
+            icon: 'https://api.iconify.design/heroicons:chat-bubble-left-right.svg',
+            title: 'Chatbots Inteligentes',
+            description: 'Atendimento humano 24/7 com respostas precisas',
+            features: [
+              'Processamento de linguagem natural',
+              'Integração com CRM',
+              'Multiplataforma'
+            ],
+            color: '#8B5CF6'
+          },
+          {
+            icon: 'https://api.iconify.design/heroicons:chart-bar.svg',
+            title: 'Análise de Dados',
+            description: 'Transforme dados brutos em insights acionáveis',
+            features: [
+              'Dashboards interativos',
+              'Alertas inteligentes',
+              'Previsões precisas'
+            ],
+            color: '#F59E0B'
+          },
+          {
+            icon: 'https://api.iconify.design/heroicons:megaphone.svg',
+            title: 'Marketing Automatizado',
+            description: 'Campanhas que se otimizam automaticamente',
+            features: [
+              'Segmentação avançada',
+              'Conteúdo dinâmico',
+              'ROI maximizado'
+            ],
+            color: '#EF4444'
+          }
+        ]
+      }
+    }
+  }
+  </script>
+  
+  <style scoped>
+  /* Estilos Base */
+  .services-section {
+    padding: 6rem 1rem;
+    background: linear-gradient(to bottom, #ffffff 0%, #f8fafc 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  [data-theme="dark"] .services-section {
+    background: linear-gradient(to bottom, #1e293b 0%, #0f172a 100%);
+  }
+  
+  .section-container {
     max-width: 1200px;
     margin: 0 auto;
-}
-
-.service-card {
-    
-    padding: 2rem;
-    border-radius: 16px;
+    position: relative;
+    z-index: 2;
+  }
+  
+  /* Cabeçalho */
+  .section-header {
     text-align: center;
-    transition: transform 0.3s ease;
-}
-
-.service-card:hover {
-    transform: translateY(-8px);
-    
-}
-
-.service-card img {
+    margin-bottom: 4rem;
+  }
+  
+  .section-title {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: #1e293b;
+  }
+  
+  [data-theme="dark"] .section-title {
+    color: #f8fafc;
+  }
+  
+  .highlight {
+    color: #0052FF;
+    position: relative;
+  }
+  
+  .highlight::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background: rgba(0, 82, 255, 0.2);
+    z-index: -1;
+    border-radius: 4px;
+    transform: skewX(-15deg);
+  }
+  
+  .section-subtitle {
+    font-size: 1.25rem;
+    color: #64748b;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  
+  [data-theme="dark"] .section-subtitle {
+    color: #94a3b8;
+  }
+  
+  /* Grid de Serviços */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+  
+  /* Cards de Serviços */
+  .service-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  [data-theme="dark"] .service-card {
+    background: #1e293b;
+    border-color: rgba(255, 255, 255, 0.05);
+  }
+  
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--card-color);
+  }
+  
+  .service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-icon {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .icon-img {
     width: 48px;
     height: 48px;
-    margin-bottom: 1.5rem;
-    color: var(--primary-color);
-}
-
-.service-card h3 {
+    color: var(--card-color);
+  }
+  
+  .card-title {
     font-size: 1.5rem;
+    font-weight: 700;
     margin-bottom: 1rem;
-}
-
-.service-card p {
-    color: #4B5563;
+    text-align: center;
+    color: #1e293b;
+  }
+  
+  [data-theme="dark"] .card-title {
+    color: #f8fafc;
+  }
+  
+  .card-description {
+    color: #64748b;
+    text-align: center;
     margin-bottom: 1.5rem;
-}
-
-.learn-more {
-    color: var(--primary-color);
+    font-size: 1rem;
+    line-height: 1.6;
+    min-height: 60px;
+  }
+  
+  [data-theme="dark"] .card-description {
+    color: #94a3b8;
+  }
+  
+  .card-features {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem;
+    flex-grow: 1;
+  }
+  
+  .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    color: #475569;
+    font-size: 0.95rem;
+  }
+  
+  [data-theme="dark"] .feature-item {
+    color: #cbd5e1;
+  }
+  
+  .feature-item svg {
+    flex-shrink: 0;
+    color: var(--card-color);
+  }
+  
+  .card-actions {
+    text-align: center;
+  }
+  
+  .learn-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--card-color);
     text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s;
-}
-/* Responsive Design */
-@media (max-width: 1024px) {
-    .hero-sectionn {
-        flex-direction: column;
-        text-align: center;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  
+  .learn-more:hover {
+    gap: 0.75rem;
+  }
+  
+  .learn-more svg {
+    transition: transform 0.3s ease;
+  }
+  
+  .learn-more:hover svg {
+    transform: translateX(3px);
+  }
+  
+  /* Rodapé da Seção */
+  .section-footer {
+    text-align: center;
+    padding-top: 3rem;
+  }
+  
+  .cta-button {
+    background: #0052FF;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 82, 255, 0.3);
+  }
+  
+  .cta-button:hover {
+    background: #0046d9;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px -1px rgba(0, 82, 255, 0.4);
+  }
+  
+  .cta-button svg {
+    transition: transform 0.3s ease;
+  }
+  
+  .cta-button:hover svg {
+    transform: rotate(-45deg);
+  }
+  
+  /* Responsividade */
+  @media (max-width: 1024px) {
+    .services-grid {
+      grid-template-columns: repeat(2, 1fr);
     }
-
-    .services-grid,
-    .benefits-grid,
-    .features-grid {
-        grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @media (max-width: 768px) {
+    .services-section {
+      padding: 4rem 1rem;
     }
-
-    .testimonials-grid {
-        grid-template-columns: 1fr;
+    
+    .section-header {
+      margin-bottom: 2rem;
     }
-}
-
-@media (max-width: 768px) {
-    .hero-contentn h1 {
-        font-size: 2.5rem;
+    
+    .services-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
     }
-
-    .services-grid,
-    .benefits-grid,
-    .features-grid {
-        grid-template-columns: 1fr;
+    
+    .service-card {
+      padding: 1.5rem;
     }
-
-    .contact-form {
-        padding: 0 1rem;
+  }
+  
+  @media (max-width: 480px) {
+    .section-title {
+      font-size: 1.8rem;
     }
-}
-</style>
+    
+    .section-subtitle {
+      font-size: 1rem;
+    }
+    
+    .cta-button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+  </style>

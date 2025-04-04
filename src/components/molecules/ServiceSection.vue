@@ -93,7 +93,7 @@
               image: 'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGNvbXB1dGFkb3J8ZW58MHx8MHx8fDA%3D'
             }
           ],
-          route: '/pageWebsite' // Rota individual
+          route: '/ServiceWebsite' // Rota individual
         },
         {
           id: 2,
@@ -114,7 +114,7 @@
               image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGNvbXB1dGFkb3J8ZW58MHx8MHx8fDA%3D'
             }
           ],
-          route: '/pageAplicativos' // Rota individual
+          route: '/ServiceAplicativo' // Rota individual
         },
         {
           id: 3,
@@ -135,7 +135,7 @@
               image: 'https://images.unsplash.com/photo-1558655146-d09347e92766?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGRlc2lnbiUyMGludGVyZmFjZXxlbnwwfHwwfHx8MA%3D%3D'
             }
           ],
-          route: '/pageInterface' // Rota individual
+          route: '/ServiceInterface' // Rota individual
         },
         {
           id: 4,
@@ -156,7 +156,7 @@
               image: 'https://images.unsplash.com/photo-1556155092-490a1ba16284?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fG1hcmtldGluZ3xlbnwwfHwwfHx8MA%3D%3D'
             }
           ],
-          route: '/pageMidia' // Rota individual
+          route: '/ServiceMidia' // Rota individual
         },
         {
           id: 5,
@@ -177,7 +177,7 @@
               image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHByb2R1dG98ZW58MHx8MHx8fDA%3D'
             }
           ],
-          route: '/pageEcommerce' // Rota individual 
+          route: '/ServiceEcommece' // Rota individual 
         },
         {
           id: 6,
@@ -198,7 +198,7 @@
               image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGNvbnN1bHRpbmd8ZW58MHx8MHx8fDA%3D'
             }
           ],
-          route: '/pageConsultoria' // Rota individual
+          route: '/ServiceConsultoria' // Rota individual
         }
       ]);
   
