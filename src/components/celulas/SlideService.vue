@@ -9,7 +9,8 @@
         <h1>
           <span class="title-line">Potencialize Seu Negócio com</span>
           <span class="title-line highlight">
-            <span class="tech-text">Soluções de IA</span>
+            <span class="tech-text">Soluções de </span>
+            <span class="tech-text">Soluções de inovadoras</span>
             <span class="pulse-dot"></span>
           </span>
           <span class="title-line">Sob Medida</span>
