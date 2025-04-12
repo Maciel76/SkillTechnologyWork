@@ -1546,8 +1546,8 @@ input:checked + .slider:before {
   }
   
   .hero-visual {
-    order: -1;
-    margin-bottom: 3rem;
+    display: block;
+    overflow: hidden;
   }
   
   .contact-container {
@@ -1580,6 +1580,7 @@ input:checked + .slider:before {
     font-size: 2.5rem;
   }
   
+  
   .hero-subtitle {
     font-size: 1.1rem;
   }
@@ -1601,7 +1602,9 @@ input:checked + .slider:before {
   .hero-section {
     padding: 6rem 1.5rem 8rem;
   }
-  
+  .device{
+    display: block;
+  }  
   .cta-container {
     flex-direction: column;
     width: 100%;

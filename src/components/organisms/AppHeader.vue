@@ -10,7 +10,7 @@
         <img src="https://api.iconify.design/heroicons:bars-3.svg" alt="Menu" />
       </div>
       <ul class="nav-links" :class="{ 'active': isMenuOpen }">
-        <li><router-link to="#" @click="closeMenu">Blog</router-link></li>
+        <li><router-link to="/blog" @click="closeMenu">Blog</router-link></li>
         <li><router-link to="/Portfolio" @click="closeMenu">Portfolio</router-link></li>
         <li><router-link to="/Services" @click="closeMenu">Serviços</router-link></li>
         <li><router-link to="/Precing" @click="closeMenu">Planos e preços</router-link></li>

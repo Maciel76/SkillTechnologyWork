@@ -1,329 +1,677 @@
-<template>    
-  <main>
-      <section class="projects-grid">
-          <!-- Project Card 1; -->
-          <article class="project-card">
-              <div class="project-thumbnail">
-                  <img 
-                      src="https://images.unsplash.com/photo-1498050108023-c5249f4df085" 
-                      alt="Tech App" 
-                      loading="lazy"
-                      @click="openOverlay(1)"
-                  >
-                  <div class="project-overlay">
-                      <a href="#" class="view-project" @click.prevent="openOverlay(1)">Ver exemplares</a>
-                  </div>
-              </div>
-              <div class="project-info">
-                  <span class="project-category">Website</span>
-                  <h3>Website/Sistemas Personalizados com IA Integrada</h3>
-                  <p>Desenvolvimento de websites e sistemas sob medida, com design responsivo, integração de funcionalidades avançadas e otimização para performance e usabilidade. Transforme sua presença online com soluções inteligentes que utilizam as mais recentes tecnologias de IA para oferecer experiências personalizadas e eficientes.</p>
-                  <div class="project-tech">
-                      <span class="tech-tag">Vue.js</span>
-                      <span class="tech-tag">Node.js</span>
-                      <span class="tech-tag">MongoDB</span>
-                  </div>
-              </div>
-          </article>
+<template>
+  <section class="featured-projects">
+    <div class="section-header">
+      <h2>Projetos em <span class="highlight">Destaque</span></h2>
+      <p class="subtitle">Soluções que entregamos com excelência e inovação</p>
+    </div>
 
-          <!-- Project Card 2 -->
-          <article class="project-card">
-              <div class="project-thumbnail">
-                  <img 
-                      src="https://images.unsplash.com/photo-1460925895917-afdab827c52f" 
-                      alt="Marketing Dashboard" 
-                      loading="lazy"
-                      @click="openOverlay(2)"
-                  >
-                  <div class="project-overlay">
-                      <a href="#" class="view-project" @click.prevent="openOverlay(2)">Ver Projeto</a>
-                  </div>
-              </div>
-              <div class="project-info">
-                  <span class="project-category">Design</span>
-                  <h3>Marketing Dashboard</h3>
-                  <p>Dashboard interativo para análise de campanhas de marketing e métricas de performance em tempo real.</p>
-                  <div class="project-tech">
-                      <span class="tech-tag">Figma</span>
-                      <span class="tech-tag">React</span>
-                      <span class="tech-tag">D3.js</span>
-                  </div>
-              </div>
-          </article>
-
-          <!-- Project Card 3 -->
-          <article class="project-card">
-              <div class="project-thumbnail">
-                  <img 
-                      src="https://images.unsplash.com/photo-1460925895917-afdab827c52f" 
-                      alt="Marketing Dashboard" 
-                      loading="lazy"
-                      @click="openOverlay(3)"
-                  >
-                  <div class="project-overlay">
-                      <a href="#" class="view-project" @click.prevent="openOverlay(3)">Ver Projeto</a>
-                  </div>
-              </div>
-              <div class="project-info">
-                  <span class="project-category">Design</span>
-                  <h3>Marketing Dashboard</h3>
-                  <p>Dashboard interativo para análise de campanhas de marketing e métricas de performance em tempo real.</p>
-                  <div class="project-tech">
-                      <span class="tech-tag">Figma</span>
-                      <span class="tech-tag">React</span>
-                      <span class="tech-tag">D3.js</span>
-                  </div>
-              </div>
-          </article>
-
-          <!-- Project Card 4 -->
-          <article class="project-card">
-              <div class="project-thumbnail">
-                  <img 
-                      src="https://images.unsplash.com/photo-1472851294608-062f824d29cc" 
-                      alt="Boutique Online" 
-                      loading="lazy"
-                      @click="openOverlay(4)"
-                  >
-                  <div class="project-overlay">
-                      <a href="#" class="view-project" @click.prevent="openOverlay(4)">Ver Projeto</a>
-                  </div>
-              </div>
-              <div class="project-info">
-                  <span class="project-category">E-commerce</span>
-                  <h3>Boutique Online</h3>
-                  <p>E-commerce completo para uma boutique de luxo, com sistema de recomendação personalizado.</p>
-                  <div class="project-tech">
-                      <span class="tech-tag">Next.js</span>
-                      <span class="tech-tag">Stripe</span>
-                      <span class="tech-tag">PostgreSQL</span>
-                  </div>
-              </div>
-          </article>
-      </section>
-
-      <!-- Overlay de Imagens -->
-      <div class="image-overlay" v-if="isOverlayVisible" @click="closeOverlay">
-          <div class="overlay-content" @click.stop>
-              <button class="close-overlay" @click="closeOverlay">&times;</button>
-              <div class="overlay-images">
-                  <img 
-                      v-for="(image, index) in overlayImages" 
-                      :key="index" 
-                      :src="image" 
-                      :alt="'Imagem do Projeto ' + (index + 1)"
-                  >
-              </div>
+    <div class="projects-grid">
+      <!-- Projeto 1 -->
+      <article class="project-card" @click="openOverlay(projects[0])">
+        <div class="card-bg" :style="{ backgroundImage: `url(${projects[0].thumbnail})` }"></div>
+        <div class="card-content">
+          <span class="category">Website & Sistema</span>
+          <h3>{{ projects[0].title }}</h3>
+          <div class="tech-tags">
+            <span v-for="(tech, i) in projects[0].technologies.slice(0, 3)" :key="i">{{ tech }}</span>
           </div>
+          <button class="view-btn">
+            Ver Detalhes
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </article>
+
+      <!-- Projeto 2 -->
+      <article class="project-card" @click="openOverlay(projects[1])">
+        <div class="card-bg" :style="{ backgroundImage: `url(${projects[1].thumbnail})` }"></div>
+        <div class="card-content">
+          <span class="category">Plataforma Educacional</span>
+          <h3>{{ projects[1].title }}</h3>
+          <div class="tech-tags">
+            <span v-for="(tech, i) in projects[1].technologies.slice(0, 3)" :key="i">{{ tech }}</span>
+          </div>
+          <button class="view-btn">
+            Ver Detalhes
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </article>
+
+      <!-- Projeto 3 -->
+      <article class="project-card" @click="openOverlay(projects[2])">
+        <div class="card-bg" :style="{ backgroundImage: `url(${projects[2].thumbnail})` }"></div>
+        <div class="card-content">
+          <span class="category">E-commerce</span>
+          <h3>{{ projects[2].title }}</h3>
+          <div class="tech-tags">
+            <span v-for="(tech, i) in projects[2].technologies.slice(0, 3)" :key="i">{{ tech }}</span>
+          </div>
+          <button class="view-btn">
+            Ver Detalhes
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </article>
+
+      <!-- Projeto 4 -->
+      <article class="project-card" @click="openOverlay(projects[3])">
+        <div class="card-bg" :style="{ backgroundImage: `url(${projects[3].thumbnail})` }"></div>
+        <div class="card-content">
+          <span class="category">Aplicativo Mobile</span>
+          <h3>{{ projects[3].title }}</h3>
+          <div class="tech-tags">
+            <span v-for="(tech, i) in projects[3].technologies.slice(0, 3)" :key="i">{{ tech }}</span>
+          </div>
+          <button class="view-btn">
+            Ver Detalhes
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </article>
+    </div>
+
+    <!-- Modal de Detalhes -->
+    <transition name="fade">
+      <div class="project-modal" v-if="selectedProject" @click.self="closeOverlay">
+        <div class="modal-content">
+          <button class="close-btn" @click="closeOverlay">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          
+          <div class="modal-gallery">
+            <div class="main-image">
+              <img :src="selectedProject.images[0]" :alt="selectedProject.title">
+            </div>
+          </div>
+          
+          <div class="modal-details">
+            <div class="details-header">
+              <span class="badge">{{ selectedProject.category }}</span>
+              <h2>{{ selectedProject.title }}</h2>
+              <div class="meta">
+                <span><strong>Cliente:</strong> {{ selectedProject.client }}</span>
+                <span><strong>Ano:</strong> {{ selectedProject.year }}</span>
+              </div>
+            </div>
+            
+            <div class="details-body">
+              <div class="description">
+                <h3>O Desafio</h3>
+                <p>{{ selectedProject.challenge }}</p>
+                
+                <h3>Nossa Solução</h3>
+                <p>{{ selectedProject.solution }}</p>
+                
+                <h3>Resultados</h3>
+                <ul class="results">
+                  <li v-for="(result, i) in selectedProject.results" :key="i">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    {{ result }}
+                  </li>
+                </ul>
+              </div>
+              
+              <div class="sidebar">
+                <div class="tech-stack">
+                  <h4>Tecnologias</h4>
+                  <div class="tech-icons">
+                    <div v-for="(tech, i) in selectedProject.technologies" :key="i">
+                      <img :src="getTechIcon(tech)" :alt="tech" :title="tech">
+                      <span>{{ tech }}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="project-cta">
+                  <a v-if="selectedProject.liveUrl" :href="selectedProject.liveUrl" target="_blank" class="live-link">
+                    Ver Projeto Online
+                  </a>
+                  <a v-if="selectedProject.githubUrl" :href="selectedProject.githubUrl" target="_blank" class="github-link">
+                    Ver Código
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-  </main>    
+    </transition>
+  </section>
 </template>
 
-<script> 
+<script>
 export default {
-  name: 'ProjectSection',
+  name: 'FeaturedProjects',
   data() {
-      return {
-          isOverlayVisible: false,
-          overlayImages: [], // Imagens do overlay
-      };
+    return {
+      projects: [
+        {
+          id: 1,
+          title: "Sistema com IA Integrada",
+          category: "Website & Sistema",
+          client: "TechCorp Inc.",
+          year: "2023",
+          thumbnail: "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
+          images: [
+            "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
+            "https://images.unsplash.com/photo-1460925895917-afdab827c52f",
+            "https://images.unsplash.com/photo-1472851294608-062f824d29cc"
+          ],
+          technologies: ["Vue.js", "Node.js", "TensorFlow.js", "MongoDB"],
+          challenge: "Automatizar processos manuais e oferecer recomendações inteligentes para clientes.",
+          solution: "Plataforma web com IA que analisa padrões de uso e oferece recomendações personalizadas em tempo real.",
+          results: [
+            "Redução de 70% no tempo de processos",
+            "Aumento de 40% na satisfação do cliente",
+            "Crescimento de 25% na retenção"
+          ],
+          liveUrl: "#",
+          githubUrl: "#"
+        },
+        {
+          id: 2,
+          title: "Plataforma de Educação Online",
+          category: "Plataforma Educacional",
+          client: "EduTech Solutions",
+          year: "2022",
+          thumbnail: "https://images.unsplash.com/photo-1546410531-bb4caa6b424d",
+          images: [
+            "https://images.unsplash.com/photo-1546410531-bb4caa6b424d",
+            "https://images.unsplash.com/photo-1588072432836-e10032774350"
+          ],
+          technologies: ["React", "Firebase", "Stripe", "WebRTC"],
+          challenge: "Criar experiência imersiva e interativa para alunos remotos.",
+          solution: "Ambiente virtual com videoaulas, whiteboard colaborativo e avaliação adaptativa.",
+          results: [
+            "50.000 alunos em 6 meses",
+            "Taxa de conclusão 35% acima da média",
+            "Integração com 15 plataformas"
+          ],
+          liveUrl: "#"
+        },
+        {
+          id: 3,
+          title: "Loja Virtual Premium",
+          category: "E-commerce",
+          client: "Boutique Elegance",
+          year: "2023",
+          thumbnail: "https://images.unsplash.com/photo-1472851294608-062f824d29cc",
+          images: [
+            "https://images.unsplash.com/photo-1472851294608-062f824d29cc",
+            "https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a"
+          ],
+          technologies: ["Next.js", "Shopify", "Tailwind CSS", "Algolia"],
+          challenge: "Transformar a experiência de compra online para refletir exclusividade da marca.",
+          solution: "Loja virtual com design sofisticado e recomendações personalizadas.",
+          results: [
+            "Aumento de 150% nas vendas",
+            "Conversão 3x maior que a média",
+            "Sessões 40% mais longas"
+          ],
+          liveUrl: "#"
+        },
+        {
+          id: 4,
+          title: "App de Gestão Financeira",
+          category: "Aplicativo Mobile",
+          client: "FinancePlus",
+          year: "2023",
+          thumbnail: "https://images.unsplash.com/photo-1551288049-bebda4e38f71",
+          images: [
+            "https://images.unsplash.com/photo-1551288049-bebda4e38f71",
+            "https://images.unsplash.com/photo-1547658719-da2b51169166"
+          ],
+          technologies: ["Flutter", "Node.js", "Plaid API", "Firebase"],
+          challenge: "Simplificar o gerenciamento financeiro pessoal e de negócios.",
+          solution: "App intuitivo que conecta contas bancárias e sugere otimizações.",
+          results: [
+            "100.000 downloads em 3 meses",
+            "Nota 4.8 nas lojas de apps",
+            "Economia média de 15% para usuários"
+          ],
+          liveUrl: "#",
+          githubUrl: "#"
+        }
+      ],
+      selectedProject: null
+    }
   },
   methods: {
-      openOverlay(projectId) {
-          // Defina as imagens do overlay para cada projeto
-          if (projectId === 1) {
-              this.overlayImages = [
-                  "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
-                  "https://images.unsplash.com/photo-1460925895917-afdab827c52f",
-                  "https://images.unsplash.com/photo-1472851294608-062f824d29cc"
-              ];
-          } else if (projectId === 2) {
-              this.overlayImages = [
-                  "https://images.unsplash.com/photo-1726607102396-548750ce07f6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                  "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
-                  "https://images.unsplash.com/photo-1472851294608-062f824d29cc",
-              ];
-          } else if (projectId === 3) {
-              this.overlayImages = [
-                  "https://images.unsplash.com/photo-1460925895917-afdab827c52f",
-                  "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
-                  "https://images.unsplash.com/photo-1472851294608-062f824d29cc"
-              ];
-          } else if (projectId === 4) {
-              this.overlayImages = [
-                  "https://images.unsplash.com/photo-1472851294608-062f824d29cc",
-                  "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
-                  "https://images.unsplash.com/photo-1460925895917-afdab827c52f"
-              ];
-          }
-          this.isOverlayVisible = true;
-      },
-      closeOverlay() {
-          this.isOverlayVisible = false;
-          this.overlayImages = [];
-      }
+    openOverlay(project) {
+      this.selectedProject = project;
+      document.body.style.overflow = 'hidden';
+    },
+    closeOverlay() {
+      this.selectedProject = null;
+      document.body.style.overflow = '';
+    },
+    getTechIcon(tech) {
+      const icons = {
+        'Vue.js': 'https://cdn.worldvectorlogo.com/logos/vue-9.svg',
+        'Node.js': 'https://cdn.worldvectorlogo.com/logos/nodejs-icon.svg',
+        'TensorFlow.js': 'https://cdn.worldvectorlogo.com/logos/tensorflow-2.svg',
+        'MongoDB': 'https://cdn.worldvectorlogo.com/logos/mongodb-icon-1.svg',
+        'React': 'https://cdn.worldvectorlogo.com/logos/react-2.svg',
+        'Firebase': 'https://cdn.worldvectorlogo.com/logos/firebase-1.svg',
+        'Stripe': 'https://cdn.worldvectorlogo.com/logos/stripe-4.svg',
+        'WebRTC': 'https://cdn.worldvectorlogo.com/logos/webrtc.svg',
+        'Next.js': 'https://cdn.worldvectorlogo.com/logos/next-js.svg',
+        'Shopify': 'https://cdn.worldvectorlogo.com/logos/shopify.svg',
+        'Tailwind CSS': 'https://cdn.worldvectorlogo.com/logos/tailwindcss.svg',
+        'Algolia': 'https://cdn.worldvectorlogo.com/logos/algolia-1.svg',
+        'Flutter': 'https://cdn.worldvectorlogo.com/logos/flutter.svg',
+        'Plaid API': 'https://cdn.worldvectorlogo.com/logos/plaid-1.svg'
+      };
+      return icons[tech] || 'https://cdn.worldvectorlogo.com/logos/javascript.svg';
+    }
   }
-};
+}
 </script>
 
-<style scoped >
-/* Estilos existentes (mantidos como estavam) */
-.projects-grid {
-  padding: 5rem 5%;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;    
+<style scoped>
+.featured-projects {
+  padding: 5rem 2rem;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section-header h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #1e293b;
+}
+
+.highlight {
+  color: #6366f1;
+  position: relative;
+}
+
+.highlight::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background: rgba(99, 102, 241, 0.3);
+  z-index: -1;
+  border-radius: 4px;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #64748b;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
 .project-card {
-  background-color: rgb(204, 201, 201);
+  position: relative;
   border-radius: 16px;
   overflow: hidden;
-  transition: transform 0.3s ease;
+  height: 380px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
 }
 
 .project-card:hover {
   transform: translateY(-8px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
-.project-thumbnail {
-  position: relative;
-  overflow: hidden;
-}
-
-.project-thumbnail img {
-  width: 100%;
-  height: 240px;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-  cursor: pointer; /* Adicionado para indicar que a imagem é clicável */
-}
-
-.project-overlay {
+.card-bg {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 82, 255, 0.9);
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.5s ease;
+}
+
+.project-card:hover .card-bg {
+  transform: scale(1.05);
+}
+
+.card-content {
+  position: relative;
+  height: 100%;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.project-card:hover .project-overlay {
-  opacity: 1;
-}
-
-.project-card:hover .project-thumbnail img {
-  transform: scale(1.1);
-}
-
-.view-project {
-  color: white;
-  text-decoration: none;
-  padding: 0.8rem 1.5rem;
-  border: 2px solid white;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
-.view-project:hover {
-  background: white;
-  color: var(--primary-color);
-}
-
-.project-info {
+  flex-direction: column;
+  justify-content: flex-end;
   padding: 2rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  color: white;
 }
 
-.project-info h3 {
+.category {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin-bottom: 0.5rem;
+}
+
+.project-card h3 {
   font-size: 1.5rem;
   margin-bottom: 1rem;
+  line-height: 1.3;
 }
 
-.project-info p {
-  color: rgb(66, 66, 66);
-  margin-bottom: 1.5rem;
-  line-height: 1.6;
-}
-
-.project-tech {
+.tech-tags {
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
+  margin-bottom: 1.5rem;
 }
 
-.tech-tag {
-  background: rgb(204, 204, 204);
-  color: black;
+.tech-tags span {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
   padding: 0.25rem 0.75rem;
   border-radius: 20px;
-  font-size: 0.9rem;
+  font-size: 0.75rem;
 }
 
-/* Estilos do Overlay de Imagens */
-.image-overlay {
+.view-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: 2px solid white;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: fit-content;
+}
+
+.view-btn:hover {
+  background: white;
+  color: #1e293b;
+}
+
+.view-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.view-btn:hover svg {
+  transform: translateX(4px);
+}
+
+/* Modal Styles */
+.project-modal {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  padding: 2rem;
 }
 
-.overlay-content {
-  background-color: blueviolet;
-  padding: 2rem;
+.modal-content {
+  background: white;
   border-radius: 16px;
-  max-width: 90%;
-  max-height: 90%;
+  max-width: 1200px;
+  width: 100%;
+  max-height: 90vh;
   overflow-y: auto;
   position: relative;
 }
 
-.close-overlay {
+.close-btn {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 1.5rem;
+  right: 1.5rem;
   background: none;
   border: none;
-  font-size: 1.5rem;
   cursor: pointer;
+  color: #64748b;
+  z-index: 10;
+}
+
+.close-btn:hover {
+  color: #1e293b;
+}
+
+.modal-gallery {
+  padding: 2rem;
+}
+
+.main-image {
+  height: 400px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.main-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-details {
+  padding: 0 2rem 2rem;
+}
+
+.badge {
+  background: #6366f1;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.modal-details h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #1e293b;
+}
+
+.meta {
+  display: flex;
+  gap: 1.5rem;
+  color: #64748b;
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+}
+
+.details-body {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+}
+
+.description h3 {
+  font-size: 1.25rem;
+  margin: 1.5rem 0 1rem;
+  color: #1e293b;
+}
+
+.description p {
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.results {
+  list-style: none;
+  padding: 0;
+}
+
+.results li {
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  color: #64748b;
+}
+
+.results li svg {
+  color: #6366f1;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.sidebar {
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 1.5rem;
+  align-self: flex-start;
+}
+
+.tech-stack h4 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: #1e293b;
+}
+
+.tech-icons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.tech-icons > div {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tech-icons img {
+  width: 24px;
+  height: 24px;
+}
+
+.tech-icons span {
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.project-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.live-link, .github-link {
+  display: block;
+  text-align: center;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.live-link {
+  background: #3b82f6;
   color: white;
 }
 
-.overlay-images {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
+.live-link:hover {
+  background: #2563eb;
 }
 
-.overlay-images img {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  cursor: pointer;
+.github-link {
+  background: #1e293b;
+  color: white;
 }
 
-/* Responsividade */
-@media (max-width: 1200px) {
-  .projects-grid {
-      grid-template-columns: repeat(2, 1fr);
+.github-link:hover {
+  background: #0f172a;
+}
+
+/* Animations */
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .details-body {
+    grid-template-columns: 1fr;
+  }
+  
+  .sidebar {
+    width: 100%;
   }
 }
 
 @media (max-width: 768px) {
+  .section-header h2 {
+    font-size: 2rem;
+  }
+  
+  .modal-gallery {
+    padding: 1rem;
+  }
+  
+  .main-image {
+    height: 300px;
+  }
+  
+  .modal-details {
+    padding: 0 1rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .featured-projects {
+    padding: 3rem 1rem;
+  }
+  
   .projects-grid {
-      grid-template-columns: 1fr;
+    grid-template-columns: 1fr;
+  }
+  
+  .project-card {
+    height: 320px;
+  }
+  
+  .card-content {
+    padding: 1.5rem;
   }
 }
 </style>

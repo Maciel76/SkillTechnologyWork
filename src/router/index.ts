@@ -29,6 +29,7 @@ import MascotePesonalizados from '@/components/servicepage/Portifolio/MascotePes
 import EditorImagem from '@/components/servicepage/Portifolio/EditorImagem.vue'
 import SistemasWeb from '@/components/servicepage/Portifolio/SistemasWeb..vue'
 import LandingPages from '@/components/servicepage/Portifolio/LandingPages.vue'
+import ProjectSection from '@/components/molecules/ProjectSection.vue'
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -53,6 +54,7 @@ const routes: Array<RouteRecordRaw> = [
   { path: '/EditorImagem', component: EditorImagem },
   { path: '/sistemasweb', component: SistemasWeb },
   { path: '/landingpages', component: LandingPages },
+  { path: '/ProjectSection', component: ProjectSection },
 
 
 

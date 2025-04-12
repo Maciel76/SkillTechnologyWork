@@ -1,405 +1,1031 @@
 <template>
-    <section class="services-section">
-      <div class="container">
-        <h2 class="section-title">Principais Serviços</h2>
-        <div class="services-grid">
-          <div 
-            v-for="service in services" 
-            :key="service.id"
-            class="service-card"
-            @click="openServiceModal(service)"
-          >
+  <section class="services-section">
+    <div class="section-header">
+      <h2 class="section-title">
+        <span class="title-line">Nossos</span>
+        <span class="title-line highlight">
+          <span class="tech-text">Serviços Exclusivos</span>
+          <span class="pulse-dot"></span>
+        </span>
+      </h2>
+      <p class="section-subtitle">Soluções completas para impulsionar seu negócio no mundo digital</p>
+    </div>
+
+    <div class="services-container">
+      <div class="services-grid">
+        <div 
+          v-for="(service, index) in services" 
+          :key="service.id"
+          class="service-card"
+          :style="{ '--accent-color': service.color }"
+          @mouseenter="activeCard = index"
+          @click="openServiceModal(service)"
+        >
+          <div class="card-bg" :style="{ backgroundImage: `url(${service.bgImage})` }"></div>
+          <div class="card-content">
             <div class="service-icon">
-              <img :src="service.icon" :alt="service.title" />
+              <img :src="service.icon" :alt="service.title">
             </div>
             <h3>{{ service.title }}</h3>
             <p>{{ service.shortDescription }}</p>
+            <ul class="service-features">
+              <li v-for="(feature, i) in service.features" :key="i">{{ feature }}</li>
+            </ul>
+            <button class="card-cta">
+              Saiba mais
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
           </div>
-        </div>
-        <!-- Botão CTA "Ver Mais" -->
-        <div class="cta-container">
-          <button class="cta-button" @click="redirectToPortfolio">
-            Ver Todos 
-          </button>
+          <div class="card-overlay"></div>
         </div>
       </div>
-  
-      <!-- Service Modal -->
-      <div v-if="selectedService" class="modal service-modal" @click.self="closeServiceModal">
+    </div>
+
+    <!-- Modal de Serviço -->
+    <transition name="fade">
+      <div 
+        v-if="selectedService" 
+        class="service-modal" 
+        @click.self="closeServiceModal"
+      >
         <div class="modal-content">
           <button class="close-modal" @click="closeServiceModal">
-            <img src="https://api.iconify.design/heroicons:x-mark.svg" alt="Close" />
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
           </button>
-          <div class="service-details">
+          
+          <div class="modal-header">
             <div class="service-icon">
-              <img :src="selectedService.icon" :alt="selectedService.title" />
+              <img :src="selectedService.icon" :alt="selectedService.title">
             </div>
             <h2>{{ selectedService.title }}</h2>
-            <p class="service-description">{{ selectedService.description }}</p>
-            <div class="service-benefits">
-              <h3>Benefícios</h3>
-              <ul>
-                <li v-for="benefit in selectedService.benefits" :key="benefit">{{ benefit }}</li>
-              </ul>
-            </div>
-            <div class="success-cases">
-              <h3>Cases de Sucesso</h3>
-              <div class="cases-grid">
-                <div v-for="serviceCase in selectedService.cases" :key="serviceCase.id" class="case-card">
-                  <img :src="serviceCase.image" :alt="serviceCase.title" />
-                  <h4>{{ serviceCase.title }}</h4>
-                  <p>{{ serviceCase.description }}</p>
+            <p class="service-category">{{ selectedService.category }}</p>
+          </div>
+          
+          <div class="modal-body">
+            <div class="service-description">
+              <h3>Descrição do Serviço</h3>
+              <p>{{ selectedService.description }}</p>
+              
+              <div class="tech-stack">
+                <h3>Tecnologias Utilizadas</h3>
+                <div class="tech-icons">
+                  <div v-for="(tech, index) in selectedService.technologies" :key="index">
+                    <img :src="getTechIcon(tech)" :alt="tech" :title="tech">
+                    <span>{{ tech }}</span>
+                  </div>
                 </div>
               </div>
             </div>
-            <!-- Botão CTA para a página individual do serviço -->
-            <button class="cta-button modal-cta" @click="redirectToServicePage(selectedService.route)">
-             Detalhes Serviços
+            
+            <div class="service-benefits">
+              <h3>Benefícios</h3>
+              <ul>
+                <li v-for="(benefit, index) in selectedService.benefits" :key="index">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  {{ benefit }}
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="service-cases">
+            <h3>Cases de Sucesso</h3>
+            <div class="cases-grid">
+              <div 
+                v-for="(caseItem, index) in selectedService.cases" 
+                :key="index"
+                class="case-card"
+              >
+                <img :src="caseItem.image" :alt="caseItem.title">
+                <div class="case-info">
+                  <h4>{{ caseItem.title }}</h4>
+                  <p>{{ caseItem.description }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="modal-footer">
+            <button class="cta-button" @click="redirectToServicePage(selectedService.route)">
+              Quero este serviço
+            </button>
+            <button class="secondary-button" @click="closeServiceModal">
+              Voltar para serviços
             </button>
           </div>
         </div>
       </div>
-    </section>
-  </template>
-  
-  <script>
-  import { ref } from 'vue';
-  import { useRouter } from 'vue-router';
-  
-  export default {
-    name: 'ServicesGallery',
-    setup() {
-      const selectedService = ref(null);
-      const router = useRouter();
-  
-      const services = ref([
-        {
-          id: 1,
-          title: 'Desenvolvimento Web',
-          shortDescription: 'Websites e aplicações web modernas',
-          description: 'Criamos websites e aplicações web responsivas, rápidas e otimizadas para SEO.',
-          icon: 'https://api.iconify.design/heroicons:computer-desktop.svg',
-          benefits: [
-            'Design responsivo para todos os dispositivos',
-            'Otimização para mecanismos de busca',
-            'Alta performance e velocidade de carregamento',
-            'Integrado com Ai e Machine Learning'
-          ],
-          cases: [
-            {
-              id: 1,
-              title: 'E-commerce Fashion',
-              description: 'Aumento de 150% nas vendas online',
-              image: 'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGNvbXB1dGFkb3J8ZW58MHx8MHx8fDA%3D'
-            }
-          ],
-          route: '/ServiceWebsite' // Rota individual
-        },
-        {
-          id: 2,
-          title: 'Desenvolvimento Mobile',
-          shortDescription: 'Aplicativos iOS e Android',
-          description: 'Desenvolvemos aplicativos nativos e híbridos para iOS e Android.',
-          icon: 'https://api.iconify.design/heroicons:device-phone-mobile.svg',
-          benefits: [
-            'Interface intuitiva e moderna',
-            'Integração com APIs e serviços',
-            'Suporte a recursos nativos dos dispositivos'
-          ],
-          cases: [
-            {
-              id: 2,
-              title: 'App de Delivery',
-              description: 'Mais de 10.000 downloads na primeira semana',
-              image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGNvbXB1dGFkb3J8ZW58MHx8MHx8fDA%3D'
-            }
-          ],
-          route: '/ServiceAplicativo' // Rota individual
-        },
-        {
-          id: 3,
-          title: 'Design de Interface',
-          shortDescription: 'UI/UX moderno e intuitivo',
-          description: 'Criamos interfaces de usuário que combinam beleza e funcionalidade.',
-          icon: 'https://api.iconify.design/heroicons:pencil-square.svg',
-          benefits: [
-            'Design centrado no usuário',
-            'Prototipagem rápida e iterativa',
-            'Testes de usabilidade'
-          ],
-          cases: [
-            {
-              id: 3,
-              title: 'Redesign de App Bancário',
-              description: 'Aumento de 30% na retenção de usuários',
-              image: 'https://images.unsplash.com/photo-1558655146-d09347e92766?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGRlc2lnbiUyMGludGVyZmFjZXxlbnwwfHwwfHx8MA%3D%3D'
-            }
-          ],
-          route: '/ServiceInterface' // Rota individual
-        },
-        {
-          id: 4,
-          title: 'Marketing de Mídia',
-          shortDescription: 'Estratégias de mídia digital',
-          description: 'Maximizamos sua presença online com campanhas de mídia eficazes.',
-          icon: 'https://api.iconify.design/heroicons:megaphone.svg',
-          benefits: [
-            'Campanhas personalizadas',
-            'Análise de dados em tempo real',
-            'Aumento do ROI'
-          ],
-          cases: [
-            {
-              id: 4,
-              title: 'Campanha de Lançamento',
-              description: 'Aumento de 200% no engajamento',
-              image: 'https://images.unsplash.com/photo-1556155092-490a1ba16284?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fG1hcmtldGluZ3xlbnwwfHwwfHx8MA%3D%3D'
-            }
-          ],
-          route: '/ServiceMidia' // Rota individual
-        },
-        {
-          id: 5,
-          title: 'E-commerce Solutions',
-          shortDescription: 'Plataformas de vendas online',
-          description: 'Soluções completas para lojas virtuais de alto desempenho.',
-          icon: 'https://api.iconify.design/heroicons:shopping-cart.svg',
-          benefits: [
-            'Integração com gateways de pagamento',
-            'Gestão de estoque e pedidos',
-            'Relatórios de vendas detalhados'
-          ],
-          cases: [
-            {
-              id: 5,
-              title: 'Loja de Moda Online',
-              description: 'Crescimento de 300% nas vendas',
-              image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHByb2R1dG98ZW58MHx8MHx8fDA%3D'
-            }
-          ],
-          route: '/ServiceEcommece' // Rota individual 
-        },
-        {
-          id: 6,
-          title: 'Consultoria em TI',
-          shortDescription: 'Soluções personalizadas para sua empresa',
-          description: 'Oferecemos consultoria especializada para otimizar sua infraestrutura de TI.',
-          icon: 'https://api.iconify.design/heroicons:briefcase.svg',
-          benefits: [
-            'Análise de infraestrutura',
-            'Planejamento estratégico',
-            'Implementação de soluções'
-          ],
-          cases: [
-            {
-              id: 6,
-              title: 'Migração para Cloud',
-              description: 'Redução de 40% nos custos de TI',
-              image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGNvbnN1bHRpbmd8ZW58MHx8MHx8fDA%3D'
-            }
-          ],
-          route: '/ServiceConsultoria' // Rota individual
-        }
-      ]);
-  
-      const openServiceModal = (service) => {
-        selectedService.value = service;
-        document.body.style.overflow = 'hidden';
-      };
-  
-      const closeServiceModal = () => {
-        selectedService.value = null;
-        document.body.style.overflow = 'auto';
-      };
-  
-      const redirectToPortfolio = () => {
-        router.push('/portifolio');
-      };
-  
-      const redirectToServicePage = (route) => {
-        router.push(route);
-      };
-  
-      return {
-        services,
-        selectedService,
-        openServiceModal,
-        closeServiceModal,
-        redirectToPortfolio,
-        redirectToServicePage
-      };
+    </transition>
+  </section>
+</template>
+
+<script>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+export default {
+  name: 'ServicesShowcase',
+  setup() {
+    const router = useRouter()
+    const activeCard = ref(null)
+    const selectedService = ref(null)
+
+    const services = [
+      {
+        id: 1,
+        title: 'Desenvolvimento Web',
+        shortDescription: 'Sites e aplicações web de alto desempenho',
+        description: 'Criamos websites e aplicações web modernas, responsivas e otimizadas para SEO e performance. Nossas soluções são desenvolvidas com as melhores tecnologias do mercado para garantir a melhor experiência para seus usuários.',
+        category: 'Tecnologia & Programação',
+        icon: 'https://api.iconify.design/vscode-icons:file-type-html.svg',
+        color: '#3498db',
+        bgImage: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085',
+        features: [
+          'Responsivo',
+          'Otimizado para SEO',
+          'Alta performance',
+          'Integração com APIs'
+        ],
+        technologies: ['HTML5', 'CSS3', 'JavaScript', 'Vue.js', 'Node.js'],
+        benefits: [
+          'Aumento da visibilidade online',
+          'Melhor experiência do usuário',
+          'Integração com sistemas existentes',
+          'Manutenção e suporte contínuo'
+        ],
+        cases: [
+          {
+            title: 'Portal Corporativo',
+            description: 'Aumento de 200% no tráfego orgânico',
+            image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71'
+          },
+          {
+            title: 'Sistema de Gestão',
+            description: 'Redução de 40% em processos manuais',
+            image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f'
+          }
+        ],
+        route: '/ServiceWebsite'
+      },
+      {
+        id: 2,
+        title: 'Aplicativos Mobile',
+        shortDescription: 'Apps nativos e híbridos para iOS e Android',
+        description: 'Desenvolvemos aplicativos móveis com tecnologia de ponta, garantindo performance excepcional e experiência do usuário premium. Desde o conceito até a publicação nas lojas de aplicativos.',
+        category: 'Tecnologia & Programação',
+        icon: 'https://api.iconify.design/vscode-icons:file-type-reactjs.svg',
+        color: '#9b59b6',
+        bgImage: 'https://images.unsplash.com/photo-1515378960530-7c0da6231fb1',
+        features: [
+          'iOS e Android',
+          'Design intuitivo',
+          'Integração com APIs',
+          'Publicação nas lojas'
+        ],
+        technologies: ['React Native', 'Flutter', 'Swift', 'Kotlin'],
+        benefits: [
+          'Acesso a recursos nativos do dispositivo',
+          'Experiência do usuário premium',
+          'Manutenção e atualizações',
+          'Integração com sistemas existentes'
+        ],
+        cases: [
+          {
+            title: 'App de Delivery',
+            description: '10.000+ downloads na primeira semana',
+            image: 'https://images.unsplash.com/photo-1556740738-b6a63e27c4df'
+          }
+        ],
+        route: '/DesenvolvimentoMobile'
+      },
+      {
+        id: 3,
+        title: 'E-commerce',
+        shortDescription: 'Lojas virtuais de alto desempenho',
+        description: 'Soluções completas para e-commerce com catálogo de produtos, carrinho de compras, integração com meios de pagamento e painel administrativo completo.',
+        category: 'Comércio Digital',
+        icon: 'https://api.iconify.design/vscode-icons:file-type-shopping.svg',
+        color: '#e74c3c',
+        bgImage: 'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a',
+        features: [
+          'Checkout seguro',
+          'Integração com pagamentos',
+          'Gestão de estoque',
+          'Relatórios de vendas'
+        ],
+        technologies: ['Shopify', 'WooCommerce', 'Magento', 'React'],
+        benefits: [
+          'Aumento nas conversões',
+          'Experiência de compra fluida',
+          'Integração com marketplaces',
+          'Ferramentas de análise'
+        ],
+        cases: [
+          {
+            title: 'Loja de Moda',
+            description: 'Crescimento de 300% nas vendas',
+            image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30'
+          }
+        ],
+        route: '/ServiceEcommece'
+      },
+      {
+        id: 4,
+        title: 'Landing Pages',
+        shortDescription: 'Conversão máxima para suas campanhas',
+        description: 'Landing pages otimizadas para conversão com design persuasivo, formulários inteligentes e integração com ferramentas de marketing.',
+        category: 'Marketing Digital',
+        icon: 'https://api.iconify.design/vscode-icons:file-type-landingpage.svg',
+        color: '#2ecc71',
+        bgImage: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d',
+        features: [
+          'Design persuasivo',
+          'Otimizada para conversão',
+          'Testes A/B',
+          'Integração com CRM'
+        ],
+        technologies: ['HTML5', 'CSS3', 'JavaScript', 'Vue.js'],
+        benefits: [
+          'Maior taxa de conversão',
+          'Captação de leads qualificados',
+          'Análise de desempenho',
+          'Integração com campanhas'
+        ],
+        cases: [
+          {
+            title: 'Campanha de Lançamento',
+            description: 'Conversão de 35% nos leads',
+            image: 'https://images.unsplash.com/photo-1556155092-490a1ba16284'
+          }
+        ],
+        route: '/landingpages'
+      },
+      {
+        id: 5,
+        title: 'Sites Institucionais',
+        shortDescription: 'Presença digital profissional',
+        description: 'Websites institucionais com design moderno, conteúdo estratégico e otimizado para gerar negócios e fortalecer sua marca.',
+        category: 'Presença Digital',
+        icon: 'https://api.iconify.design/vscode-icons:file-type-js-official.svg',
+        color: '#f39c12',
+        bgImage: 'https://images.unsplash.com/photo-1568992687947-868a62a9f521',
+        features: [
+          'Design profissional',
+          'Conteúdo estratégico',
+          'Integração com redes',
+          'Otimização SEO'
+        ],
+        technologies: ['WordPress', 'Vue.js', 'React', 'Node.js'],
+        benefits: [
+          'Credibilidade da marca',
+          'Visibilidade online',
+          'Atendimento 24/7',
+          'Fácil atualização'
+        ],
+        cases: [
+          {
+            title: 'Site Corporativo',
+            description: 'Aumento de 150% em contatos',
+            image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71'
+          }
+        ],
+        route: '/siteInstitucional'
+      },
+      {
+        id: 6,
+        title: 'Sistemas Web',
+        shortDescription: 'Soluções personalizadas para seu negócio',
+        description: 'Desenvolvemos sistemas web sob medida para automatizar processos, melhorar a eficiência e fornecer insights valiosos para seu negócio.',
+        category: 'Tecnologia & Programação',
+        icon: 'https://api.iconify.design/vscode-icons:file-type-node.svg',
+        color: '#1abc9c',
+        bgImage: 'https://images.unsplash.com/photo-1555774698-0b77e0d5fac6',
+        features: [
+          'Desenvolvimento customizado',
+          'Painéis administrativos',
+          'Relatórios personalizados',
+          'Integração com APIs'
+        ],
+        technologies: ['Node.js', 'Express', 'MongoDB', 'React'],
+        benefits: [
+          'Automatização de processos',
+          'Redução de custos',
+          'Tomada de decisão inteligente',
+          'Escalabilidade garantida'
+        ],
+        cases: [
+          {
+            title: 'Sistema de Gestão',
+            description: 'Redução de 60% no tempo de processos',
+            image: 'https://images.unsplash.com/photo-1555774698-0b77e0d5fac6'
+          }
+        ],
+        route: '/sistemasweb'
+      },
+      {
+        id: 7,
+        title: 'Edição de Imagens',
+        shortDescription: 'Tratamento e manipulação profissional',
+        description: 'Serviços completos de edição de imagens incluindo tratamento, retoque, montagem e otimização para web e impressão.',
+        category: 'Design Gráfico',
+        icon: 'https://api.iconify.design/vscode-icons:file-type-photoshop.svg',
+        color: '#e67e22',
+        bgImage: 'https://images.unsplash.com/photo-1626785774573-4b799315345d',
+        features: [
+          'Tratamento profissional',
+          'Rertoque fotográfico',
+          'Montagens criativas',
+          'Otimização para web'
+        ],
+        technologies: ['Photoshop', 'Illustrator', 'Lightroom', 'Figma'],
+        benefits: [
+          'Imagens profissionais',
+          'Consistência visual',
+          'Otimização para SEO',
+          'Identidade visual forte'
+        ],
+        cases: [
+          {
+            title: 'Campanha Publicitária',
+            description: 'Aumento de 40% no engajamento',
+            image: 'https://images.unsplash.com/photo-1626785774573-4b799315345d'
+          }
+        ],
+        route: '/EditorImagem'
+      },
+      {
+        id: 8,
+        title: 'UI/UX Design',
+        shortDescription: 'Experiências digitais memoráveis',
+        description: 'Criamos interfaces intuitivas e experiências do usuário excepcionais que aumentam a satisfação e a conversão.',
+        category: 'Design Digital',
+        icon: 'https://api.iconify.design/vscode-icons:file-type-figma.svg',
+        color: '#e84393',
+        bgImage: 'https://images.unsplash.com/photo-1547658719-da2b51169166',
+        features: [
+          'Design centrado no usuário',
+          'Prototipagem interativa',
+          'Testes de usabilidade',
+          'Design system'
+        ],
+        technologies: ['Figma', 'Sketch', 'Adobe XD', 'ProtoPie'],
+        benefits: [
+          'Maior satisfação do usuário',
+          'Redução de custos de desenvolvimento',
+          'Processos mais eficientes',
+          'Identidade visual consistente'
+        ],
+        cases: [
+          {
+            title: 'Redesign de Aplicativo',
+            description: 'Aumento de 30% na retenção',
+            image: 'https://images.unsplash.com/photo-1547658719-da2b51169166'
+          }
+        ],
+        route: '/ServiceInterface'
+      }
+    ]
+
+    const openServiceModal = (service) => {
+      selectedService.value = service
+      document.body.style.overflow = 'hidden'
     }
-  };
-  </script>
-  
-  <style scoped>
-  .container {
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 0 1rem;
+
+    const closeServiceModal = () => {
+      selectedService.value = null
+      document.body.style.overflow = 'auto'
+    }
+
+    const redirectToServicePage = (route) => {
+      router.push(route)
+      closeServiceModal()
+    }
+
+    const getTechIcon = (tech) => {
+      const icons = {
+        'HTML5': 'https://cdn.worldvectorlogo.com/logos/html-1.svg',
+        'CSS3': 'https://cdn.worldvectorlogo.com/logos/css-3.svg',
+        'JavaScript': 'https://cdn.worldvectorlogo.com/logos/javascript-1.svg',
+        'Vue.js': 'https://cdn.worldvectorlogo.com/logos/vue-9.svg',
+        'Node.js': 'https://cdn.worldvectorlogo.com/logos/nodejs-icon.svg',
+        'React': 'https://cdn.worldvectorlogo.com/logos/react-2.svg',
+        'React Native': 'https://cdn.worldvectorlogo.com/logos/react-2.svg',
+        'Flutter': 'https://cdn.worldvectorlogo.com/logos/flutter.svg',
+        'Swift': 'https://cdn.worldvectorlogo.com/logos/swift-15.svg',
+        'Kotlin': 'https://cdn.worldvectorlogo.com/logos/kotlin-1.svg',
+        'Shopify': 'https://cdn.worldvectorlogo.com/logos/shopify.svg',
+        'WooCommerce': 'https://cdn.worldvectorlogo.com/logos/woocommerce.svg',
+        'Magento': 'https://cdn.worldvectorlogo.com/logos/magento.svg',
+        'WordPress': 'https://cdn.worldvectorlogo.com/logos/wordpress-blue.svg',
+        'Express': 'https://cdn.worldvectorlogo.com/logos/express-109.svg',
+        'MongoDB': 'https://cdn.worldvectorlogo.com/logos/mongodb-icon-1.svg',
+        'Photoshop': 'https://cdn.worldvectorlogo.com/logos/adobe-photoshop-2.svg',
+        'Illustrator': 'https://cdn.worldvectorlogo.com/logos/adobe-illustrator-cc-icon.svg',
+        'Lightroom': 'https://cdn.worldvectorlogo.com/logos/adobe-lightroom-cc-icon.svg',
+        'Figma': 'https://cdn.worldvectorlogo.com/logos/figma-1.svg',
+        'Sketch': 'https://cdn.worldvectorlogo.com/logos/sketch-2.svg',
+        'Adobe XD': 'https://cdn.worldvectorlogo.com/logos/adobe-xd-2.svg',
+        'ProtoPie': 'https://cdn.worldvectorlogo.com/logos/protopie.svg'
+      }
+      return icons[tech] || 'https://cdn.worldvectorlogo.com/logos/javascript-1.svg'
+    }
+
+    return {
+      services,
+      activeCard,
+      selectedService,
+      openServiceModal,
+      closeServiceModal,
+      redirectToServicePage,
+      getTechIcon
+    }
   }
-  
-  .services-section {
-    padding: 4rem 0;
-    background: #f8f9fa;
-  }
-  
-  .section-title {
-    text-align: center;
-    font-size: 2.5rem;
-    color: #2064bd;
-    margin-bottom: 3rem;
+}
+</script>
+
+<style scoped>
+/* Estilos Base */
+.services-section {
+  padding: 6rem 2rem;
+  position: relative;
+  background: #f8fafc;
+}
+
+.section-header {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 4rem;
+}
+
+.section-title {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: #1e293b;
+}
+
+.title-line {
+  display: block;
+}
+
+.highlight {
+  position: relative;
+  display: inline-block;
+}
+
+.tech-text {
+  position: relative;
+  display: inline-block;
+}
+
+.tech-text::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  width: 100%;
+  height: 12px;
+  background: rgba(0, 153, 221, 0.3);
+  z-index: -1;
+  border-radius: 4px;
+  transform: skewX(-15deg);
+}
+
+.pulse-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background: #0099DD;
+  border-radius: 50%;
+  margin-left: 8px;
+  animation: pulse 1.5s infinite;
+  box-shadow: 0 0 0 4px rgba(0, 153, 221, 0.3);
+}
+
+.section-subtitle {
+  font-size: 1.25rem;
+  color: #64748b;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.services-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Grid de Serviços */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.service-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  height: 380px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.service-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.card-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.8s ease;
+  z-index: 1;
+}
+
+.service-card:hover .card-bg {
+  transform: scale(1.1);
+}
+
+.card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.3));
+  z-index: 2;
+}
+
+.card-content {
+  position: relative;
+  z-index: 3;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2rem;
+  color: white;
+}
+
+.service-icon {
+  width: 60px;
+  height: 60px;
+  background: white;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.service-icon img {
+  width: 40px;
+  height: 40px;
+}
+
+.service-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.service-card p {
+  margin-bottom: 1.5rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.service-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.service-features li {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  list-style: none;
+}
+
+.card-cta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: 2px solid white;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: fit-content;
+}
+
+.card-cta:hover {
+  background: white;
+  color: var(--accent-color);
+}
+
+.card-cta svg {
+  transition: transform 0.3s ease;
+}
+
+.card-cta:hover svg {
+  transform: translateX(4px);
+}
+
+/* Modal de Serviço */
+.service-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 2rem;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 16px;
+  max-width: 1000px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.close-modal {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #64748b;
+  z-index: 10;
+  transition: color 0.3s ease;
+}
+
+.close-modal:hover {
+  color: #1e293b;
+}
+
+.close-modal svg {
+  width: 24px;
+  height: 24px;
+}
+
+.modal-header {
+  padding: 3rem 3rem 2rem;
+  text-align: center;
+  position: relative;
+}
+
+.modal-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: var(--accent-color);
+  border-radius: 2px;
+}
+
+.service-icon {
+  width: 80px;
+  height: 80px;
+  background: var(--accent-color);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.service-icon img {
+  width: 50px;
+  height: 50px;
+}
+
+.modal-header h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #1e293b;
+}
+
+.service-category {
+  color: #64748b;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.modal-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  padding: 2rem 3rem;
+}
+
+.service-description {
+  margin-bottom: 2rem;
+}
+
+.service-description h3,
+.service-benefits h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: #1e293b;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.service-description h3::after,
+.service-benefits h3::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: var(--accent-color);
+  border-radius: 3px;
+}
+
+.service-description p {
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.tech-stack {
+  margin-top: 2rem;
+}
+
+.tech-stack h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: #1e293b;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.tech-stack h3::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: var(--accent-color);
+  border-radius: 3px;
+}
+
+.tech-icons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.tech-icons > div {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #f1f5f9;
+  padding: 0.75rem;
+  border-radius: 8px;
+}
+
+.tech-icons img {
+  width: 24px;
+  height: 24px;
+}
+
+.tech-icons span {
+  font-size: 0.9rem;
+  color: #334155;
+  font-weight: 500;
+}
+
+.service-benefits ul {
+  list-style: none;
+  padding: 0;
+}
+
+.service-benefits li {
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  color: #475569;
+}
+
+.service-benefits li svg {
+  color: var(--accent-color);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.service-cases {
+  padding: 2rem 3rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.service-cases h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: #1e293b;
+  text-align: center;
+}
+
+.cases-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.case-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.case-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.case-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.case-info {
+  padding: 1.5rem;
+}
+
+.case-info h4 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: #1e293b;
+}
+
+.case-info p {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 2rem 3rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.cta-button {
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 200px;
+  text-align: center;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.secondary-button {
+  background: white;
+  color: var(--accent-color);
+  border: 2px solid var(--accent-color);
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 200px;
+  text-align: center;
+}
+
+.secondary-button:hover {
+  background: var(--accent-color);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Animações */
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.3); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+  .modal-body {
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
   
   .services-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 cards por linha */
-  gap: 2rem; /* Espaçamento entre os cards */
-    margin-bottom: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .services-section {
+    padding: 4rem 1.5rem;
   }
   
-  .service-card {
-    
-    background: rgb(255, 255, 255);
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    transition: transform 0.3s ease;
-    cursor: pointer;
-  }
-  
-  .service-card:hover {
-    transform: translateY(-5px);
-  }
-  
-  .service-icon {
-    width: 60px;
-    height: 60px;
-    margin: 0 auto 1rem;
-  }
-  
-  .service-icon img {
-    width: 100%;
-    height: 100%;
-  }
-  
-  /* Botão CTA "Ver Mais" */
-  .cta-container {
-    text-align: center;
-    margin-top: 2rem;
-  }
-  
-  .cta-button {
-    padding: 1rem 2rem;
-    background: #2064bd;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  
-  .cta-button:hover {
-    background: #154a8a;
-  }
-  
-  /* Modal Styles */
-  .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+  .section-header {
+    margin-bottom: 3rem;
   }
   
   .modal-content {
-    background: white;
+    max-height: 95vh;
+  }
+  
+  .modal-header,
+  .modal-body,
+  .service-cases,
+  .modal-footer {
     padding: 2rem;
-    border-radius: 10px;
-    max-width: 800px;
-    width: 90%;
-    max-height: 90vh;
-    overflow-y: auto;
-    position: relative;
   }
   
-  .close-modal {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: none;
-    border: none;
-    cursor: pointer;
+  .modal-footer {
+    flex-direction: column;
+    gap: 1rem;
   }
-  /* Estilos modal do cta */
-.modal-cta {
-    margin-top: 2rem;
+  
+  .cta-button,
+  .secondary-button {
     width: 100%;
-    padding: 1rem;
-    background: #2064bd;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
+  }
+}
+
+@media (max-width: 480px) {
+  .services-grid {
+    grid-template-columns: 1fr;
   }
   
-  .modal-cta:hover {
-    background: #154a8a;
+  .service-card {
+    height: 350px;
   }
   
-  /* Service Modal Specific */
-  .service-benefits ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .service-benefits li {
-    margin-bottom: 0.5rem;
-    padding-left: 1.5rem;
-    position: relative;
-  }
-  
-  .service-benefits li::before {
-    content: '✓';
-    position: absolute;
-    left: 0;
-    color: #2064bd;
+  .modal-header h2 {
+    font-size: 1.75rem;
   }
   
   .cases-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1rem;
+    grid-template-columns: 1fr;
   }
-  
-  .case-card {
-    text-align: center;
-  }
-  
-  .case-card img {
-    width: 100%;
-    border-radius: 10px;
-    margin-bottom: 1rem;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .services-grid {
-      grid-template-columns: 1fr;
-    }
-  
-    .modal-content {
-      padding: 1rem;
-    }
-  }
-  </style>
+}
+</style>

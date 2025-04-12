@@ -1,118 +1,288 @@
 <template>
   <section class="hero">
-    <div class="hero-content">
-      <div class="social-proof">
-        <img src="@/assets/images/avatars/user1.png" alt="User 1" class="user-avatar">
-        <img src="@/assets/images/avatars/user2.png" alt="User 2" class="user-avatar">
-        <img src="@/assets/images/avatars/user3.png" alt="User 3" class="user-avatar">
-        <img src="@/assets/images/avatars/user4.png" alt="User 4" class="user-avatar">
-        <span> Feedback Dos Nosso Clientes <router-link to="/feedback" id="seemore">Ver mais...</router-link></span>
-      </div>
-      <h1 v-html="texts[currentIndex].h1"></h1> <!-- Usando v-html para renderizar HTML --> 
-      <p v-html="texts[currentIndex].p"></p> <!-- Usando v-html para renderizar HTML --> 
-      <div class="cta-buttons">
-        <router-link :to="texts[currentIndex].link" class="cta-button">Saiba Mais</router-link>
-      </div>
-    </div>
-    <div class="hero-image" @mouseenter="pauseSlider" @mouseleave="resumeSlider">
-      <div class="slider-container" role="region" aria-label="Image Slider">
-        <div class="slider" :style="sliderStyle">
-          <div v-for="(image, index) in images" 
-              :key="index" 
-              class="slide"
-              :class="{ active: currentIndex === index }">
+    <!-- Efeito de partículas no background -->
+    <div class="particles" id="particles-js"></div>
+    
+    <div class="hero-container">
+      <div class="hero-content">
+        <!-- Social Proof melhorado -->
+        <div class="social-proof">
+          <div class="avatar-group">
             <img 
-              :src="image.src" 
-              :alt="image.alt" 
-              class="team-image"
-              @keydown.left="previousSlide"
-              @keydown.right="nextSlide"
-              tabindex="0">
+              v-for="(avatar, index) in avatars" 
+              :key="index" 
+              :src="avatar.src" 
+              :alt="avatar.alt"
+              :style="{ zIndex: avatars.length - index }"
+              class="user-avatar"
+            >
+          </div>
+          <div class="social-text">
+            <span class="rating">
+              <span class="stars">★★★★★</span> 5.0 de 150+ avaliações
+            </span>
+            <router-link to="/feedback" class="see-more">
+              Ver depoimentos <span class="arrow">→</span>
+            </router-link>
           </div>
         </div>
-        <button class="nav-button prev" @click="previousSlide" aria-label="Previous slide">&lt;</button>
-        <button class="nav-button next" @click="nextSlide" aria-label="Next slide">&gt;</button>
-        <div class="dots">
-          <button v-for="(_, index) in images" 
-                  :key="index"
-                  class="dot"
-                  :class="{ active: currentIndex === index }"
-                  @click="goToSlide(index)"
-                  :aria-label="`Go to slide ${index + 1}`"
-                  :aria-current="currentIndex === index"></button>
+
+        <!-- Conteúdo principal com animação -->
+        <div class="text-content">
+          <h1 class="animated-text">
+            <span class="text-wrapper">
+              <span class="line line1" v-html="texts[currentIndex].h1"></span>
+            </span>
+          </h1>
+          
+          <p class="animated-subtext">
+            <span class="text-wrapper">
+              <span class="line" v-html="texts[currentIndex].p"></span>
+            </span>
+          </p>
+          
+          <div class="cta-buttons">
+            <router-link 
+              :to="texts[currentIndex].link" 
+              class="cta-button primary"
+            >
+              {{ texts[currentIndex].ctaText }}
+              <span class="hover-effect"></span>
+            </router-link>
+            
+            <router-link to="/contato" class="cta-button secondary">
+              Fale Conosco
+              <span class="hover-effect"></span>
+            </router-link>
+          </div>
+        </div>
+
+        <!-- Marcas de clientes (opcional) -->
+        <div class="client-logos">
+          <p>Trabalhamos com empresas inovadoras:</p>
+          <div class="logos">
+            <img v-for="(logo, index) in clientLogos" :key="index" :src="logo.src" :alt="logo.alt">
+          </div>
         </div>
       </div>
+
+      <!-- Slider de imagens melhorado -->
+      <div class="hero-visual">
+        <div class="slider-container" @mouseenter="pauseSlider" @mouseleave="resumeSlider">
+          <div class="slider" :style="sliderStyle">
+            <div 
+              v-for="(image, index) in images" 
+              :key="index" 
+              class="slide"
+              :class="{ active: currentIndex === index }"
+            >
+              <img 
+                :src="image.src" 
+                :alt="image.alt" 
+                class="slide-image"
+                loading="eager"
+              >
+              <div class="slide-overlay"></div>
+            </div>
+          </div>
+          
+          <!-- Controles do slider -->
+          <button class="nav-button prev" @click="previousSlide" aria-label="Slide anterior">
+            <svg viewBox="0 0 24 24">
+              <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/>
+            </svg>
+          </button>
+          <button class="nav-button next" @click="nextSlide" aria-label="Próximo slide">
+            <svg viewBox="0 0 24 24">
+              <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+            </svg>
+          </button>
+          
+          <!-- Indicadores -->
+          <div class="slider-indicators">
+            <button 
+              v-for="(_, index) in images" 
+              :key="index"
+              :class="{ active: currentIndex === index }"
+              @click="goToSlide(index)"
+              :aria-label="`Ir para slide ${index + 1}`"
+            ></button>
+          </div>
+        </div>
+        
+        <!-- Efeito decorativo -->
+        <div class="floating-shapes">
+          <div class="shape circle"></div>
+          <div class="shape triangle"></div>
+          <div class="shape square"></div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Scroll indicator -->
+    <div class="scroll-indicator" @click="scrollToContent">
+      <div class="mouse">
+        <div class="wheel"></div>
+      </div>
+      <span>Explore mais</span>
     </div>
   </section>
 </template>
 
 <script>
 export default {
-  name: 'HeroSection',
+  name: 'AgencyHero',
   data() {
-  return {
-    images: [
-      { src: require('@/assets/images/banners/hero1.jpg'), alt: 'Team', link: '/servicos' },
-      { src: require('@/assets/images/banners/hero8.webp'), alt: 'Collaboration', link: '/portfolio' },
-      { src: require('@/assets/images/banners/hero7.webp'), alt: 'Team Meeting', link: '/inovacao' },
-      { src: require('@/assets/images/banners/hero5.webp'), alt: 'Innovation', link: '/ia' }
-    ],
-    texts: [
-      { 
-        h1: 'Transformando Ideias Em <span class="highlight">Soluções Inovadoras</span>', 
-        p: 'Soluções de TI e design personalizados para o seu <span class="highlight">negócio</span>.',
-        link: '/servicos'
-      },
-      { 
-        h1: 'A <span class="highlight">Colaboração</span> é o Futuro para sua Empresa', 
-        p: 'Trabalhando juntos para criar soluções de <span class="highlight">sucesso</span>.',
-        link: '/portfolio'
-      },
-      { 
-        h1: 'Inovação e o <span class="highlight">Futuro para sua empresa </span>', 
-        p: 'Melhore a performance com novas soluções <span class="highlight">tecnológicas</span>.',
-        link: '/inovacao'
-      },
-      { 
-        h1: 'Potencialize seu Negócio com Inteligência Artificial!', 
-        p: 'Conectamos criatividade e tecnologia para impulsionar seu negócio com IA. Solicite uma consultoria gratuita!',
-        link: '/ia'
-      }
-    ],
-    currentIndex: 0,
-    autoplayInterval: null,
-    transitionSpeed: 5000
-  };
-},
+    return {
+      avatars: [
+        { src: require('@/assets/images/avatars/user1.png'), alt: 'Cliente 1' },
+        { src: require('@/assets/images/avatars/user2.png'), alt: 'Cliente 2' },
+        { src: require('@/assets/images/avatars/user3.png'), alt: 'Cliente 3' },
+        { src: require('@/assets/images/avatars/user4.png'), alt: 'Cliente 4' }
+      ],
+      clientLogos: [
+        { src: require('@/assets/images/avatars/user1.png'), alt: 'Logo cliente 1' },
+        { src: require('@/assets/images/avatars/user1.png'), alt: 'Logo cliente 2' },
+        { src: require('@/assets/images/avatars/user1.png'), alt: 'Logo cliente 3' },
+        { src: require('@/assets/images/avatars/user1.png'), alt: 'Logo cliente 4' }
+      ],
+      images: [
+        { 
+          src: require('@/assets/images/banners/hero1.jpg'), 
+          alt: 'Equipe criativa trabalhando',
+          link: '/servicos'
+        },
+        { 
+          src: require('@/assets/images/banners/hero8.webp'), 
+          alt: 'Reunião de equipe colaborativa',
+          link: '/portfolio'
+        },
+        { 
+          src: require('@/assets/images/banners/hero7.webp'), 
+          alt: 'Tecnologia e inovação',
+          link: '/inovacao'
+        },
+        { 
+          src: require('@/assets/images/banners/hero5.webp'), 
+          alt: 'Inteligência Artificial aplicada',
+          link: '/ia'
+        }
+      ],
+      texts: [
+        { 
+          h1: 'Transformamos <span class="highlight">ideias</span> em realidade digital', 
+          p: 'Soluções personalizadas que impulsionam seu <span class="highlight">negócio</span> no mundo digital.',
+          link: '/servicos',
+          ctaText: 'Nossos Serviços'
+        },
+        { 
+          h1: '<span class="highlight">Design</span> que inspira e <span class="highlight">tecnologia</span> que performa', 
+          p: 'Criamos experiências digitais memoráveis para seus clientes.',
+          link: '/portfolio',
+          ctaText: 'Ver Portfólio'
+        },
+        { 
+          h1: 'Inovação para o <span class="highlight">futuro</span> do seu negócio', 
+          p: 'Soluções tecnológicas que antecipam as necessidades do mercado.',
+          link: '/inovacao',
+          ctaText: 'Inovação'
+        },
+        { 
+          h1: 'Potencialize seu negócio com <span class="highlight">IA</span>', 
+          p: 'Automatizamos processos e criamos soluções inteligentes para sua empresa.',
+          link: '/ia',
+          ctaText: 'Conheça nossa IA'
+        }
+      ],
+      currentIndex: 0,
+      autoplayInterval: null,
+      transitionSpeed: 6000,
+      isPaused: false
+    };
+  },
   computed: {
     sliderStyle() {
       return {
-        transform: `translateX(-${this.currentIndex * 100}%)`
+        transform: `translateX(-${this.currentIndex * 100}%)`,
+        transition: this.isPaused ? 'none' : 'transform 0.8s cubic-bezier(0.77, 0, 0.175, 1)'
       };
     }
   },
   methods: {
     nextSlide() {
       this.currentIndex = (this.currentIndex + 1) % this.images.length;
+      this.animateText();
     },
     previousSlide() {
       this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
+      this.animateText();
     },
     goToSlide(index) {
       this.currentIndex = index;
+      this.animateText();
     },
     startAutoplay() {
-      this.autoplayInterval = setInterval(this.nextSlide, this.transitionSpeed);
+      this.autoplayInterval = setInterval(() => {
+        if (!this.isPaused) this.nextSlide();
+      }, this.transitionSpeed);
     },
     pauseSlider() {
-      clearInterval(this.autoplayInterval);
+      this.isPaused = true;
     },
     resumeSlider() {
-      this.startAutoplay();
+      this.isPaused = false;
+    },
+    animateText() {
+      // Reset animation classes
+      const textLines = document.querySelectorAll('.line');
+      textLines.forEach(line => {
+        line.style.opacity = '0';
+        line.style.transform = 'translateY(20px)';
+      });
+
+      // Reapply animation
+      setTimeout(() => {
+        textLines.forEach(line => {
+          line.style.opacity = '1';
+          line.style.transform = 'translateY(0)';
+          line.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+        });
+      }, 50);
+    },
+    scrollToContent() {
+      window.scrollTo({
+        top: window.innerHeight,
+        behavior: 'smooth'
+      });
+    },
+    initParticles() {
+      // Configuração do efeito de partículas
+      if (window.particlesJS) {
+        window.particlesJS('particles-js', {
+          particles: {
+            number: { value: 60, density: { enable: true, value_area: 800 } },
+            color: { value: "#0099DD" },
+            shape: { type: "circle" },
+            opacity: { value: 0.5, random: true },
+            size: { value: 3, random: true },
+            line_linked: { enable: true, distance: 150, color: "#0099DD", opacity: 0.3, width: 1 },
+            move: { enable: true, speed: 2, direction: "none", random: true, straight: false, out_mode: "out" }
+          },
+          interactivity: {
+            detect_on: "canvas",
+            events: {
+              onhover: { enable: true, mode: "repulse" },
+              onclick: { enable: true, mode: "push" }
+            }
+          }
+        });
+      }
     }
   },
   mounted() {
     this.startAutoplay();
+    this.animateText();
+    this.initParticles();
   },
   beforeUnmount() {
     clearInterval(this.autoplayInterval);
@@ -121,268 +291,544 @@ export default {
 </script>
 
 <style scoped>
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slideIn {
-  from { opacity: 0; transform: translateX(-30px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-.highlight {
-  color: #ff6347; /* Cor laranja, por exemplo */
-  font-weight: bold; /* Opcional: para destacar ainda mais */
-}
-
-.fade-in {
-  animation: fadeIn 1s ease-out;
-}
-
-.animate-text {
-  animation: slideIn 0.8s ease-out;
-}
-
-.hero{
-  background-color: rgb(207, 207, 207);
-}
-.hero-image {
-  width: 100%;
-  overflow: hidden;
+/* Estilos base e reset */
+.hero {
   position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+  color: #2d3748;
+}
+
+.particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.hero-container {
+  position: relative;
+  z-index: 2;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+}
+
+.hero-content {
+  flex: 1;
+  max-width: 600px;
+  position: relative;
+  z-index: 3;
+}
+
+/* Social Proof */
+.social-proof {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.avatar-group {
+  display: flex;
+  position: relative;
+  height: 48px;
+}
+
+.user-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  position: absolute;
+}
+
+.user-avatar:nth-child(1) { left: 0; z-index: 4; }
+.user-avatar:nth-child(2) { left: 30px; z-index: 3; }
+.user-avatar:nth-child(3) { left: 60px; z-index: 2; }
+.user-avatar:nth-child(4) { left: 90px; z-index: 1; }
+
+.avatar-group:hover .user-avatar:nth-child(1) { transform: translateX(-5px); }
+.avatar-group:hover .user-avatar:nth-child(2) { transform: translateX(0); }
+.avatar-group:hover .user-avatar:nth-child(3) { transform: translateX(5px); }
+.avatar-group:hover .user-avatar:nth-child(4) { transform: translateX(10px); }
+
+.social-text {
+  display: flex;
+  flex-direction: column;
+  margin-left: 120px;
+}
+
+.rating {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #4a5568;
+}
+
+.stars {
+  color: #f59e0b;
+  margin-right: 0.5rem;
+}
+
+.see-more {
+  color: #0099DD;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  transition: color 0.3s ease;
+}
+
+.see-more:hover {
+  color: #0077b3;
+}
+
+.arrow {
+  margin-left: 0.3rem;
+  transition: transform 0.3s ease;
+}
+
+.see-more:hover .arrow {
+  transform: translateX(3px);
+}
+
+/* Text Content */
+.text-content {
+  margin-bottom: 3rem;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: #1a202c;
+}
+
+.animated-text .line {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+p {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: #4a5568;
+  margin-bottom: 2.5rem;
+  max-width: 90%;
+}
+
+.highlight {
+  color: #0099DD;
+  position: relative;
+  display: inline-block;
+}
+
+.highlight::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background: rgba(0, 153, 221, 0.2);
+  z-index: -1;
+  border-radius: 4px;
+}
+
+/* CTA Buttons */
+.cta-buttons {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.cta-button {
+  position: relative;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  border: none;
+  cursor: pointer;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cta-button.primary {
+  background: #0099DD;
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 153, 221, 0.3);
+}
+
+.cta-button.secondary {
+  background: white;
+  color: #0099DD;
+  border: 2px solid #0099DD;
+}
+
+.hover-effect {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  top: 0;
+  left: -100%;
+  transition: all 0.4s ease;
+  z-index: -1;
+}
+
+.cta-button:hover .hover-effect {
+  left: 0;
+}
+
+.cta-button.secondary:hover {
+  background: #0099DD;
+  color: white;
+}
+
+/* Client Logos */
+.client-logos {
+  margin-top: 4rem;
+}
+
+.client-logos p {
+  font-size: 0.9rem;
+  color: #718096;
+  margin-bottom: 1rem;
+}
+
+.logos {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.logos img {
+  height: 30px;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+  filter: grayscale(100%);
+}
+
+.logos img:hover {
+  opacity: 1;
+  filter: grayscale(0%);
+}
+
+/* Hero Visual */
+.hero-visual {
+  flex: 1;
+  position: relative;
+  min-height: 500px;
 }
 
 .slider-container {
-  width: 100%;
   position: relative;
+  width: 100%;
+  height: 500px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
 
 .slider {
   display: flex;
-  transition: transform 0.5s ease-in-out;
-  width: 100%;
+  height: 100%;
 }
 
 .slide {
   flex: 0 0 100%;
-  width: 100%;
+  position: relative;
 }
 
-.team-image {
+.slide-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
+  object-position: center;
+}
+
+.slide-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
 }
 
 .nav-button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.9);
   border: none;
-  padding: 1rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  z-index: 2;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.nav-button:hover {
+  background: white;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.nav-button svg {
+  width: 24px;
+  height: 24px;
+  fill: #0099DD;
 }
 
 .nav-button.prev {
-  left: 1rem;
+  left: 2rem;
 }
 
 .nav-button.next {
-  right: 1rem;
+  right: 2rem;
 }
 
-.dots {
+.slider-indicators {
   position: absolute;
-  bottom: 1rem;
+  bottom: 2rem;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 0.5rem;
+  gap: 0.75rem;
+  z-index: 10;
 }
 
-.dot {
-  width: 10px;
-  height: 10px;
+.slider-indicators button {
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
   border: none;
+  background: rgba(255, 255, 255, 0.5);
   cursor: pointer;
+  transition: all 0.3s ease;
   padding: 0;
 }
 
-.dot.active {
+.slider-indicators button.active {
   background: white;
+  transform: scale(1.2);
 }
 
-.cta-buttons {
-  display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
-  justify-content: left;
-}
-
-.cta-button {
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  background-color: #1861a7;
-  color: white;
-}
-
-.cta-button.secondary {
-  background-color: #c06f3a;
- 
-}
-
-.cta-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.cta-button.secondary:hover {
- 
-  color: white;
-}
-
-.cta-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.cta-button.secondary:hover {
-  color: white;
-}
-
-.prev {
-left: 1rem;
-}
-
-.next {
-right: 1rem;
-}
-
-.dots {
-position: absolute;
-bottom: 1rem;
-left: 50%;
-transform: translateX(-50%);
-display: flex;
-gap: 0.5rem;
-z-index: 2;
-}
-
-.dot {
-width: 10px;
-height: 10px;
-border-radius: 50%;
-background: rgba(255, 255, 255, 0.5);
-border: none;
-cursor: pointer;
-transition: background-color 0.3s;
-}
-
-.dot.active {
-background: white;
-}
-
-@media (max-width: 768px) {
-.hero {
-  flex-direction: column;
-}
-
-.hero-image {
+/* Floating Shapes */
+.floating-shapes {
+  position: absolute;
   width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: -1;
 }
 
-.slider-container {
+.shape {
+  position: absolute;
+  opacity: 0.1;
+}
+
+.circle {
+  width: 300px;
   height: 300px;
+  border-radius: 50%;
+  background: #0099DD;
+  top: -100px;
+  right: -100px;
+  animation: float 8s ease-in-out infinite;
 }
 
-.nav-button {
-  padding: 0.2rem;
-  font-size: 1rem;
-}
-}
-
-.hero-image {
-flex: 1;
-position: relative;
-display: flex;
-justify-content: center;
+.triangle {
+  width: 0;
+  height: 0;
+  border-left: 150px solid transparent;
+  border-right: 150px solid transparent;
+  border-bottom: 260px solid #0099DD;
+  bottom: -100px;
+  left: -50px;
+  animation: float 10s ease-in-out infinite 2s;
 }
 
-.team-image {
-max-width: 100%;
-height: auto;
-border-radius: 15px;
-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.square {
+  width: 200px;
+  height: 200px;
+  background: #0099DD;
+  bottom: 50px;
+  right: 50px;
+  animation: float 12s ease-in-out infinite 4s;
 }
 
-.secondary-image {
-position: absolute;
-width: 60%;
-top: 50%;
-right: -20%;
-transform: translateY(-50%);
-z-index: -1;
-opacity: 0.8;
+/* Scroll Indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  z-index: 10;
+  color: #4a5568;
+  font-weight: 500;
 }
 
-.social-proof {
-display: flex;
-align-items: center;
-gap: 0.5rem;
-margin-bottom: 2rem;
+.mouse {
+  width: 30px;
+  height: 50px;
+  border: 2px solid #4a5568;
+  border-radius: 15px;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
 }
 
-.user-avatar {
-width: 40px;
-height: 40px;
-border-radius: 50%;
-border: 2px solid white;
-}
-.highlight{
-  color: #0099DD;
+.wheel {
+  width: 6px;
+  height: 10px;
+  background: #4a5568;
+  border-radius: 3px;
+  animation: scroll 2s infinite;
 }
 
+@keyframes scroll {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(10px); opacity: 0; }
+}
+
+@keyframes float {
+  0% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(5deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+  .hero-container {
+    flex-direction: column;
+    gap: 3rem;
+    padding-top: 6rem;
+  }
+  
+  .hero-content {
+    max-width: 100%;
+    text-align: center;
+  }
+  
+  .social-proof {
+    justify-content: center;
+  }
+  
+  .social-text {
+    margin-left: 1rem;
+  }
+  
+  p {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .cta-buttons {
+    justify-content: center;
+  }
+  
+  .client-logos {
+    text-align: center;
+  }
+  
+  .logos {
+    justify-content: center;
+  }
+  
+  .slider-container {
+    height: 400px;
+  }
+}
 
 @media (max-width: 768px) {
-.hero {
-  flex-direction: column;
-  text-align: center;
+  h1 {
+    font-size: 2.5rem;
+  }
+  
+  p {
+    font-size: 1.1rem;
+  }
+  
+  .cta-buttons {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .cta-button {
+    width: 100%;
+  }
+  
+  .nav-button {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .nav-button.prev {
+    left: 1rem;
+  }
+  
+  .nav-button.next {
+    right: 1rem;
+  }
 }
 
-.hero-image {
-  width: 100%;
-}
-
-.secondary-image {
-  display: none;
-}
-
-.social-proof {
-  justify-content: center;
-}
-.cta-buttons {
-  display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
-  justify-content: center;
-}
-.cta-button {
-  padding: 10px;
-  border-radius: 8px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  background-color: #0099DD;
-  color: white;
-}
+@media (max-width: 480px) {
+  .hero-container {
+    padding: 1.5rem;
+  }
+  
+  .social-proof {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .social-text {
+    margin-left: 0;
+    margin-top: 1rem;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+  
+  .slider-container {
+    height: 300px;
+  }
 }
 </style>
