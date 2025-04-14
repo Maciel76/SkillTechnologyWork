@@ -27,23 +27,14 @@
               </div>
             </div>
             <div class="card-actions">
-              <a href="#" class="learn-more">
+              <router-link :to="service.path" class="learn-more">
                 <span>Saiba mais</span>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-              </a>
+              </router-link>
             </div>
           </div>
-        </div>
-        
-        <div class="section-footer">
-          <button class="cta-button">
-            <span>Fale com um especialista</span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M22 2L11 13M22 2L15 22L11 13M11 13L2 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
         </div>
       </div>
     </section>
@@ -64,51 +55,58 @@
               'SEO inteligente',
               'A/B testing automático'
             ],
-            color: '#3B82F6'
+            color: '#3B82F6',
+            path: '/Service/Desenvolvimento-website'
           },
           {
             icon: 'https://api.iconify.design/heroicons:device-phone-mobile.svg',
-            title: 'Apps com IA',
+            title: 'Desenvolvimento Mobile',
             description: 'Aplicativos que aprendem e melhoram com cada interação',
             features: [
               'Recomendações personalizadas',
               'Reconhecimento de padrões',
               'Otimização de performance'
             ],
-            color: '#10B981'
+            color: '#10B981',
+            path: '/DesenvolvimentoMobile'
           },
           {
             icon: 'https://api.iconify.design/heroicons:photo.svg',
-            title: 'Geração de Conteúdo',
+            title: 'Edição Profissional',
             description: 'Criação automática de materiais visuais e textuais',
             features: [
               'Imagens e vídeos sob demanda',
               'Redação automatizada',
               'Branding consistente'
             ],
-            color: '#EC4899'
+            color: '#EC4899',
+            path: '/sevice/tratamento-imagem'
           },
           {
-            icon: 'https://api.iconify.design/heroicons:chat-bubble-left-right.svg',
-            title: 'Chatbots Inteligentes',
-            description: 'Atendimento humano 24/7 com respostas precisas',
+            icon: 'https://api.iconify.design/heroicons:shopping-cart-16-solid.svg',
+            title: 'Lojas Virtuais',
+            description: 'Soluções completas de e-commerce para vender seus produtos online com segurança e eficiência.',
             features: [
-              'Processamento de linguagem natural',
-              'Integração com CRM',
-              'Multiplataforma'
+              'Catálogo de produtos',
+              'Carrinho de compras',
+              'Pagamentos online',
+              'Painel administrativo',
+              'Relatórios de vendas',
             ],
-            color: '#8B5CF6'
+            color: '#8B5CF6',
+            path: '/Sevice/lojasvituais'
           },
           {
             icon: 'https://api.iconify.design/heroicons:chart-bar.svg',
-            title: 'Análise de Dados',
+            title: 'Sistema Web Completo',
             description: 'Transforme dados brutos em insights acionáveis',
             features: [
               'Dashboards interativos',
               'Alertas inteligentes',
               'Previsões precisas'
             ],
-            color: '#F59E0B'
+            color: '#F59E0B',
+            path: '/services/analytics'
           },
           {
             icon: 'https://api.iconify.design/heroicons:megaphone.svg',
@@ -119,7 +117,8 @@
               'Conteúdo dinâmico',
               'ROI maximizado'
             ],
-            color: '#EF4444'
+            color: '#EF4444',
+            path: '/services/marketing'
           }
         ]
       }

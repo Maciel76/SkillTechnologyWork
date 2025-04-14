@@ -532,7 +532,7 @@ export default {
   position: relative;
   border-radius: 16px;
   overflow: hidden;
-  height: 380px;
+  height: auto;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   cursor: pointer;
