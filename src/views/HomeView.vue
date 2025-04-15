@@ -1,6 +1,7 @@
 <template>
   <main>
     <HeroSection />
+    <SobreNosResumo />
     <ProjectSection />
     <ServicesLink/> 
     <PortfolioSection/>
@@ -14,6 +15,7 @@ import HeroSection from '@/components/molecules/HeroSection.vue'
 import ProjectSection from '@/components/molecules/ProjectSection.vue';
 import PortfolioSection from '@/components/servicepage/Portifolio/PortfolioSection.vue';
 import ServicesLink from '@/components/celulas/ServicesLink.vue';
+import SobreNosResumo from '@/components/molecules/SobreNosResumo.vue';
 
 export default {
   name: 'HomeView',
@@ -23,6 +25,7 @@ export default {
     PortfolioSection,
     ServicesLink,
     RecentPosts,
+    SobreNosResumo,
 
   },
 };

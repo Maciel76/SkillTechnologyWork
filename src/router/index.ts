@@ -30,6 +30,8 @@ import EditorImagem from '@/components/servicepage/Portifolio/EditorImagem.vue'
 import SistemasWeb from '@/components/servicepage/Portifolio/SistemasWeb..vue'
 import LandingPages from '@/components/servicepage/Portifolio/LandingPages.vue'
 import ProjectSection from '@/components/molecules/ProjectSection.vue'
+import ContatoView from '@/components/views/ContatoView.vue'
+import Testimonials from '@/components/views/ClientesView.vue'
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -51,10 +53,14 @@ const routes: Array<RouteRecordRaw> = [
   { path: '/Sevice/lojasvituais', component: LojasVirtuais },
   { path: '/blogsPesonalizado', component: BlogsPesonalizado },
   { path: '/mascotePersonalizados', component: MascotePesonalizados },
-  { path: '/sevice/tratamento-imagem', component: EditorImagem },
-  { path: '/sistemasweb', component: SistemasWeb },
+  { path: '/sevice/edi-imagem', component: EditorImagem },
+  { path: '/Service/sistemasweb', component: SistemasWeb },
   { path: '/landingpages', component: LandingPages },
   { path: '/ProjectSection', component: ProjectSection },
+
+  // seção de contato
+  { path: '/contato', component: ContatoView },
+  { path: '/feedback', component: Testimonials },
 
 
 

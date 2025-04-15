@@ -59,7 +59,7 @@
 
         <!-- Marcas de clientes (opcional) -->
         <div class="client-logos">
-          <p>Trabalhamos com empresas inovadoras:</p>
+          <p>Trabalhamos com as mais modernas e inovadoras tecnologias.</p>
           <div class="logos">
             <img v-for="(logo, index) in clientLogos" :key="index" :src="logo.src" :alt="logo.alt">
           </div>
@@ -141,24 +141,26 @@ export default {
         { src: require('@/assets/images/avatars/user4.png'), alt: 'Cliente 4' }
       ],
       clientLogos: [
-        { src: require('@/assets/images/avatars/user1.png'), alt: 'Logo cliente 1' },
-        { src: require('@/assets/images/avatars/user1.png'), alt: 'Logo cliente 2' },
-        { src: require('@/assets/images/avatars/user1.png'), alt: 'Logo cliente 3' },
-        { src: require('@/assets/images/avatars/user1.png'), alt: 'Logo cliente 4' }
+        { src: require('@/assets/images/icons/node.png'), alt: 'Logo cliente 1' },
+        { src: require('@/assets/images/icons/vue.png'), alt: 'Logo cliente 2' },
+        { src: require('@/assets/images/icons/mongodb.png'), alt: 'Logo cliente 4' },
+        { src: require('@/assets/images/icons/aws.png'), alt: 'Logo cliente 4' },
+        { src: require('@/assets/images/icons/gitrub.png'), alt: 'Logo cliente 4' },
+        { src: require('@/assets/images/icons/photoshop.png'), alt: 'Logo cliente 4' },
       ],
       images: [
         { 
           src: require('@/assets/images/banners/hero1.jpg'), 
-          alt: 'Equipe criativa trabalhando',
+          alt: 'Desenvolvimento de software personalizado e website responsivo',
           link: '/servicos'
         },
         { 
-          src: require('@/assets/images/banners/hero8.webp'), 
-          alt: 'Reunião de equipe colaborativa',
+          src: require('@/assets/images/banners/aidofuturo.jpg'), 
+          alt: 'Inteligência Artificial para o futuro do seu negócio',
           link: '/portfolio'
         },
         { 
-          src: require('@/assets/images/banners/hero7.webp'), 
+          src: require('@/assets/images/banners/ecommerce.jpg'), 
           alt: 'Tecnologia e inovação',
           link: '/inovacao'
         },
@@ -170,28 +172,28 @@ export default {
       ],
       texts: [
         { 
-          h1: 'Transformamos <span class="highlight">ideias</span> em realidade digital', 
-          p: 'Soluções personalizadas que impulsionam seu <span class="highlight">negócio</span> no mundo digital.',
-          link: '/servicos',
-          ctaText: 'Nossos Serviços'
+          h1: 'Desenvolvimento Web Sob Medida para Seu Negócio', 
+          p: 'Do conceito à realidade: sites responsivos, rápidos e otimizados para resultados.',
+          link: '/Service/Desenvolvimento-website',
+          ctaText: 'Solicite um Orçamento Gratuito'
         },
         { 
-          h1: '<span class="highlight">Design</span> que inspira e <span class="highlight">tecnologia</span> que performa', 
-          p: 'Criamos experiências digitais memoráveis para seus clientes.',
-          link: '/portfolio',
-          ctaText: 'Ver Portfólio'
+          h1: 'IA Não é Futuro. É Agora. E Ela Pode Ser Sua', 
+          p: 'Desenvolvemos sistemas 100% personalizados, integrados às melhores soluções de IA do mercado para simplificar e potencializar seus processos.',
+          link: '/Service/sistemasweb',
+          ctaText: 'Quero um Sistema com IA Agora!'
         },
         { 
-          h1: 'Inovação para o <span class="highlight">futuro</span> do seu negócio', 
-          p: 'Soluções tecnológicas que antecipam as necessidades do mercado.',
-          link: '/inovacao',
-          ctaText: 'Inovação'
+          h1: 'Lojas Virtuais que Vendem Muito Mais que Produtos', 
+          p: 'Desenvolvemos lojas online únicas, rápidas e com estratégias prontas para escalar suas vendas.',
+          link: '/Sevice/lojasvituais',
+          ctaText: 'Quero uma Loja Virtual'
         },
         { 
-          h1: 'Potencialize seu negócio com <span class="highlight">IA</span>', 
-          p: 'Automatizamos processos e criamos soluções inteligentes para sua empresa.',
-          link: '/ia',
-          ctaText: 'Conheça nossa IA'
+          h1: 'Edição de Vídeos e Imagens com IA', 
+          p: 'Aumente a qualidade e o engajamento do seu conteúdo com vídeos e imagens editadas por IA.',
+          link: '/sevice/edi-imagem',
+          ctaText: 'veja o que podemos fazer'
         }
       ],
       currentIndex: 0,
