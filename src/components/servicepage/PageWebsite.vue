@@ -6,29 +6,52 @@
       <div class="hero-content">
         <div class="hero-text">
           <h1 class="hero-title">
-            <span class="title-line">Desenvolvimento Web</span>
+            <span class="title-line">Desenvolvemos </span>
             <span class="title-line highlight">
-              <span class="tech-text">de Alto Impacto</span>
+              <span class="tech-text">Seu Website</span>
               <span class="pulse-dot"></span>
             </span>
           </h1>
-          <p class="hero-subtitle">Soluções web que encantam usuários e impulsionam negócios. Do conceito à implementação com tecnologia de ponta.</p>
+          <p class="hero-subtitle">
+            Transforme sua ideia em um site incrível com nossa equipe de
+            especialistas. Criamos soluções personalizadas para atender às suas
+            necessidades.
+          </p>
           <div class="cta-container">
-            <button class="cta-button">Fale com nossos especialistas</button>
-            <button class="cta-button secondary">Ver Portfólio</button>
+            <button class="cta-button">
+              <router-link to="/contato" class="cta-link">
+                Fale com nossos especialistas</router-link
+              >
+            </button>
           </div>
           <div class="tech-stack">
             <div class="tech-icon">
-              <img src="https://cdn.worldvectorlogo.com/logos/vue-9.svg" alt="Vue.js" title="Vue.js">
+              <img
+                src="https://cdn.worldvectorlogo.com/logos/vue-9.svg"
+                alt="Vue.js"
+                title="Vue.js"
+              />
             </div>
             <div class="tech-icon">
-              <img src="https://cdn.worldvectorlogo.com/logos/react-2.svg" alt="React" title="React">
+              <img
+                src="https://cdn.worldvectorlogo.com/logos/react-2.svg"
+                alt="React"
+                title="React"
+              />
             </div>
             <div class="tech-icon">
-              <img src="https://cdn.worldvectorlogo.com/logos/nodejs-icon.svg" alt="Node.js" title="Node.js">
+              <img
+                src="https://cdn.worldvectorlogo.com/logos/nodejs-icon.svg"
+                alt="Node.js"
+                title="Node.js"
+              />
             </div>
             <div class="tech-icon">
-              <img src="https://cdn.worldvectorlogo.com/logos/laravel-2.svg" alt="Laravel" title="Laravel">
+              <img
+                src="https://cdn.worldvectorlogo.com/logos/laravel-2.svg"
+                alt="Laravel"
+                title="Laravel"
+              />
             </div>
           </div>
         </div>
@@ -40,7 +63,12 @@
                 <span></span>
                 <span></span>
               </div>
-              <div class="website-preview" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+              <div
+                class="website-preview"
+                style="
+                  background-image: url('https://images.unsplash.com/photo-1649443992089-8bf1fc3c42f4?q=80&w=2070&auto=format&fit=crop');
+                "
+              ></div>
             </div>
           </div>
         </div>
@@ -54,16 +82,27 @@
     <!-- Services Grid -->
     <section class="services-section">
       <h2>Nossos Serviços de Desenvolvimento Web</h2>
-      <p class="section-description">Cada projeto é cuidadosamente planejado para atender às necessidades específicas do seu negócio</p>
-      
+      <p class="section-description">
+        Cada projeto é cuidadosamente planejado para atender às necessidades
+        específicas do seu negócio
+      </p>
+
       <div class="services-grid">
         <!-- Site Institucional -->
         <div class="service-card">
-          <div class="service-banner" style="background-image: url('https://images.unsplash.com/photo-1568992687947-868a62a9f521?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')">
+          <div
+            class="service-banner"
+            style="
+              background-image: url('https://images.unsplash.com/photo-1568992687947-868a62a9f521?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            "
+          >
             <h3>Sites Institucionais</h3>
           </div>
           <div class="service-content">
-            <p>A presença digital profissional que sua empresa merece, com design moderno e funcionalidades essenciais.</p>
+            <p>
+              A presença digital profissional que sua empresa merece, com design
+              moderno e funcionalidades essenciais.
+            </p>
             <ul class="service-features">
               <li>Até 10 páginas</li>
               <li>Design responsivo</li>
@@ -71,17 +110,27 @@
               <li>SEO básico</li>
               <li>Integração com redes sociais</li>
             </ul>
-             <RouterLink to="/siteInstitucional"> <button class="service-button">Ver Portfólio</button></RouterLink>
+            <RouterLink to="/site-institucional">
+              <button class="service-button">Saiba Mais</button></RouterLink
+            >
           </div>
         </div>
 
         <!-- E-commerce -->
         <div class="service-card">
-          <div class="service-banner" style="background-image: url('https://img.freepik.com/free-photo/discount-shopping-season-with-sale_23-2150165882.jpg?t=st=1743383567~exp=1743387167~hmac=4e3562baf575497757fd7cc69aedb67fc78981aa410bc700da7efddef61b95b7&w=996')">
+          <div
+            class="service-banner"
+            style="
+              background-image: url('https://img.freepik.com/free-photo/discount-shopping-season-with-sale_23-2150165882.jpg?t=st=1743383567~exp=1743387167~hmac=4e3562baf575497757fd7cc69aedb67fc78981aa410bc700da7efddef61b95b7&w=996');
+            "
+          >
             <h3>Lojas Virtuais</h3>
           </div>
           <div class="service-content">
-            <p>Soluções completas de e-commerce para vender seus produtos online com segurança e eficiência.</p>
+            <p>
+              Soluções completas de e-commerce para vender seus produtos online
+              com segurança e eficiência.
+            </p>
             <ul class="service-features">
               <li>Catálogo de produtos</li>
               <li>Carrinho de compras</li>
@@ -89,17 +138,27 @@
               <li>Painel administrativo</li>
               <li>Relatórios de vendas</li>
             </ul>
-            <RouterLink to="/lojasvituais"> <button class="service-button">Ver Portfólio</button></RouterLink>
+            <RouterLink to="/lojasvituais">
+              <button class="service-button">Ver Portfólio</button></RouterLink
+            >
           </div>
         </div>
 
         <!-- Blogs -->
         <div class="service-card">
-          <div class="service-banner" style="background-image: url('https://img.freepik.com/free-photo/online-message-blog-chat-communication-envelop-graphic-icon-concept_53876-139717.jpg?t=st=1743387071~exp=1743390671~hmac=a12749268b625fb8c010f28495e7258957c1aac8a69339cad3132c00543ddd30&w=1060')">
+          <div
+            class="service-banner"
+            style="
+              background-image: url('https://img.freepik.com/free-photo/online-message-blog-chat-communication-envelop-graphic-icon-concept_53876-139717.jpg?t=st=1743387071~exp=1743390671~hmac=a12749268b625fb8c010f28495e7258957c1aac8a69339cad3132c00543ddd30&w=1060');
+            "
+          >
             <h3>Blogs Profissionais</h3>
           </div>
           <div class="service-content">
-            <p>Plataformas de conteúdo robustas para compartilhar conhecimento e aumentar sua autoridade digital.</p>
+            <p>
+              Plataformas de conteúdo robustas para compartilhar conhecimento e
+              aumentar sua autoridade digital.
+            </p>
             <ul class="service-features">
               <li>Sistema de categorias</li>
               <li>Editor avançado</li>
@@ -107,17 +166,27 @@
               <li>SEO completo</li>
               <li>Integração com newsletter</li>
             </ul>
-             <RouterLink to="/blogsPesonalizado"> <button class="service-button">Ver Portfólio</button></RouterLink>
+            <RouterLink to="/blogs-personalizados">
+              <button class="service-button">Ver Portfólio</button></RouterLink
+            >
           </div>
         </div>
 
         <!-- Sistemas Web -->
         <div class="service-card">
-          <div class="service-banner" style="background-image: url('https://img.freepik.com/free-photo/html-css-collage-concept-with-person_23-2150062008.jpg?t=st=1743389203~exp=1743392803~hmac=dcc1d3661eb0529ada7ad44fb5fafd35ed3d3d8db23882a8fa65461f41853a5a&w=996')">
+          <div
+            class="service-banner"
+            style="
+              background-image: url('https://img.freepik.com/free-photo/html-css-collage-concept-with-person_23-2150062008.jpg?t=st=1743389203~exp=1743392803~hmac=dcc1d3661eb0529ada7ad44fb5fafd35ed3d3d8db23882a8fa65461f41853a5a&w=996');
+            "
+          >
             <h3>Sistemas Web Personalizados</h3>
           </div>
           <div class="service-content">
-            <p>Soluções sob medida para automatizar processos e melhorar a eficiência do seu negócio.</p>
+            <p>
+              Soluções sob medida para automatizar processos e melhorar a
+              eficiência do seu negócio.
+            </p>
             <ul class="service-features">
               <li>Desenvolvimento customizado</li>
               <li>Painéis administrativos</li>
@@ -131,11 +200,19 @@
 
         <!-- Landing Pages -->
         <div class="service-card">
-          <div class="service-banner" style="background-image: url('https://img.freepik.com/free-psd/user-interface-design-website-template_23-2149182791.jpg?t=st=1743389295~exp=1743392895~hmac=1fac36b71c629ae7986a9406166b094afc1f06d208a7abdd1852ddd41f906cab&w=1380')">
+          <div
+            class="service-banner"
+            style="
+              background-image: url('https://img.freepik.com/free-psd/user-interface-design-website-template_23-2149182791.jpg?t=st=1743389295~exp=1743392895~hmac=1fac36b71c629ae7986a9406166b094afc1f06d208a7abdd1852ddd41f906cab&w=1380');
+            "
+          >
             <h3>Landing Pages de Alta Conversão</h3>
           </div>
           <div class="service-content">
-            <p>Páginas focadas em resultados para campanhas específicas e captação de leads qualificados.</p>
+            <p>
+              Páginas focadas em resultados para campanhas específicas e
+              captação de leads qualificados.
+            </p>
             <ul class="service-features">
               <li>Design persuasivo</li>
               <li>Formulários otimizados</li>
@@ -149,11 +226,19 @@
 
         <!-- Aplicativos Web -->
         <div class="service-card">
-          <div class="service-banner" style="background-image: url('https://source.unsplash.com/600x400/?webapp,ui')">
+          <div
+            class="service-banner"
+            style="
+              background-image: url('https://source.unsplash.com/600x400/?webapp,ui');
+            "
+          >
             <h3>Aplicativos Web Progressivos (PWA)</h3>
           </div>
           <div class="service-content">
-            <p>Experiências similares a aplicativos nativos, acessíveis diretamente pelo navegador.</p>
+            <p>
+              Experiências similares a aplicativos nativos, acessíveis
+              diretamente pelo navegador.
+            </p>
             <ul class="service-features">
               <li>Funciona offline</li>
               <li>Notificações push</li>
@@ -170,11 +255,20 @@
     <!-- Portfolio Showcase -->
     <section class="portfolio-section">
       <h2>Nossos Trabalhos Recentes</h2>
-      <p class="section-description">Alguns exemplos de projetos que desenvolvemos para nossos clientes</p>
-      
+      <p class="section-description">
+        Alguns exemplos de projetos que desenvolvemos para nossos clientes
+      </p>
+
       <div class="portfolio-grid">
-        <div class="portfolio-item" v-for="(project, index) in portfolio" :key="index">
-          <div class="portfolio-image" :style="{ backgroundImage: 'url(' + project.image + ')' }">
+        <div
+          class="portfolio-item"
+          v-for="(project, index) in portfolio"
+          :key="index"
+        >
+          <div
+            class="portfolio-image"
+            :style="{ backgroundImage: 'url(' + project.image + ')' }"
+          >
             <div class="overlay">
               <h3>{{ project.name }}</h3>
               <p>{{ project.type }}</p>
@@ -191,70 +285,108 @@
     <!-- Technology Stack -->
     <section class="tech-section">
       <h2>Tecnologias que Utilizamos</h2>
-      <p class="section-description">Ferramentas modernas para resultados excepcionais</p>
-      
+      <p class="section-description">
+        Ferramentas modernas para resultados excepcionais
+      </p>
+
       <div class="tech-grid">
         <div class="tech-category">
           <h3>Front-end</h3>
           <div class="tech-icons">
             <div class="tech-item">
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg" alt="Vue.js">
+              <img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg"
+                alt="Vue.js"
+              />
               <span>Vue.js</span>
             </div>
             <div class="tech-item">
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React">
+              <img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
+                alt="React"
+              />
               <span>React</span>
             </div>
             <div class="tech-item">
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg" alt="Sass">
+              <img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg"
+                alt="Sass"
+              />
               <span>Sass</span>
             </div>
             <div class="tech-item">
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg" alt="Tailwind">
+              <img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg"
+                alt="Tailwind"
+              />
               <span>Tailwind</span>
             </div>
           </div>
         </div>
-        
+
         <div class="tech-category">
           <h3>Back-end</h3>
           <div class="tech-icons">
             <div class="tech-item">
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js">
+              <img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg"
+                alt="Node.js"
+              />
               <span>Node.js</span>
             </div>
             <div class="tech-item">
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" alt="Express">
+              <img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg"
+                alt="Express"
+              />
               <span>Express</span>
             </div>
             <div class="tech-item">
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-plain.svg" alt="Laravel">
+              <img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-plain.svg"
+                alt="Laravel"
+              />
               <span>Laravel</span>
             </div>
             <div class="tech-item">
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB">
+              <img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg"
+                alt="MongoDB"
+              />
               <span>MongoDB</span>
             </div>
           </div>
         </div>
-        
+
         <div class="tech-category">
           <h3>Ferramentas</h3>
           <div class="tech-icons">
             <div class="tech-item">
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git">
+              <img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
+                alt="Git"
+              />
               <span>Git</span>
             </div>
             <div class="tech-item">
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="Figma">
+              <img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg"
+                alt="Figma"
+              />
               <span>Figma</span>
             </div>
             <div class="tech-item">
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker">
+              <img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg"
+                alt="Docker"
+              />
               <span>Docker</span>
             </div>
             <div class="tech-item">
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/webpack/webpack-original.svg" alt="Webpack">
+              <img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/webpack/webpack-original.svg"
+                alt="Webpack"
+              />
               <span>Webpack</span>
             </div>
           </div>
@@ -265,8 +397,10 @@
     <!-- Process Section -->
     <section class="process-section">
       <h2>Nosso Processo de Desenvolvimento</h2>
-      <p class="section-description">Metodologia clara e eficiente para garantir o sucesso do seu projeto</p>
-      
+      <p class="section-description">
+        Metodologia clara e eficiente para garantir o sucesso do seu projeto
+      </p>
+
       <div class="process-steps">
         <div class="process-step">
           <div class="step-number">1</div>
@@ -299,57 +433,65 @@
     <!-- CTA Section -->
     <section class="cta-section">
       <h2>Pronto para Transformar Sua Ideia em Realidade?</h2>
-      <p>Entre em contato para discutirmos seu projeto e receber uma proposta personalizada</p>
+      <p>
+        Entre em contato para discutirmos seu projeto e receber uma proposta
+        personalizada
+      </p>
       <button class="cta-button">Solicitar Orçamento</button>
     </section>
   </div>
 </template>
 
 <script>
-import { RouterLink } from 'vue-router';
+import { RouterLink } from "vue-router";
 
 export default {
-  name: 'ServicesPage',
+  name: "ServicesPage",
   data() {
     return {
       portfolio: [
         {
           name: "E-commerce Orgânico",
           type: "Loja Virtual",
-          description: "Plataforma completa para venda de produtos naturais com integração de pagamentos.",
-          image: "https://source.unsplash.com/400x300/?organic,shop",
-          link: "#"
+          description:
+            "Plataforma completa para venda de produtos naturais com integração de pagamentos.",
+          image:
+            "https://images.unsplash.com/photo-1586880244406-556ebe35f282?q=80&w=1887&auto=format&fit=crop",
+          link: "/servicos/lojas-virtuais",
         },
         {
           name: "Portal Educacional",
           type: "Sistema Web",
-          description: "Solução completa para gestão de cursos online com videoaulas e certificados.",
+          description:
+            "Solução completa para gestão de cursos online com videoaulas e certificados.",
           image: "https://source.unsplash.com/400x300/?education,online",
-          link: "#"
+          link: "#",
         },
         {
           name: "App de Turismo",
           type: "PWA",
-          description: "Aplicativo web progressivo para guia turístico com mapas offline.",
+          description:
+            "Aplicativo web progressivo para guia turístico com mapas offline.",
           image: "https://source.unsplash.com/400x300/?travel,app",
-          link: "#"
+          link: "#",
         },
         {
           name: "Dashboard Corporativo",
           type: "Sistema Personalizado",
-          description: "Painel de business intelligence com visualização de dados em tempo real.",
+          description:
+            "Painel de business intelligence com visualização de dados em tempo real.",
           image: "https://source.unsplash.com/400x300/?dashboard,analytics",
-          link: "#"
-        }
-      ]
-    }
-  }
-}
+          link: "#",
+        },
+      ],
+    };
+  },
+};
 </script>
 
 <style scoped>
 .services-page {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   color: #2d3748;
   line-height: 1.6;
 }
@@ -365,14 +507,17 @@ export default {
 }
 
 .hero-section::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -50%;
   left: -50%;
   width: 200%;
   height: 200%;
-  background: 
-    radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%),
+  background: radial-gradient(
+      circle,
+      rgba(99, 102, 241, 0.1) 0%,
+      transparent 70%
+    ),
     url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M30,30 L70,30 L70,70 L30,70 Z" fill="none" stroke="white" stroke-width="0.5" stroke-dasharray="5,5"/></svg>');
   opacity: 0.15;
   animation: rotate 120s linear infinite;
@@ -415,7 +560,7 @@ export default {
 }
 
 .tech-text::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 5px;
   left: 0;
@@ -514,8 +659,7 @@ export default {
   background: #0f172a;
   border-radius: 12px 12px 0 0;
   padding: 15px;
-  box-shadow: 
-    0 20px 40px rgba(0, 0, 0, 0.3),
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
     inset 0 0 0 2px rgba(255, 255, 255, 0.1);
 }
 
@@ -567,18 +711,36 @@ export default {
 
 /* Animações */
 @keyframes pulse {
-  0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.3); opacity: 0.7; }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
 }
 
 @keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
     transform: rotate(45deg) translateY(0);
   }
   40% {
@@ -590,8 +752,12 @@ export default {
 }
 
 @keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Responsividade */
@@ -599,7 +765,7 @@ export default {
   .hero-content {
     flex-direction: column;
   }
-  
+
   .hero-visual {
     order: -1;
     margin-bottom: 3rem;
@@ -610,26 +776,26 @@ export default {
   .hero-title {
     font-size: 2.5rem;
   }
-  
+
   .hero-subtitle {
     font-size: 1.1rem;
   }
-  
+
   .cta-container {
     flex-direction: column;
     width: 100%;
   }
-  
+
   .cta-button {
     width: 100%;
   }
-  
+
   .browser-mockup {
     width: 100%;
   }
 }
 /* Services Section */
-.services-section, 
+.services-section,
 .portfolio-section,
 .tech-section,
 .process-section {
@@ -682,7 +848,7 @@ h2 {
 }
 
 .service-banner::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -707,6 +873,12 @@ h2 {
 .service-content p {
   margin-bottom: 1rem;
   color: #4a5568;
+}
+.cta-link {
+  text-decoration: none;
+  color: white;
+  font-weight: 800;
+  transition: color 0.3s ease;
 }
 
 .service-features {
@@ -916,17 +1088,17 @@ h2 {
   .hero-section h1 {
     font-size: 2.5rem;
   }
-  
+
   .subtitle {
     font-size: 1.2rem;
   }
-  
+
   .services-grid,
   .portfolio-grid,
   .tech-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .process-step {
     min-width: 100%;
   }

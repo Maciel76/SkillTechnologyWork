@@ -11,27 +11,43 @@
               <span class="pulse-dot"></span>
             </span>
           </h1>
-          <p class="hero-subtitle">Aplicativos que encantam usuários e impulsionam negócios. Do conceito à loja de apps com tecnologia de ponta.</p>
+          <p class="hero-subtitle">
+            Aplicativos que encantam usuários e impulsionam negócios. Do
+            conceito à loja de apps com tecnologia de ponta.
+          </p>
           <div class="cta-container">
-            <button class="cta-button" @click="scrollToPortfolio">Ver Portfólio</button>
-            <button class="cta-button secondary" @click="scrollToContact">Fale Conosco</button>
+            <button class="cta-button" @click="scrollToPortfolio">
+              Ver Portfólio
+            </button>
+            <button class="cta-button secondary" @click="scrollToContact">
+              Fale Conosco
+            </button>
           </div>
           <div class="tech-stack">
-            <div class="tech-icon" v-for="(tech, index) in techStack" :key="index">
-              <img :src="tech.icon" :alt="tech.name" :title="tech.name">
+            <div
+              class="tech-icon"
+              v-for="(tech, index) in techStack"
+              :key="index"
+            >
+              <img :src="tech.icon" :alt="tech.name" :title="tech.name" />
             </div>
           </div>
         </div>
         <div class="hero-visual">
           <div class="phone-mockup">
             <div class="phone-frame">
-              <div class="app-screen" :style="{ backgroundImage: `url(${currentAppScreen})` }"></div>
+              <div
+                class="app-screen"
+                :style="{ backgroundImage: `url(${currentAppScreen})` }"
+              ></div>
             </div>
             <div class="app-controls">
-              <button v-for="(app, index) in featuredApps" 
-                      :key="index" 
-                      @click="changeAppScreen(index)"
-                      :class="{ active: currentAppIndex === index }">
+              <button
+                v-for="(app, index) in featuredApps"
+                :key="index"
+                @click="changeAppScreen(index)"
+                :class="{ active: currentAppIndex === index }"
+              >
                 {{ app.name }}
               </button>
             </div>
@@ -47,7 +63,9 @@
     <!-- Stats Section -->
     <section class="stats-section">
       <div class="stat-card" v-for="(stat, index) in stats" :key="index">
-        <div class="stat-value" v-counter-up="stat.value">{{ stat.value }}{{ stat.unit }}</div>
+        <div class="stat-value" v-counter-up="stat.value">
+          {{ stat.value }}{{ stat.unit }}
+        </div>
         <div class="stat-label">{{ stat.label }}</div>
         <div class="stat-bar" :style="{ width: stat.percentage + '%' }"></div>
       </div>
@@ -59,17 +77,26 @@
         <span class="title-part">Soluções Mobile</span>
         <span class="title-part highlight">Completas</span>
       </h2>
-      <p class="section-subtitle">Do MVP às aplicações empresariais complexas, cobrimos todo o ciclo de desenvolvimento.</p>
-      
+      <p class="section-subtitle">
+        Do MVP às aplicações empresariais complexas, cobrimos todo o ciclo de
+        desenvolvimento.
+      </p>
+
       <div class="services-grid">
-        <div class="service-card" v-for="(service, index) in services" :key="index">
+        <div
+          class="service-card"
+          v-for="(service, index) in services"
+          :key="index"
+        >
           <div class="service-icon">
-            <img :src="service.icon" :alt="service.title">
+            <img :src="service.icon" :alt="service.title" />
           </div>
           <h3>{{ service.title }}</h3>
           <p>{{ service.description }}</p>
           <div class="service-features">
-            <span v-for="(feature, fIndex) in service.features" :key="fIndex">{{ feature }}</span>
+            <span v-for="(feature, fIndex) in service.features" :key="fIndex">{{
+              feature
+            }}</span>
           </div>
         </div>
       </div>
@@ -81,30 +108,48 @@
         <span class="title-part">Portfólio</span>
         <span class="title-part highlight">de Sucesso</span>
       </h2>
-      <p class="section-subtitle">Aplicativos que criamos e que estão transformando negócios.</p>
-      
+      <p class="section-subtitle">
+        Aplicativos que criamos e que estão transformando negócios.
+      </p>
+
       <div class="portfolio-filter">
-        <button v-for="(filter, index) in filters" 
-                :key="index" 
-                @click="setActiveFilter(filter)"
-                :class="{ active: activeFilter === filter }">
+        <button
+          v-for="(filter, index) in filters"
+          :key="index"
+          @click="setActiveFilter(filter)"
+          :class="{ active: activeFilter === filter }"
+        >
           {{ filter }}
         </button>
       </div>
-      
+
       <div class="portfolio-grid">
-        <div class="project-card" 
-             v-for="(project, index) in filteredProjects" 
-             :key="index"
-             @mouseenter="showProjectDetails(index)"
-             @mouseleave="hideProjectDetails">
-          <div class="project-image" :style="{ backgroundImage: `url(${project.image})` }"></div>
-          <div class="project-overlay" :class="{ active: activeProject === index }">
+        <div
+          class="project-card"
+          v-for="(project, index) in filteredProjects"
+          :key="index"
+          @mouseenter="showProjectDetails(index)"
+          @mouseleave="hideProjectDetails"
+        >
+          <div
+            class="project-image"
+            :style="{ backgroundImage: `url(${project.image})` }"
+          ></div>
+          <div
+            class="project-overlay"
+            :class="{ active: activeProject === index }"
+          >
             <h3>{{ project.name }}</h3>
             <div class="project-tech">
-              <span v-for="(tech, tIndex) in project.technologies" :key="tIndex">{{ tech }}</span>
+              <span
+                v-for="(tech, tIndex) in project.technologies"
+                :key="tIndex"
+                >{{ tech }}</span
+              >
             </div>
-            <button class="view-project" @click="openProjectModal(index)">Ver Detalhes</button>
+            <button class="view-project" @click="openProjectModal(index)">
+              Ver Detalhes
+            </button>
           </div>
         </div>
       </div>
@@ -116,15 +161,21 @@
         <span class="title-part">Nosso Processo de</span>
         <span class="title-part highlight">Desenvolvimento</span>
       </h2>
-      
+
       <div class="process-timeline">
-        <div class="process-phase" v-for="(phase, index) in developmentPhases" :key="index">
+        <div
+          class="process-phase"
+          v-for="(phase, index) in developmentPhases"
+          :key="index"
+        >
           <div class="phase-number">{{ index + 1 }}</div>
           <div class="phase-content">
             <h3>{{ phase.title }}</h3>
             <p>{{ phase.description }}</p>
             <div class="phase-tools" v-if="phase.tools">
-              <span v-for="(tool, tIndex) in phase.tools" :key="tIndex">{{ tool }}</span>
+              <span v-for="(tool, tIndex) in phase.tools" :key="tIndex">{{
+                tool
+              }}</span>
             </div>
           </div>
         </div>
@@ -137,11 +188,18 @@
         <span class="title-part">O Que Dizem</span>
         <span class="title-part highlight">Nossos Clientes</span>
       </h2>
-      
+
       <div class="testimonials-slider">
-        <div class="testimonial-card" v-for="(testimonial, index) in testimonials" :key="index">
+        <div
+          class="testimonial-card"
+          v-for="(testimonial, index) in testimonials"
+          :key="index"
+        >
           <div class="client-info">
-            <div class="client-avatar" :style="{ backgroundImage: `url(${testimonial.avatar})` }"></div>
+            <div
+              class="client-avatar"
+              :style="{ backgroundImage: `url(${testimonial.avatar})` }"
+            ></div>
             <div class="client-details">
               <h3>{{ testimonial.name }}</h3>
               <span>{{ testimonial.position }}, {{ testimonial.company }}</span>
@@ -155,7 +213,7 @@
             <span class="rating-value">{{ testimonial.rating }}/5</span>
           </div>
           <div class="app-badge" v-if="testimonial.app">
-            <img :src="testimonial.app.icon" :alt="testimonial.app.name">
+            <img :src="testimonial.app.icon" :alt="testimonial.app.name" />
             <span>Disponível na {{ testimonial.app.store }}</span>
           </div>
         </div>
@@ -167,7 +225,10 @@
       <div class="contact-content">
         <div class="contact-text">
           <h2>Pronto para Transformar Sua Ideia em um Aplicativo?</h2>
-          <p>Entre em contato para uma consultoria gratuita e descubra como podemos ajudar seu negócio a crescer no mundo mobile.</p>
+          <p>
+            Entre em contato para uma consultoria gratuita e descubra como
+            podemos ajudar seu negócio a crescer no mundo mobile.
+          </p>
           <div class="contact-methods">
             <a href="mailto:contato@mobiledev.com" class="contact-link email">
               <span class="icon">✉️</span>
@@ -186,13 +247,27 @@
         <div class="contact-form">
           <form @submit.prevent="submitForm">
             <div class="form-group">
-              <input type="text" v-model="form.name" placeholder="Seu nome" required>
+              <input
+                type="text"
+                v-model="form.name"
+                placeholder="Seu nome"
+                required
+              />
             </div>
             <div class="form-group">
-              <input type="email" v-model="form.email" placeholder="Seu e-mail" required>
+              <input
+                type="email"
+                v-model="form.email"
+                placeholder="Seu e-mail"
+                required
+              />
             </div>
             <div class="form-group">
-              <input type="tel" v-model="form.phone" placeholder="Seu telefone">
+              <input
+                type="tel"
+                v-model="form.phone"
+                placeholder="Seu telefone"
+              />
             </div>
             <div class="form-group">
               <select v-model="form.projectType" required>
@@ -205,7 +280,11 @@
               </select>
             </div>
             <div class="form-group">
-              <textarea v-model="form.message" placeholder="Conte-nos sobre seu projeto" required></textarea>
+              <textarea
+                v-model="form.message"
+                placeholder="Conte-nos sobre seu projeto"
+                required
+              ></textarea>
             </div>
             <button type="submit" class="submit-btn">Enviar Proposta</button>
           </form>
@@ -226,13 +305,18 @@
         </div>
         <div class="modal-body">
           <div class="project-gallery">
-            <div class="main-image" :style="{ backgroundImage: `url(${selectedProject.image})` }"></div>
+            <div
+              class="main-image"
+              :style="{ backgroundImage: `url(${selectedProject.image})` }"
+            ></div>
             <div class="gallery-thumbnails">
-              <div class="thumbnail" 
-                   v-for="(image, index) in selectedProject.gallery" 
-                   :key="index"
-                   :style="{ backgroundImage: `url(${image})` }"
-                   @click="changeMainImage(image)"></div>
+              <div
+                class="thumbnail"
+                v-for="(image, index) in selectedProject.gallery"
+                :key="index"
+                :style="{ backgroundImage: `url(${image})` }"
+                @click="changeMainImage(image)"
+              ></div>
             </div>
           </div>
           <div class="project-details">
@@ -242,11 +326,15 @@
             </div>
             <div class="project-stats">
               <div class="stat">
-                <span class="stat-value">{{ selectedProject.stats.downloads }}</span>
+                <span class="stat-value">{{
+                  selectedProject.stats.downloads
+                }}</span>
                 <span class="stat-label">Downloads</span>
               </div>
               <div class="stat">
-                <span class="stat-value">{{ selectedProject.stats.rating }}</span>
+                <span class="stat-value">{{
+                  selectedProject.stats.rating
+                }}</span>
                 <span class="stat-label">Avaliação</span>
               </div>
               <div class="stat">
@@ -257,21 +345,44 @@
             <div class="project-features">
               <h3>Principais Funcionalidades</h3>
               <ul>
-                <li v-for="(feature, index) in selectedProject.features" :key="index">{{ feature }}</li>
+                <li
+                  v-for="(feature, index) in selectedProject.features"
+                  :key="index"
+                >
+                  {{ feature }}
+                </li>
               </ul>
             </div>
             <div class="project-technologies">
               <h3>Tecnologias Utilizadas</h3>
               <div class="tech-badges">
-                <span v-for="(tech, index) in selectedProject.technologies" :key="index">{{ tech }}</span>
+                <span
+                  v-for="(tech, index) in selectedProject.technologies"
+                  :key="index"
+                  >{{ tech }}</span
+                >
               </div>
             </div>
             <div class="project-links">
-              <a :href="selectedProject.appStore" target="_blank" class="store-link ios">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" alt="App Store">
+              <a
+                :href="selectedProject.appStore"
+                target="_blank"
+                class="store-link ios"
+              >
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg"
+                  alt="App Store"
+                />
               </a>
-              <a :href="selectedProject.playStore" target="_blank" class="store-link android">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play">
+              <a
+                :href="selectedProject.playStore"
+                target="_blank"
+                class="store-link android"
+              >
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
+                  alt="Google Play"
+                />
               </a>
             </div>
           </div>
@@ -283,332 +394,422 @@
 
 <script>
 export default {
-  name: 'MobileDevelopmentPortfolio',
+  name: "DesevolvimentoMobile",
   data() {
     return {
       currentAppIndex: 0,
-      activeFilter: 'Todos',
+      activeFilter: "Todos",
       activeProject: null,
       modalOpen: false,
       selectedProject: {},
-      mainImage: '',
+      mainImage: "",
       form: {
-        name: '',
-        email: '',
-        phone: '',
-        projectType: '',
-        message: ''
+        name: "",
+        email: "",
+        phone: "",
+        projectType: "",
+        message: "",
       },
       techStack: [
-        { name: 'Flutter', icon: 'https://cdn.worldvectorlogo.com/logos/flutter-logo.svg' },
-        { name: 'React Native', icon: 'https://cdn.worldvectorlogo.com/logos/react-native-1.svg' },
-        { name: 'Swift', icon: 'https://cdn.worldvectorlogo.com/logos/swift-15.svg' },
-        { name: 'Kotlin', icon: 'https://cdn.worldvectorlogo.com/logos/kotlin-1.svg' },
-        { name: 'Firebase', icon: 'https://cdn.worldvectorlogo.com/logos/firebase-1.svg' }
+        {
+          name: "Flutter",
+          icon: "https://cdn.worldvectorlogo.com/logos/flutter-logo.svg",
+        },
+        {
+          name: "React Native",
+          icon: "https://cdn.worldvectorlogo.com/logos/react-native-1.svg",
+        },
+        {
+          name: "Swift",
+          icon: "https://cdn.worldvectorlogo.com/logos/swift-15.svg",
+        },
+        {
+          name: "Kotlin",
+          icon: "https://cdn.worldvectorlogo.com/logos/kotlin-1.svg",
+        },
+        {
+          name: "Firebase",
+          icon: "https://cdn.worldvectorlogo.com/logos/firebase-1.svg",
+        },
       ],
       featuredApps: [
-        { 
-          name: 'FinanX', 
-          image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+        {
+          name: "FinanX",
+          image:
+            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
         },
-        { 
-          name: 'HealthTrack', 
-          image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+        {
+          name: "HealthTrack",
+          image:
+            "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
         },
-        { 
-          name: 'FoodExpress', 
-          image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
-        }
+        {
+          name: "FoodExpress",
+          image:
+            "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        },
       ],
       stats: [
-        { value: 50, unit: '+', label: 'Aplicativos desenvolvidos', percentage: 100 },
-        { value: 10, unit: 'M+', label: 'Downloads totais', percentage: 100 },
-        { value: 4.9, unit: '/5', label: 'Média de avaliações', percentage: 98 },
-        { value: 100, unit: '%', label: 'Clientes satisfeitos', percentage: 100 }
+        {
+          value: 50,
+          unit: "+",
+          label: "Aplicativos desenvolvidos",
+          percentage: 100,
+        },
+        { value: 10, unit: "M+", label: "Downloads totais", percentage: 100 },
+        {
+          value: 4.9,
+          unit: "/5",
+          label: "Média de avaliações",
+          percentage: 98,
+        },
+        {
+          value: 100,
+          unit: "%",
+          label: "Clientes satisfeitos",
+          percentage: 100,
+        },
       ],
       services: [
         {
-          title: 'Desenvolvimento Nativo',
-          description: 'Aplicativos iOS e Android com máximo desempenho usando Swift e Kotlin.',
-          icon: 'https://cdn.worldvectorlogo.com/logos/apple-ios.svg',
-          features: ['Performance máxima', 'Acesso total a APIs', 'UI nativa', 'Manutenção simplificada']
+          title: "Desenvolvimento Nativo",
+          description:
+            "Aplicativos iOS e Android com máximo desempenho usando Swift e Kotlin.",
+          icon: "https://cdn.worldvectorlogo.com/logos/apple-ios.svg",
+          features: [
+            "Performance máxima",
+            "Acesso total a APIs",
+            "UI nativa",
+            "Manutenção simplificada",
+          ],
         },
         {
-          title: 'Aplicativos Cross-Platform',
-          description: 'Soluções únicas para ambas plataformas com Flutter e React Native.',
-          icon: 'https://cdn.worldvectorlogo.com/logos/flutter-logo.svg',
-          features: ['Código único', 'Redução de custos', 'Entrega rápida', 'Experiência consistente']
+          title: "Aplicativos Cross-Platform",
+          description:
+            "Soluções únicas para ambas plataformas com Flutter e React Native.",
+          icon: "https://cdn.worldvectorlogo.com/logos/flutter-logo.svg",
+          features: [
+            "Código único",
+            "Redução de custos",
+            "Entrega rápida",
+            "Experiência consistente",
+          ],
         },
         {
-          title: 'UI/UX Design Mobile',
-          description: 'Interfaces intuitivas e belas que encantam os usuários.',
-          icon: 'https://cdn.worldvectorlogo.com/logos/figma-1.svg',
-          features: ['Prototipagem', 'Testes de usabilidade', 'Design Systems', 'Pixel perfection']
+          title: "UI/UX Design Mobile",
+          description:
+            "Interfaces intuitivas e belas que encantam os usuários.",
+          icon: "https://cdn.worldvectorlogo.com/logos/figma-1.svg",
+          features: [
+            "Prototipagem",
+            "Testes de usabilidade",
+            "Design Systems",
+            "Pixel perfection",
+          ],
         },
         {
-          title: 'Integração com APIs',
-          description: 'Conexão com sistemas existentes e serviços de terceiros.',
-          icon: 'https://cdn.worldvectorlogo.com/logos/postman.svg',
-          features: ['REST APIs', 'GraphQL', 'Autenticação', 'WebSockets']
+          title: "Integração com APIs",
+          description:
+            "Conexão com sistemas existentes e serviços de terceiros.",
+          icon: "https://cdn.worldvectorlogo.com/logos/postman.svg",
+          features: ["REST APIs", "GraphQL", "Autenticação", "WebSockets"],
         },
         {
-          title: 'Manutenção e Atualizações',
-          description: 'Suporte contínuo para manter seu app sempre atualizado.',
-          icon: 'https://cdn.worldvectorlogo.com/logos/git-icon.svg',
-          features: ['Correção de bugs', 'Novos recursos', 'Atualizações de segurança', 'Otimizações']
+          title: "Manutenção e Atualizações",
+          description:
+            "Suporte contínuo para manter seu app sempre atualizado.",
+          icon: "https://cdn.worldvectorlogo.com/logos/git-icon.svg",
+          features: [
+            "Correção de bugs",
+            "Novos recursos",
+            "Atualizações de segurança",
+            "Otimizações",
+          ],
         },
         {
-          title: 'Publicação nas Lojas',
-          description: 'Preparamos e publicamos seu app na App Store e Google Play.',
-          icon: 'https://cdn.worldvectorlogo.com/logos/google-play-icon.svg',
-          features: ['Preparação de assets', 'Metadados', 'Processo de revisão', 'Lançamento']
-        }
+          title: "Publicação nas Lojas",
+          description:
+            "Preparamos e publicamos seu app na App Store e Google Play.",
+          icon: "https://cdn.worldvectorlogo.com/logos/google-play-icon.svg",
+          features: [
+            "Preparação de assets",
+            "Metadados",
+            "Processo de revisão",
+            "Lançamento",
+          ],
+        },
       ],
-      filters: ['Todos', 'Finanças', 'Saúde', 'E-commerce', 'Social', 'Produtividade'],
+      filters: [
+        "Todos",
+        "Finanças",
+        "Saúde",
+        "E-commerce",
+        "Social",
+        "Produtividade",
+      ],
       projects: [
         {
-          name: 'FinanX - Controle Financeiro',
-          category: 'Finanças',
-          year: '2023',
-          image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+          name: "FinanX - Controle Financeiro",
+          category: "Finanças",
+          year: "2023",
+          image:
+            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
           gallery: [
-            'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
           ],
-          description: 'Aplicativo revolucionário de gestão financeira pessoal que ajuda usuários a controlarem seus gastos, investimentos e metas financeiras com uma interface simples e poderosa.',
-          technologies: ['Flutter', 'Firebase', 'Node.js', 'Google Cloud'],
+          description:
+            "Aplicativo revolucionário de gestão financeira pessoal que ajuda usuários a controlarem seus gastos, investimentos e metas financeiras com uma interface simples e poderosa.",
+          technologies: ["Flutter", "Firebase", "Node.js", "Google Cloud"],
           features: [
-            'Sincronização automática com bancos',
-            'Análise de gastos por categorias',
-            'Metas financeiras personalizadas',
-            'Relatórios detalhados exportáveis',
-            'Alertas de gastos excessivos'
+            "Sincronização automática com bancos",
+            "Análise de gastos por categorias",
+            "Metas financeiras personalizadas",
+            "Relatórios detalhados exportáveis",
+            "Alertas de gastos excessivos",
           ],
           stats: {
-            downloads: '1.2M+',
-            rating: '4.8',
-            time: '5 meses'
+            downloads: "1.2M+",
+            rating: "4.8",
+            time: "5 meses",
           },
-          appStore: '#',
-          playStore: '#'
+          appStore: "#",
+          playStore: "#",
         },
         {
-          name: 'HealthTrack - Monitoramento de Saúde',
-          category: 'Saúde',
-          year: '2022',
-          image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+          name: "HealthTrack - Monitoramento de Saúde",
+          category: "Saúde",
+          year: "2022",
+          image:
+            "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
           gallery: [
-            'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1530026186672-2cd00ffc50fe?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+            "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.unsplash.com/photo-1530026186672-2cd00ffc50fe?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
           ],
-          description: 'Solução completa para monitoramento de saúde que integra dados de wearables, permite registro de medicamentos, consultas e oferece insights personalizados sobre bem-estar.',
-          technologies: ['React Native', 'Redux', 'MongoDB', 'AWS'],
+          description:
+            "Solução completa para monitoramento de saúde que integra dados de wearables, permite registro de medicamentos, consultas e oferece insights personalizados sobre bem-estar.",
+          technologies: ["React Native", "Redux", "MongoDB", "AWS"],
           features: [
-            'Integração com Apple Health e Google Fit',
-            'Lembretes de medicamentos',
-            'Acompanhamento de sintomas',
-            'Telemedicina integrada',
-            'Relatórios para compartilhar com médicos'
+            "Integração com Apple Health e Google Fit",
+            "Lembretes de medicamentos",
+            "Acompanhamento de sintomas",
+            "Telemedicina integrada",
+            "Relatórios para compartilhar com médicos",
           ],
           stats: {
-            downloads: '850K+',
-            rating: '4.9',
-            time: '6 meses'
+            downloads: "850K+",
+            rating: "4.9",
+            time: "6 meses",
           },
-          appStore: '#',
-          playStore: '#'
+          appStore: "#",
+          playStore: "#",
         },
         {
-          name: 'FoodExpress - Delivery Gourmet',
-          category: 'E-commerce',
-          year: '2023',
-          image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+          name: "FoodExpress - Delivery Gourmet",
+          category: "E-commerce",
+          year: "2023",
+          image:
+            "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
           gallery: [
-            'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+            "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
           ],
-          description: 'Plataforma de delivery premium que conecta usuários a restaurantes gourmet e chefs particulares, com opções de menu personalizadas e entrega rápida.',
-          technologies: ['Swift', 'Kotlin', 'Firebase', 'Stripe'],
+          description:
+            "Plataforma de delivery premium que conecta usuários a restaurantes gourmet e chefs particulares, com opções de menu personalizadas e entrega rápida.",
+          technologies: ["Swift", "Kotlin", "Firebase", "Stripe"],
           features: [
-            'Busca por tipo de culinária e dieta',
-            'Pedidos em grupo',
-            'Acompanhamento em tempo real',
-            'Pagamentos integrados',
-            'Programa de fidelidade'
+            "Busca por tipo de culinária e dieta",
+            "Pedidos em grupo",
+            "Acompanhamento em tempo real",
+            "Pagamentos integrados",
+            "Programa de fidelidade",
           ],
           stats: {
-            downloads: '2.5M+',
-            rating: '4.7',
-            time: '8 meses'
+            downloads: "2.5M+",
+            rating: "4.7",
+            time: "8 meses",
           },
-          appStore: '#',
-          playStore: '#'
+          appStore: "#",
+          playStore: "#",
         },
         {
-          name: 'SocialHub - Rede Social Local',
-          category: 'Social',
-          year: '2021',
-          image: 'https://images.unsplash.com/photo-1611162617213-6d7a11842c44?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+          name: "SocialHub - Rede Social Local",
+          category: "Social",
+          year: "2021",
+          image:
+            "https://images.unsplash.com/photo-1611162617213-6d7a11842c44?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
           gallery: [
-            'https://images.unsplash.com/photo-1611162617213-6d7a11842c44?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1611162616475-465b9c8fa6e4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+            "https://images.unsplash.com/photo-1611162617213-6d7a11842c44?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.unsplash.com/photo-1611162616475-465b9c8fa6e4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
           ],
-          description: 'Rede social focada em conectar comunidades locais, com ferramentas para eventos, classificados e discussões de bairro.',
-          technologies: ['Flutter', 'Firebase', 'Google Maps API', 'WebRTC'],
+          description:
+            "Rede social focada em conectar comunidades locais, com ferramentas para eventos, classificados e discussões de bairro.",
+          technologies: ["Flutter", "Firebase", "Google Maps API", "WebRTC"],
           features: [
-            'Feed comunitário geolocalizado',
-            'Criação de eventos locais',
-            'Classificados por proximidade',
-            'Chat de grupo e vídeo chamadas',
-            'Moderação colaborativa'
+            "Feed comunitário geolocalizado",
+            "Criação de eventos locais",
+            "Classificados por proximidade",
+            "Chat de grupo e vídeo chamadas",
+            "Moderação colaborativa",
           ],
           stats: {
-            downloads: '500K+',
-            rating: '4.5',
-            time: '4 meses'
+            downloads: "500K+",
+            rating: "4.5",
+            time: "4 meses",
           },
-          appStore: '#',
-          playStore: '#'
+          appStore: "#",
+          playStore: "#",
         },
         {
-          name: 'TaskFlow - Gestão de Projetos',
-          category: 'Produtividade',
-          year: '2022',
-          image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+          name: "TaskFlow - Gestão de Projetos",
+          category: "Produtividade",
+          year: "2022",
+          image:
+            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
           gallery: [
-            'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
           ],
-          description: 'Ferramenta de produtividade para times que combina gestão de tarefas, comunicação e acompanhamento de métricas em uma única plataforma.',
-          technologies: ['React Native', 'GraphQL', 'DynamoDB', 'AWS Amplify'],
+          description:
+            "Ferramenta de produtividade para times que combina gestão de tarefas, comunicação e acompanhamento de métricas em uma única plataforma.",
+          technologies: ["React Native", "GraphQL", "DynamoDB", "AWS Amplify"],
           features: [
-            'Quadros Kanban personalizáveis',
-            'Tarefas com subtarefas e checklists',
-            'Relatórios de produtividade',
-            'Integração com calendário',
-            'Modo offline completo'
+            "Quadros Kanban personalizáveis",
+            "Tarefas com subtarefas e checklists",
+            "Relatórios de produtividade",
+            "Integração com calendário",
+            "Modo offline completo",
           ],
           stats: {
-            downloads: '300K+',
-            rating: '4.6',
-            time: '7 meses'
+            downloads: "300K+",
+            rating: "4.6",
+            time: "7 meses",
           },
-          appStore: '#',
-          playStore: '#'
+          appStore: "#",
+          playStore: "#",
         },
         {
-          name: 'Learnify - Educação Digital',
-          category: 'Educação',
-          year: '2023',
-          image: 'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+          name: "Learnify - Educação Digital",
+          category: "Educação",
+          year: "2023",
+          image:
+            "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
           gallery: [
-            'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+            "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
           ],
-          description: 'Plataforma de aprendizagem adaptativa que usa inteligência artificial para personalizar o conteúdo educacional conforme o progresso do aluno.',
-          technologies: ['SwiftUI', 'Kotlin', 'TensorFlow Lite', 'Firebase'],
+          description:
+            "Plataforma de aprendizagem adaptativa que usa inteligência artificial para personalizar o conteúdo educacional conforme o progresso do aluno.",
+          technologies: ["SwiftUI", "Kotlin", "TensorFlow Lite", "Firebase"],
           features: [
-            'Cursos em microlearning',
-            'Testes adaptativos',
-            'Recomendações personalizadas',
-            'Modo foco sem distrações',
-            'Relatórios de progresso detalhados'
+            "Cursos em microlearning",
+            "Testes adaptativos",
+            "Recomendações personalizadas",
+            "Modo foco sem distrações",
+            "Relatórios de progresso detalhados",
           ],
           stats: {
-            downloads: '1.8M+',
-            rating: '4.9',
-            time: '9 meses'
+            downloads: "1.8M+",
+            rating: "4.9",
+            time: "9 meses",
           },
-          appStore: '#',
-          playStore: '#'
-        }
+          appStore: "#",
+          playStore: "#",
+        },
       ],
       developmentPhases: [
         {
-          title: 'Descoberta e Planejamento',
-          description: 'Entendemos suas necessidades, pesquisamos o mercado e criamos um plano de desenvolvimento detalhado.',
-          tools: ['Workshops', 'User Stories', 'Roadmap']
+          title: "Descoberta e Planejamento",
+          description:
+            "Entendemos suas necessidades, pesquisamos o mercado e criamos um plano de desenvolvimento detalhado.",
+          tools: ["Workshops", "User Stories", "Roadmap"],
         },
         {
-          title: 'Design de UI/UX',
-          description: 'Criamos protótipos e designs que combinam usabilidade com apelo visual para engajar seus usuários.',
-          tools: ['Figma', 'Adobe XD', 'Prototipagem']
+          title: "Design de UI/UX",
+          description:
+            "Criamos protótipos e designs que combinam usabilidade com apelo visual para engajar seus usuários.",
+          tools: ["Figma", "Adobe XD", "Prototipagem"],
         },
         {
-          title: 'Desenvolvimento',
-          description: 'Implementamos seu aplicativo com código limpo e arquitetura escalável, seguindo as melhores práticas.',
-          tools: ['Git', 'CI/CD', 'Testes Automatizados']
+          title: "Desenvolvimento",
+          description:
+            "Implementamos seu aplicativo com código limpo e arquitetura escalável, seguindo as melhores práticas.",
+          tools: ["Git", "CI/CD", "Testes Automatizados"],
         },
         {
-          title: 'Testes e Qualidade',
-          description: 'Garantimos que cada funcionalidade funciona perfeitamente em diversos dispositivos e cenários.',
-          tools: ['Jest', 'Appium', 'TestFlight']
+          title: "Testes e Qualidade",
+          description:
+            "Garantimos que cada funcionalidade funciona perfeitamente em diversos dispositivos e cenários.",
+          tools: ["Jest", "Appium", "TestFlight"],
         },
         {
-          title: 'Lançamento e Monitoramento',
-          description: 'Publicamos seu app nas lojas e monitoramos seu desempenho para otimizações contínuas.',
-          tools: ['App Store Connect', 'Google Play Console', 'Analytics']
-        }
+          title: "Lançamento e Monitoramento",
+          description:
+            "Publicamos seu app nas lojas e monitoramos seu desempenho para otimizações contínuas.",
+          tools: ["App Store Connect", "Google Play Console", "Analytics"],
+        },
       ],
       testimonials: [
         {
-          name: 'Carlos Mendes',
-          position: 'CEO',
-          company: 'FinanX',
-          text: 'A equipe transformou nossa visão em um aplicativo que superou todas as expectativas. Em 6 meses já tínhamos 500 mil usuários ativos.',
+          name: "Carlos Mendes",
+          position: "CEO",
+          company: "FinanX",
+          text: "A equipe transformou nossa visão em um aplicativo que superou todas as expectativas. Em 6 meses já tínhamos 500 mil usuários ativos.",
           rating: 5,
-          avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
+          avatar: "https://randomuser.me/api/portraits/men/32.jpg",
           app: {
-            name: 'FinanX',
-            icon: 'https://cdn.worldvectorlogo.com/logos/apple-ios.svg',
-            store: 'App Store'
-          }
+            name: "FinanX",
+            icon: "https://cdn.worldvectorlogo.com/logos/apple-ios.svg",
+            store: "App Store",
+          },
         },
         {
-          name: 'Ana Lúcia Silva',
-          position: 'Diretora de Produto',
-          company: 'HealthTrack',
-          text: 'O cuidado com a experiência do usuário foi excepcional. Nosso app tem uma das maiores taxas de retenção do segmento saúde.',
+          name: "Ana Lúcia Silva",
+          position: "Diretora de Produto",
+          company: "HealthTrack",
+          text: "O cuidado com a experiência do usuário foi excepcional. Nosso app tem uma das maiores taxas de retenção do segmento saúde.",
           rating: 5,
-          avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
+          avatar: "https://randomuser.me/api/portraits/women/44.jpg",
           app: {
-            name: 'HealthTrack',
-            icon: 'https://cdn.worldvectorlogo.com/logos/google-play-icon.svg',
-            store: 'Google Play'
-          }
+            name: "HealthTrack",
+            icon: "https://cdn.worldvectorlogo.com/logos/google-play-icon.svg",
+            store: "Google Play",
+          },
         },
         {
-          name: 'Roberto Almeida',
-          position: 'CTO',
-          company: 'FoodExpress',
-          text: 'A arquitetura escalável que implementaram permitiu que lidássemos com picos de 10 mil pedidos simultâneos sem problemas.',
+          name: "Roberto Almeida",
+          position: "CTO",
+          company: "FoodExpress",
+          text: "A arquitetura escalável que implementaram permitiu que lidássemos com picos de 10 mil pedidos simultâneos sem problemas.",
           rating: 4.5,
-          avatar: 'https://randomuser.me/api/portraits/men/75.jpg',
+          avatar: "https://randomuser.me/api/portraits/men/75.jpg",
           app: {
-            name: 'FoodExpress',
-            icon: 'https://cdn.worldvectorlogo.com/logos/apple-ios.svg',
-            store: 'App Store'
-          }
-        }
-      ]
-    }
+            name: "FoodExpress",
+            icon: "https://cdn.worldvectorlogo.com/logos/apple-ios.svg",
+            store: "App Store",
+          },
+        },
+      ],
+    };
   },
   computed: {
     currentAppScreen() {
       return this.featuredApps[this.currentAppIndex].image;
     },
     filteredProjects() {
-      if (this.activeFilter === 'Todos') {
+      if (this.activeFilter === "Todos") {
         return this.projects;
       }
-      return this.projects.filter(project => project.category === this.activeFilter);
-    }
+      return this.projects.filter(
+        (project) => project.category === this.activeFilter
+      );
+    },
   },
   methods: {
     changeAppScreen(index) {
@@ -627,32 +828,34 @@ export default {
       this.selectedProject = this.projects[index];
       this.mainImage = this.selectedProject.image;
       this.modalOpen = true;
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     },
     closeProjectModal() {
       this.modalOpen = false;
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = "auto";
     },
     changeMainImage(image) {
       this.mainImage = image;
     },
     scrollToPortfolio() {
-      document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth' });
+      document
+        .getElementById("portfolio")
+        .scrollIntoView({ behavior: "smooth" });
     },
     scrollToContact() {
-      document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+      document.getElementById("contact").scrollIntoView({ behavior: "smooth" });
     },
     submitForm() {
       // Lógica para enviar o formulário
-      alert('Obrigado pelo seu interesse! Entraremos em contato em breve.');
+      alert("Obrigado pelo seu interesse! Entraremos em contato em breve.");
       this.form = {
-        name: '',
-        email: '',
-        phone: '',
-        projectType: '',
-        message: ''
+        name: "",
+        email: "",
+        phone: "",
+        projectType: "",
+        message: "",
       };
-    }
+    },
   },
   directives: {
     counterUp: {
@@ -661,28 +864,28 @@ export default {
         const duration = 1500;
         const step = target / (duration / 16);
         let current = 0;
-        
+
         const updateCounter = () => {
           current += step;
           if (current < target) {
             el.textContent = Math.floor(current);
             requestAnimationFrame(updateCounter);
           } else {
-            el.textContent = target + (binding.arg === 'percent' ? '%' : '');
+            el.textContent = target + (binding.arg === "percent" ? "%" : "");
           }
         };
-        
+
         updateCounter();
-      }
-    }
-  }
-}
+      },
+    },
+  },
+};
 </script>
 
 <style scoped>
 /* Base Styles */
 .mobile-dev-page {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   color: #1e293b;
   line-height: 1.6;
   overflow-x: hidden;
@@ -698,14 +901,17 @@ export default {
 }
 
 .hero-section::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -50%;
   left: -50%;
   width: 200%;
   height: 200%;
-  background: 
-    radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%),
+  background: radial-gradient(
+      circle,
+      rgba(99, 102, 241, 0.1) 0%,
+      transparent 70%
+    ),
     url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M30,30 L70,30 L70,70 L30,70 Z" fill="none" stroke="white" stroke-width="0.5" stroke-dasharray="5,5"/></svg>');
   opacity: 0.15;
   animation: rotate 120s linear infinite;
@@ -748,7 +954,7 @@ export default {
 }
 
 .tech-text::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 5px;
   left: 0;
@@ -846,8 +1052,7 @@ export default {
   background: #0f172a;
   border-radius: 40px;
   padding: 15px;
-  box-shadow: 
-    0 20px 40px rgba(0, 0, 0, 0.3),
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
     inset 0 0 0 2px rgba(255, 255, 255, 0.1);
 }
 
@@ -934,7 +1139,7 @@ export default {
 }
 
 .stat-card::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -1191,7 +1396,7 @@ export default {
 }
 
 .process-timeline::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   bottom: 0;
@@ -1647,7 +1852,7 @@ export default {
 }
 
 .project-features li::before {
-  content: '✓';
+  content: "✓";
   position: absolute;
   left: 0;
   color: #6366f1;
@@ -1686,18 +1891,36 @@ export default {
 
 /* Animations */
 @keyframes pulse {
-  0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.3); opacity: 0.7; }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
 }
 
 @keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
     transform: rotate(45deg) translateY(0);
   }
   40% {
@@ -1709,8 +1932,12 @@ export default {
 }
 
 @keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Responsividade */
@@ -1719,12 +1946,12 @@ export default {
   .contact-content {
     flex-direction: column;
   }
-  
+
   .hero-visual {
     order: -1;
     margin-bottom: 3rem;
   }
-  
+
   .project-details {
     grid-template-columns: 1fr;
   }
@@ -1734,19 +1961,19 @@ export default {
   .hero-title {
     font-size: 2.5rem;
   }
-  
+
   .hero-subtitle {
     font-size: 1.1rem;
   }
-  
+
   .portfolio-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .modal-body {
     flex-direction: column;
   }
-  
+
   .project-gallery {
     height: 300px;
   }
@@ -1756,24 +1983,24 @@ export default {
   .hero-section {
     padding: 6rem 1.5rem 8rem;
   }
-  
+
   .cta-container {
     flex-direction: column;
     width: 100%;
   }
-  
+
   .cta-button {
     width: 100%;
   }
-  
+
   .phone-mockup {
     width: 250px;
   }
-  
+
   .phone-frame {
     height: 500px;
   }
-  
+
   .testimonials-slider {
     grid-template-columns: 1fr;
   }

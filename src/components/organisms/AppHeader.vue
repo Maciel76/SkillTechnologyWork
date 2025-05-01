@@ -3,23 +3,38 @@
   <header>
     <nav>
       <div class="logo">
-        <img src="@/assets/svg/icons/logo.svg" alt="Skill Technology Work" class="logo-icon">
+        <img
+          src="@/assets/svg/icons/logo.svg"
+          alt="Skill Technology Work"
+          class="logo-icon"
+        />
         <span><router-link to="/">Skill Technology Work</router-link></span>
       </div>
       <div class="menu-toggle" @click="toggleMenu">
         <img src="https://api.iconify.design/heroicons:bars-3.svg" alt="Menu" />
       </div>
-      <ul class="nav-links" :class="{ 'active': isMenuOpen }">
+      <ul class="nav-links" :class="{ active: isMenuOpen }">
         <li><router-link to="/blog" @click="closeMenu">Blog</router-link></li>
-        <li><router-link to="/Portfolio" @click="closeMenu">Portfolio</router-link></li>
-        <li><router-link to="/Services" @click="closeMenu">Serviços</router-link></li>
-        <li><router-link to="/Precing" @click="closeMenu">Planos e preços</router-link></li>
-        <li><router-link to="/Clientes" @click="closeMenu">Clientes</router-link></li>
+        <li>
+          <router-link to="/Portfolio" @click="closeMenu"
+            >Portfolio</router-link
+          >
+        </li>
+        <li>
+          <router-link to="/Services" @click="closeMenu">Serviços</router-link>
+        </li>
+        <li>
+          <router-link to="/Precing" @click="closeMenu"
+            >Planos e preços</router-link
+          >
+        </li>
+        <li>
+          <router-link to="/Clientes" @click="closeMenu">Clientes</router-link>
+        </li>
         <li><router-link to="/Loja" @click="closeMenu">Loja</router-link></li>
-        
       </ul>
       <button class="cta-button">
-        <span ref="typing"></span>
+        <router-link to="/contato"><span ref="typing"></span></router-link>
       </button>
     </nav>
   </header>
@@ -27,13 +42,21 @@
 
 <script>
 export default {
-  name: 'AppHeader',
+  name: "AppHeader",
   mounted() {
     this.startTyping();
   },
   data() {
     return {
-      texts: ["Fale Conosco", "Inicie seu Projeto", "Saiba Mais", "Entre em Contato", "Peça um Orçamento"],
+      texts: [
+        "Entre em Contato",
+        "Solicite Orçamento",
+        "100% Gratuito",
+        "Entre em Contato",
+        "Tire suas Dúvidas",
+        "Estamos Online",
+        "Entrar em Contato",
+      ],
       textIndex: 0,
       isMenuOpen: false,
     };
@@ -81,7 +104,7 @@ nav {
   align-items: center;
   padding: 1rem;
 }
-nav a{
+nav a {
   text-decoration: none;
   list-style: none;
   color: var(--pricing-text);
@@ -142,7 +165,7 @@ nav a{
     background: white;
     flex-direction: column;
     padding: 1rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     z-index: 1000;
   }
 
@@ -180,20 +203,29 @@ nav a{
   white-space: nowrap;
   padding-right: 5px;
   border-right: 2px solid white;
-  
 }
 
 @keyframes typing {
-  0% { width: 0; }
-  100% { width: 100%; }
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
 }
 
 @keyframes blink {
-  50% { border-color: transparent; }
+  50% {
+    border-color: transparent;
+  }
 }
 
 @keyframes erase {
-  0% { width: 100%; }
-  100% { width: 0; }
+  0% {
+    width: 100%;
+  }
+  100% {
+    width: 0;
+  }
 }
 </style>

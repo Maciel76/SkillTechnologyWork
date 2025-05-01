@@ -2,23 +2,38 @@
   <section class="featured-projects">
     <div class="section-header">
       <h2>Projetos em <span class="highlight">Destaque</span></h2>
-      <p class="subtitle">Soluções que entregamos com excelência e inovação</p>
+      <p class="subtitle">
+        Explore nossos projetos mais impactantes e inovadores
+      </p>
     </div>
 
     <div class="projects-grid">
       <!-- Projeto 1 -->
       <article class="project-card" @click="openOverlay(projects[0])">
-        <div class="card-bg" :style="{ backgroundImage: `url(${projects[0].thumbnail})` }"></div>
+        <div
+          class="card-bg"
+          :style="{ backgroundImage: `url(${projects[0].thumbnail})` }"
+        ></div>
         <div class="card-content">
           <span class="category">Website & Sistema</span>
           <h3>{{ projects[0].title }}</h3>
           <div class="tech-tags">
-            <span v-for="(tech, i) in projects[0].technologies.slice(0, 3)" :key="i">{{ tech }}</span>
+            <span
+              v-for="(tech, i) in projects[0].technologies.slice(0, 3)"
+              :key="i"
+              >{{ tech }}</span
+            >
           </div>
           <button class="view-btn">
             Ver Detalhes
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path
+                d="M5 12H19M19 12L12 5M19 12L12 19"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </svg>
           </button>
         </div>
@@ -26,17 +41,30 @@
 
       <!-- Projeto 2 -->
       <article class="project-card" @click="openOverlay(projects[1])">
-        <div class="card-bg" :style="{ backgroundImage: `url(${projects[1].thumbnail})` }"></div>
+        <div
+          class="card-bg"
+          :style="{ backgroundImage: `url(${projects[1].thumbnail})` }"
+        ></div>
         <div class="card-content">
           <span class="category">Plataforma Educacional</span>
           <h3>{{ projects[1].title }}</h3>
           <div class="tech-tags">
-            <span v-for="(tech, i) in projects[1].technologies.slice(0, 3)" :key="i">{{ tech }}</span>
+            <span
+              v-for="(tech, i) in projects[1].technologies.slice(0, 3)"
+              :key="i"
+              >{{ tech }}</span
+            >
           </div>
           <button class="view-btn">
             Ver Detalhes
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path
+                d="M5 12H19M19 12L12 5M19 12L12 19"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </svg>
           </button>
         </div>
@@ -44,17 +72,30 @@
 
       <!-- Projeto 3 -->
       <article class="project-card" @click="openOverlay(projects[2])">
-        <div class="card-bg" :style="{ backgroundImage: `url(${projects[2].thumbnail})` }"></div>
+        <div
+          class="card-bg"
+          :style="{ backgroundImage: `url(${projects[2].thumbnail})` }"
+        ></div>
         <div class="card-content">
           <span class="category">E-commerce</span>
           <h3>{{ projects[2].title }}</h3>
           <div class="tech-tags">
-            <span v-for="(tech, i) in projects[2].technologies.slice(0, 3)" :key="i">{{ tech }}</span>
+            <span
+              v-for="(tech, i) in projects[2].technologies.slice(0, 3)"
+              :key="i"
+              >{{ tech }}</span
+            >
           </div>
           <button class="view-btn">
             Ver Detalhes
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path
+                d="M5 12H19M19 12L12 5M19 12L12 19"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </svg>
           </button>
         </div>
@@ -62,17 +103,30 @@
 
       <!-- Projeto 4 -->
       <article class="project-card" @click="openOverlay(projects[3])">
-        <div class="card-bg" :style="{ backgroundImage: `url(${projects[3].thumbnail})` }"></div>
+        <div
+          class="card-bg"
+          :style="{ backgroundImage: `url(${projects[3].thumbnail})` }"
+        ></div>
         <div class="card-content">
-          <span class="category">Aplicativo Mobile</span>
+          <span class="category">Identidade Visual / Ilustração</span>
           <h3>{{ projects[3].title }}</h3>
           <div class="tech-tags">
-            <span v-for="(tech, i) in projects[3].technologies.slice(0, 3)" :key="i">{{ tech }}</span>
+            <span
+              v-for="(tech, i) in projects[3].technologies.slice(0, 3)"
+              :key="i"
+              >{{ tech }}</span
+            >
           </div>
           <button class="view-btn">
             Ver Detalhes
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path
+                d="M5 12H19M19 12L12 5M19 12L12 19"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </svg>
           </button>
         </div>
@@ -81,66 +135,129 @@
 
     <!-- Modal de Detalhes -->
     <transition name="fade">
-      <div class="project-modal" v-if="selectedProject" @click.self="closeOverlay">
+      <div
+        class="project-modal"
+        v-if="selectedProject"
+        @click.self="closeOverlay"
+      >
         <div class="modal-content">
           <button class="close-btn" @click="closeOverlay">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path
+                d="M18 6L6 18M6 6L18 18"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </svg>
           </button>
-          
+
           <div class="modal-gallery">
             <div class="main-image">
-              <img :src="selectedProject.images[0]" :alt="selectedProject.title">
+              <img
+                :src="selectedProject.images[0]"
+                :alt="selectedProject.title"
+              />
             </div>
           </div>
-          
+
           <div class="modal-details">
             <div class="details-header">
               <span class="badge">{{ selectedProject.category }}</span>
               <h2>{{ selectedProject.title }}</h2>
               <div class="meta">
-                <span><strong>Cliente:</strong> {{ selectedProject.client }}</span>
+                <span
+                  ><strong>Cliente:</strong> {{ selectedProject.client }}</span
+                >
                 <span><strong>Ano:</strong> {{ selectedProject.year }}</span>
               </div>
             </div>
-            
+
             <div class="details-body">
               <div class="description">
+                <!-- O Desafio como lista -->
                 <h3>O Desafio</h3>
-                <p>{{ selectedProject.challenge }}</p>
-                
+                <ul class="results">
+                  <li>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M20 6L9 17L4 12"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                    {{ selectedProject.challenge }}
+                  </li>
+                </ul>
+
+                <!-- Nossa Solução como lista -->
                 <h3>Nossa Solução</h3>
-                <p>{{ selectedProject.solution }}</p>
-                
+                <ul class="results">
+                  <li>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M20 6L9 17L4 12"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                    {{ selectedProject.solution }}
+                  </li>
+                </ul>
+
+                <!-- Resultados (mantido igual) -->
                 <h3>Resultados</h3>
                 <ul class="results">
                   <li v-for="(result, i) in selectedProject.results" :key="i">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                      <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path
+                        d="M20 6L9 17L4 12"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
                     </svg>
                     {{ result }}
                   </li>
                 </ul>
               </div>
-              
+
               <div class="sidebar">
                 <div class="tech-stack">
                   <h4>Tecnologias</h4>
                   <div class="tech-icons">
-                    <div v-for="(tech, i) in selectedProject.technologies" :key="i">
-                      <img :src="getTechIcon(tech)" :alt="tech" :title="tech">
+                    <div
+                      v-for="(tech, i) in selectedProject.technologies"
+                      :key="i"
+                    >
+                      <img :src="getTechIcon(tech)" :alt="tech" :title="tech" />
                       <span>{{ tech }}</span>
                     </div>
                   </div>
                 </div>
-                
+
                 <div class="project-cta">
-                  <a v-if="selectedProject.liveUrl" :href="selectedProject.liveUrl" target="_blank" class="live-link">
-                    Ver Projeto Online
+                  <a
+                    v-if="selectedProject.liveUrl"
+                    :href="selectedProject.liveUrl"
+                    target="_blank"
+                    class="live-link"
+                  >
+                    Ver Detalhes
                   </a>
-                  <a v-if="selectedProject.githubUrl" :href="selectedProject.githubUrl" target="_blank" class="github-link">
-                    Ver Código
+                  <a
+                    v-if="selectedProject.githubUrl"
+                    :href="selectedProject.githubUrl"
+                    target="_blank"
+                    class="github-link"
+                  >
+                    Entre em Contato
                   </a>
                 </div>
               </div>
@@ -154,131 +271,157 @@
 
 <script>
 export default {
-  name: 'FeaturedProjects',
+  name: "FeaturedProjects",
   data() {
     return {
       projects: [
         {
           id: 1,
-          title: "Sistema com IA Integrada",
+          title: "Dashboard com IA para Controle de Estoque",
           category: "Website & Sistema",
           client: "TechCorp Inc.",
           year: "2023",
-          thumbnail: "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
+          thumbnail: require("@/assets/images/banners/sistemaControle.jpg"),
           images: [
-            "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
-            "https://images.unsplash.com/photo-1460925895917-afdab827c52f",
-            "https://images.unsplash.com/photo-1472851294608-062f824d29cc"
+            require("@/assets/images/banners/sistemaControle.jpg"),
+            require("@/assets/images/banners/sistemaControle.jpg"),
           ],
           technologies: ["Vue.js", "Node.js", "TensorFlow.js", "MongoDB"],
-          challenge: "Automatizar processos manuais e oferecer recomendações inteligentes para clientes.",
-          solution: "Plataforma web com IA que analisa padrões de uso e oferece recomendações personalizadas em tempo real.",
+          challenge:
+            "A empresa enfrentava dificuldades em manter o controle preciso de seus estoques, o que resultava em:\n- erros manuais nos lacamentos de dados,\n- Falta de previsibilidade sobre quando repor produtos.\n- Perdas financeiras com excesso ou falta de mercadoria.\n- Falta de integração entre os setores de vendas e logística.",
+          solution: [
+            "Desenvolvemos uma plataforma web com IA integrada que.",
+            "--Analisa os padrões de entrada e saída de produtos em tempo real.",
+            "-- Utiliza modelos de machine learning para prever demandas futuras com base em histórico, sazonalidade e comportamento de vendas.",
+            "--Automatiza alertas de reposição com base em regras inteligentes personalizadas.",
+            "--Gera relatórios dinâmicos com recomendações de ação.",
+            "--Integra com sistemas de venda (ERP, e-commerce) para decisões mais rápidas e assertivas.",
+          ],
           results: [
             "Redução de 70% no tempo de processos",
             "Aumento de 40% na satisfação do cliente",
-            "Crescimento de 25% na retenção"
+            "Crescimento de 25% na retenção",
           ],
-          liveUrl: "#",
-          githubUrl: "#"
+          liveUrl: "/Service/sistemasweb",
+          githubUrl: "/contato",
         },
         {
           id: 2,
-          title: "Plataforma de Educação Online",
+          title:
+            "Instituto Educar: Educação Digital com Conexão entre Escola, Alunos e Pais",
           category: "Plataforma Educacional",
           client: "EduTech Solutions",
-          year: "2022",
-          thumbnail: "https://images.unsplash.com/photo-1546410531-bb4caa6b424d",
+          year: "2024",
+          thumbnail: require("@/assets/images/banners/institutoEducar.png"),
           images: [
-            "https://images.unsplash.com/photo-1546410531-bb4caa6b424d",
-            "https://images.unsplash.com/photo-1588072432836-e10032774350"
+            require("@/assets/images/banners/institutoEducar.png"),
+            require("@/assets/images/banners/institutoEducar.png"),
           ],
           technologies: ["React", "Firebase", "Stripe", "WebRTC"],
-          challenge: "Criar experiência imersiva e interativa para alunos remotos.",
-          solution: "Ambiente virtual com videoaulas, whiteboard colaborativo e avaliação adaptativa.",
+          challenge:
+            "O instituto precisava modernizar seus processos de matrícula e melhorar a comunicação com pais e alunos. As informações eram descentralizadas e o controle manual dificultava o acompanhamento pedagógico e financeiro.",
+          solution:
+            "Criamos uma plataforma web segura com:\n-Área restrita para pais e alunos com login individual.\n- Histórico escolar, atividades e boletins acessíveis online. \n- Notificações em tempo real e canal direto com a coordenação. \n- Sistema de matrícula online com upload de documentos, status e assinatura digital.\n- Painel administrativo para gestão de turmas, calendários e relatórios.   ",
           results: [
-            "50.000 alunos em 6 meses",
-            "Taxa de conclusão 35% acima da média",
-            "Integração com 15 plataformas"
+            "85% dos processos de matrícula digitalizados em 3 meses.",
+            "Redução de 60% no volume de atendimento telefônico.",
+            "Melhoria na satisfação dos pais e transparência com alunos.",
           ],
-          liveUrl: "#"
+          liveUrl: "/siteInstitucional",
+          githubUrl: "/contato",
         },
         {
           id: 3,
-          title: "Loja Virtual Premium",
+          title:
+            "Loja Virtual Boutique Elegance, com foco em moda feminina premium",
           category: "E-commerce",
           client: "Boutique Elegance",
           year: "2023",
-          thumbnail: "https://images.unsplash.com/photo-1472851294608-062f824d29cc",
+          thumbnail: require("@/assets/images/banners/BoutiqueElegance.png"),
           images: [
-            "https://images.unsplash.com/photo-1472851294608-062f824d29cc",
-            "https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a"
+            require("@/assets/images/banners/BoutiqueElegance.png"),
+            require("@/assets/images/banners/BoutiqueElegance.png"),
           ],
-          technologies: ["Next.js", "Shopify", "Tailwind CSS", "Algolia"],
-          challenge: "Transformar a experiência de compra online para refletir exclusividade da marca.",
-          solution: "Loja virtual com design sofisticado e recomendações personalizadas.",
+          technologies: ["Vue.js", "Shopify", "Tailwind CSS", "Algolia"],
+          challenge:
+            "A marca precisava lançar sua primeira loja online com identidade visual refinada, navegação fluida e um processo de compra que transmitisse o valor da boutique. Além disso, era essencial que o site fosse rápido, mobile-first e com gestão simples de produtos.",
+          solution:
+            "Design moderno, minimalista e elegante, inspirado no estilo da boutique:\n- Layout responsivo e performance otimizada para mobile.\n- Sistema de catálogo com controle de estoque, variações e categorias inteligentes.\n- Integração com gateway de pagamento seguro\n- Painel administrativo intuitivo com relatórios de pedidos e clientes.\n- SEO otimizado e integração com redes sociais.\n- Algolia para busca rápida e precisa de produtos.",
           results: [
-            "Aumento de 150% nas vendas",
-            "Conversão 3x maior que a média",
-            "Sessões 40% mais longas"
+            "Primeira venda realizada em menos de 48h após o lançamento.",
+            "Crescimento de 70% nas visitas orgânicas em 2 meses.",
+            "Redução de 50% no abandono de carrinho com checkout otimizado.",
           ],
-          liveUrl: "#"
+          liveUrl: "/ServiceEcommece",
+          githubUrl: "/contato",
         },
         {
           id: 4,
-          title: "App de Gestão Financeira",
-          category: "Aplicativo Mobile",
-          client: "FinancePlus",
-          year: "2023",
-          thumbnail: "https://images.unsplash.com/photo-1551288049-bebda4e38f71",
+          title: "Mascote Oficial do Neoblog",
+          category: "Identidade Visual / Ilustração",
+          client: "Neoblog",
+          year: "2025",
+          thumbnail: require("@/assets/images/banners/neoblog.jpg"),
           images: [
-            "https://images.unsplash.com/photo-1551288049-bebda4e38f71",
-            "https://images.unsplash.com/photo-1547658719-da2b51169166"
+            require("@/assets/images/banners/neoblog2.jpg"),
+            require("@/assets/images/banners/neoblog.jpg"),
           ],
-          technologies: ["Flutter", "Node.js", "Plaid API", "Firebase"],
-          challenge: "Simplificar o gerenciamento financeiro pessoal e de negócios.",
-          solution: "App intuitivo que conecta contas bancárias e sugere otimizações.",
+          technologies: ["Adobe Photoshop"],
+          challenge:
+            "O Neoblog precisava de uma identidade visual única e memorável, algo que representasse inovação, curiosidade e proximidade com o público jovem e criativo. O objetivo era criar um mascote que fosse carismático e pudesse ser utilizado em várias aplicações visuais do site e redes sociais.",
+          solution:
+            "Criamos um mascote exclusivo com estilo cartoon, que transmite simpatia, inteligência e dinamismo. O personagem foi pensado para interagir com os leitores do blog em:",
           results: [
-            "100.000 downloads em 3 meses",
-            "Nota 4.8 nas lojas de apps",
-            "Economia média de 15% para usuários"
+            "Aumento do engajamento em postagens com o mascote.",
+            "Visitantes reconhecendo e comentando sobre o personagem.",
+            "Fortalecimento da marca visual do Neoblog.",
           ],
-          liveUrl: "#",
-          githubUrl: "#"
-        }
+          liveUrl: "/mascotePersonalizados",
+          githubUrl: "/contato",
+        },
       ],
-      selectedProject: null
-    }
+      selectedProject: null,
+    };
   },
   methods: {
     openOverlay(project) {
       this.selectedProject = project;
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     },
     closeOverlay() {
       this.selectedProject = null;
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     },
     getTechIcon(tech) {
       const icons = {
-        'Vue.js': 'https://cdn.worldvectorlogo.com/logos/vue-9.svg',
-        'Node.js': 'https://cdn.worldvectorlogo.com/logos/nodejs-icon.svg',
-        'TensorFlow.js': 'https://cdn.worldvectorlogo.com/logos/tensorflow-2.svg',
-        'MongoDB': 'https://cdn.worldvectorlogo.com/logos/mongodb-icon-1.svg',
-        'React': 'https://cdn.worldvectorlogo.com/logos/react-2.svg',
-        'Firebase': 'https://cdn.worldvectorlogo.com/logos/firebase-1.svg',
-        'Stripe': 'https://cdn.worldvectorlogo.com/logos/stripe-4.svg',
-        'WebRTC': 'https://cdn.worldvectorlogo.com/logos/webrtc.svg',
-        'Next.js': 'https://cdn.worldvectorlogo.com/logos/next-js.svg',
-        'Shopify': 'https://cdn.worldvectorlogo.com/logos/shopify.svg',
-        'Tailwind CSS': 'https://cdn.worldvectorlogo.com/logos/tailwindcss.svg',
-        'Algolia': 'https://cdn.worldvectorlogo.com/logos/algolia-1.svg',
-        'Flutter': 'https://cdn.worldvectorlogo.com/logos/flutter.svg',
-        'Plaid API': 'https://cdn.worldvectorlogo.com/logos/plaid-1.svg'
+        "Vue.js": "https://cdn.worldvectorlogo.com/logos/vue-9.svg",
+        "Node.js": "https://cdn.worldvectorlogo.com/logos/nodejs-icon.svg",
+        "TensorFlow.js":
+          "https://cdn.worldvectorlogo.com/logos/tensorflow-2.svg",
+        MongoDB: "https://cdn.worldvectorlogo.com/logos/mongodb-icon-1.svg",
+        React: "https://cdn.worldvectorlogo.com/logos/react-2.svg",
+        Firebase: "https://cdn.worldvectorlogo.com/logos/firebase-1.svg",
+        Stripe: "https://cdn.worldvectorlogo.com/logos/stripe-4.svg",
+        WebRTC: "https://cdn.worldvectorlogo.com/logos/webrtc.svg",
+        "Next.js": "https://cdn.worldvectorlogo.com/logos/next-js.svg",
+        Shopify: "https://cdn.worldvectorlogo.com/logos/shopify.svg",
+        "Tailwind CSS": "https://cdn.worldvectorlogo.com/logos/tailwindcss.svg",
+        Algolia: "https://cdn.worldvectorlogo.com/logos/algolia-1.svg",
+        Flutter: "https://cdn.worldvectorlogo.com/logos/flutter.svg",
+        "Plaid API": "https://cdn.worldvectorlogo.com/logos/plaid-1.svg",
+        "Adobe Photoshop":
+          "https://cdn.worldvectorlogo.com/logos/adobe-photoshop-2.svg",
+        "Adobe Illustrator":
+          "https://cdn.worldvectorlogo.com/logos/adobe-illustrator-cc-icon.svg",
+        "Adobe After Effects":
+          "https://cdn.worldvectorlogo.com/logos/after-effects-cc.svg",
       };
-      return icons[tech] || 'https://cdn.worldvectorlogo.com/logos/javascript.svg';
-    }
-  }
-}
+      return (
+        icons[tech] || "https://cdn.worldvectorlogo.com/logos/javascript.svg"
+      );
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -301,18 +444,19 @@ export default {
 }
 
 .highlight {
-  color: #6366f1;
+  color: #0052ff;
   position: relative;
+  z-index: 10;
 }
 
 .highlight::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 5px;
   left: 0;
   width: 100%;
   height: 8px;
-  background: rgba(99, 102, 241, 0.3);
+  background: rgba(111, 221, 60, 0.3);
   z-index: -1;
   border-radius: 4px;
 }
@@ -591,7 +735,8 @@ export default {
   gap: 0.75rem;
 }
 
-.live-link, .github-link {
+.live-link,
+.github-link {
   display: block;
   text-align: center;
   padding: 0.75rem;
@@ -620,11 +765,13 @@ export default {
 }
 
 /* Animations */
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 0.3s ease;
 }
 
-.fade-enter-from, .fade-leave-to {
+.fade-enter-from,
+.fade-leave-to {
   opacity: 0;
 }
 
@@ -633,7 +780,7 @@ export default {
   .details-body {
     grid-template-columns: 1fr;
   }
-  
+
   .sidebar {
     width: 100%;
   }
@@ -643,15 +790,15 @@ export default {
   .section-header h2 {
     font-size: 2rem;
   }
-  
+
   .modal-gallery {
     padding: 1rem;
   }
-  
+
   .main-image {
     height: 300px;
   }
-  
+
   .modal-details {
     padding: 0 1rem 1rem;
   }
@@ -661,15 +808,15 @@ export default {
   .featured-projects {
     padding: 3rem 1rem;
   }
-  
+
   .projects-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .project-card {
     height: 320px;
   }
-  
+
   .card-content {
     padding: 1.5rem;
   }

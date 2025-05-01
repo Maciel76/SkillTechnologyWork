@@ -1,103 +1,106 @@
 <template>
-    <main>
-      <!-- Conteúdo da página  -->
-      <section class="contact-section">
-        <div class="contact-content">
-            <h2>Transforme seu Negócio com  IA</h2>
-            <p>Entre em contato e descubra como podemos impulsionar seus resultados</p>
-            <form id="contactForm" class="contact-form">
-                <div class="form-row">
-                    <div class="form-group">
-                        <input type="text" id="name" name="name" placeholder="Seu nome" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" id="email" name="email" placeholder="Seu e-mail" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <select id="service" name="service" required>
-                        <option value="">Selecione um serviço</option>
-                        <option value="websites">Websites Inteligentes</option>
-                        <option value="apps">Apps com IA</option>
-                        <option value="content">Geração de Conteúdo</option>
-                        <option value="chatbot">Chatbots</option>
-                        <option value="analytics">Análise de Dados</option>
-                        <option value="marketing">Marketing Automatizado</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <textarea id="message" name="message" placeholder="Sua mensagem" required></textarea>
-                </div>
-                <button type="submit" class="cta-button1">Solicitar Demonstração</button>
-            </form>
-        </div>
+  <main>
+    <section class="contact-cta">
+      <div class="cta-container">
+        <h2 class="cta-title">
+          Ainda com dúvidas sobre como desenvolver seu projeto?
+        </h2>
+        <p class="cta-subtitle">
+          Solicite um orçamento 100% gratuito e sem compromisso!
+        </p>
+
+        <router-link to="/contato" class="cta-button">
+          Entre em Contato
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M5 12H19M19 12L12 5M19 12L12 19"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </router-link>
+      </div>
     </section>
-    </main>  
+  </main>
 </template>
 
-<style scoped >
-/* Estilos globais ou específicos da página */
-/* Contact Section */
-.contact-section {
-    padding: 4rem 5%; /* Substituído --section-padding */
-    background: #0052FF; /* Substituído --primary-color */
-    color: white;
-    text-align: center;
+<style scoped>
+/* Estilos da Seção CTA */
+.contact-cta {
+  padding: 5rem 5%;
+  background: #0052ff;
+  color: white;
+  text-align: center;
 }
 
-.contact-content {
-    max-width: 800px;
-    margin: 0 auto;
+.cta-container {
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-.contact-content h2 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+.cta-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  line-height: 1.3;
 }
 
-.contact-content p {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-    color: rgba(255, 255, 255, 0.8);
+.cta-subtitle {
+  font-size: 1.25rem;
+  margin-bottom: 2.5rem;
+  opacity: 0.9;
 }
 
-.contact-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: white;
+  color: #0052ff;
+  padding: 1rem 2.5rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.form-row {
-    display: flex;
-    gap: 1.5rem;
+.cta-button:hover {
+  transform: translateY(-3px);
 }
 
-.form-group {
-    flex: 1;
-}
+/* Responsividade */
+@media (max-width: 768px) {
+  .contact-cta {
+    padding: 4rem 2rem;
+  }
 
-.form-group input,
-.form-group select,
-.form-group textarea {
-    width: 100%;
-    padding: 1rem;
-    border: none;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
+  .cta-title {
+    font-size: 1.8rem;
+  }
+
+  .cta-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .cta-button {
+    padding: 0.875rem 2rem;
     font-size: 1rem;
-    transition: background 0.3s ease;
+  }
 }
 
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    background: rgba(255, 255, 255, 0.2);
-    outline: none;
-}
-
-.form-group textarea {
-    height: 150px;
-    resize: vertical;
+@media (max-width: 480px) {
+  .cta-title {
+    font-size: 1.6rem;
+  }
 }
 </style>
