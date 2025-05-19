@@ -1,25 +1,24 @@
 <template>
-    <div>
-      <main>
-       <PrecingCategory /> <!-- Adicionando o componente PricingCategoria -->
-  
-      </main>
-    </div>
-  </template>
-  
-  <script>
+  <div>
+    <main>
+      <PrecingCategory />
+      <!-- Adicionando o componente PricingCategoria -->
+    </main>
+  </div>
+</template>
 
-  import PrecingCategory from '../celulas/PrecingCategory.vue';
+<script>
+//revisado
+import PrecingCategory from "../celulas/PrecingCategory.vue";
 
-  
-  export default {
-    name: 'PrecingView',
-    components: {
-      PrecingCategory,
-    },
-  };
-  </script>
-  
-  <style scoped>
-  /* Estilos globais ou específicos da página */
-  </style>
+export default {
+  name: "PrecingView",
+  components: {
+    PrecingCategory,
+  },
+};
+</script>
+
+<style scoped>
+/* Estilos globais ou específicos da página */
+</style>

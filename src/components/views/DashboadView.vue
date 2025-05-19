@@ -3,16 +3,15 @@
 </template>
 
 <script>
-import SidbarNav from '@/components/Dashboad/SidbarNav.vue';
+//revisado
+import SidbarNav from "@/components/Dashboad/SidbarNav.vue";
 
 export default {
-  name: 'DashboadView',
+  name: "DashboadView",
   components: {
     SidbarNav,
   },
 };
 </script>
 
-<style>
-
-</style>
+<style></style>

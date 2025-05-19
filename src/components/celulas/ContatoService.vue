@@ -6,7 +6,7 @@
           Ainda com dúvidas sobre como desenvolver seu projeto?
         </h2>
         <p class="cta-subtitle">
-          Solicite um orçamento 100% gratuito e sem compromisso!
+          Solicite uma consultoria gratuita e descubra como podemos ajudar!
         </p>
 
         <router-link to="/contato" class="cta-button">
@@ -76,6 +76,8 @@
 
 .cta-button:hover {
   transform: translateY(-3px);
+  background-color: rgb(44, 163, 199);
+  color: white;
 }
 
 /* Responsividade */

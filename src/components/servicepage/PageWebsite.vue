@@ -34,9 +34,9 @@
             </div>
             <div class="tech-icon">
               <img
-                src="https://cdn.worldvectorlogo.com/logos/react-2.svg"
-                alt="React"
-                title="React"
+                src="https://api.iconify.design/skill-icons:mongodb.svg"
+                alt="mongodb"
+                title="mongodb"
               />
             </div>
             <div class="tech-icon">
@@ -48,9 +48,9 @@
             </div>
             <div class="tech-icon">
               <img
-                src="https://cdn.worldvectorlogo.com/logos/laravel-2.svg"
-                alt="Laravel"
-                title="Laravel"
+                src="https://cdn.worldvectorlogo.com/logos/aws-2.svg"
+                alt="aws"
+                title="aws"
               />
             </div>
           </div>
@@ -72,10 +72,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="scroll-indicator">
-        <span>Explore nossos serviços</span>
-        <div class="arrow"></div>
       </div>
     </section>
 
@@ -110,8 +106,8 @@
               <li>SEO básico</li>
               <li>Integração com redes sociais</li>
             </ul>
-            <RouterLink to="/site-institucional">
-              <button class="service-button">Saiba Mais</button></RouterLink
+            <RouterLink to="/portfolio/site-institucional">
+              <button class="service-button">Ver Portfólio</button></RouterLink
             >
           </div>
         </div>
@@ -138,7 +134,7 @@
               <li>Painel administrativo</li>
               <li>Relatórios de vendas</li>
             </ul>
-            <RouterLink to="/lojasvituais">
+            <RouterLink to="/portfolio/lojas-virtuais">
               <button class="service-button">Ver Portfólio</button></RouterLink
             >
           </div>
@@ -166,7 +162,7 @@
               <li>SEO completo</li>
               <li>Integração com newsletter</li>
             </ul>
-            <RouterLink to="/blogs-personalizados">
+            <RouterLink to="/portfolio/blogs-personalizados">
               <button class="service-button">Ver Portfólio</button></RouterLink
             >
           </div>
@@ -194,7 +190,9 @@
               <li>Integração com APIs</li>
               <li>Automação de processos</li>
             </ul>
-            <button class="service-button">Ver Portfólio</button>
+            <RouterLink to="/portfolio/sistemas-web">
+              <button class="service-button">Ver Portfólio</button></RouterLink
+            >
           </div>
         </div>
 
@@ -220,7 +218,9 @@
               <li>Integração com CRM</li>
               <li>Análise de conversão</li>
             </ul>
-            <button class="service-button">Ver Portfólio</button>
+            <RouterLink to="/portfolio/landing-pages">
+              <button class="service-button">Ver Portfólio</button></RouterLink
+            >
           </div>
         </div>
 
@@ -246,7 +246,7 @@
               <li>Carregamento instantâneo</li>
               <li>Sincronização em segundo plano</li>
             </ul>
-            <button class="service-button">Ver Portfólio</button>
+            <button class="service-button"></button>
           </div>
         </div>
       </div>
@@ -295,28 +295,25 @@
           <div class="tech-icons">
             <div class="tech-item">
               <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg"
+                src="https://api.iconify.design/logos:vue.svg"
                 alt="Vue.js"
               />
               <span>Vue.js</span>
             </div>
             <div class="tech-item">
               <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
+                src="https://api.iconify.design/logos:react.svg"
                 alt="React"
               />
               <span>React</span>
             </div>
             <div class="tech-item">
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg"
-                alt="Sass"
-              />
+              <img src="https://api.iconify.design/logos:sass.svg" alt="Sass" />
               <span>Sass</span>
             </div>
             <div class="tech-item">
               <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg"
+                src="https://api.iconify.design/skill-icons:tailwindcss-dark.svg"
                 alt="Tailwind"
               />
               <span>Tailwind</span>
@@ -329,28 +326,25 @@
           <div class="tech-icons">
             <div class="tech-item">
               <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg"
+                src="https://api.iconify.design/logos:nodejs-icon-alt.svg"
                 alt="Node.js"
               />
               <span>Node.js</span>
             </div>
             <div class="tech-item">
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg"
-                alt="Express"
-              />
-              <span>Express</span>
+              <img src="https://api.iconify.design/logos:aws.svg" alt="AWS" />
+              <span>AWS</span>
             </div>
             <div class="tech-item">
               <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-plain.svg"
-                alt="Laravel"
+                src="https://api.iconify.design/logos:axios.svg"
+                alt="Axios"
               />
-              <span>Laravel</span>
+              <span>Axios</span>
             </div>
             <div class="tech-item">
               <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg"
+                src="https://api.iconify.design/skill-icons:mongodb.svg"
                 alt="MongoDB"
               />
               <span>MongoDB</span>
@@ -362,29 +356,26 @@
           <h3>Ferramentas</h3>
           <div class="tech-icons">
             <div class="tech-item">
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
-                alt="Git"
-              />
+              <img src="https://api.iconify.design/logos:git.svg" alt="Git" />
               <span>Git</span>
             </div>
             <div class="tech-item">
               <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg"
+                src="https://api.iconify.design/logos:figma.svg"
                 alt="Figma"
               />
               <span>Figma</span>
             </div>
             <div class="tech-item">
               <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg"
+                src="https://api.iconify.design/logos:docker.svg"
                 alt="Docker"
               />
               <span>Docker</span>
             </div>
             <div class="tech-item">
               <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/webpack/webpack-original.svg"
+                src="https://api.iconify.design/logos:webpack.svg"
                 alt="Webpack"
               />
               <span>Webpack</span>
@@ -429,6 +420,7 @@
         </div>
       </div>
     </section>
+    <PricingSection />
 
     <!-- CTA Section -->
     <section class="cta-section">
@@ -443,10 +435,13 @@
 </template>
 
 <script>
-import { RouterLink } from "vue-router";
+import PricingSection from "../molecules/PricingSection.vue";
 
 export default {
-  name: "ServicesPage",
+  name: "PageWebsite",
+  components: {
+    PricingSection,
+  },
   data() {
     return {
       portfolio: [
@@ -904,7 +899,8 @@ h2 {
 }
 
 .service-button:hover {
-  background: #e2e8f0;
+  background: #6366f1;
+  color: white;
 }
 
 /* Portfolio Section */
@@ -959,7 +955,7 @@ h2 {
 }
 
 .portfolio-link {
-  color: #4299e1;
+  color: #6366f1;
   text-decoration: none;
   font-weight: 600;
   transition: color 0.3s ease;
@@ -1042,7 +1038,7 @@ h2 {
 .step-number {
   width: 50px;
   height: 50px;
-  background: #4299e1;
+  background: #6366f1;
   color: white;
   border-radius: 50%;
   display: flex;

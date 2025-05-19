@@ -27,6 +27,7 @@
 </template>
 
 <script>
+//revisado
 import { ref, onMounted } from "vue";
 
 export default {

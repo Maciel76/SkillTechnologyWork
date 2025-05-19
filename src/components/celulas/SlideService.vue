@@ -236,7 +236,7 @@ export default {
             "Relatórios de desempenho e estoque",
           ],
           color: "#8B5CF6",
-          path: "/servicos/lojas-virtuais",
+          path: "/servicos/ecommerce",
         },
         {
           icon: "https://api.iconify.design/heroicons:chart-bar.svg",
@@ -320,7 +320,7 @@ export default {
       // Imagens ilustrativas baseadas no serviço
       const images = {
         "Websites Inteligentes":
-          "https://images.unsplash.com/photo-1678690832311-bb6e361989ca?q=80&w=2124&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1604872412583-53667c1a6fcf?q=80&w=2070&auto=format&fit=crop",
         "Desenvolvimento Mobile":
           "https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?q=80&w=2070&auto=format&fit=crop",
         "Edição Profissional":
@@ -444,7 +444,7 @@ export default {
 
 /* Controles do slider */
 .slider-controls {
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   gap: 2rem;

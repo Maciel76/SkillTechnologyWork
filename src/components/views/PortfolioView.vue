@@ -1,723 +1,1196 @@
 <template>
-  <div class="portfolio-view">
-    <!-- Hero Section com Slider -->
-    <section class="hero">
-      <div class="slider-container">
-        <div class="slider" :style="{ transform: `translateX(-${currentSlide * 100}%)` }">
-          <div 
-            class="slide" 
-            v-for="(project, index) in featuredProjects" 
-            :key="'slide-' + index"
-            :style="{ backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(${project.image})` }"
-          >
-            <div class="slide-content">
-              <h1>{{ project.name }}</h1>
-              <p>{{ project.description }}</p>
-              <div class="tags">
-                <span v-for="(tag, i) in project.tags" :key="'tag-' + i">{{ tag }}</span>
-              </div>
-              <button class="cta-button" @click="openProject(project.id)">Ver Detalhes</button>
+  <div class="portfolio-premium">
+    <!-- Hero Section com Projeto Destaque -->
+    <section class="hero-showcase">
+      <div class="showcase-container">
+        <div class="showcase-content">
+          <h1 class="showcase-title">
+            Transformamos ideias em
+            <span>experiências digitais</span> memoráveis
+          </h1>
+          <p class="showcase-description">
+            Explore nosso portfólio de projetos criados com paixão e expertise
+            técnica
+          </p>
+          <div class="showcase-stats">
+            <div class="stat-item">
+              <div class="stat-number">150+</div>
+              <div class="stat-label">Projetos entregues</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">98%</div>
+              <div class="stat-label">Clientes satisfeitos</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">5+</div>
+              <div class="stat-label">Anos de experiência</div>
             </div>
           </div>
         </div>
-        <button class="slider-nav prev" @click="prevSlide">‹</button>
-        <button class="slider-nav next" @click="nextSlide">›</button>
-        <div class="slider-dots">
-          <span 
-            v-for="(dot, index) in featuredProjects.length" 
-            :key="'dot-' + index"
-            :class="{ active: currentSlide === index }"
-            @click="goToSlide(index)"
-          ></span>
-        </div>
-      </div>
-    </section>
-
-    <!-- Sobre a Agência -->
-    <section class="about-section">
-      <div class="about-content">
-        <h2>Creative<span>Dev</span>Studio</h2>
-        <p>"Somos uma agência especializada em desenvolvimento web, criação de sistemas personalizados, lojas virtuais e sites institucionais. Utilizamos as tecnologias mais modernas para garantir alta performance e integramos as inteligências artificiais mais avançadas ao seu site para elevar a experiência do usuário, automatizar processos e impulsionar resultados."</p>
-        <div class="stats">
-          <div class="stat-item">
-            <span class="number">150+</span>
-            <span class="label">Projetos Entregues</span>
-          </div>
-          <div class="stat-item">
-            <span class="number">98%</span>
-            <span class="label">Satisfação do Cliente</span>
-          </div>
-          <div class="stat-item">
-            <span class="number">5+</span>
-            <span class="label">Anos de Experiência</span>
+        <div class="showcase-project">
+          <div
+            class="project-preview"
+            :style="{
+              backgroundImage: `url(${featuredProjects[0].images[0]})`,
+            }"
+          >
+            <div class="project-overlay">
+              <h3>{{ featuredProjects[0].name }}</h3>
+              <p>{{ featuredProjects[0].description }}</p>
+              <button
+                class="explore-btn"
+                @click="openProject(featuredProjects[0].id)"
+              >
+                Explorar Projeto
+              </button>
+            </div>
           </div>
         </div>
       </div>
-      <div class="about-image"></div>
+      <div class="scroll-indicator">
+        <span>Scroll Down</span>
+        <div class="arrow"></div>
+      </div>
     </section>
 
-    <!-- Nossos Serviços -->
-    <section class="services-section">
-      <h2 class="section-title">Nossos <span>Serviços</span></h2>
-      <div class="services-grid">
-        <div 
-          class="service-card" 
-          v-for="(service, index) in services" 
-          :key="'service-' + index"
-          @mouseenter="hoverService(index)"
-          @mouseleave="hoverService(null)"
-          :class="{ hovered: hoveredService === index }"
+    <!-- Seção de Projetos em Destaque -->
+    <section class="featured-projects">
+      <div class="section-header">
+        <h2>Projetos <span>Destaque</span></h2>
+        <p>
+          Alguns dos nossos trabalhos mais impressionantes que criamos para
+          clientes ao redor do mundo
+        </p>
+      </div>
+
+      <div class="projects-grid">
+        <div
+          class="project-card"
+          v-for="(project, index) in featuredProjects"
+          :key="'project-' + index"
+          :class="`project-${index + 1}`"
         >
-          <div class="service-icon" :style="{ backgroundColor: service.color }">
-            {{ service.icon }}
+          <div class="project-media">
+            <img
+              :src="project.images[0]"
+              :alt="project.name"
+              class="project-image"
+            />
+            <div
+              class="project-badge"
+              :style="{ backgroundColor: project.accentColor }"
+            >
+              {{ project.category }}
+            </div>
           </div>
-          <h3>{{ service.title }}</h3>
-          <p>{{ service.description }}</p>
-          <ul class="service-features">
-            <li v-for="(feature, i) in service.features" :key="'feature-' + i">{{ feature }}</li>
-          </ul>
+          <div class="project-details">
+            <h3>{{ project.name }}</h3>
+            <p class="project-excerpt">{{ project.excerpt }}</p>
+            <div class="project-meta">
+              <div class="client-info">
+                <div
+                  class="client-logo"
+                  :style="{ backgroundImage: `url(${project.client.logo})` }"
+                ></div>
+                <span>{{ project.client.name }}</span>
+              </div>
+              <div class="project-year">{{ project.year }}</div>
+            </div>
+            <button class="view-project" @click="openProject(project.id)">
+              Ver Caso de Estudo
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M5 12H19M19 12L12 5M19 12L12 19"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Portfólio de Projetos -->
-    <section class="portfolio-section">
-      <h2 class="section-title">Nosso <span>Portfólio</span></h2>
-      <div class="portfolio-filters">
-        <button 
-          v-for="(filter, index) in filters" 
-          :key="'filter-' + index"
-          @click="setFilter(filter)"
-          :class="{ active: activeFilter === filter }"
+    <!-- Seção de Todos os Projetos -->
+    <section class="all-projects">
+      <div class="section-header">
+        <h2>Nosso <span>Portfólio</span> Completo</h2>
+        <p>
+          Explore nossa coleção completa de projetos criados com excelência e
+          atenção aos detalhes
+        </p>
+      </div>
+
+      <div class="projects-mosaic">
+        <div
+          class="mosaic-item"
+          v-for="(project, index) in allProjects"
+          :key="'mosaic-' + index"
+          :class="`size-${project.size}`"
+          @click="openProject(project.id)"
         >
-          {{ filter }}
+          <div
+            class="mosaic-image"
+            :style="{ backgroundImage: `url(${project.thumbnail})` }"
+          >
+            <div class="mosaic-overlay">
+              <h3>{{ project.name }}</h3>
+              <p>{{ project.category }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção de Reconhecimentos -->
+    <section class="testimonials">
+      <div class="section-header">
+        <h2>O que nossos <span>clientes</span> dizem</h2>
+        <p>Depoimentos de parceiros que confiaram em nosso trabalho</p>
+      </div>
+
+      <div class="testimonials-slider">
+        <div
+          class="slider-track"
+          :style="{ transform: `translateX(-${testimonialPosition}%)` }"
+        >
+          <div
+            class="testimonial-card"
+            v-for="(testimonial, index) in testimonials"
+            :key="'testimonial-' + index"
+          >
+            <div class="testimonial-content">
+              <div class="quote-icon">“</div>
+              <p>{{ testimonial.content }}</p>
+            </div>
+            <div class="testimonial-author">
+              <div
+                class="author-avatar"
+                :style="{ backgroundImage: `url(${testimonial.avatar})` }"
+              ></div>
+              <div class="author-info">
+                <strong>{{ testimonial.name }}</strong>
+                <span
+                  >{{ testimonial.position }}, {{ testimonial.company }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="slider-nav prev" @click="prevTestimonial">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M15 18L9 12L15 6"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+        <button class="slider-nav next" @click="nextTestimonial">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M9 18L15 12L9 6"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
         </button>
       </div>
-      <div class="portfolio-grid">
-        <div 
-          class="portfolio-item" 
-          v-for="(project, index) in filteredProjects" 
-          :key="'project-' + index"
-          @click="openProject(project.id)"
-          :style="{ backgroundImage: `url(${project.thumbnail})` }"
-        >
-          <div class="project-overlay">
-            <h3>{{ project.name }}</h3>
-            <p>{{ project.type }}</p>
-          </div>
-        </div>
-      </div>
     </section>
 
-    <!-- Formulário de Contato -->
-    <section class="contact-section">
-      <h2 class="section-title">Vamos <span>Conversar</span></h2>
-      <form @submit.prevent="submitForm" class="contact-form">
-        <div class="form-group">
-          <input type="text" v-model="form.name" placeholder="Seu Nome" required>
+    <!-- Seção de Chamada para Ação -->
+    <section class="cta-section">
+      <div class="cta-container">
+        <div class="cta-content">
+          <h2>Pronto para transformar sua visão em realidade?</h2>
+          <p>
+            Vamos criar algo extraordinário juntos. Nossa equipe está pronta
+            para levar seu projeto ao próximo nível.
+          </p>
+          <router-link to="/contato" class="router-link">
+            <button class="cta-button" @click="openContact">
+              Inicie seu projeto agora
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M5 12H19M19 12L12 5M19 12L12 19"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          </router-link>
         </div>
-        <div class="form-group">
-          <input type="email" v-model="form.email" placeholder="Seu Email" required>
-        </div>
-        <div class="form-group">
-          <select v-model="form.service" required>
-            <option value="" disabled selected>Selecione um serviço</option>
-            <option v-for="(service, index) in services" :key="'option-' + index" :value="service.title">
-              {{ service.title }}
-            </option>
-          </select>
-        </div>
-        <div class="form-group">
-          <textarea v-model="form.message" placeholder="Conte-nos sobre seu projeto..." required></textarea>
-        </div>
-        <button type="submit" class="submit-btn">Enviar Mensagem</button>
-      </form>
+        <div class="cta-image"></div>
+      </div>
     </section>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'PortfolioView',
+  name: "PortfolioPremium",
   data() {
     return {
-      currentSlide: 0,
-      hoveredService: null,
-      activeFilter: 'Todos',
-      form: {
-        name: '',
-        email: '',
-        service: '',
-        message: ''
-      },
-      filters: ['Todos', 'Web', 'Mobile', 'E-commerce', 'Design'],
+      testimonialPosition: 0,
+      currentTestimonial: 0,
       featuredProjects: [
         {
           id: 1,
-          name: 'Loja Virtual Moderna',
-          description: 'E-commerce completo com integração de pagamentos e gestão de estoque.',
-          image: 'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-          tags: ['Vue.js', 'Node.js', 'MongoDB', 'UI/UX']
+          name: "Plataforma de Educação Digital",
+          description:
+            "Uma solução completa de e-learning com aulas ao vivo, conteúdo interativo e acompanhamento de progresso.",
+          excerpt:
+            "Revolucionando a educação online com tecnologia de ponta e experiência do usuário excepcional.",
+          category: "Web App",
+          year: "2023",
+          accentColor: "#6C5CE7",
+          images: [
+            "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+          ],
+          client: {
+            name: "EduTech Solutions",
+            logo: "https://via.placeholder.com/80",
+          },
+          challenge:
+            "Criar uma plataforma que superasse as limitações dos sistemas de e-learning tradicionais.",
+          solution:
+            "Desenvolvemos uma solução personalizada com vídeos interativos, quizzes em tempo real e relatórios detalhados.",
+          results:
+            "Aumento de 300% no engajamento dos alunos e redução de 40% na taxa de desistência.",
         },
         {
           id: 2,
-          name: 'Aplicativo de Edição de Fotos',
-          description: 'Editor de imagens com IA para ajustes automáticos e filtros personalizados.',
-          image: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-          tags: ['React Native', 'Python', 'Machine Learning']
+          name: "Marketplace de Arte Digital",
+          description:
+            "Plataforma para artistas venderem suas criações digitais com segurança e facilidade.",
+          excerpt:
+            "Conectando artistas digitais com colecionadores em um mercado global.",
+          category: "E-commerce",
+          year: "2022",
+          accentColor: "#00B894",
+          images: [
+            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+          ],
+          client: {
+            name: "ArtChain",
+            logo: "https://via.placeholder.com/80",
+          },
+          challenge:
+            "Criar um mercado justo para arte digital com proteção contra cópias não autorizadas.",
+          solution:
+            "Implementamos um sistema de certificação blockchain para autenticar obras originais.",
+          results:
+            "Mais de 10.000 artistas cadastrados e $2M em vendas no primeiro ano.",
         },
         {
           id: 3,
-          name: 'Portal Corporativo',
-          description: 'Sistema completo para gestão de conteúdo e comunicação empresarial.',
-          image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-          tags: ['Nuxt.js', 'WordPress', 'API REST']
-        }
+          name: "App de Bem-Estar Corporativo",
+          description:
+            "Aplicativo móvel para promover saúde mental e física no ambiente de trabalho.",
+          excerpt:
+            "Transformando a cultura corporativa através do bem-estar digital.",
+          category: "Mobile App",
+          year: "2023",
+          accentColor: "#FD79A8",
+          images: [
+            "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+          ],
+          client: {
+            name: "WellCorp",
+            logo: "https://via.placeholder.com/80",
+          },
+          challenge:
+            "Reduzir o estresse e aumentar a produtividade em grandes corporações.",
+          solution:
+            "Criamos um app com meditações guiadas, desafios de saúde e métricas personalizadas.",
+          results:
+            "Aumento de 25% na satisfação dos funcionários nas empresas que adotaram a solução.",
+        },
       ],
-      services: [
-        {
-          title: 'Desenvolvimento Web',
-          description: 'Sites modernos e sistemas web personalizados com as melhores tecnologias.',
-          icon: '💻',
-          color: '#4e6bff',
-          features: [
-            'Sites institucionais',
-            'Landing Pages',
-            'Sistemas web completos',
-            'Blogs personalizados'
-          ]
-        },
-        {
-          title: 'E-commerce',
-          description: 'Lojas virtuais completas com integração de pagamentos e gestão de produtos.',
-          icon: '🛒',
-          color: '#ff6b4e',
-          features: [
-            'Integração com gateways',
-            'Gestão de estoque',
-            'Checkout otimizado',
-            'Relatórios de vendas'
-          ]
-        },
-        {
-          title: 'Aplicativos Mobile',
-          description: 'Aplicativos nativos e híbridos para iOS e Android com ótima performance.',
-          icon: '📱',
-          color: '#6bff4e',
-          features: [
-            'Apps nativos (Swift/Kotlin)',
-            'Apps híbridos (React Native/Flutter)',
-            'Integração com APIs',
-            'Publicação nas lojas'
-          ]
-        },
-        {
-          title: 'Edição de Imagens',
-          description: 'Manipulação e tratamento profissional de imagens para seus projetos.',
-          icon: '🎨',
-          color: '#ff4e6b',
-          features: [
-            'Retoque fotográfico',
-            'Montagens criativas',
-            'Design de banners',
-            'Imagens para redes sociais'
-          ]
-        }
-      ],
-      projects: [
-        {
-          id: 1,
-          name: 'Loja de Moda Online',
-          type: 'E-commerce',
-          thumbnail: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-          tags: ['web', 'ecommerce']
-        },
-        {
-          id: 2,
-          name: 'App de Fitness',
-          type: 'Mobile',
-          thumbnail: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-          tags: ['mobile']
-        },
-        {
-          id: 3,
-          name: 'Site Corporativo',
-          type: 'Web',
-          thumbnail: 'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-          tags: ['web']
-        },
+      allProjects: [
         {
           id: 4,
-          name: 'Editor de Fotos AI',
-          type: 'Design',
-          thumbnail: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-          tags: ['design']
+          name: "Sistema de Gestão Hospitalar",
+          category: "Sistema Web",
+          thumbnail:
+            "https://images.unsplash.com/photo-1589554882513-691f8f071f72?q=80&w=2070&auto=format&fit=crop",
+          size: "large",
         },
         {
           id: 5,
-          name: 'Blog de Tecnologia',
-          type: 'Web',
-          thumbnail: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-          tags: ['web']
+          name: "Loja Virtual de Moda",
+          category: "E-commerce",
+          thumbnail:
+            "https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+          size: "medium",
         },
         {
           id: 6,
-          name: 'Dashboard Analytics',
-          type: 'Web',
-          thumbnail: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-          tags: ['web']
-        }
-      ]
-    }
+          name: "Portal de Notícias",
+          category: "Website",
+          thumbnail:
+            "https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+          size: "medium",
+        },
+        {
+          id: 7,
+          name: "App de Delivery Gourmet",
+          category: "Mobile App",
+          thumbnail:
+            "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+          size: "small",
+        },
+        {
+          id: 8,
+          name: "Plataforma de Streaming",
+          category: "Web App",
+          thumbnail:
+            "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+          size: "large",
+        },
+        {
+          id: 9,
+          name: "Dashboard Analytics",
+          category: "Sistema Web",
+          thumbnail:
+            "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+          size: "small",
+        },
+        {
+          id: 10,
+          name: "Site Institucional",
+          category: "Website",
+          thumbnail:
+            "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+          size: "small",
+        },
+        {
+          id: 11,
+          name: "App de Finanças Pessoais",
+          category: "Mobile App",
+          thumbnail:
+            "https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+          size: "medium",
+        },
+        {
+          id: 12,
+          name: "Landing Page Premium",
+          category: "Website",
+          thumbnail:
+            "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+          size: "small",
+        },
+        {
+          id: 13,
+          name: "Landing Page Premium",
+          category: "Website",
+          thumbnail:
+            "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+          size: "medium",
+        },
+      ],
+      testimonials: [
+        {
+          name: "Carlos Mendes",
+          position: "CEO",
+          company: "InovaTech",
+          content:
+            "A CreativeDevStudio superou todas as nossas expectativas. Eles não apenas entregaram um produto excepcional, mas também nos guiaram através de todo o processo com profissionalismo e expertise.",
+          avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+        },
+        {
+          name: "Ana Beatriz",
+          position: "Diretora de Marketing",
+          company: "Global Brands",
+          content:
+            "Trabalhar com a CreativeDevStudio foi uma experiência transformadora para nossa empresa. Eles entenderam nossa visão e a levaram a um nível que nem imaginávamos ser possível.",
+          avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+        },
+        {
+          name: "Ricardo Oliveira",
+          position: "Fundador",
+          company: "StartUp Ventures",
+          content:
+            "Como startup, precisávamos de um parceiro que pudesse crescer conosco. A CreativeDevStudio não apenas desenvolveu nossa plataforma, mas se tornou um verdadeiro parceiro estratégico.",
+          avatar: "https://randomuser.me/api/portraits/men/75.jpg",
+        },
+        {
+          name: "Fernanda Costa",
+          position: "Gerente de Produto",
+          company: "Digital Solutions",
+          content:
+            "O nível de detalhe e cuidado que a CreativeDevStudio coloca em cada projeto é impressionante. Eles entregam não apenas código, mas soluções que realmente resolvem problemas.",
+          avatar: "https://randomuser.me/api/portraits/women/63.jpg",
+        },
+      ],
+    };
   },
   computed: {
-    filteredProjects() {
-      if (this.activeFilter === 'Todos') return this.projects;
-      return this.projects.filter(project => 
-        project.tags.includes(this.activeFilter.toLowerCase())
-      );
-    }
+    testimonialStep() {
+      return 100 / this.testimonials.length;
+    },
   },
   methods: {
-    nextSlide() {
-      this.currentSlide = (this.currentSlide + 1) % this.featuredProjects.length;
-    },
-    prevSlide() {
-      this.currentSlide = (this.currentSlide - 1 + this.featuredProjects.length) % this.featuredProjects.length;
-    },
-    goToSlide(index) {
-      this.currentSlide = index;
-    },
-    hoverService(index) {
-      this.hoveredService = index;
-    },
-    setFilter(filter) {
-      this.activeFilter = filter;
-    },
     openProject(id) {
-      console.log('Abrindo projeto:', id);
+      console.log("Abrindo projeto:", id);
+      // Navegar para a página de detalhes do projeto
     },
-    submitForm() {
-      console.log('Formulário enviado:', this.form);
-      alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
-      this.form = {
-        name: '',
-        email: '',
-        service: '',
-        message: ''
-      };
-    }
+    openContact() {
+      console.log("Abrir formulário de contato");
+      // Navegar para a página de contato
+    },
+    nextTestimonial() {
+      this.currentTestimonial =
+        (this.currentTestimonial + 1) % this.testimonials.length;
+      this.testimonialPosition = this.currentTestimonial * this.testimonialStep;
+    },
+    prevTestimonial() {
+      this.currentTestimonial =
+        (this.currentTestimonial - 1 + this.testimonials.length) %
+        this.testimonials.length;
+      this.testimonialPosition = this.currentTestimonial * this.testimonialStep;
+    },
   },
   mounted() {
-    this.slideInterval = setInterval(() => {
-      this.nextSlide();
+    // Auto-rotate testimonials
+    this.testimonialInterval = setInterval(() => {
+      this.nextTestimonial();
     }, 5000);
   },
   beforeUnmount() {
-    clearInterval(this.slideInterval);
-  }
-}
+    clearInterval(this.testimonialInterval);
+  },
+};
 </script>
 
 <style scoped>
-/* Estilos do Hero Section */
-.hero {
-  position: relative;
-  height: 100vh;
-  overflow: hidden;
-  color: white;
+/* Estilos Globais */
+.portfolio-premium {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #2d3436;
+  line-height: 1.6;
+  overflow-x: hidden;
 }
 
-.slider-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  line-height: 1.2;
 }
 
-.slider {
+span {
+  color: #6c5ce7;
+}
+
+/* Hero Showcase */
+.hero-showcase {
+  min-height: 100vh;
   display: flex;
-  height: 100%;
-  transition: transform 0.5s ease-in-out;
+  flex-direction: column;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 0 5%;
+  position: relative;
 }
 
-.slide {
-  min-width: 100%;
-  height: 100%;
+.showcase-container {
   display: flex;
   align-items: center;
-  background-size: cover;
-  background-position: center;
-  padding: 0 10%;
+  flex: 1;
+  padding: 80px 0;
+  gap: 60px;
 }
 
-.slide-content {
+.showcase-content {
+  flex: 1;
   max-width: 600px;
 }
 
-.slide-content h1 {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+.showcase-title {
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.1;
 }
 
-.slide-content p {
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+.showcase-description {
+  font-size: 1.25rem;
+  color: #636e72;
+  margin-bottom: 2.5rem;
+  max-width: 500px;
 }
 
-.tags {
+.showcase-stats {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 2rem;
+  gap: 2rem;
+  margin-top: 3rem;
 }
 
-.tags span {
-  background: rgba(255,255,255,0.2);
-  padding: 0.3rem 0.8rem;
+.stat-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #6c5ce7;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #636e72;
+  margin-top: 0.5rem;
+}
+
+.showcase-project {
+  flex: 1;
+  position: relative;
+  height: 600px;
+  perspective: 1000px;
+}
+
+.project-preview {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: cover;
+  background-position: center;
   border-radius: 20px;
-  font-size: 0.8rem;
+  box-shadow: 0 30px 60px -10px rgba(0, 0, 0, 0.2);
+  transform-style: preserve-3d;
+  transform: rotateY(-5deg) rotateX(5deg);
+  transition: all 0.5s ease;
 }
 
-.cta-button {
-  background: #4e6bff;
+.project-preview:hover {
+  transform: rotateY(0) rotateX(0) translateY(-10px);
+}
+
+.project-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 40px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  color: white;
+  border-radius: 0 0 20px 20px;
+}
+
+.project-overlay h3 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.project-overlay p {
+  margin-bottom: 1.5rem;
+  opacity: 0.9;
+}
+
+.explore-btn {
+  background: #6c5ce7;
   color: white;
   border: none;
-  padding: 0.8rem 2rem;
+  padding: 12px 24px;
   font-size: 1rem;
-  border-radius: 30px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.explore-btn:hover {
+  background: #5649c0;
+  transform: translateY(-2px);
+}
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #636e72;
+  font-size: 0.9rem;
+  animation: bounce 2s infinite;
+}
+
+.arrow {
+  width: 20px;
+  height: 20px;
+  border-right: 2px solid #636e72;
+  border-bottom: 2px solid #636e72;
+  transform: rotate(45deg);
+  margin-top: 8px;
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0) translateX(-50%);
+  }
+  40% {
+    transform: translateY(-10px) translateX(-50%);
+  }
+  60% {
+    transform: translateY(-5px) translateX(-50%);
+  }
+}
+
+/* Section Header */
+.section-header {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 60px;
+}
+
+.section-header h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.section-header p {
+  font-size: 1.1rem;
+  color: #636e72;
+}
+
+/* Featured Projects */
+.featured-projects {
+  padding: 120px 5%;
+  background: white;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.project-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.project-media {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  height: 400px;
+}
+
+.project-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.project-card:hover .project-image {
+  transform: scale(1.05);
+}
+
+.project-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.project-details h3 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.project-excerpt {
+  font-size: 1.1rem;
+  color: #636e72;
+  margin-bottom: 2rem;
+}
+
+.project-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.client-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.client-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  border: 1px solid #eee;
+}
+
+.project-year {
+  font-size: 0.9rem;
+  color: #636e72;
+}
+
+.view-project {
+  background: transparent;
+  color: #6c5ce7;
+  border: none;
+  padding: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.view-project:hover {
+  color: #ffffff;
+  gap: 12px;
+  background-color: #2cabca;
+}
+
+.view-project svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Alternate project layouts */
+.project-2 {
+  direction: rtl;
+}
+
+.project-2 .project-details {
+  direction: ltr;
+}
+
+.project-3 {
+  grid-template-columns: 1.2fr 0.8fr;
+}
+
+/* All Projects */
+.all-projects {
+  padding: 120px 5%;
+  background: #f5f7fa;
+}
+
+.projects-mosaic {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: 240px;
+  gap: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.mosaic-item {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
-.cta-button:hover {
-  background: #3a56e0;
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+.mosaic-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.mosaic-image {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.5s ease;
+}
+
+.mosaic-item:hover .mosaic-image {
+  transform: scale(1.05);
+}
+
+.mosaic-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+  color: white;
+}
+
+.mosaic-overlay h3 {
+  font-size: 1.3rem;
+  margin-bottom: 4px;
+}
+
+.mosaic-overlay p {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.size-large {
+  grid-column: span 6;
+}
+
+.size-medium {
+  grid-column: span 4;
+}
+
+.size-small {
+  grid-column: span 3;
+}
+
+/* Testimonials */
+.testimonials {
+  padding: 120px 5%;
+  background: white;
+}
+
+.testimonials-slider {
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.slider-track {
+  display: flex;
+  transition: transform 0.5s ease;
+  width: 100%;
+}
+
+.testimonial-card {
+  min-width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.testimonial-content {
+  background: #f5f7fa;
+  border-radius: 16px;
+  padding: 40px;
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.quote-icon {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 4rem;
+  color: #6c5ce7;
+  opacity: 0.2;
+  line-height: 1;
+}
+
+.testimonial-content p {
+  font-size: 1.2rem;
+  font-style: italic;
+  color: #2d3436;
+  position: relative;
+  z-index: 1;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.author-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  border: 3px solid #6c5ce7;
+}
+.router-link {
+  text-decoration: none;
+}
+
+.author-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.author-info strong {
+  font-size: 1.1rem;
+}
+
+.author-info span {
+  font-size: 0.9rem;
+  color: #636e72;
 }
 
 .slider-nav {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(255,255,255,0.2);
-  color: white;
-  border: none;
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  font-size: 1.5rem;
+  background: white;
+  border: none;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 10;
   transition: all 0.3s ease;
 }
 
 .slider-nav:hover {
-  background: rgba(255,255,255,0.4);
+  background: #6c5ce7;
+  color: white;
 }
 
-.prev {
-  left: 2rem;
+.slider-nav.prev {
+  left: 0;
 }
 
-.next {
-  right: 2rem;
+.slider-nav.next {
+  right: 0;
 }
 
-.slider-dots {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 0.5rem;
+.slider-nav svg {
+  width: 24px;
+  height: 24px;
 }
 
-.slider-dots span {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.5);
-  cursor: pointer;
-  transition: all 0.3s ease;
+/* CTA Section */
+.cta-section {
+  padding: 120px 5%;
+  background: linear-gradient(135deg, #6c5ce7 0%, #4a3dc0 100%);
+  color: white;
 }
 
-.slider-dots span.active {
-  background: white;
-  transform: scale(1.2);
-}
-
-/* Estilos da seção Sobre */
-.about-section {
-  display: flex;
-  padding: 5rem 10%;
-  background: #f9f9f9;
-}
-
-.about-content {
-  flex: 1;
-  padding-right: 3rem;
-}
-
-.about-content h2 {
-  font-size: 2.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.about-content h2 span {
-  color: #4e6bff;
-}
-
-.about-content p {
-  font-size: 1.1rem;
-  line-height: 1.6;
-  margin-bottom: 2rem;
-  color: #555;
-}
-
-.stats {
-  display: flex;
-  gap: 2rem;
-  margin-top: 2rem;
-}
-
-.stat-item {
-  text-align: center;
-}
-
-.number {
-  display: block;
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #4e6bff;
-}
-
-.label {
-  font-size: 0.9rem;
-  color: #777;
-}
-
-.about-image {
-  flex: 1;
-  background-image: url('https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
-  background-size: cover;
-  background-position: center;
-  border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-}
-
-/* Estilos da seção de Serviços */
-.services-section {
-  padding: 5rem 10%;
-  background: white;
-}
-
-.section-title {
-  text-align: center;
-  font-size: 2.5rem;
-  margin-bottom: 3rem;
-}
-
-.section-title span {
-  color: #4e6bff;
-}
-
-.services-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-}
-
-.service-card {
-  background: white;
-  border-radius: 10px;
-  padding: 2rem;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-  transition: all 0.3s ease;
-  border: 1px solid #eee;
-}
-
-.service-card.hovered {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-  border-color: #4e6bff;
-}
-
-.service-icon {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
+.cta-container {
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 1.8rem;
+  gap: 60px;
+}
+
+.cta-content {
+  flex: 1;
+}
+
+.cta-content h2 {
+  font-size: 2.5rem;
   margin-bottom: 1.5rem;
-  color: white;
 }
 
-.service-card h3 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
+.cta-content p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin-bottom: 2rem;
+  max-width: 500px;
 }
 
-.service-card p {
-  color: #666;
-  margin-bottom: 1.5rem;
-  line-height: 1.6;
-}
-
-.service-features {
-  list-style: none;
-  padding: 0;
-}
-
-.service-features li {
-  padding: 0.5rem 0;
-  color: #555;
-  position: relative;
-  padding-left: 1.5rem;
-}
-
-.service-features li:before {
-  content: '✓';
-  color: #4e6bff;
-  position: absolute;
-  left: 0;
-}
-
-/* Estilos da seção de Portfólio */
-.portfolio-section {
-  padding: 5rem 10%;
-  background: #f9f9f9;
-}
-
-.portfolio-filters {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-bottom: 3rem;
-  flex-wrap: wrap;
-}
-
-.portfolio-filters button {
+.cta-button {
   background: white;
-  border: 1px solid #ddd;
-  padding: 0.5rem 1.5rem;
-  border-radius: 30px;
+  color: #6c5ce7;
+  border: none;
+  padding: 16px 32px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.portfolio-filters button.active {
-  background: #4e6bff;
-  color: white;
-  border-color: #4e6bff;
+.cta-button:hover {
+  background: #f5f7fa;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
-.portfolio-filters button:hover {
-  border-color: #4e6bff;
+.cta-button svg {
+  width: 20px;
+  height: 20px;
 }
 
-.portfolio-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
-}
-
-.portfolio-item {
-  aspect-ratio: 4/3;
+.cta-image {
+  flex: 1;
+  height: 400px;
+  background-image: url("https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&auto=format&fit=crop&");
   background-size: cover;
   background-position: center;
-  border-radius: 10px;
-  overflow: hidden;
-  position: relative;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 }
 
-.portfolio-item:hover {
-  transform: scale(1.03);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+/* Responsividade */
+@media (max-width: 1200px) {
+  .showcase-container {
+    flex-direction: column;
+    padding: 60px 0;
+  }
+
+  .showcase-content {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .showcase-stats {
+    justify-content: center;
+  }
+
+  .showcase-project {
+    width: 100%;
+    height: 500px;
+  }
+
+  .project-card {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .project-2 {
+    direction: ltr;
+  }
+
+  .projects-mosaic {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .size-large,
+  .size-medium,
+  .size-small {
+    grid-column: span 3;
+  }
+
+  .cta-container {
+    flex-direction: column;
+  }
+
+  .cta-content {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .cta-content p {
+    max-width: 100%;
+  }
+
+  .cta-image {
+    width: 100%;
+  }
 }
 
-.project-overlay {
-  position: absolute;
-  bottom: -100%;
-  left: 0;
-  right: 0;
-  background: rgba(78, 107, 255, 0.9);
-  color: white;
-  padding: 1.5rem;
-  transition: all 0.3s ease;
+@media (max-width: 768px) {
+  .showcase-title {
+    font-size: 2.5rem;
+  }
+
+  .section-header h2 {
+    font-size: 2rem;
+  }
+
+  .projects-mosaic {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .size-large,
+  .size-medium,
+  .size-small {
+    grid-column: span 2;
+  }
+
+  .testimonial-content p {
+    font-size: 1rem;
+  }
 }
 
-.portfolio-item:hover .project-overlay {
-  bottom: 0;
-}
+@media (max-width: 480px) {
+  .showcase-title {
+    font-size: 2rem;
+  }
 
-.project-overlay h3 {
-  margin-bottom: 0.5rem;
-}
+  .showcase-stats {
+    flex-direction: column;
+    gap: 1rem;
+  }
 
-/* Estilos da seção de Contato */
-.contact-section {
-  padding: 5rem 10%;
-  background: white;
-}
+  .projects-mosaic {
+    grid-template-columns: 1fr;
+  }
 
-.contact-form {
-  max-width: 800px;
-  margin: 0 auto;
-  background: #f9f9f9;
-  padding: 3rem;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-}
-
-.form-group {
-  margin-bottom: 1.5rem;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-  width: 100%;
-  padding: 0.8rem 1rem;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-  border-color: #4e6bff;
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(78, 107, 255, 0.2);
-}
-
-.form-group textarea {
-  min-height: 150px;
-  resize: vertical;
-}
-
-.submit-btn {
-  background: #4e6bff;
-  color: white;
-  border: none;
-  padding: 1rem 2rem;
-  font-size: 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  width: 100%;
-}
-
-.submit-btn:hover {
-  background: #3a56e0;
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  .size-large,
+  .size-medium,
+  .size-small {
+    grid-column: span 1;
+  }
 }
 </style>

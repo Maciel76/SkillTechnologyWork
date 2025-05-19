@@ -3,14 +3,18 @@
     <!-- Hero Section -->
     <section class="hero-section">
       <div class="hero-content">
-        <h1 class="hero-title">O que nossos clientes dizem</h1>
-        <p class="hero-subtitle">Descubra por que empresas confiam em nossas soluções digitais</p>
+        <h1 class="hero-title">
+          O Que Nossos <span class="highlight">Clientes </span>dizem
+        </h1>
+        <p class="hero-subtitle">
+          Descubra por que empresas confiam em nossas soluções digitais
+        </p>
         <div class="rating-overview">
           <div class="stars">
             <span v-for="i in 5" :key="i" class="star">★</span>
           </div>
           <span class="average">4.9</span>
-          <span class="count">(128 avaliações)</span>
+          <span class="count">(+128 avaliações)</span>
         </div>
       </div>
     </section>
@@ -18,13 +22,15 @@
     <!-- Statistics Section -->
     <section class="stats-section">
       <div class="stats-container">
-        <div 
-          v-for="(stat, index) in stats" 
-          :key="index" 
+        <div
+          v-for="(stat, index) in stats"
+          :key="index"
           class="stat-card"
           :style="{ '--delay': index * 0.1 + 's' }"
         >
-          <div class="stat-number" :ref="el => statRefs[index] = el">{{ stat.prefix }}</div>
+          <div class="stat-number" :ref="(el) => (statRefs[index] = el)">
+            {{ stat.prefix }}
+          </div>
           <div class="stat-label">{{ stat.label }}</div>
         </div>
       </div>
@@ -33,38 +39,46 @@
     <!-- Testimonials Carousel -->
     <section class="testimonials-section">
       <div class="section-header">
-        <h2>Avaliações Reais</h2>
+        <h2>Avaliações <span class="highlight">Reais </span></h2>
         <p>Depoimentos de clientes que já trabalharam conosco</p>
       </div>
-      
+
       <div class="carousel-wrapper">
-        <div 
+        <div
           class="testimonials-carousel"
           :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
         >
-          <div 
-            v-for="(testimonial, index) in testimonials" 
+          <div
+            v-for="(testimonial, index) in testimonials"
             :key="index"
             class="testimonial-card"
-            :class="{ 'active': currentSlide === index }"
+            :class="{ active: currentSlide === index }"
           >
             <div class="testimonial-content">
               <div class="quote-icon">“</div>
               <div class="rating">
-                <span 
-                  v-for="i in 5" 
+                <span
+                  v-for="i in 5"
                   :key="i"
                   class="star"
-                  :class="{ 'filled': i <= testimonial.rating }"
-                >★</span>
+                  :class="{ filled: i <= testimonial.rating }"
+                  >★</span
+                >
               </div>
               <p class="testimonial-text">{{ testimonial.text }}</p>
               <div class="testimonial-author">
-                <img :src="testimonial.photo" :alt="testimonial.name" class="author-photo">
+                <img
+                  :src="testimonial.photo"
+                  :alt="testimonial.name"
+                  class="author-photo"
+                />
                 <div class="author-info">
                   <h4>{{ testimonial.name }}</h4>
                   <p>{{ testimonial.position }}, {{ testimonial.company }}</p>
-                  <div class="project-badge" @click="showProject(testimonial.project)">
+                  <div
+                    class="project-badge"
+                    @click="showProject(testimonial.project)"
+                  >
                     Ver Projeto
                   </div>
                 </div>
@@ -72,19 +86,25 @@
             </div>
           </div>
         </div>
-        
+
         <button class="carousel-nav prev" @click="prevSlide">
-          <svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"
+            />
+          </svg>
         </button>
         <button class="carousel-nav next" @click="nextSlide">
-          <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+          <svg viewBox="0 0 24 24">
+            <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
+          </svg>
         </button>
-        
+
         <div class="carousel-dots">
-          <span 
-            v-for="(dot, index) in testimonials.length" 
+          <span
+            v-for="(dot, index) in testimonials.length"
             :key="index"
-            :class="{ 'active': currentSlide === index }"
+            :class="{ active: currentSlide === index }"
             @click="goToSlide(index)"
           ></span>
         </div>
@@ -94,28 +114,38 @@
     <!-- Projects Showcase -->
     <section class="projects-section">
       <div class="section-header">
-        <h2>Projetos com Avaliações</h2>
+        <h2>Projetos com <span class="highlight">Avaliações </span></h2>
         <p>Conheça alguns trabalhos que receberam feedbacks excelentes</p>
       </div>
-      
+
       <div class="projects-grid">
-        <div 
-          v-for="(project, index) in projects" 
+        <div
+          v-for="(project, index) in projects"
           :key="index"
           class="project-card"
           @click="openProjectModal(project)"
         >
           <div class="project-image">
-            <img :src="project.image" :alt="project.title">
+            <img :src="project.image" :alt="project.title" />
             <div class="project-rating">
-              <span v-for="i in 5" :key="i" class="star" :class="{ 'filled': i <= project.rating }">★</span>
+              <span
+                v-for="i in 5"
+                :key="i"
+                class="stars"
+                :class="{ filled: i <= project.rating }"
+                >★</span
+              >
             </div>
           </div>
           <div class="project-info">
             <h3>{{ project.title }}</h3>
             <p>{{ project.shortDescription }}</p>
             <div class="client-info">
-              <img :src="project.clientPhoto" :alt="project.clientName" class="client-photo">
+              <img
+                :src="project.clientPhoto"
+                :alt="project.clientName"
+                class="client-photo"
+              />
               <div>
                 <p class="client-name">{{ project.clientName }}</p>
                 <p class="client-position">{{ project.clientPosition }}</p>
@@ -129,148 +159,220 @@
     <!-- Share Experience Section -->
     <section class="share-section">
       <div class="share-content">
-        <h2>Compartilhe sua experiência</h2>
-        <p>Nos conte como foi trabalhar conosco e apareça em nossa página de avaliações</p>
+        <h2>Compartilhe sua <span class="highlight">Experiência</span></h2>
+        <p>
+          Nos conte como foi trabalhar conosco e apareça em nossa página de
+          avaliações
+        </p>
         <button class="share-btn" @click="openFeedbackModal">
-          <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"
+            />
+          </svg>
           Avaliar Experiência
         </button>
       </div>
     </section>
 
     <!-- Feedback Modal -->
-    <div v-if="showFeedbackModal" class="feedback-modal" @click.self="closeFeedbackModal">
+    <div
+      v-if="showFeedbackModal"
+      class="feedback-modal"
+      @click.self="closeFeedbackModal"
+    >
       <div class="modal-container">
         <button class="close-modal" @click="closeFeedbackModal">
-          <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            />
+          </svg>
         </button>
-        
-        <div class="modal-content" :class="{ 'submitted': formSubmitted }">
+
+        <div class="modal-content" :class="{ submitted: formSubmitted }">
           <div class="form-section" v-if="!formSubmitted">
-            <h2>Avalie sua experiência</h2>
+            <h2>Avalie sua <span class="highlight">Experiência</span></h2>
             <p>Nos conte como foi trabalhar com nossa equipe</p>
-            
+
             <form @submit.prevent="submitFeedback">
               <div class="form-group">
                 <label>Seu nome</label>
-                <input type="text" v-model="feedbackForm.name" required>
+                <input type="text" v-model="feedbackForm.name" required />
               </div>
-              
+
               <div class="form-group">
                 <label>Seu cargo</label>
-                <input type="text" v-model="feedbackForm.position" required>
+                <input type="text" v-model="feedbackForm.position" required />
               </div>
-              
+
               <div class="form-group">
                 <label>Nome da empresa</label>
-                <input type="text" v-model="feedbackForm.company" required>
+                <input type="text" v-model="feedbackForm.company" required />
               </div>
-              
+
               <div class="form-group">
                 <label>Sua avaliação (1-5 estrelas)</label>
                 <div class="rating-input">
-                  <span 
-                    v-for="i in 5" 
+                  <span
+                    v-for="i in 5"
                     :key="i"
                     class="star"
-                    :class="{ 'selected': i <= feedbackForm.rating }"
+                    :class="{ selected: i <= feedbackForm.rating }"
                     @click="feedbackForm.rating = i"
-                  >★</span>
+                    >★</span
+                  >
                 </div>
               </div>
-              
+
               <div class="form-group">
                 <label>Seu depoimento</label>
-                <textarea v-model="feedbackForm.testimonial" required></textarea>
+                <textarea
+                  v-model="feedbackForm.testimonial"
+                  required
+                ></textarea>
               </div>
-              
+
               <div class="form-group photo-upload">
                 <label>
-                  <input type="file" @change="handlePhotoUpload" accept="image/*">
+                  <input
+                    type="file"
+                    @change="handlePhotoUpload"
+                    accept="image/*"
+                  />
                   <span class="upload-btn">
-                    <svg viewBox="0 0 24 24"><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.86 8.86l-3 3.87L9 13.14 6 17h12l-3.86-5.14z"/></svg>
+                    <svg viewBox="0 0 24 24">
+                      <path
+                        d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.86 8.86l-3 3.87L9 13.14 6 17h12l-3.86-5.14z"
+                      />
+                    </svg>
                     Adicionar foto
                   </span>
-                  <span v-if="feedbackForm.photo" class="file-name">{{ feedbackForm.photo.name }}</span>
+                  <span v-if="feedbackForm.photo" class="file-name">{{
+                    feedbackForm.photo.name
+                  }}</span>
                 </label>
               </div>
-              
+
               <button type="submit" class="submit-btn" :disabled="isSubmitting">
-                {{ isSubmitting ? 'Enviando...' : 'Enviar Avaliação' }}
+                {{ isSubmitting ? "Enviando..." : "Enviar Avaliação" }}
               </button>
             </form>
           </div>
-          
+
           <div class="success-section" v-else>
             <div class="success-animation">
               <svg class="checkmark" viewBox="0 0 52 52">
-                <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
-                <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                <circle
+                  class="checkmark-circle"
+                  cx="26"
+                  cy="26"
+                  r="25"
+                  fill="none"
+                />
+                <path
+                  class="checkmark-check"
+                  fill="none"
+                  d="M14.1 27.2l7.1 7.2 16.7-16.8"
+                />
               </svg>
             </div>
             <h2>Avaliação enviada!</h2>
             <p>Muito obrigado por compartilhar sua experiência conosco.</p>
-            <button class="close-btn" @click="closeFeedbackModal">Fechar</button>
+            <button class="close-btn" @click="closeFeedbackModal">
+              Fechar
+            </button>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Project Modal -->
-    <div v-if="selectedProject" class="project-modal" @click.self="closeProjectModal">
+    <div
+      v-if="selectedProject"
+      class="project-modal"
+      @click.self="closeProjectModal"
+    >
       <div class="modal-container">
         <button class="close-modal" @click="closeProjectModal">
-          <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            />
+          </svg>
         </button>
-        
+
         <div class="modal-content">
           <div class="project-gallery">
-            <img :src="selectedProject.image" :alt="selectedProject.title" class="main-image">
+            <img
+              :src="selectedProject.image"
+              :alt="selectedProject.title"
+              class="main-image"
+            />
             <div class="thumbnails">
-              <img 
-                v-for="(img, index) in selectedProject.images" 
+              <img
+                v-for="(img, index) in selectedProject.images"
                 :key="index"
                 :src="img"
                 :alt="'Thumbnail ' + (index + 1)"
                 @click="selectedProject.image = img"
-                :class="{ 'active': selectedProject.image === img }"
-              >
+                :class="{ active: selectedProject.image === img }"
+              />
             </div>
           </div>
-          
+
           <div class="project-details">
             <div class="project-header">
               <h2>{{ selectedProject.title }}</h2>
               <div class="project-rating">
-                <span v-for="i in 5" :key="i" class="star" :class="{ 'filled': i <= selectedProject.rating }">★</span>
+                <span
+                  v-for="i in 5"
+                  :key="i"
+                  class="star"
+                  :class="{ filled: i <= selectedProject.rating }"
+                  >★</span
+                >
                 <span class="rating-value">{{ selectedProject.rating }}.0</span>
               </div>
             </div>
-            
+
             <p class="project-description">{{ selectedProject.description }}</p>
-            
+
             <div class="client-testimonial">
               <div class="testimonial-content">
                 <div class="quote-icon">“</div>
                 <p>{{ selectedProject.testimonial }}</p>
                 <div class="client-info">
-                  <img :src="selectedProject.clientPhoto" :alt="selectedProject.clientName" class="client-photo">
+                  <img
+                    :src="selectedProject.clientPhoto"
+                    :alt="selectedProject.clientName"
+                    class="client-photo"
+                  />
                   <div>
                     <h4>{{ selectedProject.clientName }}</h4>
-                    <p>{{ selectedProject.clientPosition }}, {{ selectedProject.clientCompany }}</p>
+                    <p>
+                      {{ selectedProject.clientPosition }},
+                      {{ selectedProject.clientCompany }}
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
-            
+
             <div class="project-tech">
               <h3>Tecnologias utilizadas</h3>
               <div class="tech-tags">
-                <span v-for="(tech, index) in selectedProject.technologies" :key="index">{{ tech }}</span>
+                <span
+                  v-for="(tech, index) in selectedProject.technologies"
+                  :key="index"
+                  >{{ tech }}</span
+                >
               </div>
             </div>
-            
-            <a :href="selectedProject.link" target="_blank" class="project-link">Visitar Projeto</a>
+
+            <a :href="selectedProject.link" target="_blank" class="project-link"
+              >Visitar Projeto</a
+            >
           </div>
         </div>
       </div>
@@ -279,173 +381,257 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted } from "vue";
 
 export default {
-  name: 'FeedbackView',
+  name: "FeedbackView",
   setup() {
     // Dados reativos
-    const currentSlide = ref(0)
-    const selectedProject = ref(null)
-    const showFeedbackModal = ref(false)
-    const formSubmitted = ref(false)
-    const isSubmitting = ref(false)
-    const statRefs = ref([])
-    
+    const currentSlide = ref(0);
+    const selectedProject = ref(null);
+    const showFeedbackModal = ref(false);
+    const formSubmitted = ref(false);
+    const isSubmitting = ref(false);
+    const statRefs = ref([]);
+
     // Formulário de feedback
     const feedbackForm = ref({
-      name: '',
-      position: '',
-      company: '',
+      name: "",
+      position: "",
+      company: "",
       rating: 0,
-      testimonial: '',
-      photo: null
-    })
-    
+      testimonial: "",
+      photo: null,
+    });
+
     // Estatísticas
     const stats = ref([
-      { value: 500, prefix: '500+', label: 'Clientes Satisfeitos' },
-      { value: 1000, prefix: '1000+', label: 'Projetos Entregues' },
-      { value: 98, prefix: '98%', label: 'Taxa de Satisfação' },
-      { value: 24, prefix: '24/7', label: 'Suporte Dedicado' }
-    ])
-    
+      { value: 500, prefix: "500+", label: "Clientes Satisfeitos" },
+      { value: 1000, prefix: "1000+", label: "Projetos Entregues" },
+      { value: 98, prefix: "98%", label: "Taxa de Satisfação" },
+      { value: 24, prefix: "24/7", label: "Suporte Dedicado" },
+    ]);
+
     // Depoimentos
     const testimonials = ref([
       {
-        name: 'João Silva',
-        position: 'CEO',
-        company: 'Empresa X',
+        name: "João Silva",
+        position: "CEO",
+        company: "Empresa X",
         rating: 5,
-        text: 'A equipe foi incrível! Entregaram um site moderno e funcional que superou nossas expectativas em todos os aspectos.',
-        photo: 'https://randomuser.me/api/portraits/men/32.jpg',
-        project: 0
+        text: "A equipe foi incrível! Entregaram um site moderno e funcional que superou nossas expectativas em todos os aspectos.",
+        photo: "https://randomuser.me/api/portraits/men/32.jpg",
+        project: 0,
       },
       {
-        name: 'Maria Souza',
-        position: 'Fundadora',
-        company: 'Startup Y',
+        name: "Maria Souza",
+        position: "Fundadora",
+        company: "Startup Y",
         rating: 5,
-        text: 'Fiquei impressionada com a atenção aos detalhes. Nosso site não só ficou lindo, mas também aumentou nossas conversões em 40%.',
-        photo: 'https://randomuser.me/api/portraits/women/44.jpg',
-        project: 1
+        text: "Fiquei impressionada com a atenção aos detalhes. Nosso site não só ficou lindo, mas também aumentou nossas conversões em 40%.",
+        photo: "https://randomuser.me/api/portraits/women/44.jpg",
+        project: 1,
       },
       {
-        name: 'Carlos Oliveira',
-        position: 'Diretor',
-        company: 'Empresa Z',
+        name: "Carlos Oliveira",
+        position: "Diretor",
+        company: "Empresa Z",
         rating: 4,
-        text: 'Trabalhar com essa equipe foi uma experiência excelente. Rápidos, eficientes e sempre abertos a feedbacks e ajustes.',
-        photo: 'https://randomuser.me/api/portraits/men/75.jpg',
-        project: 2
-      }
-    ])
-    
+        text: "Trabalhar com essa equipe foi uma experiência excelente. Rápidos, eficientes e sempre abertos a feedbacks e ajustes.",
+        photo: "https://randomuser.me/api/portraits/men/75.jpg",
+        project: 2,
+      },
+    ]);
+
     // Projetos
     const projects = ref([
       {
         id: 0,
-        title: 'E-commerce Premium',
-        shortDescription: 'Plataforma de vendas online completa',
-        description: 'Desenvolvimento de uma plataforma de e-commerce com integração de pagamentos, gestão de estoque em tempo real e dashboard analítico para acompanhamento de métricas.',
-        image: 'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=800',
+        title: "E-commerce Premium",
+        shortDescription: "Plataforma de vendas online completa",
+        description:
+          "Desenvolvimento de uma plataforma de e-commerce com integração de pagamentos, gestão de estoque em tempo real e dashboard analítico para acompanhamento de métricas.",
+        image:
+          "https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=800",
         images: [
-          'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=800',
-          'https://images.unsplash.com/photo-1522252234503-e356532cafd5?w=800',
-          'https://images.unsplash.com/photo-1486401899868-0e435ed85128?w=800'
+          "https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=800",
+          "https://images.unsplash.com/photo-1522252234503-e356532cafd5?w=800",
+          "https://images.unsplash.com/photo-1486401899868-0e435ed85128?w=800",
         ],
         rating: 5,
-        testimonial: 'O e-commerce que desenvolvemos com a equipe superou todas nossas expectativas. A plataforma é intuitiva, rápida e já nos trouxe um aumento de 60% nas vendas no primeiro trimestre.',
-        clientName: 'João Silva',
-        clientPosition: 'CEO',
-        clientCompany: 'Fashion Store',
-        clientPhoto: 'https://randomuser.me/api/portraits/men/32.jpg',
-        technologies: ['Vue.js', 'Node.js', 'MongoDB', 'Stripe', 'AWS'],
-        link: '#'
+        testimonial:
+          "O e-commerce que desenvolvemos com a equipe superou todas nossas expectativas. A plataforma é intuitiva, rápida e já nos trouxe um aumento de 60% nas vendas no primeiro trimestre.",
+        clientName: "João Silva",
+        clientPosition: "CEO",
+        clientCompany: "Fashion Store",
+        clientPhoto: "https://randomuser.me/api/portraits/men/32.jpg",
+        technologies: ["Vue.js", "Node.js", "MongoDB", "Stripe", "AWS"],
+        link: "#",
       },
       {
         id: 1,
-        title: 'App de Delivery',
-        shortDescription: 'Aplicativo para entregas em tempo real',
-        description: 'Desenvolvimento de aplicativo mobile para gestão e rastreamento de entregas com integração ao Google Maps e notificações em tempo real para clientes e entregadores.',
-        image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800',
+        title: "App de Delivery",
+        shortDescription: "Aplicativo para entregas em tempo real",
+        description:
+          "Desenvolvimento de aplicativo mobile para gestão e rastreamento de entregas com integração ao Google Maps e notificações em tempo real para clientes e entregadores.",
+        image:
+          "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800",
         images: [
-          'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800',
-          'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800',
-          'https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=800'
+          "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800",
+          "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800",
+          "https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=800",
         ],
         rating: 5,
-        testimonial: 'O aplicativo revolucionou nosso negócio. Agora temos controle total sobre as entregas e nossos clientes podem acompanhar em tempo real. A equipe foi extremamente profissional em todo o processo.',
-        clientName: 'Maria Souza',
-        clientPosition: 'Fundadora',
-        clientCompany: 'FastDelivery',
-        clientPhoto: 'https://randomuser.me/api/portraits/women/44.jpg',
-        technologies: ['React Native', 'Firebase', 'Google Maps API', 'Redux'],
-        link: '#'
+        testimonial:
+          "O aplicativo revolucionou nosso negócio. Agora temos controle total sobre as entregas e nossos clientes podem acompanhar em tempo real. A equipe foi extremamente profissional em todo o processo.",
+        clientName: "Maria Souza",
+        clientPosition: "Fundadora",
+        clientCompany: "FastDelivery",
+        clientPhoto: "https://randomuser.me/api/portraits/women/44.jpg",
+        technologies: ["React Native", "Firebase", "Google Maps API", "Redux"],
+        link: "#",
       },
+
       {
         id: 2,
-        title: 'Portal Corporativo',
-        shortDescription: 'Website institucional moderno',
-        description: 'Desenvolvimento de portal corporativo com gestão de conteúdo, blog integrado e área restrita para clientes com documentos e relatórios personalizados.',
-        image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800',
+        title: "Portal Corporativo",
+        shortDescription: "Website institucional moderno",
+        description:
+          "Desenvolvimento de portal corporativo com gestão de conteúdo, blog integrado e área restrita para clientes com documentos e relatórios personalizados.",
+        image:
+          "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800",
         images: [
-          'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800',
-          'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800',
-          'https://images.unsplash.com/photo-1547658719-da2b51169166?w=800'
+          "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800",
+          "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800",
+          "https://images.unsplash.com/photo-1547658719-da2b51169166?w=800",
         ],
         rating: 4,
-        testimonial: 'O portal reflete perfeitamente nossa marca e valores. A equipe captou nossa essência e transformou em um site moderno e funcional que recebe elogios constantemente.',
-        clientName: 'Carlos Oliveira',
-        clientPosition: 'Diretor',
-        clientCompany: 'Global Corp',
-        clientPhoto: 'https://randomuser.me/api/portraits/men/75.jpg',
-        technologies: ['Nuxt.js', 'WordPress API', 'Tailwind CSS', 'GraphQL'],
-        link: '#'
-      }
-    ])
-    
+        testimonial:
+          "O portal reflete perfeitamente nossa marca e valores. A equipe captou nossa essência e transformou em um site moderno e funcional que recebe elogios constantemente.",
+        clientName: "Carlos Oliveira",
+        clientPosition: "Diretor",
+        clientCompany: "Global Corp",
+        clientPhoto: "https://randomuser.me/api/portraits/men/75.jpg",
+        technologies: ["Nuxt.js", "WordPress API", "Tailwind CSS", "GraphQL"],
+        link: "#",
+      },
+      {
+        id: 3,
+        title: "App de Delivery",
+        shortDescription: "Aplicativo para entregas em tempo real",
+        description:
+          "Desenvolvimento de aplicativo mobile para gestão e rastreamento de entregas com integração ao Google Maps e notificações em tempo real para clientes e entregadores.",
+        image:
+          "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800",
+        images: [
+          "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800",
+          "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800",
+          "https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=800",
+        ],
+        rating: 5,
+        testimonial:
+          "O aplicativo revolucionou nosso negócio. Agora temos controle total sobre as entregas e nossos clientes podem acompanhar em tempo real. A equipe foi extremamente profissional em todo o processo.",
+        clientName: "Maria Souza",
+        clientPosition: "Fundadora",
+        clientCompany: "FastDelivery",
+        clientPhoto: "https://randomuser.me/api/portraits/women/44.jpg",
+        technologies: ["React Native", "Firebase", "Google Maps API", "Redux"],
+        link: "#",
+      },
+      {
+        id: 4,
+        title: "App de Delivery",
+        shortDescription: "Aplicativo para entregas em tempo real",
+        description:
+          "Desenvolvimento de aplicativo mobile para gestão e rastreamento de entregas com integração ao Google Maps e notificações em tempo real para clientes e entregadores.",
+        image:
+          "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800",
+        images: [
+          "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800",
+          "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800",
+          "https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=800",
+        ],
+        rating: 5,
+        testimonial:
+          "O aplicativo revolucionou nosso negócio. Agora temos controle total sobre as entregas e nossos clientes podem acompanhar em tempo real. A equipe foi extremamente profissional em todo o processo.",
+        clientName: "Maria Souza",
+        clientPosition: "Fundadora",
+        clientCompany: "FastDelivery",
+        clientPhoto: "https://randomuser.me/api/portraits/women/44.jpg",
+        technologies: ["React Native", "Firebase", "Google Maps API", "Redux"],
+        link: "#",
+      },
+      {
+        id: 5,
+        title: "App de Delivery",
+        shortDescription: "Aplicativo para entregas em tempo real",
+        description:
+          "Desenvolvimento de aplicativo mobile para gestão e rastreamento de entregas com integração ao Google Maps e notificações em tempo real para clientes e entregadores.",
+        image:
+          "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800",
+        images: [
+          "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800",
+          "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800",
+          "https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=800",
+          "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800",
+          "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800",
+          "https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=800",
+        ],
+        rating: 5,
+        testimonial:
+          "O aplicativo revolucionou nosso negócio. Agora temos controle total sobre as entregas e nossos clientes podem acompanhar em tempo real. A equipe foi extremamente profissional em todo o processo.",
+        clientName: "Maria Souza",
+        clientPosition: "Fundadora",
+        clientCompany: "FastDelivery",
+        clientPhoto: "https://randomuser.me/api/portraits/women/44.jpg",
+        technologies: ["React Native", "Firebase", "Google Maps API", "Redux"],
+        link: "#",
+      },
+    ]);
+
     // Métodos
     const nextSlide = () => {
-      currentSlide.value = (currentSlide.value + 1) % testimonials.value.length
-    }
-    
+      currentSlide.value = (currentSlide.value + 1) % testimonials.value.length;
+    };
+
     const prevSlide = () => {
-      currentSlide.value = (currentSlide.value - 1 + testimonials.value.length) % testimonials.value.length
-    }
-    
+      currentSlide.value =
+        (currentSlide.value - 1 + testimonials.value.length) %
+        testimonials.value.length;
+    };
+
     const goToSlide = (index) => {
-      currentSlide.value = index
-    }
-    
+      currentSlide.value = index;
+    };
+
     const openProjectModal = (project) => {
-      selectedProject.value = project
-      document.body.style.overflow = 'hidden'
-    }
-    
+      selectedProject.value = project;
+      document.body.style.overflow = "hidden";
+    };
+
     const closeProjectModal = () => {
-      selectedProject.value = null
-      document.body.style.overflow = 'auto'
-    }
-    
+      selectedProject.value = null;
+      document.body.style.overflow = "auto";
+    };
+
     const openFeedbackModal = () => {
-      showFeedbackModal.value = true
-      document.body.style.overflow = 'hidden'
-    }
-    
+      showFeedbackModal.value = true;
+      document.body.style.overflow = "hidden";
+    };
+
     const closeFeedbackModal = () => {
-      showFeedbackModal.value = false
-      formSubmitted.value = false
-      document.body.style.overflow = 'auto'
-    }
-    
+      showFeedbackModal.value = false;
+      formSubmitted.value = false;
+      document.body.style.overflow = "auto";
+    };
+
     const handlePhotoUpload = (event) => {
-      feedbackForm.value.photo = event.target.files[0]
-    }
-    
+      feedbackForm.value.photo = event.target.files[0];
+    };
+
     const submitFeedback = () => {
-      isSubmitting.value = true
-      
+      isSubmitting.value = true;
+
       // Simulação de envio
       setTimeout(() => {
         // Adiciona o novo depoimento à lista
@@ -455,70 +641,77 @@ export default {
           company: feedbackForm.value.company,
           rating: feedbackForm.value.rating,
           text: feedbackForm.value.testimonial,
-          photo: feedbackForm.value.photo ? URL.createObjectURL(feedbackForm.value.photo) : 'https://randomuser.me/api/portraits/lego/1.jpg',
-          project: null
-        })
-        
+          photo: feedbackForm.value.photo
+            ? URL.createObjectURL(feedbackForm.value.photo)
+            : "https://randomuser.me/api/portraits/lego/1.jpg",
+          project: null,
+        });
+
         // Reseta o formulário
         feedbackForm.value = {
-          name: '',
-          position: '',
-          company: '',
+          name: "",
+          position: "",
+          company: "",
           rating: 0,
-          testimonial: '',
-          photo: null
-        }
-        
-        isSubmitting.value = false
-        formSubmitted.value = true
-      }, 1500)
-    }
-    
+          testimonial: "",
+          photo: null,
+        };
+
+        isSubmitting.value = false;
+        formSubmitted.value = true;
+      }, 1500);
+    };
+
     const showProject = (projectIndex) => {
-      openProjectModal(projects.value[projectIndex])
-    }
-    
+      openProjectModal(projects.value[projectIndex]);
+    };
+
     // Animações
     const animateStats = () => {
       stats.value.forEach((stat, index) => {
-        const element = statRefs.value[index]
-        if (!element) return
-        
-        const target = stat.value
-        const duration = 2000
-        const increment = target / (duration / 16)
-        let current = 0
-        
+        const element = statRefs.value[index];
+        if (!element) return;
+
+        const target = stat.value;
+        const duration = 2000;
+        const increment = target / (duration / 16);
+        let current = 0;
+
         const updateCounter = () => {
-          current += increment
+          current += increment;
           if (current < target) {
-            element.textContent = Math.floor(current) + (index === 2 ? '%' : index === 3 ? '/7' : '+')
-            requestAnimationFrame(updateCounter)
+            element.textContent =
+              Math.floor(current) +
+              (index === 2 ? "%" : index === 3 ? "/7" : "+");
+            requestAnimationFrame(updateCounter);
           } else {
-            element.textContent = stat.prefix
+            element.textContent = stat.prefix;
           }
-        }
-        
-        const observer = new IntersectionObserver((entries) => {
-          if (entries[0].isIntersecting) {
-            updateCounter()
-            observer.disconnect()
-          }
-        }, { threshold: 0.5 })
-        
-        observer.observe(element)
-      })
-    }
-    
+        };
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            if (entries[0].isIntersecting) {
+              updateCounter();
+              observer.disconnect();
+            }
+          },
+          { threshold: 0.5 }
+        );
+
+        observer.observe(element);
+      });
+    };
+
     // Ciclo de vida
     onMounted(() => {
       // Auto-rotate carousel
-      setInterval(nextSlide, 5000)
-      
+      setInterval(nextSlide, 5000);
+
       // Animar estatísticas quando visíveis
-      animateStats()
-    })
-    
+      animateStats();
+    });
+
     return {
       currentSlide,
       selectedProject,
@@ -539,10 +732,10 @@ export default {
       closeFeedbackModal,
       handlePhotoUpload,
       submitFeedback,
-      showProject
-    }
-  }
-}
+      showProject,
+    };
+  },
+};
 </script>
 
 <style scoped>
@@ -552,14 +745,14 @@ export default {
   --primary-light: #3b82f6;
   --primary-dark: #1d4ed8;
   --secondary: #f59e0b;
-  --dark: #1e293b;
+  --dark: #4d4e4e;
   --light: #f8fafc;
   --gray: #64748b;
   --light-gray: #e2e8f0;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
-  --shadow: 0 4px 6px rgba(0,0,0,0.1);
-  --shadow-md: 0 10px 15px rgba(0,0,0,0.1);
-  --shadow-lg: 0 20px 25px rgba(0,0,0,0.1);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 20px 25px rgba(0, 0, 0, 0.1);
   --radius: 8px;
   --radius-lg: 12px;
 }
@@ -572,7 +765,7 @@ export default {
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   line-height: 1.5;
   color: var(--dark);
 }
@@ -620,7 +813,6 @@ button {
 /* Hero Section */
 .hero-section {
   background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color: white;
   padding: 6rem 1rem;
   text-align: center;
   position: relative;
@@ -628,13 +820,16 @@ button {
 }
 
 .hero-section::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
+  background-image: radial-gradient(
+    rgba(255, 255, 255, 0.1) 1px,
+    transparent 1px
+  );
   background-size: 20px 20px;
   opacity: 0.2;
 }
@@ -668,7 +863,7 @@ button {
 
 .stars {
   display: flex;
-  color: var(--secondary);
+  color: rgb(236, 199, 130);
   font-size: 1.5rem;
   letter-spacing: 2px;
 }
@@ -681,6 +876,23 @@ button {
 .count {
   opacity: 0.8;
   font-size: 0.9rem;
+}
+.highlight {
+  color: #0052ff;
+  position: relative;
+}
+
+.highlight::after {
+  content: "";
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background: rgba(151, 11, 128, 0.2);
+  z-index: 0;
+  border-radius: 4px;
+  transform: skewX(-15deg);
 }
 
 /* Stats Section */
@@ -709,10 +921,18 @@ button {
   animation: fadeInUp 0.6s forwards;
 }
 
-.stat-card:nth-child(1) { animation-delay: 0.1s; }
-.stat-card:nth-child(2) { animation-delay: 0.2s; }
-.stat-card:nth-child(3) { animation-delay: 0.3s; }
-.stat-card:nth-child(4) { animation-delay: 0.4s; }
+.stat-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.stat-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.stat-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.stat-card:nth-child(4) {
+  animation-delay: 0.4s;
+}
 
 .stat-card:hover {
   transform: translateY(-5px);
@@ -780,12 +1000,12 @@ button {
 }
 
 .star {
-  color: var(--light-gray);
+  color: orange;
   font-size: 1.25rem;
 }
 
 .star.filled {
-  color: var(--secondary);
+  color: orange;
 }
 
 .testimonial-text {
@@ -895,111 +1115,36 @@ button {
 .projects-section {
   padding: 5rem 0;
   background-color: var(--light);
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centraliza horizontalmente */
+}
+
+.projects-section > h2,
+.projects-section > p {
+  text-align: center; /* Centraliza textos de título e descrição */
+  max-width: 800px; /* Opcional: define largura máxima para melhor leitura */
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 1rem; /* Adiciona um pequeno padding nas laterais */
 }
 
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 2rem;
-}
-
-.project-card {
-  background: white;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  box-shadow: var(--shadow);
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.project-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-lg);
-}
-
-.project-image {
-  position: relative;
-  height: 200px;
-  overflow: hidden;
-}
-
-.project-image img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
-
-.project-card:hover .project-image img {
-  transform: scale(1.05);
-}
-
-.project-rating {
-  position: absolute;
-  bottom: 1rem;
-  right: 1rem;
-  background: rgba(0,0,0,0.7);
-  padding: 0.25rem 0.75rem;
-  border-radius: 50px;
-  display: flex;
-  gap: 0.25rem;
-}
-
-.project-rating .star {
-  font-size: 0.9rem;
-  color: var(--light-gray);
-}
-
-.project-rating .star.filled {
-  color: var(--secondary);
-}
-
-.project-info {
-  padding: 1.5rem;
-}
-
-.project-info h3 {
-  font-size: 1.25rem;
-  margin-bottom: 0.5rem;
-  color: var(--dark);
-}
-
-.project-info p {
-  color: var(--gray);
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
-}
-
-.client-info {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-top: 1rem;
-}
-
-.client-photo {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.client-name {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--dark);
-}
-
-.client-position {
-  font-size: 0.8rem;
-  color: var(--gray);
+  max-width: 1200px; /* Define uma largura máxima para o grid */
+  margin: 0 auto; /* Centraliza o grid */
+  padding: 0 1rem; /* Adiciona um pequeno padding nas laterais */
+  cursor: pointer; /* Adiciona cursor pointer para indicar interatividade */
 }
 
 /* Share Section */
 .share-section {
   padding: 5rem 0;
   background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color: white;
+
   text-align: center;
 }
 
@@ -1025,16 +1170,16 @@ button {
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
   background: white;
-  color: var(--primary);
+  color: rgb(24, 81, 165);
   border-radius: 50px;
   font-weight: 600;
   transition: all 0.3s ease;
 }
 
 .share-btn:hover {
-  background: rgba(255,255,255,0.9);
+  background: rgba(255, 255, 255, 0.9);
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .share-btn svg {
@@ -1050,7 +1195,7 @@ button {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1123,6 +1268,7 @@ button {
 
 .form-group input,
 .form-group textarea {
+  background-color: #cfcfcf;
   width: 100%;
   padding: 0.75rem 1rem;
   border: 1px solid var(--light-gray);
@@ -1133,7 +1279,7 @@ button {
 
 .form-group input:focus,
 .form-group textarea:focus {
-  border-color: var(--primary);
+  border-color: red;
   outline: none;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }
@@ -1150,13 +1296,13 @@ button {
 
 .rating-input .star {
   font-size: 1.75rem;
-  color: var(--light-gray);
+  color: rgb(43, 43, 44);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .rating-input .star.selected {
-  color: var(--secondary);
+  color: orange;
   transform: scale(1.1);
 }
 
@@ -1430,8 +1576,8 @@ button {
 .project-link {
   display: inline-block;
   padding: 0.75rem 1.5rem;
-  background: var(--primary);
-  color: white;
+  background-color: rgb(17, 88, 155);
+  color: rgb(243, 243, 243);
   border-radius: var(--radius);
   text-decoration: none;
   text-align: center;
@@ -1439,7 +1585,7 @@ button {
 }
 
 .project-link:hover {
-  background: var(--primary-dark);
+  background-color: rgb(59, 130, 196);
   transform: translateY(-2px);
   box-shadow: var(--shadow);
 }
@@ -1490,19 +1636,19 @@ button {
   .hero-title {
     font-size: 2rem;
   }
-  
+
   .hero-subtitle {
     font-size: 1.1rem;
   }
-  
+
   .modal-content {
     grid-template-columns: 1fr;
   }
-  
+
   .project-gallery {
     margin-bottom: 2rem;
   }
-  
+
   .testimonial-content {
     padding: 1.5rem;
   }
@@ -1512,11 +1658,11 @@ button {
   .stats-container {
     grid-template-columns: 1fr 1fr;
   }
-  
+
   .section-header h2 {
     font-size: 1.5rem;
   }
-  
+
   .modal-content {
     padding: 1.5rem;
   }

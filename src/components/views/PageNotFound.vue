@@ -4,8 +4,8 @@
       <div class="image-container">
         <img :src="notFoundImage" alt="Erro 404" class="not-found-image" />
       </div>
-      <h1 class="title">404 - Página não encontrada</h1>
-      <p class="message">Oops! Parece que você se perdeu no espaço digital.</p>
+      <h1 class="title">Ops!! Página não encontrada</h1>
+      <p class="message">Parece que você se perdeu no caminho</p>
       <p class="sub-message">
         A página que você está procurando pode ter sido movida ou não existe
         mais.
@@ -179,6 +179,23 @@ export default {
 
   .message {
     font-size: 1.3rem;
+  }
+  .highlight {
+    color: #0052ff;
+    position: relative;
+  }
+
+  .highlight::after {
+    content: "";
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background: rgba(151, 11, 128, 0.2);
+    z-index: 0;
+    border-radius: 4px;
+    transform: skewX(-15deg);
   }
 
   .sub-message {

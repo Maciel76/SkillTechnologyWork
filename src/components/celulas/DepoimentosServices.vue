@@ -1,65 +1,86 @@
 <template>
-    <main>
-      <!-- Testimonials Section -->
-      <section class="testimonials-section">
-        <h2>Depoimentos de Nossos Clientes</h2>
-        <div class="testimonials-grid">
-          <div class="testimonial-card">
-            <div class="client-info">
-              <img src="@/assets/images/avatars/user5.png" alt="Client" class="client-avatar" />
-              <div>
-                <h3>João Silva</h3>
-                <p>CEO, Tech Solutions</p>
-              </div>
+  <main>
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+      <h2>Depoimentos de Nossos <span class="highlight">Clientes </span></h2>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="client-info">
+            <img
+              src="@/assets/images/avatars/user5.png"
+              alt="Client"
+              class="client-avatar"
+            />
+            <div>
+              <h3>João Silva</h3>
+              <p>CEO, Tech Solutions</p>
             </div>
-            <p class="testimonial-text">"A implementação da IA revolucionou nossos processos internos, reduzindo custos em 40% e aumentando a produtividade em 60%."</p>
-            <router-link to="#" class="learn-more">Ver Projeto →</router-link>
           </div>
-          <div class="testimonial-card">
-            <div class="client-info">
-              <img src="@/assets/images/avatars/user6.png" alt="Client" class="client-avatar" />
-              <div>
-                <h3>Guilherme Santos</h3>
-                <p>CEO, Tech Solutions</p>
-              </div>
-            </div>
-            <p class="testimonial-text">"A implementação da IA revolucionou nossos processos internos, reduzindo custos em 40% e aumentando a produtividade em 60%."</p>
-            <router-link to="#" class="learn-more">Ver Projeto →</router-link>
-          </div>
-          <div class="testimonial-card">
-            <div class="client-info">
-              <img src="@/assets/images/avatars/user3.png" alt="Client" class="client-avatar" />
-              <div>
-                <h3>Maria Santos</h3>
-                <p>Marketing Director, E-commerce</p>
-              </div>
-            </div>
-            <p class="testimonial-text">"O sistema de marketing automatizado nos ajudou a triplicar nossas conversões em apenas 3 meses."</p>
-            <router-link to="#" class="learn-more">Ver Projeto →</router-link>
-          </div>
+          <p class="testimonial-text">
+            "A implementação da IA revolucionou nossos processos internos,
+            reduzindo custos em 40% e aumentando a produtividade em 60%."
+          </p>
+          <router-link to="#" class="learn-more">Ver Projeto →</router-link>
         </div>
-      </section>
-    </main>
-  </template>
+        <div class="testimonial-card">
+          <div class="client-info">
+            <img
+              src="@/assets/images/avatars/user6.png"
+              alt="Client"
+              class="client-avatar"
+            />
+            <div>
+              <h3>Guilherme Santos</h3>
+              <p>CEO, Tech Solutions</p>
+            </div>
+          </div>
+          <p class="testimonial-text">
+            "A implementação da IA revolucionou nossos processos internos,
+            reduzindo custos em 40% e aumentando a produtividade em 60%."
+          </p>
+          <router-link to="#" class="learn-more">Ver Projeto →</router-link>
+        </div>
+        <div class="testimonial-card">
+          <div class="client-info">
+            <img
+              src="@/assets/images/avatars/user3.png"
+              alt="Client"
+              class="client-avatar"
+            />
+            <div>
+              <h3>Maria Santos</h3>
+              <p>Marketing Director, E-commerce</p>
+            </div>
+          </div>
+          <p class="testimonial-text">
+            "O sistema de marketing automatizado nos ajudou a triplicar nossas
+            conversões em apenas 3 meses."
+          </p>
+          <router-link to="#" class="learn-more">Ver Projeto →</router-link>
+        </div>
+      </div>
+    </section>
+  </main>
+</template>
 
-<script>  
+<script>
 export default {
-  name: 'TestimonialsPage',
+  name: "TestimonialsPage",
 };
 </script>
 
-<style scoped >
+<style scoped>
 /* Testimonials Section */
 .testimonials-section {
   padding: 5rem 5%;
-  background: #E5E7EB;
+  background: #e5e7eb;
 }
 
 .testimonials-section h2 {
   font-size: 2.5rem;
   text-align: center;
   margin-bottom: 3rem;
-  color: #1A1D1F;
+  color: #1a1d1f;
 }
 
 .testimonials-grid {
@@ -89,6 +110,23 @@ export default {
   gap: 1rem;
   margin-bottom: 1.5rem;
 }
+.highlight {
+  color: #0052ff;
+  position: relative;
+}
+
+.highlight::after {
+  content: "";
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background: rgba(15, 198, 211, 0.2);
+  z-index: 1;
+  border-radius: 4px;
+  transform: skewX(-15deg);
+}
 
 .client-avatar {
   width: 48px;
@@ -99,7 +137,7 @@ export default {
 
 .client-info h3 {
   font-size: 1.2rem;
-  color: #1A1D1F;
+  color: #1a1d1f;
   margin-bottom: 0.25rem;
 }
 
@@ -116,7 +154,7 @@ export default {
 }
 
 .learn-more {
-  color: #0052FF;
+  color: #0052ff;
   text-decoration: none;
   font-weight: 500;
   transition: transform 0.3s ease, color 0.3s ease;

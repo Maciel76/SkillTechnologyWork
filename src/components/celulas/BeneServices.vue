@@ -159,8 +159,8 @@ export default {
   left: 0;
   width: 100%;
   height: 8px;
-  background: rgba(0, 82, 255, 0.2);
-  z-index: -1;
+  background: rgba(151, 11, 128, 0.2);
+  z-index: 0;
   border-radius: 4px;
   transform: skewX(-15deg);
 }

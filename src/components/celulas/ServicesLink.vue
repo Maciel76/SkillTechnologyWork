@@ -83,7 +83,7 @@ export default {
       services: [
         {
           icon: "https://api.iconify.design/heroicons:globe-alt.svg",
-          title: "Websites Inteligentes",
+          title: "Websites & Sistemas",
           description:
             "Sites que se adaptam em tempo real ao comportamento do usuário",
           features: [
@@ -98,7 +98,7 @@ export default {
         },
         {
           icon: "https://api.iconify.design/heroicons:device-phone-mobile.svg",
-          title: "Desenvolvimento Mobile",
+          title: "Apps Mobile",
           description:
             "Aplicativos que aprendem com o usuário e evoluem a cada uso",
           features: [
@@ -109,7 +109,7 @@ export default {
             "Performance otimizada para mobile",
           ],
           color: "#10B981",
-          path: "/servicos/desenvolvimento-mobile'",
+          path: "/servicos/midia-social",
         },
         {
           icon: "https://api.iconify.design/heroicons:photo.svg",
@@ -143,7 +143,7 @@ export default {
         },
         {
           icon: "https://api.iconify.design/heroicons:chart-bar.svg",
-          title: "Sistema Web Completo",
+          title: "Sistema Inteligente",
           description:
             "Sistemas inteligentes e personalizados para automatizar operações e decisões com base em dados.",
           features: [
@@ -154,7 +154,7 @@ export default {
             "Acesso por níveis de usuário",
           ],
           color: "#F59E0B",
-          path: "/servicos/desenvolvimento-sistemas-web",
+          path: "/portfolio/sistemas-web",
         },
         {
           icon: "https://api.iconify.design/heroicons:chart-pie-solid.svg",

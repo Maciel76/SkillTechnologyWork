@@ -14,13 +14,13 @@ import ClientesView from "@/components/views/ClientesView.vue";
 import LojaView from "@/components/views/LojaView.vue";
 import BlogView from "@/components/views/BlogView.vue";
 import BlogpostView from "@/components/views/BlogpostView.vue";
+import ProdutoView from "@/components/views/ProdutoView.vue";
 // Serviços importação
 import DesevolvimentoMobile from "@/components/servicepage/DesenvolvimentoMobile.vue";
 import PageConsultoria from "@/components/servicepage/PageConsultoria.vue";
 import PageDoacoes from "@/components/servicepage/PageDoacoes.vue";
 import PageEcommerce from "@/components/servicepage/PageEcommerce.vue";
 import PageInterface from "@/components/servicepage/PageInterface.vue";
-import PageMidia from "@/components/servicepage/PageMidia.vue";
 import PageWebsite from "@/components/servicepage/PageWebsite.vue";
 import SiteInstucional from "@/components/servicepage/Portifolio/SiteInstucional.vue";
 import LojasVirtuais from "@/components/servicepage/Portifolio/lojasVirtuais.vue";
@@ -36,6 +36,11 @@ import PageNotFound from "@/components/views/PageNotFound.vue";
 
 // Demonstração
 import ConstrutoraAlpha from "@/ConstrutortaAlpha.vue";
+import DemoEbookpage from "@/components/templates/DemoEbookpage.vue";
+import InstitutoEducar from "@/InstitutoEducar.vue";
+import AppAdvocaciaSilva from "@/components/servicepage/AdvocaciaSilva/AppAdvocaciaSilva.vue";
+import DemoCursosonline from "@/components/templates/DemoCursosonline.vue";
+import DemoCapLeads from "@/components/templates/DemoCapLeads.vue";
 
 // ========== 🛣️ CONFIGURAÇÃO DAS ROTAS ========== //
 const routes: Array<RouteRecordRaw> = [
@@ -48,23 +53,29 @@ const routes: Array<RouteRecordRaw> = [
   },
 
   // 📌 PÁGINAS PRINCIPAIS
-  { path: "/sobre", name: "sobre", component: SobreView },
-  { path: "/termos", name: "termos", component: TermosView },
-  { path: "/eventos", name: "eventos", component: EventosView },
-  { path: "/privacidade", name: "privacidade", component: PoliticasView },
-  { path: "/missao", name: "missao", component: MissionView },
-  { path: "/servicos", name: "servicos", component: ServiceView },
+  { path: "/sobre", name: "sobre", component: SobreView }, //finalizado
+  { path: "/termos", name: "termos", component: TermosView }, // finalizado
+  { path: "/eventos", name: "eventos", component: EventosView }, // finalizado
+  { path: "/privacidade", name: "privacidade", component: PoliticasView }, // finalizado
+  { path: "/missao", name: "missao", component: MissionView }, // finalizado
+  { path: "/services", name: "servicos", component: ServiceView }, // finalizado
   { path: "/portfolio", name: "portfolio", component: PortfolioView },
-  { path: "/precos", name: "precos", component: PrecingView },
-  { path: "/clientes", name: "clientes", component: ClientesView },
-  { path: "/loja", name: "loja", component: LojaView },
+  { path: "/Planos/precos", name: "precos", component: PrecingView }, // finalizado
+  { path: "/clientes", name: "clientes", component: ClientesView }, // falta adcionar alguns projetos reais
   { path: "/contato", name: "contato", component: ContatoView },
 
-  // ✨ BLOG
-  { path: "/blog", name: "blog", component: BlogView },
+  { path: "/Loja", component: LojaView }, //finalizado
   {
-    path: "/blog/:slug",
-    name: "blogpost",
+    path: "/produtos/:id",
+    name: "ProdutoPage",
+    component: () => import("@/components/views/ProdutoView.vue"),
+    props: true,
+  }, // Rota para a página de produtos
+
+  // ✨ BLOG - VERSÃO ANTERIOR
+  { path: "/blog", component: BlogView },
+  {
+    path: "/blog/:id",
     component: BlogpostView,
     props: true,
   },
@@ -75,8 +86,8 @@ const routes: Array<RouteRecordRaw> = [
   { path: "/servicos/doacoes", component: PageDoacoes },
   { path: "/servicos/ecommerce", component: PageEcommerce },
   { path: "/servicos/interface-ux-ui", component: PageInterface },
-  { path: "/servicos/midia-social", component: PageMidia },
   { path: "/servicos/desenvolvimento-websites", component: PageWebsite },
+  { path: "/servicos/edicao-de-imagem", component: EditorImagem },
 
   // 🎨 PORTFÓLIO
   { path: "/portfolio/site-institucional", component: SiteInstucional },
@@ -86,7 +97,7 @@ const routes: Array<RouteRecordRaw> = [
     path: "/portfolio/mascotes-personalizados",
     component: MascotePesonalizados,
   },
-  { path: "/portfolio/edicao-de-imagem", component: EditorImagem },
+
   { path: "/portfolio/sistemas-web", component: SistemasWeb },
   { path: "/portfolio/landing-pages", component: LandingPages },
 
@@ -111,14 +122,58 @@ const routes: Array<RouteRecordRaw> = [
     component: Heroconfig,
     meta: { requiresAuth: true },
   },
-
+  //=========================================================================================================
   // 🎭 PÁGINAS DE DEMO (SEM HEADER/FOOTER)
   {
     path: "/demo/construtora-alpha",
     name: "construtoraAlphaDemo",
     component: ConstrutoraAlpha,
-    meta: { noLayout: true }, // ✅ NÃO MOSTRA HEADER/FOOTER
+    meta: {
+      hideHeader: true,
+      hideFooter: true, // ✅ NÃO MOSTRA O FOOTER
+      // WhatsApp permanece visível (a menos que você defina hideWhatsApp)
+    },
   },
+  //📗landing page ebook
+  {
+    path: "/demo/ebookpage",
+    component: DemoEbookpage,
+    meta: {
+      hideHeader: true,
+      hideFooter: true, // ✅ NÃO MOSTRA O FOOTER
+      // WhatsApp permanece visível (a menos que você defina hideWhatsApp)
+    },
+  },
+  //📗Instituto Educar
+  {
+    path: "/demo/institutoeducar",
+    component: InstitutoEducar,
+    meta: {
+      hideHeader: true,
+      hideFooter: true, // ✅ NÃO MOSTRA O FOOTER
+      // WhatsApp permanece visível (a menos que você defina hideWhatsApp)
+    },
+  },
+  //📗Advocaci Silva
+  {
+    path: "/demo/advocaciasilva",
+    component: AppAdvocaciaSilva,
+    meta: { hideHeader: true, hideFooter: true }, // ✅ NÃO MOSTRA O FOOTER
+  },
+  //📗Cursos online
+  {
+    path: "/demo/cursosonline",
+    component: DemoCursosonline,
+    meta: { hideHeader: true, hideFooter: true },
+  }, // ✅ NÃO MOSTRA O FOOTER
+  //📗CapLeads ll
+  {
+    path: "/demo/capleads",
+    component: DemoCapLeads,
+    meta: { hideHeader: true, hideFooter: true },
+  }, // ✅ NÃO MOSTRA O FOOTER
+
+  //=========================================================================================================
 
   // 🛑 PÁGINA 404 (SEM HEADER/FOOTER)
   {

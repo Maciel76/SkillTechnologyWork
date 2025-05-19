@@ -76,8 +76,12 @@ export default {
 }
 
 @media (max-width: 992px) {
+  .hero {
+    margin-top: 200px;
+  }
   .hero-content {
     flex-direction: column;
+    margin-bottom: 200px;
   }
 
   .hero-text {

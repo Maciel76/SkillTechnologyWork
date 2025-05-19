@@ -302,7 +302,7 @@ export default {
             "Aumento de 40% na satisfação do cliente",
             "Crescimento de 25% na retenção",
           ],
-          liveUrl: "/Service/sistemasweb",
+          liveUrl: "/portfolio/sistemas-web",
           githubUrl: "/contato",
         },
         {
@@ -327,7 +327,7 @@ export default {
             "Redução de 60% no volume de atendimento telefônico.",
             "Melhoria na satisfação dos pais e transparência com alunos.",
           ],
-          liveUrl: "/siteInstitucional",
+          liveUrl: "/portfolio/site-institucional",
           githubUrl: "/contato",
         },
         {
@@ -352,7 +352,7 @@ export default {
             "Crescimento de 70% nas visitas orgânicas em 2 meses.",
             "Redução de 50% no abandono de carrinho com checkout otimizado.",
           ],
-          liveUrl: "/ServiceEcommece",
+          liveUrl: "/portfolio/lojas-virtuais",
           githubUrl: "/contato",
         },
         {
@@ -376,7 +376,7 @@ export default {
             "Visitantes reconhecendo e comentando sobre o personagem.",
             "Fortalecimento da marca visual do Neoblog.",
           ],
-          liveUrl: "/mascotePersonalizados",
+          liveUrl: "/portfolio/mascotes-personalizados",
           githubUrl: "/contato",
         },
       ],

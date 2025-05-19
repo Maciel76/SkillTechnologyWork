@@ -3,7 +3,7 @@
     <HeaderEducar />
     <HeroBanner />
     <Features />
-    <Stats />
+    <statsSub />
     <Gallery />
     <Testimonials />
     <AdmissionProcess />
@@ -13,15 +13,15 @@
 </template>
 
 <script>
-import HeaderEducar from " @/components/servicepage/InstitutoEducar/HeaderEducar.vue";
-import HeroBanner from " @/components/servicepage/InstitutoEducar/HeroEducar.vue";
-import Features from " @/components/servicepage/InstitutoEducar/FeaturesEducar.vue";
-import Stats from " @/components/servicepage/InstitutoEducar/StatsEducar.vue";
-import Gallery from " @/components/servicepage/InstitutoEducar/GalleryEducar.vue";
-import Testimonials from " @/components/servicepage/InstitutoEducar/TestimonialEducar.vue";
-import AdmissionProcess from " @/components/servicepage/InstitutoEducar/AdmissionProcess.vue";
-import Events from " @/components/servicepage/InstitutoEducar/EventsEducar.vue";
-import FooterEducar from " @/components/servicepage/InstitutoEducar/FooterEducar.vue";
+import HeaderEducar from "@/components/servicepage/InstitutoEducar/HeaderEducar.vue";
+import HeroBanner from "@/components/servicepage/InstitutoEducar/HeroEducar.vue";
+import Features from "@/components/servicepage/InstitutoEducar/FeaturesEducar.vue";
+import Gallery from "@/components/servicepage/InstitutoEducar/GalleryEducar.vue";
+import Testimonials from "@/components/servicepage/InstitutoEducar/TestimonialsEducar.vue";
+import AdmissionProcess from "@/components/servicepage/InstitutoEducar/AdmissionProcess.vue";
+import Events from "@/components/servicepage/InstitutoEducar/EventosEducar.vue";
+import FooterEducar from "@/components/servicepage/InstitutoEducar/FooterEducar.vue";
+import StatsSub from "@/components/servicepage/InstitutoEducar/StatsSub.vue";
 
 export default {
   name: "InstitutoEducar",
@@ -29,12 +29,12 @@ export default {
     HeaderEducar,
     HeroBanner,
     Features,
-    Stats,
     Gallery,
     Testimonials,
     AdmissionProcess,
     Events,
     FooterEducar,
+    StatsSub,
   },
 };
 </script>
@@ -63,8 +63,8 @@ body {
 }
 
 .container {
-  width: 90%;
-  max-width: 1200px;
+  width: 100%;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 0 15px;
 }

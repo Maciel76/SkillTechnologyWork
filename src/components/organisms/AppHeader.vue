@@ -24,7 +24,7 @@
           <router-link to="/Services" @click="closeMenu">Serviços</router-link>
         </li>
         <li>
-          <router-link to="/Precing" @click="closeMenu"
+          <router-link to="/Planos/precos" @click="closeMenu"
             >Planos e preços</router-link
           >
         </li>
@@ -43,9 +43,6 @@
 <script>
 export default {
   name: "AppHeader",
-  mounted() {
-    this.startTyping();
-  },
   data() {
     return {
       texts: [
@@ -59,28 +56,59 @@ export default {
       ],
       textIndex: 0,
       isMenuOpen: false,
+      displayedText: "", // Adicionado para abordagem reativa
+      typingInterval: null, // Para controle do intervalo
     };
+  },
+  mounted() {
+    // Verifica se a rota permite mostrar o header antes de iniciar animação
+    if (!this.$route.meta?.hideHeader) {
+      this.startTyping();
+    }
+  },
+  beforeUnmount() {
+    // Limpa o intervalo quando o componente é destruído
+    if (this.typingInterval) {
+      clearInterval(this.typingInterval);
+    }
+  },
+  watch: {
+    // Observa mudanças na rota para reiniciar animação quando necessário
+    "$route.meta.hideHeader": {
+      immediate: true,
+      handler(hide) {
+        if (this.typingInterval) {
+          clearInterval(this.typingInterval);
+        }
+        if (!hide) {
+          this.startTyping();
+        }
+      },
+    },
   },
   methods: {
     typeText(text, callback) {
       let charIndex = 0;
-      const interval = setInterval(() => {
-        this.$refs.typing.textContent = text.slice(0, charIndex++);
+      this.typingInterval = setInterval(() => {
+        // Abordagem reativa - mais segura que manipulação direta do DOM
+        this.displayedText = text.slice(0, charIndex++);
+
         if (charIndex > text.length) {
-          clearInterval(interval);
-          setTimeout(callback, 5000); // Espera 5 segundos antes do próximo
+          clearInterval(this.typingInterval);
+          setTimeout(callback, 5000);
         }
       }, 100);
     },
     startTyping() {
-      if (this.textIndex < this.texts.length) {
-        this.typeText(this.texts[this.textIndex], () => {
-          this.textIndex++;
-          this.startTyping();
-        });
-      } else {
-        this.$refs.typing.style.borderRight = "none"; // Remove o cursor após finalizar
+      // Reinicia o índice se chegou ao final
+      if (this.textIndex >= this.texts.length) {
+        this.textIndex = 0;
       }
+
+      this.typeText(this.texts[this.textIndex], () => {
+        this.textIndex++;
+        this.startTyping();
+      });
     },
     toggleMenu() {
       this.isMenuOpen = !this.isMenuOpen;

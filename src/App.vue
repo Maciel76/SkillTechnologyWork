@@ -28,14 +28,14 @@ export default {
   },
   computed: {
     showAgencyHeader() {
-      return !this.$route.meta?.isDemo;
+      // Assume true se não estiver definido
+      return this.$route.meta?.hideHeader !== true;
     },
     showAgencyFooter() {
-      // Esconde footer da agência em demos E se a rota não pedir para manter
-      return !this.$route.meta?.isDemo && !this.$route.meta?.keepFooter;
+      return this.$route.meta?.hideFooter !== true;
     },
     showWhatsApp() {
-      return !this.$route.meta?.isDemo;
+      return this.$route.meta?.hideWhatsApp !== true;
     },
   },
 };

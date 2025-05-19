@@ -8,10 +8,30 @@
             Transformando vidas através da educação de qualidade desde 2005.
           </p>
           <div class="social-links">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="#">
+              <img
+                src="https://api.iconify.design/logos:facebook.svg"
+                alt="Facebook"
+              />
+            </a>
+            <a href="#">
+              <img
+                src="https://api.iconify.design/skill-icons:instagram.svg"
+                alt="Instagram"
+              />
+            </a>
+            <a href="#">
+              <img
+                src="https://api.iconify.design/devicon:twitter.svg"
+                alt="Twitter"
+              />
+            </a>
+            <a href="#">
+              <img
+                src="https://api.iconify.design/logos:youtube-icon.svg"
+                alt="YouTube"
+              />
+            </a>
           </div>
         </div>
         <div class="footer-links">
@@ -86,14 +106,17 @@ export default {
   align-items: center;
   width: 40px;
   height: 40px;
-  background: rgba(255, 255, 255, 0.1);
+
   border-radius: 50%;
   color: white;
   transition: all 0.3s ease;
 }
+.social-links img {
+  width: 40px;
+  height: 40px;
+}
 
 .social-links a:hover {
-  background: var(--secondary-color);
   transform: translateY(-3px);
 }
 

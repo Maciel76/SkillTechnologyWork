@@ -11,22 +11,43 @@
               <span class="pulse-dot"></span>
             </span>
           </h1>
-          <p class="hero-subtitle">Planos flexíveis para impulsionar seu negócio no mundo digital</p>
+          <p class="hero-subtitle">
+            Planos flexíveis para impulsionar seu negócio no mundo digital
+          </p>
           <div class="cta-container">
-            <button class="cta-button" @click="scrollToPricing">Ver Planos</button>
-            <button class="cta-button secondary" @click="scrollToContact">Fale Conosco</button>
+            <button class="cta-button" @click="scrollToPricing">
+              Ver Planos
+            </button>
+            <button class="cta-button secondary" @click="scrollToContact">
+              Fale Conosco
+            </button>
           </div>
         </div>
         <div class="hero-visual">
           <div class="devices-mockup">
-            <div class="device laptop" :style="{ 'background-image': `url(${currentService.screens[0]})` }"></div>
-            <div class="device tablet" :style="{ 'background-image': `url(${currentService.screens[1]})` }"></div>
-            <div class="device phone" :style="{ 'background-image': `url(${currentService.screens[2]})` }"></div>
+            <div
+              class="device laptop"
+              :style="{
+                'background-image': `url(${currentService.screens[0]})`,
+              }"
+            ></div>
+            <div
+              class="device tablet"
+              :style="{
+                'background-image': `url(${currentService.screens[1]})`,
+              }"
+            ></div>
+            <div
+              class="device phone"
+              :style="{
+                'background-image': `url(${currentService.screens[2]})`,
+              }"
+            ></div>
           </div>
           <div class="services-selector">
-            <button 
-              v-for="(service, index) in services" 
-              :key="index" 
+            <button
+              v-for="(service, index) in services"
+              :key="index"
               @click="selectService(index)"
               :class="{ active: currentServiceIndex === index }"
             >
@@ -47,17 +68,19 @@
         <span class="title-part">Nossos</span>
         <span class="title-part highlight">Serviços</span>
       </h2>
-      <p class="section-subtitle">Soluções completas para cada etapa do seu projeto digital</p>
-      
+      <p class="section-subtitle">
+        Soluções completas para cada etapa do seu projeto digital
+      </p>
+
       <div class="services-grid">
-        <div 
-          class="service-card" 
-          v-for="(service, index) in services" 
+        <div
+          class="service-card"
+          v-for="(service, index) in services"
           :key="index"
           @mouseenter="hoverService(index)"
         >
           <div class="service-icon">
-            <img :src="service.icon" :alt="service.name">
+            <img :src="service.icon" :alt="service.name" />
           </div>
           <h3>{{ service.name }}</h3>
           <p>{{ service.shortDescription }}</p>
@@ -65,14 +88,16 @@
             <div class="hover-content">
               <h4>Projetos Recentes</h4>
               <div class="mini-gallery">
-                <div 
-                  class="mini-screen" 
-                  v-for="(screen, sIndex) in service.screens" 
+                <div
+                  class="mini-screen"
+                  v-for="(screen, sIndex) in service.screens"
                   :key="sIndex"
                   :style="{ 'background-image': `url(${screen})` }"
                 ></div>
               </div>
-              <button class="view-button" @click="selectService(index)">Ver Planos</button>
+              <button class="view-button" @click="selectService(index)">
+                Ver Planos
+              </button>
             </div>
           </div>
         </div>
@@ -86,33 +111,35 @@
           <span class="title-part">Planos &</span>
           <span class="title-part highlight">Investimento</span>
         </h2>
-        <p class="section-subtitle">Escolha o pacote perfeito para suas necessidades</p>
-        
+        <p class="section-subtitle">
+          Escolha o pacote perfeito para suas necessidades
+        </p>
+
         <div class="billing-toggle">
           <span>Mensal</span>
           <label class="switch">
-            <input type="checkbox" v-model="annualBilling">
+            <input type="checkbox" v-model="annualBilling" />
             <span class="slider round"></span>
           </label>
           <span>Anual <span class="discount-badge">20% OFF</span></span>
         </div>
       </div>
-      
+
       <div class="pricing-tabs">
-        <button 
-          v-for="(service, index) in services" 
-          :key="index" 
+        <button
+          v-for="(service, index) in services"
+          :key="index"
           @click="selectService(index)"
           :class="{ active: currentServiceIndex === index }"
         >
           {{ service.name }}
         </button>
       </div>
-      
+
       <div class="pricing-grid">
-        <div 
-          class="plan-card" 
-          v-for="(plan, index) in currentService.plans" 
+        <div
+          class="plan-card"
+          v-for="(plan, index) in currentService.plans"
           :key="index"
           :class="{ featured: plan.featured }"
         >
@@ -120,18 +147,29 @@
           <div class="plan-header">
             <h3>{{ plan.name }}</h3>
             <div class="plan-price">
-              <span class="amount">{{ annualBilling ? plan.annualPrice : plan.monthlyPrice }}</span>
-              <span class="period">{{ annualBilling ? '/ano' : '/mês' }}</span>
+              <span class="amount">{{
+                annualBilling ? plan.annualPrice : plan.monthlyPrice
+              }}</span>
+              <span class="period">{{ annualBilling ? "/ano" : "/mês" }}</span>
             </div>
             <p class="plan-description">{{ plan.description }}</p>
           </div>
           <div class="plan-features">
-            <div class="feature-item" v-for="(feature, fIndex) in plan.features" :key="fIndex">
-              <img src="https://api.iconify.design/heroicons:check-circle-20-solid.svg" alt="Incluído">
+            <div
+              class="feature-item"
+              v-for="(feature, fIndex) in plan.features"
+              :key="fIndex"
+            >
+              <img
+                src="https://api.iconify.design/heroicons:check-circle-20-solid.svg"
+                alt="Incluído"
+              />
               <span>{{ feature }}</span>
             </div>
           </div>
-          <button class="cta-button" @click="openContactModal(plan)">Contratar</button>
+          <button class="cta-button" @click="openContactModal(plan)">
+            Contratar
+          </button>
           <div class="plan-savings" v-if="annualBilling && plan.annualSavings">
             Economize {{ plan.annualSavings }} no plano anual
           </div>
@@ -145,20 +183,30 @@
         <span class="title-part">O Que Dizem</span>
         <span class="title-part highlight">Nossos Clientes</span>
       </h2>
-      
+
       <div class="testimonials-slider">
-        <div class="testimonial-card" v-for="(testimonial, index) in testimonials" :key="index">
+        <div
+          class="testimonial-card"
+          v-for="(testimonial, index) in testimonials"
+          :key="index"
+        >
           <div class="client-rating">
             <span v-for="star in 5" :key="star">★</span>
           </div>
           <p class="testimonial-text">"{{ testimonial.text }}"</p>
           <div class="client-info">
-            <div class="client-avatar" :style="{ 'background-image': `url(${testimonial.avatar})` }"></div>
+            <div
+              class="client-avatar"
+              :style="{ 'background-image': `url(${testimonial.avatar})` }"
+            ></div>
             <div class="client-details">
               <h3>{{ testimonial.name }}</h3>
               <span>{{ testimonial.company }}</span>
               <div class="client-project">
-                <img :src="testimonial.projectIcon" :alt="testimonial.projectType">
+                <img
+                  :src="testimonial.projectIcon"
+                  :alt="testimonial.projectType"
+                />
                 <span>{{ testimonial.projectType }}</span>
               </div>
             </div>
@@ -173,12 +221,19 @@
         <span class="title-part">Perguntas</span>
         <span class="title-part highlight">Frequentes</span>
       </h2>
-      
+
       <div class="faq-grid">
-        <div class="faq-item" v-for="(faq, index) in faqs" :key="index" @click="toggleFaq(index)">
+        <div
+          class="faq-item"
+          v-for="(faq, index) in faqs"
+          :key="index"
+          @click="toggleFaq(index)"
+        >
           <div class="faq-question">
             <h3>{{ faq.question }}</h3>
-            <span class="faq-toggle">{{ activeFaq === index ? '−' : '+' }}</span>
+            <span class="faq-toggle">{{
+              activeFaq === index ? "−" : "+"
+            }}</span>
           </div>
           <div class="faq-answer" :class="{ active: activeFaq === index }">
             <p>{{ faq.answer }}</p>
@@ -192,7 +247,10 @@
       <div class="contact-container">
         <div class="contact-text">
           <h2>Pronto para Transformar Sua Ideia em Realidade?</h2>
-          <p>Entre em contato para uma consultoria gratuita e descubra como podemos ajudar seu negócio a crescer no mundo digital.</p>
+          <p>
+            Entre em contato para uma consultoria gratuita e descubra como
+            podemos ajudar seu negócio a crescer no mundo digital.
+          </p>
           <div class="contact-methods">
             <a href="mailto:contato@exemplo.com" class="contact-method">
               <span class="icon">✉️</span>
@@ -212,19 +270,39 @@
           <h3>Ou nos envie uma mensagem</h3>
           <form @submit.prevent="submitForm">
             <div class="form-group">
-              <input type="text" v-model="form.name" placeholder="Seu nome" required>
+              <input
+                type="text"
+                v-model="form.name"
+                placeholder="Seu nome"
+                required
+              />
             </div>
             <div class="form-group">
-              <input type="email" v-model="form.email" placeholder="Seu e-mail" required>
+              <input
+                type="email"
+                v-model="form.email"
+                placeholder="Seu e-mail"
+                required
+              />
             </div>
             <div class="form-group">
               <select v-model="form.service" required>
                 <option value="" disabled selected>Serviço de interesse</option>
-                <option v-for="(service, index) in services" :key="index" :value="service.name">{{ service.name }}</option>
+                <option
+                  v-for="(service, index) in services"
+                  :key="index"
+                  :value="service.name"
+                >
+                  {{ service.name }}
+                </option>
               </select>
             </div>
             <div class="form-group">
-              <textarea v-model="form.message" placeholder="Conte-nos sobre seu projeto" required></textarea>
+              <textarea
+                v-model="form.message"
+                placeholder="Conte-nos sobre seu projeto"
+                required
+              ></textarea>
             </div>
             <button type="submit" class="submit-button">Enviar Mensagem</button>
           </form>
@@ -238,23 +316,50 @@
         <button class="close-modal" @click="closeModal">×</button>
         <div class="modal-header">
           <h2>Solicitar {{ selectedPlan.name }}</h2>
-          <p class="plan-price">{{ annualBilling ? selectedPlan.annualPrice : selectedPlan.monthlyPrice }} <span>{{ annualBilling ? '/ano' : '/mês' }}</span></p>
+          <p class="plan-price">
+            {{
+              annualBilling
+                ? selectedPlan.annualPrice
+                : selectedPlan.monthlyPrice
+            }}
+            <span>{{ annualBilling ? "/ano" : "/mês" }}</span>
+          </p>
         </div>
         <div class="modal-body">
           <form @submit.prevent="submitPlanRequest">
             <div class="form-group">
-              <input type="text" v-model="planForm.name" placeholder="Seu nome" required>
+              <input
+                type="text"
+                v-model="planForm.name"
+                placeholder="Seu nome"
+                required
+              />
             </div>
             <div class="form-group">
-              <input type="email" v-model="planForm.email" placeholder="Seu e-mail" required>
+              <input
+                type="email"
+                v-model="planForm.email"
+                placeholder="Seu e-mail"
+                required
+              />
             </div>
             <div class="form-group">
-              <input type="tel" v-model="planForm.phone" placeholder="Seu telefone" required>
+              <input
+                type="tel"
+                v-model="planForm.phone"
+                placeholder="Seu telefone"
+                required
+              />
             </div>
             <div class="form-group">
-              <textarea v-model="planForm.message" placeholder="Alguma informação adicional sobre seu projeto"></textarea>
+              <textarea
+                v-model="planForm.message"
+                placeholder="Alguma informação adicional sobre seu projeto"
+              ></textarea>
             </div>
-            <button type="submit" class="submit-button">Enviar Solicitação</button>
+            <button type="submit" class="submit-button">
+              Enviar Solicitação
+            </button>
           </form>
         </div>
       </div>
@@ -264,7 +369,7 @@
 
 <script>
 export default {
-  name: 'PremiumPricingPage',
+  name: "PremiumPricingPage",
   data() {
     return {
       currentServiceIndex: 0,
@@ -274,296 +379,307 @@ export default {
       showModal: false,
       selectedPlan: null,
       form: {
-        name: '',
-        email: '',
-        service: '',
-        message: ''
+        name: "",
+        email: "",
+        service: "",
+        message: "",
       },
       planForm: {
-        name: '',
-        email: '',
-        phone: '',
-        message: ''
+        name: "",
+        email: "",
+        phone: "",
+        message: "",
       },
       services: [
         {
-          name: 'Desenvolvimento Web',
-          shortDescription: 'Sites e sistemas web personalizados com tecnologia de ponta',
-          icon: 'https://cdn-icons-png.flaticon.com/512/1055/1055687.png',
+          name: "Desenvolvimento Web",
+          shortDescription:
+            "Sites e sistemas web personalizados com tecnologia de ponta",
+          icon: "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
           screens: [
-            'https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+            "https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
           ],
           plans: [
             {
-              name: 'Site Institucional',
-              description: 'Presença online profissional para seu negócio',
-              monthlyPrice: 'R$ 1.200',
-              annualPrice: 'R$ 11.500',
-              annualSavings: 'R$ 1.700',
+              name: "Site Institucional",
+              description: "Presença online profissional para seu negócio",
+              monthlyPrice: "R$ 1.200",
+              annualPrice: "R$ 11.500",
+              annualSavings: "R$ 1.700",
               features: [
-                'Design responsivo',
-                'Até 5 páginas',
-                'Formulário de contato',
-                'SEO básico',
-                'Hospedagem por 1 ano',
-                'Suporte por 3 meses'
+                "Design responsivo",
+                "Até 5 páginas",
+                "Formulário de contato",
+                "SEO básico",
+                "Hospedagem por 1 ano",
+                "Suporte por 3 meses",
               ],
-              featured: false
+              featured: false,
             },
             {
-              name: 'Sistema Web',
-              description: 'Soluções personalizadas para seu negócio',
-              monthlyPrice: 'R$ 2.500',
-              annualPrice: 'R$ 24.000',
-              annualSavings: 'R$ 3.000',
+              name: "Sistema Web",
+              description: "Soluções personalizadas para seu negócio",
+              monthlyPrice: "R$ 2.500",
+              annualPrice: "R$ 24.000",
+              annualSavings: "R$ 3.000",
               features: [
-                'Desenvolvimento personalizado',
-                'Painel administrativo',
-                'Banco de dados',
-                'Integrações API',
-                'Relatórios',
-                'Suporte prioritário'
+                "Desenvolvimento personalizado",
+                "Painel administrativo",
+                "Banco de dados",
+                "Integrações API",
+                "Relatórios",
+                "Suporte prioritário",
               ],
-              featured: true
+              featured: true,
             },
             {
-              name: 'Loja Virtual',
-              description: 'E-commerce completo para vender online',
-              monthlyPrice: 'R$ 3.200',
-              annualPrice: 'R$ 30.000',
-              annualSavings: 'R$ 4.400',
+              name: "Loja Virtual",
+              description: "E-commerce completo para vender online",
+              monthlyPrice: "R$ 3.200",
+              annualPrice: "R$ 30.000",
+              annualSavings: "R$ 4.400",
               features: [
-                'Catálogo de produtos',
-                'Pagamentos online',
-                'Gestão de pedidos',
-                'Relatórios de vendas',
-                'Marketing integrado',
-                'Suporte 24/7'
+                "Catálogo de produtos",
+                "Pagamentos online",
+                "Gestão de pedidos",
+                "Relatórios de vendas",
+                "Marketing integrado",
+                "Suporte 24/7",
               ],
-              featured: false
-            }
-          ]
+              featured: false,
+            },
+          ],
         },
         {
-          name: 'Desenvolvimento Mobile',
-          shortDescription: 'Aplicativos nativos e híbridos para iOS e Android',
-          icon: 'https://cdn-icons-png.flaticon.com/512/888/888857.png',
+          name: "Desenvolvimento Mobile",
+          shortDescription: "Aplicativos nativos e híbridos para iOS e Android",
+          icon: "https://cdn-icons-png.flaticon.com/512/888/888857.png",
           screens: [
-            'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
           ],
           plans: [
             {
-              name: 'App Básico',
-              description: 'MVP para validar sua ideia',
-              monthlyPrice: 'R$ 2.800',
-              annualPrice: 'R$ 26.000',
-              annualSavings: 'R$ 3.600',
+              name: "App Básico",
+              description: "MVP para validar sua ideia",
+              monthlyPrice: "R$ 2.800",
+              annualPrice: "R$ 26.000",
+              annualSavings: "R$ 3.600",
               features: [
-                'Design UI/UX',
-                'Desenvolvimento nativo',
-                'Publicação nas lojas',
-                'Suporte por 3 meses',
-                'Até 5 funcionalidades'
+                "Design UI/UX",
+                "Desenvolvimento nativo",
+                "Publicação nas lojas",
+                "Suporte por 3 meses",
+                "Até 5 funcionalidades",
               ],
-              featured: false
+              featured: false,
             },
             {
-              name: 'App Completo',
-              description: 'Solução robusta para seu negócio',
-              monthlyPrice: 'R$ 4.500',
-              annualPrice: 'R$ 42.000',
-              annualSavings: 'R$ 6.000',
+              name: "App Completo",
+              description: "Solução robusta para seu negócio",
+              monthlyPrice: "R$ 4.500",
+              annualPrice: "R$ 42.000",
+              annualSavings: "R$ 6.000",
               features: [
-                'Design premium',
-                'Backend integrado',
-                'Notificações push',
-                'Analytics',
-                'Suporte prioritário',
-                'Atualizações mensais'
+                "Design premium",
+                "Backend integrado",
+                "Notificações push",
+                "Analytics",
+                "Suporte prioritário",
+                "Atualizações mensais",
               ],
-              featured: true
+              featured: true,
             },
             {
-              name: 'App Empresarial',
-              description: 'Solução corporativa personalizada',
-              monthlyPrice: 'R$ 6.800',
-              annualPrice: 'R$ 65.000',
-              annualSavings: 'R$ 7.600',
+              name: "App Empresarial",
+              description: "Solução corporativa personalizada",
+              monthlyPrice: "R$ 6.800",
+              annualPrice: "R$ 65.000",
+              annualSavings: "R$ 7.600",
               features: [
-                'Sistema completo',
-                'Integração com ERP',
-                'Autenticação avançada',
-                'Suporte 24/7',
-                'Atualizações semanais',
-                'Treinamento da equipe'
+                "Sistema completo",
+                "Integração com ERP",
+                "Autenticação avançada",
+                "Suporte 24/7",
+                "Atualizações semanais",
+                "Treinamento da equipe",
               ],
-              featured: false
-            }
-          ]
+              featured: false,
+            },
+          ],
         },
         {
-          name: 'Landing Page',
-          shortDescription: 'Páginas de conversão para campanhas e lançamentos',
-          icon: 'https://cdn-icons-png.flaticon.com/512/2933/2933245.png',
+          name: "Landing Page",
+          shortDescription: "Páginas de conversão para campanhas e lançamentos",
+          icon: "https://cdn-icons-png.flaticon.com/512/2933/2933245.png",
           screens: [
-            'https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+            "https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
           ],
           plans: [
             {
-              name: 'Landing Básica',
-              description: 'Página simples para captação de leads',
-              monthlyPrice: 'R$ 800',
-              annualPrice: 'R$ 7.500',
-              annualSavings: 'R$ 1.100',
+              name: "Landing Básica",
+              description: "Página simples para captação de leads",
+              monthlyPrice: "R$ 800",
+              annualPrice: "R$ 7.500",
+              annualSavings: "R$ 1.100",
               features: [
-                'Design responsivo',
-                'Formulário de contato',
-                'Otimização SEO',
-                'Integração com redes sociais',
-                'Hospedagem por 1 ano'
+                "Design responsivo",
+                "Formulário de contato",
+                "Otimização SEO",
+                "Integração com redes sociais",
+                "Hospedagem por 1 ano",
               ],
-              featured: false
+              featured: false,
             },
             {
-              name: 'Landing Premium',
-              description: 'Página de alta conversão para lançamentos',
-              monthlyPrice: 'R$ 1.500',
-              annualPrice: 'R$ 14.000',
-              annualSavings: 'R$ 2.000',
+              name: "Landing Premium",
+              description: "Página de alta conversão para lançamentos",
+              monthlyPrice: "R$ 1.500",
+              annualPrice: "R$ 14.000",
+              annualSavings: "R$ 2.000",
               features: [
-                'Design exclusivo',
-                'Elementos de conversão',
-                'Testes A/B',
-                'Analytics integrado',
-                'CTA estratégicos',
-                'Suporte por 6 meses'
+                "Design exclusivo",
+                "Elementos de conversão",
+                "Testes A/B",
+                "Analytics integrado",
+                "CTA estratégicos",
+                "Suporte por 6 meses",
               ],
-              featured: true
-            }
-          ]
+              featured: true,
+            },
+          ],
         },
         {
-          name: 'Design & Interface',
-          shortDescription: 'Experiências digitais intuitivas e visualmente impressionantes',
-          icon: 'https://cdn-icons-png.flaticon.com/512/3242/3242257.png',
+          name: "Design & Interface",
+          shortDescription:
+            "Experiências digitais intuitivas e visualmente impressionantes",
+          icon: "https://cdn-icons-png.flaticon.com/512/3242/3242257.png",
           screens: [
-            'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
           ],
           plans: [
             {
-              name: 'UI Design',
-              description: 'Interfaces modernas e funcionais',
-              monthlyPrice: 'R$ 1.200',
-              annualPrice: 'R$ 11.000',
-              annualSavings: 'R$ 1.600',
+              name: "UI Design",
+              description: "Interfaces modernas e funcionais",
+              monthlyPrice: "R$ 1.200",
+              annualPrice: "R$ 11.000",
+              annualSavings: "R$ 1.600",
               features: [
-                'Wireframes',
-                'Protótipo interativo',
-                'Design System',
-                'Até 3 revisões',
-                'Arquivos fonte'
+                "Wireframes",
+                "Protótipo interativo",
+                "Design System",
+                "Até 3 revisões",
+                "Arquivos fonte",
               ],
-              featured: false
+              featured: false,
             },
             {
-              name: 'UX Research',
-              description: 'Experiência do usuário baseada em dados',
-              monthlyPrice: 'R$ 2.500',
-              annualPrice: 'R$ 23.000',
-              annualSavings: 'R$ 3.400',
+              name: "UX Research",
+              description: "Experiência do usuário baseada em dados",
+              monthlyPrice: "R$ 2.500",
+              annualPrice: "R$ 23.000",
+              annualSavings: "R$ 3.400",
               features: [
-                'Pesquisa de usuários',
-                'Personas',
-                'Jornada do cliente',
-                'Testes de usabilidade',
-                'Relatório completo'
+                "Pesquisa de usuários",
+                "Personas",
+                "Jornada do cliente",
+                "Testes de usabilidade",
+                "Relatório completo",
               ],
-              featured: true
+              featured: true,
             },
             {
-              name: 'Pacote Completo',
-              description: 'UI/UX Design de ponta a ponta',
-              monthlyPrice: 'R$ 3.500',
-              annualPrice: 'R$ 33.000',
-              annualSavings: 'R$ 5.000',
+              name: "Pacote Completo",
+              description: "UI/UX Design de ponta a ponta",
+              monthlyPrice: "R$ 3.500",
+              annualPrice: "R$ 33.000",
+              annualSavings: "R$ 5.000",
               features: [
-                'UX Research completo',
-                'UI Design premium',
-                'Design System',
-                'Documentação',
-                'Suporte para desenvolvimento'
+                "UX Research completo",
+                "UI Design premium",
+                "Design System",
+                "Documentação",
+                "Suporte para desenvolvimento",
               ],
-              featured: false
-            }
-          ]
-        }
+              featured: false,
+            },
+          ],
+        },
       ],
       testimonials: [
         {
-          name: 'Carlos Mendes',
-          company: 'Startup Tech',
-          text: 'O aplicativo que desenvolveram superou todas nossas expectativas. Em 6 meses já tínhamos 500 mil usuários ativos e uma taxa de retenção impressionante.',
-          avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
-          projectType: 'App Completo',
-          projectIcon: 'https://cdn-icons-png.flaticon.com/512/888/888857.png'
+          name: "Carlos Mendes",
+          company: "Startup Tech",
+          text: "O aplicativo que desenvolveram superou todas nossas expectativas. Em 6 meses já tínhamos 500 mil usuários ativos e uma taxa de retenção impressionante.",
+          avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+          projectType: "App Completo",
+          projectIcon: "https://cdn-icons-png.flaticon.com/512/888/888857.png",
         },
         {
-          name: 'Ana Lúcia Silva',
-          company: 'E-commerce Fashion',
-          text: 'Nosso novo site aumentou as conversões em 180% e reduziu a taxa de rejeição. O cuidado com a experiência do usuário foi excepcional.',
-          avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
-          projectType: 'Loja Virtual',
-          projectIcon: 'https://cdn-icons-png.flaticon.com/512/3144/3144456.png'
+          name: "Ana Lúcia Silva",
+          company: "E-commerce Fashion",
+          text: "Nosso novo site aumentou as conversões em 180% e reduziu a taxa de rejeição. O cuidado com a experiência do usuário foi excepcional.",
+          avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+          projectType: "Loja Virtual",
+          projectIcon:
+            "https://cdn-icons-png.flaticon.com/512/3144/3144456.png",
         },
         {
-          name: 'Roberto Almeida',
-          company: 'Consultoria Financeira',
-          text: 'A landing page que criaram para nossa campanha teve uma taxa de conversão de 12%, muito acima da média do setor. Resultados impressionantes!',
-          avatar: 'https://randomuser.me/api/portraits/men/75.jpg',
-          projectType: 'Landing Premium',
-          projectIcon: 'https://cdn-icons-png.flaticon.com/512/2933/2933245.png'
-        }
+          name: "Roberto Almeida",
+          company: "Consultoria Financeira",
+          text: "A landing page que criaram para nossa campanha teve uma taxa de conversão de 12%, muito acima da média do setor. Resultados impressionantes!",
+          avatar: "https://randomuser.me/api/portraits/men/75.jpg",
+          projectType: "Landing Premium",
+          projectIcon:
+            "https://cdn-icons-png.flaticon.com/512/2933/2933245.png",
+        },
       ],
       faqs: [
         {
-          question: 'Qual é o prazo médio para desenvolvimento?',
-          answer: 'O prazo varia conforme a complexidade do projeto. Sites institucionais levam em média 4-6 semanas, enquanto aplicativos complexos podem levar de 3-6 meses. Entregamos em fases para que você possa acompanhar o progresso.'
+          question: "Qual é o prazo médio para desenvolvimento?",
+          answer:
+            "O prazo varia conforme a complexidade do projeto. Sites institucionais levam em média 4-6 semanas, enquanto aplicativos complexos podem levar de 3-6 meses. Entregamos em fases para que você possa acompanhar o progresso.",
         },
         {
-          question: 'Oferecem manutenção após o lançamento?',
-          answer: 'Sim, todos nossos planos incluem um período de suporte pós-lançamento. Também oferecemos planos de manutenção contínua com atualizações, backups e monitoramento de performance.'
+          question: "Oferecem manutenção após o lançamento?",
+          answer:
+            "Sim, todos nossos planos incluem um período de suporte pós-lançamento. Também oferecemos planos de manutenção contínua com atualizações, backups e monitoramento de performance.",
         },
         {
-          question: 'Posso fazer alterações no projeto durante o desenvolvimento?',
-          answer: 'Claro! Utilizamos metodologias ágeis que permitem ajustes durante o processo. Alterações significativas podem impactar no prazo e custo, mas sempre comunicamos isso de forma transparente.'
+          question:
+            "Posso fazer alterações no projeto durante o desenvolvimento?",
+          answer:
+            "Claro! Utilizamos metodologias ágeis que permitem ajustes durante o processo. Alterações significativas podem impactar no prazo e custo, mas sempre comunicamos isso de forma transparente.",
         },
         {
-          question: 'Como funciona o pagamento?',
-          answer: 'Trabalhamos com parcelamento em até 12x sem juros. Para projetos maiores, dividimos em etapas com pagamentos vinculados a marcos de entrega. Aceitamos cartão, transferência e PIX.'
+          question: "Como funciona o pagamento?",
+          answer:
+            "Trabalhamos com parcelamento em até 12x sem juros. Para projetos maiores, dividimos em etapas com pagamentos vinculados a marcos de entrega. Aceitamos cartão, transferência e PIX.",
         },
         {
-          question: 'Vocês trabalham com tecnologias específicas?',
-          answer: 'Utilizamos as melhores tecnologias para cada tipo de projeto: React e Vue.js para frontend, Node.js e Laravel para backend, Flutter e React Native para mobile. Sempre escolhemos a stack mais adequada para suas necessidades.'
+          question: "Vocês trabalham com tecnologias específicas?",
+          answer:
+            "Utilizamos as melhores tecnologias para cada tipo de projeto: React e Vue.js para frontend, Node.js e Laravel para backend, Flutter e React Native para mobile. Sempre escolhemos a stack mais adequada para suas necessidades.",
         },
         {
-          question: 'Há desconto para projetos de longo prazo?',
-          answer: 'Sim, oferecemos descontos progressivos para projetos com duração superior a 6 meses. Planos anuais também têm desconto de até 20% em relação aos mensais.'
-        }
-      ]
-    }
+          question: "Há desconto para projetos de longo prazo?",
+          answer:
+            "Sim, oferecemos descontos progressivos para projetos com duração superior a 6 meses. Planos anuais também têm desconto de até 20% em relação aos mensais.",
+        },
+      ],
+    };
   },
   computed: {
     currentService() {
       return this.services[this.currentServiceIndex];
-    }
+    },
   },
   methods: {
     selectService(index) {
@@ -577,49 +693,49 @@ export default {
       this.activeFaq = this.activeFaq === index ? null : index;
     },
     scrollToPricing() {
-      document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' });
+      document.getElementById("pricing").scrollIntoView({ behavior: "smooth" });
     },
     scrollToContact() {
-      document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+      document.getElementById("contact").scrollIntoView({ behavior: "smooth" });
     },
     openContactModal(plan) {
       this.selectedPlan = plan;
       this.showModal = true;
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     },
     closeModal() {
       this.showModal = false;
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = "auto";
     },
     submitForm() {
       // Lógica para enviar o formulário
-      alert('Obrigado pelo seu interesse! Entraremos em contato em breve.');
+      alert("Obrigado pelo seu interesse! Entraremos em contato em breve.");
       this.form = {
-        name: '',
-        email: '',
-        service: '',
-        message: ''
+        name: "",
+        email: "",
+        service: "",
+        message: "",
       };
     },
     submitPlanRequest() {
       // Lógica para enviar a solicitação de plano
       alert(`Solicitação para ${this.selectedPlan.name} enviada com sucesso!`);
       this.planForm = {
-        name: '',
-        email: '',
-        phone: '',
-        message: ''
+        name: "",
+        email: "",
+        phone: "",
+        message: "",
       };
       this.closeModal();
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>
 /* Base Styles */
 .pricing-page {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   color: #1e293b;
   line-height: 1.6;
   overflow-x: hidden;
@@ -635,14 +751,17 @@ export default {
 }
 
 .hero-section::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -50%;
   left: -50%;
   width: 200%;
   height: 200%;
-  background: 
-    radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%),
+  background: radial-gradient(
+      circle,
+      rgba(99, 102, 241, 0.1) 0%,
+      transparent 70%
+    ),
     url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M30,30 L70,30 L70,70 L30,70 Z" fill="none" stroke="white" stroke-width="0.5" stroke-dasharray="5,5"/></svg>');
   opacity: 0.15;
   animation: rotate 120s linear infinite;
@@ -685,7 +804,7 @@ export default {
 }
 
 .tech-text::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 5px;
   left: 0;
@@ -1027,7 +1146,7 @@ export default {
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  transition: .4s;
+  transition: 0.4s;
 }
 
 .slider:before {
@@ -1038,7 +1157,7 @@ export default {
   left: 4px;
   bottom: 4px;
   background-color: white;
-  transition: .4s;
+  transition: 0.4s;
 }
 
 input:checked + .slider {
@@ -1512,18 +1631,36 @@ input:checked + .slider:before {
 
 /* Animations */
 @keyframes pulse {
-  0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.3); opacity: 0.7; }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
 }
 
 @keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
     transform: rotate(45deg) translateY(0);
   }
   40% {
@@ -1535,8 +1672,12 @@ input:checked + .slider:before {
 }
 
 @keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Responsividade */
@@ -1544,31 +1685,31 @@ input:checked + .slider:before {
   .hero-content {
     flex-direction: column;
   }
-  
+
   .hero-visual {
     display: block;
     overflow: hidden;
   }
-  
+
   .contact-container {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
-  
+
   .devices-mockup {
     height: 300px;
   }
-  
+
   .device.laptop {
     width: 350px;
     height: 220px;
   }
-  
+
   .device.tablet {
     width: 150px;
     height: 200px;
   }
-  
+
   .device.phone {
     width: 100px;
     height: 160px;
@@ -1579,20 +1720,19 @@ input:checked + .slider:before {
   .hero-title {
     font-size: 2.5rem;
   }
-  
-  
+
   .hero-subtitle {
     font-size: 1.1rem;
   }
-  
+
   .pricing-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .plan-card.featured {
     transform: none;
   }
-  
+
   .testimonials-slider {
     grid-template-columns: 1fr;
   }
@@ -1602,27 +1742,27 @@ input:checked + .slider:before {
   .hero-section {
     padding: 6rem 1.5rem 8rem;
   }
-  .device{
+  .device {
     display: block;
-  }  
+  }
   .cta-container {
     flex-direction: column;
     width: 100%;
   }
-  
+
   .cta-button {
     width: 100%;
   }
-  
+
   .services-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .pricing-tabs {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .pricing-tabs button {
     width: 100%;
   }

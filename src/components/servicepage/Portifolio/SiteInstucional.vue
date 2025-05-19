@@ -227,10 +227,10 @@ export default {
           title: "Site profissional para escritório de advocacia",
           industry: "Direito",
           image:
-            "https://images.unsplash.com/photo-1531973576160-7125cd663d86?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-          link: "#",
+            "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+          link: "/demo/advocaciasilva",
           features: [
-            "Design sóbrio",
+            "Design Premium",
             "Áreas de atuação",
             "Publicações",
             "Formulário seguro",
@@ -291,7 +291,7 @@ export default {
           industry: "Educação",
           image:
             "https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-          link: "#",
+          link: "/demo/institutoeducar",
           features: [
             "Galeria de fotos",
             "Matrícula online",
