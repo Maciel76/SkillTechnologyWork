@@ -9,12 +9,12 @@ import PoliticasView from "@/components/views/PoliticasView.vue";
 import MissionView from "@/components/views/MissionView.vue";
 import ServiceView from "@/components/views/ServiceView.vue";
 import PortfolioView from "@/components/views/PortfolioView.vue";
-import PrecingView from "@/components/views/PrecingView.vue";
+import PricinglogView from "@/components/views/PricinglogView.vue";
 import ClientesView from "@/components/views/ClientesView.vue";
 import LojaView from "@/components/views/LojaView.vue";
 import BlogView from "@/components/views/BlogView.vue";
 import BlogpostView from "@/components/views/BlogpostView.vue";
-import ProdutoView from "@/components/views/ProdutoView.vue";
+//import ProdutoView from "@/components/views/ProdutoView.vue";
 // Serviços importação
 import DesevolvimentoMobile from "@/components/servicepage/DesenvolvimentoMobile.vue";
 import PageConsultoria from "@/components/servicepage/PageConsultoria.vue";
@@ -40,7 +40,7 @@ import DemoEbookpage from "@/components/templates/DemoEbookpage.vue";
 import InstitutoEducar from "@/InstitutoEducar.vue";
 import AppAdvocaciaSilva from "@/components/servicepage/AdvocaciaSilva/AppAdvocaciaSilva.vue";
 import DemoCursosonline from "@/components/templates/DemoCursosonline.vue";
-import DemoCapLeads from "@/components/templates/DemoCapLeads.vue";
+//import DemoCapLeads from "@/components/templates/DemoCapLeads.vue";
 
 // ========== 🛣️ CONFIGURAÇÃO DAS ROTAS ========== //
 const routes: Array<RouteRecordRaw> = [
@@ -60,7 +60,7 @@ const routes: Array<RouteRecordRaw> = [
   { path: "/missao", name: "missao", component: MissionView }, // finalizado
   { path: "/services", name: "servicos", component: ServiceView }, // finalizado
   { path: "/portfolio", name: "portfolio", component: PortfolioView },
-  { path: "/Planos/precos", name: "precos", component: PrecingView }, // finalizado
+  { path: "/Planos/precos", name: "precos", component: PricinglogView }, // finalizado
   { path: "/clientes", name: "clientes", component: ClientesView }, // falta adcionar alguns projetos reais
   { path: "/contato", name: "contato", component: ContatoView },
 
@@ -167,11 +167,11 @@ const routes: Array<RouteRecordRaw> = [
     meta: { hideHeader: true, hideFooter: true },
   }, // ✅ NÃO MOSTRA O FOOTER
   //📗CapLeads ll
-  {
-    path: "/demo/capleads",
-    component: DemoCapLeads,
-    meta: { hideHeader: true, hideFooter: true },
-  }, // ✅ NÃO MOSTRA O FOOTER
+  //{
+  //path: "/demo/capleads",
+  //component: DemoCapLeads,
+  //meta: { hideHeader: true, hideFooter: true },
+  //}, // ✅ NÃO MOSTRA O FOOTER
 
   //=========================================================================================================
 
