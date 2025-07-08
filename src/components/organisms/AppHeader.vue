@@ -8,7 +8,7 @@
           alt="Skill Technology Work"
           class="logo-icon"
         />
-        <span><router-link to="/">Skill Technology Work</router-link></span>
+        <span><router-link to="/">Skill Tecnology</router-link></span>
       </div>
       <div class="menu-toggle" @click="toggleMenu">
         <img src="https://api.iconify.design/heroicons:bars-3.svg" alt="Menu" />
