@@ -1,10 +1,8 @@
 <template>
   <section class="featured-projects">
     <div class="section-header">
-      <h2>Projetos em <span class="highlight">Destaque</span></h2>
-      <p class="subtitle">
-        Explore nossos projetos mais impactantes e inovadores
-      </p>
+      <h2>Projetos <span class="highlight">Recentes</span></h2>
+      <p class="subtitle">Explore Nossos Projetos Desenvolvidos Recentemente</p>
     </div>
 
     <div class="projects-grid">

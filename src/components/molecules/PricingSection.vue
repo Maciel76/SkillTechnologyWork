@@ -253,11 +253,28 @@
                 placeholder="Alguma informação adicional sobre seu projeto"
               ></textarea>
             </div>
-            <button type="submit" class="submit-button">
-              Enviar Solicitação
+            <button type="submit" class="submit-button" :disabled="isSubmitting">
+              {{ isSubmitting ? 'Enviando...' : 'Enviar Solicitação' }}
             </button>
           </form>
         </div>
+      </div>
+    </div>
+
+    <!-- Success Animation Modal -->
+    <div class="success-modal-overlay" v-if="showSuccess" @click="closeSuccessModal">
+      <div class="success-modal-content">
+        <div class="success-checkmark">
+          <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+          </svg>
+        </div>
+        <h2 class="success-title">Solicitação Enviada com Sucesso!</h2>
+        <p class="success-message">
+          Obrigado pelo seu interesse! Entraremos em contato em breve para discutir os detalhes do seu projeto.
+        </p>
+        <button class="success-button" @click="closeSuccessModal">Fechar</button>
       </div>
     </div>
   </div>
@@ -273,6 +290,8 @@ export default {
       activeFaq: null,
       annualBilling: false,
       showModal: false,
+      showSuccess: false,
+      isSubmitting: false,
       selectedPlan: null,
       form: {
         name: "",
@@ -603,6 +622,10 @@ export default {
       this.showModal = false;
       document.body.style.overflow = "auto";
     },
+    closeSuccessModal() {
+      this.showSuccess = false;
+      document.body.style.overflow = "auto";
+    },
     submitForm() {
       // Lógica para enviar o formulário
       alert("Obrigado pelo seu interesse! Entraremos em contato em breve.");
@@ -613,16 +636,61 @@ export default {
         message: "",
       };
     },
-    submitPlanRequest() {
-      // Lógica para enviar a solicitação de plano
-      alert(`Solicitação para ${this.selectedPlan.name} enviada com sucesso!`);
-      this.planForm = {
-        name: "",
-        email: "",
-        phone: "",
-        message: "",
-      };
-      this.closeModal();
+    async submitPlanRequest() {
+      try {
+        this.isSubmitting = true;
+
+        const requestData = {
+          nome: this.planForm.name,
+          email: this.planForm.email,
+          telefone: this.planForm.phone,
+          mensagem: this.planForm.message,
+          planName: this.selectedPlan.name,
+          planPrice: this.annualBilling
+            ? this.selectedPlan.annualPrice
+            : this.selectedPlan.monthlyPrice,
+          billingType: this.annualBilling ? 'anual' : 'mensal',
+          serviceName: this.currentService.name
+        };
+
+        const response = await fetch('http://localhost:3000/api/service-requests', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestData),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || 'Erro ao enviar solicitação');
+        }
+
+        // Limpa o formulário
+        this.planForm = {
+          name: "",
+          email: "",
+          phone: "",
+          message: "",
+        };
+
+        // Fecha o modal de contato
+        this.closeModal();
+
+        // Aguarda um pouco para suavizar a transição
+        setTimeout(() => {
+          // Mostra o modal de sucesso
+          this.showSuccess = true;
+          document.body.style.overflow = "hidden";
+        }, 300);
+
+      } catch (error) {
+        console.error('Erro ao enviar solicitação:', error);
+        alert('Erro ao enviar solicitação. Por favor, tente novamente.');
+      } finally {
+        this.isSubmitting = false;
+      }
     },
   },
 };
@@ -1184,6 +1252,152 @@ input:checked + .slider:before {
   font-size: 1rem;
   font-weight: normal;
   color: #64748b;
+}
+
+/* Success Modal */
+.success-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.success-modal-content {
+  background: white;
+  border-radius: 16px;
+  max-width: 500px;
+  width: 90%;
+  padding: 3rem 2rem;
+  text-align: center;
+  animation: slideUp 0.4s ease;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.success-checkmark {
+  margin: 0 auto 2rem;
+  width: 80px;
+  height: 80px;
+}
+
+.checkmark {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 3;
+  stroke: #10b981;
+  stroke-miterlimit: 10;
+  animation: fill 0.4s ease-in-out 0.4s forwards, scale 0.3s ease-in-out 0.9s both;
+}
+
+.checkmark-circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 3;
+  stroke-miterlimit: 10;
+  stroke: #10b981;
+  fill: none;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark-check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  stroke: #10b981;
+  stroke-width: 3;
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+.success-title {
+  font-size: 1.8rem;
+  color: #1e293b;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.success-message {
+  font-size: 1.1rem;
+  color: #64748b;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.success-button {
+  background: #6366f1;
+  color: white;
+  border: none;
+  padding: 1rem 3rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.success-button:hover {
+  background: #4f46e5;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+}
+
+.submit-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.submit-button:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes scale {
+  0%, 100% {
+    transform: none;
+  }
+  50% {
+    transform: scale3d(1.1, 1.1, 1);
+  }
+}
+
+@keyframes fill {
+  100% {
+    box-shadow: inset 0px 0px 0px 30px #10b981;
+  }
 }
 
 /* Animations */

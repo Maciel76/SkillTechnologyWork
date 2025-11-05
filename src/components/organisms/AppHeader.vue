@@ -34,7 +34,7 @@
         <li><router-link to="/Loja" @click="closeMenu">Loja</router-link></li>
       </ul>
       <button class="cta-button">
-        <router-link to="/contato"><span ref="typing"></span></router-link>
+        <router-link to="/contato">{{ displayedText }}</router-link>
       </button>
     </nav>
   </header>
@@ -226,34 +226,4 @@ nav a {
   text-align: center;
 }
 
-#typing {
-  display: inline-block;
-  white-space: nowrap;
-  padding-right: 5px;
-  border-right: 2px solid white;
-}
-
-@keyframes typing {
-  0% {
-    width: 0;
-  }
-  100% {
-    width: 100%;
-  }
-}
-
-@keyframes blink {
-  50% {
-    border-color: transparent;
-  }
-}
-
-@keyframes erase {
-  0% {
-    width: 100%;
-  }
-  100% {
-    width: 0;
-  }
-}
 </style>

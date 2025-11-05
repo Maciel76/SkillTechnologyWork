@@ -14,7 +14,7 @@
     <!-- Contact Content -->
     <div class="contact-container">
       <!-- Contact Form -->
-      <div class="contact-form">
+      <div class="contact-forrm">
         <h2>Envie sua mensagem</h2>
 
         <form @submit.prevent="submitForm">
@@ -103,12 +103,22 @@
             <span v-else>Enviando...</span>
           </button>
 
-          <div class="success-message" v-if="submitSuccess">
-            Mensagem enviada com sucesso! Entraremos em contato em breve.
+          <!-- Animação de Sucesso -->
+          <div class="success-animation-container" v-if="showSuccessAnimation">
+            <div class="success-animation">
+              <div class="success-animation__circle"></div>
+              <div class="success-animation__checkmark"></div>
+            </div>
+            <div class="success-animation__message">
+              Mensagem enviada com sucesso! Entraremos em contato em breve.
+            </div>
           </div>
+
           <div class="error-message" v-if="submitError">
-            Ocorreu um erro ao enviar sua mensagem. Por favor, tente novamente
-            mais tarde.
+            {{
+              errorMessage ||
+              "Ocorreu um erro ao enviar sua mensagem. Por favor, tente novamente mais tarde."
+            }}
           </div>
         </form>
       </div>
@@ -134,7 +144,7 @@
           </div>
           <div class="content">
             <h3>E-mail</h3>
-            <p>stwprogect@gmail.com</p>
+            <p>Contato@skilltchnologywork.com</p>
             <a href="mailto:stwprogect@gmail.com">Enviar e-mail</a>
           </div>
         </div>
@@ -155,7 +165,7 @@
           </div>
           <div class="content">
             <h3>Telefone</h3>
-            <p>(11) 98765-4321</p>
+            <p>(63) 98280-9010</p>
             <a href="tel:+5511987654321">Ligar agora</a>
           </div>
         </div>
@@ -176,8 +186,8 @@
           </div>
           <div class="content">
             <h3>Endereço</h3>
-            <p>Rua Criativa, 123 - Sala 45</p>
-            <p>São Paulo - SP, 01234-567</p>
+            <p>Setor central</p>
+            <p>Goiania-Go; CEP 74370-535</p>
             <a href="https://maps.google.com" target="_blank">Ver no mapa</a>
           </div>
         </div>
@@ -237,9 +247,6 @@
 </template>
 
 <script>
-//revisado
-import { send } from "@emailjs/browser";
-
 export default {
   name: "ContactPage",
   data() {
@@ -255,6 +262,8 @@ export default {
       isSubmitting: false,
       submitSuccess: false,
       submitError: false,
+      errorMessage: "",
+      showSuccessAnimation: false,
     };
   },
   methods: {
@@ -306,30 +315,56 @@ export default {
       this.isSubmitting = true;
       this.submitSuccess = false;
       this.submitError = false;
+      this.errorMessage = "";
+      this.showSuccessAnimation = false;
 
       try {
-        // Configuração do EmailJS
-        const templateParams = {
-          from_name: this.form.name,
-          from_email: this.form.email,
-          phone: this.form.phone,
-          subject: this.form.subject,
-          message: this.form.message,
+        // Preparar dados para enviar ao backend
+        const contactData = {
+          nome: this.form.name,
+          email: this.form.email,
+          telefone: this.form.phone || null,
+          mensagem: this.form.message,
+          assunto: this.form.subject,
         };
 
-        // Enviar email usando EmailJS
-        await send(
-          "YOUR_SERVICE_ID", // Substitua pelo seu Service ID
-          "YOUR_TEMPLATE_ID", // Substitua pelo seu Template ID
-          templateParams,
-          "YOUR_PUBLIC_KEY" // Substitua pelo seu Public Key
-        );
+        // Enviar para o backend
+        const response = await fetch("http://localhost:3000/api/contatos", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(contactData),
+        });
 
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.error || "Erro ao enviar mensagem");
+        }
+
+        // Sucesso
+        console.log("Contato enviado com sucesso:", result);
         this.submitSuccess = true;
+        this.showSuccessAnimation = true;
         this.resetForm();
+
+        // Esconder animação de sucesso após 5 segundos
+        setTimeout(() => {
+          this.showSuccessAnimation = false;
+        }, 5000);
       } catch (error) {
         console.error("Erro ao enviar mensagem:", error);
         this.submitError = true;
+        this.errorMessage =
+          error.message ||
+          "Ocorreu um erro ao enviar sua mensagem. Por favor, tente novamente mais tarde.";
+
+        // Esconder mensagem de erro após 5 segundos
+        setTimeout(() => {
+          this.submitError = false;
+          this.errorMessage = "";
+        }, 5000);
       } finally {
         this.isSubmitting = false;
       }
@@ -391,14 +426,15 @@ export default {
 }
 
 /* Contact Form */
-.contact-form {
+.contact-forrm {
   background: white;
   padding: 40px;
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
-.contact-form h2 {
+.contact-forrm h2 {
   font-size: 1.8rem;
   margin-bottom: 30px;
   color: #1e293b;
@@ -476,13 +512,92 @@ export default {
   cursor: not-allowed;
 }
 
-.success-message {
-  background-color: #d1fae5;
-  color: #065f46;
-  padding: 12px;
-  border-radius: 6px;
-  margin-top: 20px;
+/* Animação de Sucesso */
+.success-animation-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.95);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  z-index: 10;
+  animation: fadeIn 0.5s ease;
+}
+
+.success-animation {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
+}
+
+.success-animation__circle {
+  width: 80px;
+  height: 80px;
+  background-color: #10b981;
+  border-radius: 50%;
+  animation: scaleIn 0.5s ease;
+}
+
+.success-animation__checkmark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 20px;
+  border-left: 4px solid white;
+  border-bottom: 4px solid white;
+  transform-origin: center;
+  transform: translate(-50%, -60%) rotate(-45deg) scale(0);
+  animation: checkmark 0.5s ease 0.5s forwards;
+}
+
+.success-animation__message {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #10b981;
   text-align: center;
+  max-width: 80%;
+  animation: fadeIn 0.5s ease 0.8s both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(0);
+  }
+  70% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes checkmark {
+  0% {
+    transform: translate(-50%, -60%) rotate(-45deg) scale(0);
+  }
+  70% {
+    transform: translate(-50%, -60%) rotate(-45deg) scale(1.1);
+  }
+  100% {
+    transform: translate(-50%, -60%) rotate(-45deg) scale(1);
+  }
 }
 
 .error-message {

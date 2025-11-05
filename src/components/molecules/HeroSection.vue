@@ -19,10 +19,10 @@
           </div>
           <div class="social-text">
             <span class="rating">
-              <span class="stars">★★★★★</span> 5.0 de 150+ avaliações
+              <span class="stars">★★★★★</span> 4.8 de 150+ avaliações
             </span>
             <router-link to="/feedback" class="see-more">
-              Ver depoimentos <span class="arrow">→</span>
+              Ver avaliações <span class="arrow">→</span>
             </router-link>
           </div>
         </div>
@@ -145,7 +145,7 @@
       <div class="mouse">
         <div class="wheel"></div>
       </div>
-      <span>Explore mais</span>
+      <span>Role para baixo</span>
     </div>
   </section>
 </template>

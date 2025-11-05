@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import DashboadView from "@/components/views/DashboadView.vue";
 import Heroconfig from "@/components/Dashboad/HeroConfig.vue";
 import SobreView from "@/components/views/SobreView.vue";
 import TermosView from "@/components/views/TermosView.vue";
@@ -33,14 +32,9 @@ import ProjectSection from "@/components/molecules/ProjectSection.vue";
 import ContatoView from "@/components/views/ContatoView.vue";
 import Testimonials from "@/components/views/ClientesView.vue";
 import PageNotFound from "@/components/views/PageNotFound.vue";
+import Dashboad from "@/views/DashboadView.vue";
 
 // Demonstração
-import ConstrutoraAlpha from "@/ConstrutortaAlpha.vue";
-import DemoEbookpage from "@/components/templates/DemoEbookpage.vue";
-import InstitutoEducar from "@/InstitutoEducar.vue";
-import AppAdvocaciaSilva from "@/components/servicepage/AdvocaciaSilva/AppAdvocaciaSilva.vue";
-import DemoCursosonline from "@/components/templates/DemoCursosonline.vue";
-//import DemoCapLeads from "@/components/templates/DemoCapLeads.vue";
 
 // ========== 🛣️ CONFIGURAÇÃO DAS ROTAS ========== //
 const routes: Array<RouteRecordRaw> = [
@@ -53,6 +47,7 @@ const routes: Array<RouteRecordRaw> = [
   },
 
   // 📌 PÁGINAS PRINCIPAIS
+
   { path: "/sobre", name: "sobre", component: SobreView }, //finalizado
   { path: "/termos", name: "termos", component: TermosView }, // finalizado
   { path: "/eventos", name: "eventos", component: EventosView }, // finalizado
@@ -94,7 +89,7 @@ const routes: Array<RouteRecordRaw> = [
   { path: "/portfolio/lojas-virtuais", component: LojasVirtuais },
   { path: "/portfolio/blogs-personalizados", component: BlogsPesonalizado },
   {
-    path: "/portfolio/mascotes-personalizados",
+    path: "/service/mascotes-personalizados",
     component: MascotePesonalizados,
   },
 
@@ -109,13 +104,6 @@ const routes: Array<RouteRecordRaw> = [
   },
   { path: "/feedback", name: "testimonials", component: Testimonials },
 
-  // 👨‍💻 PAINEL ADMIN (DASHBOARD)
-  {
-    path: "/admin",
-    name: "dashboard",
-    component: DashboadView,
-    meta: { requiresAuth: true },
-  },
   {
     path: "/admin/hero",
     name: "heroconfig",
@@ -123,55 +111,16 @@ const routes: Array<RouteRecordRaw> = [
     meta: { requiresAuth: true },
   },
   //=========================================================================================================
-  // 🎭 PÁGINAS DE DEMO (SEM HEADER/FOOTER)
+  //📗Dashboard
   {
-    path: "/demo/construtora-alpha",
-    name: "construtoraAlphaDemo",
-    component: ConstrutoraAlpha,
+    path: "/dashboard",
+    component: Dashboad,
     meta: {
       hideHeader: true,
       hideFooter: true, // ✅ NÃO MOSTRA O FOOTER
       // WhatsApp permanece visível (a menos que você defina hideWhatsApp)
     },
   },
-  //📗landing page ebook
-  {
-    path: "/demo/ebookpage",
-    component: DemoEbookpage,
-    meta: {
-      hideHeader: true,
-      hideFooter: true, // ✅ NÃO MOSTRA O FOOTER
-      // WhatsApp permanece visível (a menos que você defina hideWhatsApp)
-    },
-  },
-  //📗Instituto Educar
-  {
-    path: "/demo/institutoeducar",
-    component: InstitutoEducar,
-    meta: {
-      hideHeader: true,
-      hideFooter: true, // ✅ NÃO MOSTRA O FOOTER
-      // WhatsApp permanece visível (a menos que você defina hideWhatsApp)
-    },
-  },
-  //📗Advocaci Silva
-  {
-    path: "/demo/advocaciasilva",
-    component: AppAdvocaciaSilva,
-    meta: { hideHeader: true, hideFooter: true }, // ✅ NÃO MOSTRA O FOOTER
-  },
-  //📗Cursos online
-  {
-    path: "/demo/cursosonline",
-    component: DemoCursosonline,
-    meta: { hideHeader: true, hideFooter: true },
-  }, // ✅ NÃO MOSTRA O FOOTER
-  //📗CapLeads ll
-  //{
-  //path: "/demo/capleads",
-  //component: DemoCapLeads,
-  //meta: { hideHeader: true, hideFooter: true },
-  //}, // ✅ NÃO MOSTRA O FOOTER
 
   //=========================================================================================================
 

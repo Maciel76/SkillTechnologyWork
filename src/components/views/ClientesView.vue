@@ -39,7 +39,7 @@
     <!-- Testimonials Carousel -->
     <section class="testimonials-section">
       <div class="section-header">
-        <h2>Avaliações <span class="highlight">Reais </span></h2>
+        <h2>Avaliações do Nossos <span class="highlight">Clientes</span></h2>
         <p>Depoimentos de clientes que já trabalharam conosco</p>
       </div>
 
@@ -123,9 +123,8 @@
           v-for="(project, index) in projects"
           :key="index"
           class="project-card"
-          @click="openProjectModal(project)"
         >
-          <div class="project-image">
+          <div class="project-image" @click="openProjectModal(project)">
             <img :src="project.image" :alt="project.title" />
             <div class="project-rating">
               <span
@@ -139,7 +138,7 @@
           </div>
           <div class="project-info">
             <h3>{{ project.title }}</h3>
-            <p>{{ project.shortDescription }}</p>
+            <p class="project-short-desc">{{ project.shortDescription }}</p>
             <div class="client-info">
               <img
                 :src="project.clientPhoto"
@@ -151,6 +150,15 @@
                 <p class="client-position">{{ project.clientPosition }}</p>
               </div>
             </div>
+            <button class="view-project-btn" @click="openProjectModal(project)">
+              Ver descrição completa
+              <svg viewBox="0 0 24 24" width="16" height="16">
+                <path
+                  d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"
+                  fill="currentColor"
+                />
+              </svg>
+            </button>
           </div>
         </div>
       </div>
@@ -191,6 +199,20 @@
         </button>
 
         <div class="modal-content" :class="{ submitted: formSubmitted }">
+          <div class="modal-image-section" v-if="!formSubmitted">
+            <img
+              src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+              alt="Equipe feliz"
+              class="modal-image"
+            />
+            <div class="image-overlay">
+              <div class="overlay-content">
+                <h3>Sua opinião é importante!</h3>
+                <p>Ajude outras empresas a conhecerem nosso trabalho</p>
+              </div>
+            </div>
+          </div>
+
           <div class="form-section" v-if="!formSubmitted">
             <h2>Avalie sua <span class="highlight">Experiência</span></h2>
             <p>Nos conte como foi trabalhar com nossa equipe</p>
@@ -406,9 +428,9 @@ export default {
 
     // Estatísticas
     const stats = ref([
-      { value: 500, prefix: "500+", label: "Clientes Satisfeitos" },
-      { value: 1000, prefix: "1000+", label: "Projetos Entregues" },
-      { value: 98, prefix: "98%", label: "Taxa de Satisfação" },
+      { value: 150, prefix: "150+", label: "Clientes Satisfeitos" },
+      { value: 200, prefix: "200+", label: "Projetos Entregues" },
+      { value: 98, prefix: "97%", label: "Taxa de Satisfação" },
       { value: 24, prefix: "24/7", label: "Suporte Dedicado" },
     ]);
 
@@ -417,29 +439,65 @@ export default {
       {
         name: "João Silva",
         position: "CEO",
-        company: "Empresa X",
+        company: "Fashion Store",
         rating: 5,
-        text: "A equipe foi incrível! Entregaram um site moderno e funcional que superou nossas expectativas em todos os aspectos.",
+        text: "A equipe foi incrível! Entregaram um e-commerce moderno e funcional que superou nossas expectativas. As vendas aumentaram 60% no primeiro trimestre!",
         photo: "https://randomuser.me/api/portraits/men/32.jpg",
         project: 0,
       },
       {
         name: "Maria Souza",
         position: "Fundadora",
-        company: "Startup Y",
+        company: "FastDelivery",
         rating: 5,
-        text: "Fiquei impressionada com a atenção aos detalhes. Nosso site não só ficou lindo, mas também aumentou nossas conversões em 40%.",
+        text: "O aplicativo revolucionou nosso negócio. Agora temos controle total sobre as entregas e nossos clientes podem acompanhar tudo em tempo real.",
         photo: "https://randomuser.me/api/portraits/women/44.jpg",
         project: 1,
       },
       {
         name: "Carlos Oliveira",
         position: "Diretor",
-        company: "Empresa Z",
+        company: "Global Corp",
         rating: 4,
-        text: "Trabalhar com essa equipe foi uma experiência excelente. Rápidos, eficientes e sempre abertos a feedbacks e ajustes.",
+        text: "O portal corporativo reflete perfeitamente nossa marca. A equipe captou nossa essência e transformou em um site moderno que recebe elogios constantemente.",
         photo: "https://randomuser.me/api/portraits/men/75.jpg",
         project: 2,
+      },
+      {
+        name: "Ana Paula Santos",
+        position: "Diretora",
+        company: "Colégio Excelência",
+        rating: 5,
+        text: "A plataforma transformou completamente nossa gestão escolar. Tudo centralizado em um só lugar. Professores e pais adoraram a facilidade!",
+        photo: "https://randomuser.me/api/portraits/women/65.jpg",
+        project: 3,
+      },
+      {
+        name: "Ricardo Ferreira",
+        position: "Proprietário",
+        company: "FitLife Academia",
+        rating: 5,
+        text: "O app superou nossas expectativas! Nossos alunos estão muito mais engajados. A taxa de retenção aumentou 45% desde o lançamento.",
+        photo: "https://randomuser.me/api/portraits/men/46.jpg",
+        project: 4,
+      },
+      {
+        name: "Luciana Martins",
+        position: "CEO",
+        company: "IndustryConnect",
+        rating: 5,
+        text: "Revolucionamos nosso modelo de negócio com este marketplace. Conectamos centenas de fornecedores e compradores. ROI positivo já no terceiro mês!",
+        photo: "https://randomuser.me/api/portraits/women/68.jpg",
+        project: 5,
+      },
+      {
+        name: "Eduardo Costa",
+        position: "Gerente Geral",
+        company: "Hotel Paradise",
+        rating: 4,
+        text: "Excelente sistema! Automatizou toda nossa operação hoteleira. As reservas diretas aumentaram 60% e reduzimos custos com comissões de OTAs.",
+        photo: "https://randomuser.me/api/portraits/men/52.jpg",
+        project: 6,
       },
     ]);
 
@@ -452,15 +510,15 @@ export default {
         description:
           "Desenvolvimento de uma plataforma de e-commerce com integração de pagamentos, gestão de estoque em tempo real e dashboard analítico para acompanhamento de métricas.",
         image:
-          "https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=800",
+          "https://images.unsplash.com/photo-1586880244406-556ebe35f282?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZWNvbWVyY2V8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&q=60&w=500",
         images: [
-          "https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=800",
-          "https://images.unsplash.com/photo-1522252234503-e356532cafd5?w=800",
-          "https://images.unsplash.com/photo-1486401899868-0e435ed85128?w=800",
+          "https://images.unsplash.com/photo-1658297063569-162817482fb6?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZWNvbWVyY2V8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&q=60&w=5006",
+          "https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZWNvbW1lcmNlJTIwd2Vic2l0ZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=500",
+          "https://plus.unsplash.com/premium_photo-1683758344058-60a1506db480?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8ZWNvbW1lcmNlJTIwd2Vic2l0ZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=500",
         ],
         rating: 5,
         testimonial:
-          "O e-commerce que desenvolvemos com a equipe superou todas nossas expectativas. A plataforma é intuitiva, rápida e já nos trouxe um aumento de 60% nas vendas no primeiro trimestre.",
+          "O e-commerce que desenvolvemos com a equipe superou todas nossas expectações. A plataforma é intuitiva, rápida e já nos trouxe um aumento de 60% nas vendas no primeiro trimestre.",
         clientName: "João Silva",
         clientPosition: "CEO",
         clientCompany: "Fashion Store",
@@ -475,11 +533,11 @@ export default {
         description:
           "Desenvolvimento de aplicativo mobile para gestão e rastreamento de entregas com integração ao Google Maps e notificações em tempo real para clientes e entregadores.",
         image:
-          "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800",
+          "https://images.unsplash.com/photo-1587813369290-091c9d432daf?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1470",
         images: [
-          "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800",
-          "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800",
-          "https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=800",
+          "https://images.unsplash.com/photo-1614976523626-d598aafd4fda?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1471",
+          "https://images.unsplash.com/photo-1665521032636-e8d2f6927053?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1470",
+          "https://plus.unsplash.com/premium_photo-1661907153090-93759d68acb1?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZGVsaXZlcnklMjB2YW58ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&q=60&w=500",
         ],
         rating: 5,
         testimonial:
@@ -499,11 +557,11 @@ export default {
         description:
           "Desenvolvimento de portal corporativo com gestão de conteúdo, blog integrado e área restrita para clientes com documentos e relatórios personalizados.",
         image:
-          "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800",
+          "https://img.freepik.com/free-photo/online-message-blog-chat-communication-envelop-graphic-icon-concept_53876-139717.jpg?w=1060",
         images: [
-          "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800",
-          "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800",
-          "https://images.unsplash.com/photo-1547658719-da2b51169166?w=800",
+          "https://img.freepik.com/free-photo/online-message-blog-chat-communication-envelop-graphic-icon-concept_53876-139717.jpg?w=1060",
+          "https://img.freepik.com/free-photo/business-people-analyzing-statistics-financial-concept_53876-14081.jpg?w=996",
+          "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041859.jpg?w=996",
         ],
         rating: 4,
         testimonial:
@@ -517,74 +575,112 @@ export default {
       },
       {
         id: 3,
-        title: "App de Delivery",
-        shortDescription: "Aplicativo para entregas em tempo real",
+        title: "Sistema de Gestão Escolar",
+        shortDescription: "Plataforma completa para escolas e alunos",
         description:
-          "Desenvolvimento de aplicativo mobile para gestão e rastreamento de entregas com integração ao Google Maps e notificações em tempo real para clientes e entregadores.",
+          "Sistema web completo para gestão escolar com painel administrativo, portal do aluno, controle de notas, presença, calendário acadêmico e comunicação entre professores e responsáveis.",
         image:
-          "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800",
+          "https://images.unsplash.com/photo-1588072432836-e10032774350?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1472",
         images: [
-          "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800",
-          "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800",
-          "https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=800",
+          "https://images.unsplash.com/photo-1509062522246-3755977927d7?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1532",
+          "https://images.unsplash.com/photo-1588075592446-265fd1e6e76f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2072",
+          "https://images.unsplash.com/photo-1581726707445-75cbe4efc586?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1476",
         ],
         rating: 5,
         testimonial:
-          "O aplicativo revolucionou nosso negócio. Agora temos controle total sobre as entregas e nossos clientes podem acompanhar em tempo real. A equipe foi extremamente profissional em todo o processo.",
-        clientName: "Maria Souza",
-        clientPosition: "Fundadora",
-        clientCompany: "FastDelivery",
-        clientPhoto: "https://randomuser.me/api/portraits/women/44.jpg",
-        technologies: ["React Native", "Firebase", "Google Maps API", "Redux"],
+          "A plataforma transformou completamente nossa gestão escolar. Agora temos tudo centralizado: notas, frequência, comunicação com pais. Os professores e pais adoraram!",
+        clientName: "Ana Paula Santos",
+        clientPosition: "Diretora",
+        clientCompany: "Colégio Excelência",
+        clientPhoto: "https://randomuser.me/api/portraits/women/65.jpg",
+        technologies: ["Laravel", "Vue.js", "MySQL", "Socket.io", "AWS S3"],
         link: "#",
       },
       {
         id: 4,
-        title: "App de Delivery",
-        shortDescription: "Aplicativo para entregas em tempo real",
+        title: "App de Fitness & Treinos",
+        shortDescription: "Aplicativo mobile para academias",
         description:
-          "Desenvolvimento de aplicativo mobile para gestão e rastreamento de entregas com integração ao Google Maps e notificações em tempo real para clientes e entregadores.",
+          "Aplicativo mobile com planos de treino personalizados, acompanhamento de evolução, integração com wearables, nutrição e gamificação para engajamento dos usuários.",
         image:
-          "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800",
+          "https://plus.unsplash.com/premium_photo-1674059549221-e2943b475f62?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=764",
         images: [
-          "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800",
-          "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800",
-          "https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=800",
+          "https://images.unsplash.com/photo-1627483298606-cf54c61779a9?ixlib=rb-4.1.0&ixid=M3wxMjA3fDF8MHxzZWFyY2h8MTF8fGZpdG5lc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=500",
+          "https://images.unsplash.com/photo-1518611012118-696072aa579a?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGZpdG5lc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=500",
+          "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Zml0bmVzfGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=500",
+          "https://images.unsplash.com/photo-1549476464-37392f717541?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=687",
         ],
         rating: 5,
         testimonial:
-          "O aplicativo revolucionou nosso negócio. Agora temos controle total sobre as entregas e nossos clientes podem acompanhar em tempo real. A equipe foi extremamente profissional em todo o processo.",
-        clientName: "Maria Souza",
-        clientPosition: "Fundadora",
-        clientCompany: "FastDelivery",
-        clientPhoto: "https://randomuser.me/api/portraits/women/44.jpg",
-        technologies: ["React Native", "Firebase", "Google Maps API", "Redux"],
+          "O app superou nossas expectativas! Nossos alunos estão muito mais engajados. A taxa de retenção aumentou 45% desde o lançamento. Interface linda e funcional!",
+        clientName: "Ricardo Ferreira",
+        clientPosition: "Proprietário",
+        clientCompany: "FitLife Academia",
+        clientPhoto: "https://randomuser.me/api/portraits/men/46.jpg",
+        technologies: [
+          "Flutter",
+          "Node.js",
+          "PostgreSQL",
+          "HealthKit",
+          "Firebase",
+        ],
         link: "#",
       },
       {
         id: 5,
-        title: "App de Delivery",
-        shortDescription: "Aplicativo para entregas em tempo real",
+        title: "Marketplace B2B",
+        shortDescription: "Plataforma de vendas entre empresas",
         description:
-          "Desenvolvimento de aplicativo mobile para gestão e rastreamento de entregas com integração ao Google Maps e notificações em tempo real para clientes e entregadores.",
+          "Marketplace B2B completo conectando fornecedores e compradores com sistema de cotações, negociação, pagamentos seguros, logística integrada e dashboard analítico.",
         image:
-          "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800",
+          "https://images.unsplash.com/photo-1664455340023-214c33a9d0bd?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1632",
         images: [
-          "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800",
-          "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800",
-          "https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=800",
-          "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800",
-          "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800",
-          "https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=800",
+          "https://plus.unsplash.com/premium_photo-1661544641499-e12fd5efeea4?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1632",
+          "https://images.unsplash.com/photo-1688561808434-886a6dd97b8c?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1470",
+          "https://plus.unsplash.com/premium_photo-1664475347754-f633cb166d13?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1470",
         ],
         rating: 5,
         testimonial:
-          "O aplicativo revolucionou nosso negócio. Agora temos controle total sobre as entregas e nossos clientes podem acompanhar em tempo real. A equipe foi extremamente profissional em todo o processo.",
-        clientName: "Maria Souza",
-        clientPosition: "Fundadora",
-        clientCompany: "FastDelivery",
-        clientPhoto: "https://randomuser.me/api/portraits/women/44.jpg",
-        technologies: ["React Native", "Firebase", "Google Maps API", "Redux"],
+          "Revolucionamos nosso modelo de negócio com este marketplace. Conectamos centenas de fornecedores e compradores. O ROI foi positivo já no terceiro mês!",
+        clientName: "Luciana Martins",
+        clientPosition: "CEO",
+        clientCompany: "IndustryConnect",
+        clientPhoto: "https://randomuser.me/api/portraits/women/68.jpg",
+        technologies: [
+          "Vue.js",
+          "Vuex",
+          "Node.js",
+          "MongoDB",
+          "Docker",
+          "Stripe",
+        ],
+        link: "#",
+      },
+      {
+        id: 6,
+        title: "Sistema de Reservas para Hotéis",
+        shortDescription: "Plataforma de gestão hoteleira",
+        description:
+          "Desenvolvimento de sistema completo para gestão hoteleira com reservas online, controle de quartos, check-in/check-out, faturamento e integração com OTAs. ",
+        image:
+          //imagem principal
+          "https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aG90ZWx8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&q=60&w=500",
+        images: [
+          //imagem1
+          "https://images.unsplash.com/photo-1455587734955-081b22074882?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1470",
+          //imagem2
+          "https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1470",
+          //imagem3
+          "https://plus.unsplash.com/premium_photo-1678297269980-16f4be3a15a6?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1470",
+        ],
+        rating: 4,
+        testimonial:
+          "Excelente sistema! Automatizou toda nossa operação. As reservas diretas aumentaram 60% e reduzimos custos com comissões de OTAs. Suporte impecável!",
+        clientName: "Eduardo Costa",
+        clientPosition: "Gerente Geral",
+        clientCompany: "Hotel Paradise",
+        clientPhoto: "https://randomuser.me/api/portraits/men/52.jpg",
+        technologies: ["Vue.js", "Node.js+Express", "MongoDB", "AWS", "Docker"],
         link: "#",
       },
     ]);
@@ -629,12 +725,33 @@ export default {
       feedbackForm.value.photo = event.target.files[0];
     };
 
-    const submitFeedback = () => {
-      isSubmitting.value = true;
+    const submitFeedback = async () => {
+      try {
+        isSubmitting.value = true;
 
-      // Simulação de envio
-      setTimeout(() => {
-        // Adiciona o novo depoimento à lista
+        // Prepara os dados para envio
+        const avaliacaoData = {
+          nome: feedbackForm.value.name,
+          empresa: feedbackForm.value.company,
+          avaliacao: feedbackForm.value.testimonial,
+        };
+
+        // Envia para o backend
+        const response = await fetch('http://localhost:3000/api/avaliacoes', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(avaliacaoData),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || 'Erro ao enviar avaliação');
+        }
+
+        // Adiciona o novo depoimento à lista local (apenas para visualização imediata)
         testimonials.value.unshift({
           name: feedbackForm.value.name,
           position: feedbackForm.value.position,
@@ -659,7 +776,11 @@ export default {
 
         isSubmitting.value = false;
         formSubmitted.value = true;
-      }, 1500);
+      } catch (error) {
+        console.error('Erro ao enviar avaliação:', error);
+        alert('Erro ao enviar avaliação. Por favor, tente novamente.');
+        isSubmitting.value = false;
+      }
     };
 
     const showProject = (projectIndex) => {
@@ -1134,10 +1255,145 @@ button {
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 2rem;
   width: 100%;
-  max-width: 1200px; /* Define uma largura máxima para o grid */
-  margin: 0 auto; /* Centraliza o grid */
-  padding: 0 1rem; /* Adiciona um pequeno padding nas laterais */
-  cursor: pointer; /* Adiciona cursor pointer para indicar interatividade */
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.project-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.project-image {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.project-image:hover img {
+  transform: scale(1.05);
+}
+
+.project-rating {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  display: flex;
+  gap: 0.125rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.project-rating .stars {
+  color: #ddd;
+  font-size: 0.875rem;
+}
+
+.project-rating .stars.filled {
+  color: orange;
+}
+
+.project-info {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+}
+
+.project-info h3 {
+  font-size: 1.25rem;
+  color: var(--dark);
+  margin: 0;
+}
+
+.project-short-desc {
+  color: var(--gray);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.client-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--light-gray);
+}
+
+.client-photo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.client-name {
+  font-weight: 600;
+  color: var(--dark);
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.client-position {
+  font-size: 0.8rem;
+  color: var(--gray);
+  margin: 0;
+}
+
+.view-project-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: auto;
+}
+
+.view-project-btn:hover {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.view-project-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.view-project-btn:hover svg {
+  transform: translateX(3px);
 }
 
 /* Share Section */
@@ -1169,17 +1425,17 @@ button {
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  background: white;
-  color: rgb(24, 81, 165);
+  background: #2563eb;
+  color: white;
   border-radius: 50px;
   font-weight: 600;
   transition: all 0.3s ease;
 }
 
 .share-btn:hover {
-  background: rgba(255, 255, 255, 0.9);
+  background: #1d4ed8;
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
 }
 
 .share-btn svg {
@@ -1239,7 +1495,62 @@ button {
 }
 
 .modal-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  padding: 0;
+}
+
+.modal-content.submitted {
+  grid-template-columns: 1fr;
   padding: 2.5rem;
+}
+
+.modal-image-section {
+  position: relative;
+  min-height: 500px;
+  overflow: hidden;
+}
+
+.modal-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.85), rgba(29, 78, 216, 0.85));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.overlay-content {
+  text-align: center;
+  color: white;
+}
+
+.overlay-content h3 {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.overlay-content p {
+  font-size: 1.1rem;
+  opacity: 0.95;
+}
+
+.form-section {
+  padding: 2.5rem;
+  overflow-y: auto;
+  max-height: 90vh;
 }
 
 /* Feedback Modal */
@@ -1342,8 +1653,8 @@ button {
 .submit-btn {
   width: 100%;
   padding: 0.75rem;
-  background: var(--primary);
-  color: rgb(175, 81, 81);
+  background: #2563eb;
+  color: white;
   border: none;
   border-radius: var(--radius);
   font-size: 1rem;
@@ -1353,12 +1664,13 @@ button {
 }
 
 .submit-btn:hover {
-  background: var(--primary-dark);
+  background: #1d4ed8;
 }
 
 .submit-btn:disabled {
   background: var(--light-gray);
   cursor: not-allowed;
+  opacity: 0.6;
 }
 
 /* Success Section */
@@ -1642,7 +1954,23 @@ button {
   }
 
   .modal-content {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
+  }
+
+  .modal-image-section {
+    min-height: 250px;
+  }
+
+  .overlay-content h3 {
+    font-size: 1.25rem;
+  }
+
+  .overlay-content p {
+    font-size: 0.95rem;
+  }
+
+  .form-section {
+    max-height: none;
   }
 
   .project-gallery {

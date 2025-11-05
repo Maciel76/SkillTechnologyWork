@@ -10,53 +10,90 @@
       </section>
 
       <div class="institutional-content">
-        <!-- Features Section -->
-        <section class="content-section animate-on-scroll">
-          <h2>Por que Participar?</h2>
-          <div class="features-grid">
-            <div class="feature-card">
-              <img
-                src="https://api.iconify.design/heroicons:academic-cap.svg"
-                alt="Aprendizado"
-              />
-              <h3>Aprendizado Prático</h3>
-              <p>Workshops hands-on com especialistas da indústria.</p>
-            </div>
-            <div class="feature-card">
-              <img
-                src="https://api.iconify.design/heroicons:user-group.svg"
-                alt="Networking"
-              />
-              <h3>Networking</h3>
-              <p>Conecte-se com profissionais e empresas do setor.</p>
-            </div>
-            <div class="feature-card">
-              <img
-                src="https://api.iconify.design/heroicons:light-bulb.svg"
-                alt="Inovação"
-              />
-              <h3>Inovação</h3>
-              <p>Conheça as últimas tendências e tecnologias do mercado.</p>
-            </div>
-          </div>
-        </section>
+        <!-- Loading State -->
+        <div v-if="eventStore.loading" class="loading-container">
+          <div class="spinner"></div>
+          <p>Carregando eventos...</p>
+        </div>
+
+        <!-- Error State -->
+        <div v-if="eventStore.error && !eventStore.loading" class="error-message">
+          <img
+            src="https://api.iconify.design/heroicons:exclamation-circle.svg"
+            alt="Erro"
+          />
+          <span>{{ eventStore.error }}</span>
+          <button @click="loadEvents" class="retry-button">Tentar novamente</button>
+        </div>
+
+        <!-- Empty State -->
+        <div v-if="!eventStore.loading && upcomingEvents.length === 0 && !eventStore.error" class="empty-state">
+          <img
+            src="https://api.iconify.design/heroicons:calendar-days.svg"
+            alt="Sem eventos"
+          />
+          <h3>Nenhum evento agendado no momento</h3>
+          <p>Fique atento! Em breve teremos novos eventos incríveis.</p>
+        </div>
 
         <!-- Events Section -->
-        <section class="content-section animate-on-scroll">
+        <section class="content-section animate-on-scroll" v-if="upcomingEvents.length > 0">
           <h2>Próximos Eventos</h2>
           <div class="events-grid">
             <div
-              v-for="(event, index) in events"
-              :key="index"
+              v-for="event in upcomingEvents"
+              :key="event._id"
               class="event-card"
               @click="openEventModal(event)"
             >
               <div class="event-image">
                 <img :src="event.image" :alt="event.title" />
                 <div class="event-date">
-                  <span class="day">{{ event.date.day }}</span>
-                  <span class="month">{{ event.date.month }}</span>
+                  <span class="day">{{ event.day }}</span>
+                  <span class="month">{{ event.month }}</span>
                 </div>
+              </div>
+              <div class="event-content">
+                <h3>{{ event.title }}</h3>
+                <p class="event-description">{{ event.description }}</p>
+                <div class="event-details">
+                  <div class="detail">
+                    <img
+                      src="https://api.iconify.design/heroicons:clock.svg"
+                      alt="Horário"
+                    />
+                    <span>{{ event.time }}</span>
+                  </div>
+                  <div class="detail">
+                    <img
+                      src="https://api.iconify.design/heroicons:map-pin.svg"
+                      alt="Local"
+                    />
+                    <span>{{ event.location }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Past Events Section -->
+        <section class="content-section animate-on-scroll" v-if="pastEvents.length > 0">
+          <h2>Eventos Realizados</h2>
+          <div class="events-grid">
+            <div
+              v-for="event in pastEvents"
+              :key="event._id"
+              class="event-card past-event"
+              @click="openEventModal(event)"
+            >
+              <div class="event-image">
+                <img :src="event.image" :alt="event.title" />
+                <div class="event-date past">
+                  <span class="day">{{ event.day }}</span>
+                  <span class="month">{{ event.month }}</span>
+                </div>
+                <div class="past-badge">Realizado</div>
               </div>
               <div class="event-content">
                 <h3>{{ event.title }}</h3>
@@ -107,9 +144,7 @@
                   src="https://api.iconify.design/heroicons:calendar.svg"
                   alt="Data"
                 />
-                <span>{{
-                  `${selectedEvent.date.day} ${selectedEvent.date.month}`
-                }}</span>
+                <span>{{ selectedEvent.fullDate }}</span>
               </div>
               <div class="detail">
                 <img
@@ -126,8 +161,10 @@
                 <span>{{ selectedEvent.location }}</span>
               </div>
             </div>
-            <p class="modal-description">{{ selectedEvent.fullDescription }}</p>
-            <div class="modal-gallery">
+            <p class="modal-description">
+              {{ selectedEvent.fullDescription || selectedEvent.description }}
+            </p>
+            <div class="modal-gallery" v-if="selectedEvent.gallery && selectedEvent.gallery.length > 0">
               <img
                 v-for="(image, index) in selectedEvent.gallery"
                 :key="index"
@@ -135,7 +172,11 @@
                 :alt="`${selectedEvent.title} - Imagem ${index + 1}`"
               />
             </div>
-            <button class="register-button" @click="registerForEvent">
+            <button
+              v-if="isUpcomingEvent(selectedEvent)"
+              class="register-button"
+              @click="registerForEvent"
+            >
               Inscrever-se
             </button>
           </div>
@@ -174,73 +215,68 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from 'vue';
+import { useEventStore } from '@/stores/eventStore';
+import { Event } from '@/services/eventService';
+
+export default defineComponent({
   name: "EventoView",
-  components: {},
+
   data() {
     return {
-      selectedEvent: null,
+      eventStore: useEventStore(),
+      selectedEvent: null as Event | null,
       isSubscribing: false,
       subscribeForm: {
         name: "",
         email: "",
       },
-      events: [
-        {
-          title: "Workshop de React Native",
-          description: "Aprenda a criar aplicativos móveis com React Native.",
-          fullDescription:
-            "Um workshop intensivo de desenvolvimento mobile com React Native. Aprenda desde os conceitos básicos até técnicas avançadas de desenvolvimento de aplicativos.",
-          date: { day: "15", month: "JUN" },
-          time: "09:00 - 18:00",
-          location: "São Paulo, SP",
-          image:
-            "https://images.unsplash.com/photo-1522252234503-e356532cafd5?w=500",
-          gallery: [
-            "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=500",
-            "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=500",
-            "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500",
-          ],
-        },
-        {
-          title: "Conferência de IA",
-          description: "Descubra o futuro da Inteligência Artificial.",
-          fullDescription:
-            "Uma conferência exclusiva sobre as últimas tendências em IA, com palestras de especialistas renomados e demonstrações práticas de tecnologias inovadoras.",
-          date: { day: "22", month: "JUL" },
-          time: "10:00 - 17:00",
-          location: "Rio de Janeiro, RJ",
-          image:
-            "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=500",
-          gallery: [
-            "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500",
-            "https://images.unsplash.com/photo-1573164713988-8665fc963095?w=500",
-            "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500",
-          ],
-        },
-      ],
     };
   },
+
+  computed: {
+    upcomingEvents(): Event[] {
+      return this.eventStore.getUpcomingPublishedEvents;
+    },
+    pastEvents(): Event[] {
+      return this.eventStore.getPastPublishedEvents.slice(0, 6); // Mostrar até 6 eventos passados
+    },
+  },
+
   methods: {
-    openEventModal(event) {
+    async loadEvents() {
+      // Carregar TODOS os eventos publicados (sem filtro)
+      // Os getters farão a separação entre futuros e passados
+      await this.eventStore.fetchPublishedEvents();
+    },
+
+    isUpcomingEvent(event: Event): boolean {
+      return new Date(event.date) >= new Date();
+    },
+
+    openEventModal(event: Event) {
       this.selectedEvent = event;
       document.body.style.overflow = "hidden";
     },
+
     closeEventModal() {
       this.selectedEvent = null;
       document.body.style.overflow = "auto";
     },
+
     registerForEvent() {
-      // Implementar lógica  de registro
-      alert("Registro realizado com sucesso!");
+      // Implementar lógica de registro
+      alert("Registro realizado com sucesso! Você receberá mais informações por e-mail.");
       this.closeEventModal();
     },
+
     async subscribeToEvents() {
       try {
         this.isSubscribing = true;
+        // Aqui você pode adicionar a lógica para enviar para o backend
         await new Promise((resolve) => setTimeout(resolve, 1000));
-        alert("Inscrição realizada com sucesso!");
+        alert("Inscrição realizada com sucesso! Você receberá notificações sobre nossos eventos.");
         this.subscribeForm = { name: "", email: "" };
       } catch (error) {
         alert("Erro ao realizar inscrição. Tente novamente.");
@@ -248,24 +284,38 @@ export default {
         this.isSubscribing = false;
       }
     },
-  },
-  mounted() {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
 
-    document.querySelectorAll(".animate-on-scroll").forEach((section) => {
-      observer.observe(section);
-    });
+    setupIntersectionObserver() {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      document.querySelectorAll(".animate-on-scroll").forEach((section) => {
+        observer.observe(section);
+      });
+    },
   },
-};
+
+  async mounted() {
+    // Carregar eventos publicados
+    await this.loadEvents();
+
+    // Setup intersection observer para animações
+    this.setupIntersectionObserver();
+  },
+
+  unmounted() {
+    // Garantir que o scroll volta ao normal ao sair
+    document.body.style.overflow = "auto";
+  },
+});
 </script>
 
 <style scoped>
@@ -326,6 +376,14 @@ export default {
 
 .content-section {
   margin-bottom: 4rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.content-section.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .content-section h2 {
@@ -335,32 +393,82 @@ export default {
   text-align: center;
 }
 
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  margin-bottom: 4rem;
+/* Loading & Error States */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 16px;
 }
 
-.feature-card {
-  background: white;
-  padding: 2rem;
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-
-.feature-card:hover {
-  transform: translateY(-5px);
-}
-
-.feature-card img {
+.spinner {
   width: 48px;
   height: 48px;
-  margin-bottom: 1rem;
+  border: 4px solid #e0e0e0;
+  border-top-color: #2064bd;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
 }
 
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.error-message {
+  background: #fee;
+  border: 1px solid #fcc;
+  color: #c33;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px auto;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.error-message img {
+  width: 32px;
+  height: 32px;
+}
+
+.retry-button {
+  padding: 8px 20px;
+  background: #c33;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.retry-button:hover {
+  background: #a22;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: #666;
+}
+
+.empty-state img {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
+  opacity: 0.3;
+}
+
+.empty-state h3 {
+  margin-bottom: 12px;
+  color: #333;
+}
+
+/* Events Grid */
 .events-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -373,11 +481,16 @@ export default {
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .event-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.event-card.past-event {
+  opacity: 0.85;
 }
 
 .event-image {
@@ -400,25 +513,59 @@ export default {
   padding: 0.5rem;
   border-radius: 5px;
   text-align: center;
+  min-width: 60px;
+}
+
+.event-date.past {
+  background: #6b7280;
 }
 
 .event-date .day {
   display: block;
   font-size: 1.5rem;
   font-weight: bold;
+  line-height: 1;
+}
+
+.event-date .month {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.past-badge {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 .event-content {
   padding: 1.5rem;
 }
 
+.event-content h3 {
+  margin-bottom: 0.75rem;
+  color: #333;
+  font-size: 1.25rem;
+}
+
 .event-description {
   color: #666;
-  margin: 1rem 0;
+  margin-bottom: 1rem;
+  line-height: 1.5;
 }
 
 .event-details {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
 }
 
@@ -426,6 +573,8 @@ export default {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  color: #666;
+  font-size: 0.9rem;
 }
 
 .detail img {
@@ -433,6 +582,7 @@ export default {
   height: 20px;
 }
 
+/* Event Modal */
 .event-modal {
   position: fixed;
   top: 0;
@@ -444,6 +594,7 @@ export default {
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  padding: 20px;
 }
 
 .modal-content {
@@ -451,7 +602,7 @@ export default {
   padding: 2rem;
   border-radius: 10px;
   max-width: 800px;
-  width: 90%;
+  width: 100%;
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
@@ -464,6 +615,19 @@ export default {
   background: none;
   border: none;
   cursor: pointer;
+  z-index: 10;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background 0.3s ease;
+}
+
+.close-modal:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.close-modal img {
+  width: 24px;
+  height: 24px;
 }
 
 .modal-image {
@@ -474,15 +638,26 @@ export default {
   margin-bottom: 1.5rem;
 }
 
+.modal-content h2 {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
 .modal-details {
   display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
   margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #f5f5f5;
+  border-radius: 8px;
 }
 
 .modal-description {
   margin-bottom: 1.5rem;
   line-height: 1.6;
+  color: #555;
 }
 
 .modal-gallery {
@@ -507,6 +682,8 @@ export default {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
   transition: background 0.3s ease;
 }
 
@@ -514,16 +691,21 @@ export default {
   background: #1a4f96;
 }
 
+/* Registration Form */
 .registration-form {
   max-width: 600px;
   margin: 0 auto;
   text-align: center;
 }
 
+.registration-form p {
+  margin-bottom: 1.5rem;
+  color: #666;
+}
+
 .subscribe-form {
   display: grid;
   gap: 1rem;
-  margin-top: 1.5rem;
 }
 
 .form-group input {
@@ -531,5 +713,60 @@ export default {
   padding: 0.75rem;
   border: 1px solid #ddd;
   border-radius: 5px;
+  font-size: 1rem;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #2064bd;
+}
+
+.subscribe-form button {
+  padding: 0.75rem;
+  background: #2064bd;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+.subscribe-form button:hover:not(:disabled) {
+  background: #1a4f96;
+}
+
+.subscribe-form button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .institutional-hero h1 {
+    font-size: 2rem;
+  }
+
+  .institutional-hero p {
+    font-size: 1rem;
+  }
+
+  .events-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-content {
+    padding: 1.5rem;
+  }
+
+  .modal-details {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .modal-gallery {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
