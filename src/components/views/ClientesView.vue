@@ -115,6 +115,7 @@
     <section class="projects-section">
       <div class="section-header">
         <h2>Projetos com <span class="highlight">Avaliações </span></h2>
+        <br />
         <p>Conheça alguns trabalhos que receberam feedbacks excelentes</p>
       </div>
 
@@ -183,7 +184,7 @@
       </div>
     </section>
 
-    <!-- Feedback Modal -->
+    <ContatoService /><!-- Feedback Modal -->
     <div
       v-if="showFeedbackModal"
       class="feedback-modal"
@@ -403,10 +404,12 @@
 </template>
 
 <script>
+import ContatoService from "../celulas/ContatoService.vue";
 import { ref, onMounted } from "vue";
 
 export default {
   name: "FeedbackView",
+  components: { ContatoService },
   setup() {
     // Dados reativos
     const currentSlide = ref(0);
@@ -737,10 +740,10 @@ export default {
         };
 
         // Envia para o backend
-        const response = await fetch('http://localhost:3000/api/avaliacoes', {
-          method: 'POST',
+        const response = await fetch("http://localhost:3000/api/avaliacoes", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(avaliacaoData),
         });
@@ -748,7 +751,7 @@ export default {
         const data = await response.json();
 
         if (!response.ok) {
-          throw new Error(data.message || 'Erro ao enviar avaliação');
+          throw new Error(data.message || "Erro ao enviar avaliação");
         }
 
         // Adiciona o novo depoimento à lista local (apenas para visualização imediata)
@@ -777,8 +780,8 @@ export default {
         isSubmitting.value = false;
         formSubmitted.value = true;
       } catch (error) {
-        console.error('Erro ao enviar avaliação:', error);
-        alert('Erro ao enviar avaliação. Por favor, tente novamente.');
+        console.error("Erro ao enviar avaliação:", error);
+        alert("Erro ao enviar avaliação. Por favor, tente novamente.");
         isSubmitting.value = false;
       }
     };
@@ -916,24 +919,26 @@ button {
 }
 
 .section-header {
-  text-align: center;
   margin-bottom: 3rem;
+  display: block;
 }
 
 .section-header h2 {
+  text-align: center;
   font-size: 2rem;
   margin-bottom: 0.5rem;
   color: var(--dark);
 }
 
 .section-header p {
+  text-align: center;
   color: var(--gray);
   font-size: 1.1rem;
 }
 
 /* Hero Section */
 .hero-section {
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  background-color: var(--light-gray);
   padding: 6rem 1rem;
   text-align: center;
   position: relative;
@@ -1399,7 +1404,7 @@ button {
 /* Share Section */
 .share-section {
   padding: 5rem 0;
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  background: var(--light-gray);
 
   text-align: center;
 }
@@ -1524,7 +1529,11 @@ button {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(37, 99, 235, 0.85), rgba(29, 78, 216, 0.85));
+  background: linear-gradient(
+    135deg,
+    rgba(37, 99, 235, 0.85),
+    rgba(29, 78, 216, 0.85)
+  );
   display: flex;
   align-items: center;
   justify-content: center;

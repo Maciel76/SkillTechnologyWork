@@ -34,7 +34,8 @@ import Testimonials from "@/components/views/ClientesView.vue";
 import PageNotFound from "@/components/views/PageNotFound.vue";
 import Dashboad from "@/views/DashboadView.vue";
 
-// Demonstração
+// pagina de ajuste
+import PaginaAjuste from "@/paginaAjuste.vue";
 
 // ========== 🛣️ CONFIGURAÇÃO DAS ROTAS ========== //
 const routes: Array<RouteRecordRaw> = [
@@ -45,18 +46,19 @@ const routes: Array<RouteRecordRaw> = [
     component: HomeView,
     meta: { title: "Página Inicial" },
   },
-
+  //pagina de Ajuste
+  { path: "/paginaajuste", name: "paginaajuste", component: PaginaAjuste },
   // 📌 PÁGINAS PRINCIPAIS
 
-  { path: "/sobre", name: "sobre", component: SobreView }, //finalizado
-  { path: "/termos", name: "termos", component: TermosView }, // finalizado
-  { path: "/eventos", name: "eventos", component: EventosView }, // finalizado
-  { path: "/privacidade", name: "privacidade", component: PoliticasView }, // finalizado
-  { path: "/missao", name: "missao", component: MissionView }, // finalizado
+  { path: "/sobre", name: "sobre", component: SobreView }, //✅ok
+  { path: "/termos", name: "termos", component: TermosView }, // ✅ok
+  { path: "/eventos", name: "eventos", component: EventosView }, // ✅ok
+  { path: "/privacidade", name: "privacidade", component: PoliticasView }, //✅ok
+  { path: "/missao", name: "missao", component: MissionView }, //✅ok
   { path: "/services", name: "servicos", component: ServiceView }, // finalizado
   { path: "/portfolio", name: "portfolio", component: PortfolioView },
-  { path: "/Planos/precos", name: "precos", component: PricinglogView }, // finalizado
-  { path: "/clientes", name: "clientes", component: ClientesView }, // falta adcionar alguns projetos reais
+  { path: "/Planos/precos", name: "precos", component: PricinglogView }, //💛 falta so muda a hero do site
+  { path: "/clientes", name: "clientes", component: ClientesView }, // ✅ok
   { path: "/contato", name: "contato", component: ContatoView },
 
   { path: "/Loja", component: LojaView }, //finalizado

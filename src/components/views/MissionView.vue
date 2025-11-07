@@ -58,7 +58,6 @@
                   "A inovação está no DNA da nossa empresa. Cada projeto é uma
                   oportunidade de criar algo extraordinário."
                 </p>
-                <span>- Ana Silva, CTO</span>
               </div>
             </div>
             <div class="value-card">
@@ -76,7 +75,6 @@
                   "Buscamos a excelência em cada detalhe, garantindo resultados
                   excepcionais para nossos clientes."
                 </p>
-                <span>- Carlos Santos, Diretor de Projetos</span>
               </div>
             </div>
             <div class="value-card">
@@ -94,7 +92,6 @@
                   "O sucesso dos nossos clientes é o nosso sucesso. Construímos
                   parcerias duradouras baseadas em confiança."
                 </p>
-                <span>- Maciel Barbosa, CEO</span>
               </div>
             </div>
           </div>
@@ -105,15 +102,15 @@
           <h2>Nosso Impacto</h2>
           <div class="impact-grid">
             <div class="impact-stat">
-              <div class="stat-number">500+</div>
+              <div class="stat-number">150+</div>
               <div class="stat-label">Projetos Entregues</div>
             </div>
             <div class="impact-stat">
-              <div class="stat-number">100+</div>
+              <div class="stat-number">200+</div>
               <div class="stat-label">Empresas Transformadas</div>
             </div>
             <div class="impact-stat">
-              <div class="stat-number">50+</div>
+              <div class="stat-number">5+</div>
               <div class="stat-label">Países Alcançados</div>
             </div>
           </div>

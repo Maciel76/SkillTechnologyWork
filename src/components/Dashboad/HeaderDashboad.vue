@@ -2,18 +2,17 @@
   <header class="header">
     <div class="header-left">
       <button class="mobile-menu-btn" @click="$emit('toggle-mobile-menu')">
-        <i class="fas fa-bars"></i>
+        <img src="../../assets/svg/icons/bars.svg" alt="" />
       </button>
       <h1>{{ title }}</h1>
     </div>
     <div class="header-right">
       <div class="search-bar">
-        <i class="fas fa-search"></i>
         <input type="text" placeholder="Pesquisar..." />
       </div>
       <div class="user-actions">
         <button class="notification-btn">
-          <i class="fas fa-bell"></i>
+          <img src="../../assets/svg/icons/bell.svg" width="35px" alt="" />
           <span class="notification-badge">3</span>
         </button>
         <div class="user-profile">

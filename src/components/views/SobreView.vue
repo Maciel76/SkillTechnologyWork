@@ -46,8 +46,8 @@
               <div class="timeline-content">
                 <h3>Experiência comprovada</h3>
                 <p>
-                  Mais de 100 projetos entregues para os mais diversos setores,
-                  de startups a grandes organizações..
+                  Mais de 150 projetos entregues para os mais diversos setores,
+                  de startups a grandes organizações.
                 </p>
               </div>
             </div>
@@ -64,8 +64,8 @@
               <div class="timeline-content">
                 <h3>Inovação contínua:</h3>
                 <p>
-                  Adotamos as tecnologias mais modernas (Vue.js, Node.js, AI/ML
-                  e mais) para garantir performance, segurança e escalabilidade.
+                  Adotamos as tecnologias mais modernas para garantir
+                  performance, segurança e escalabilidade.
                 </p>
               </div>
             </div>
@@ -93,8 +93,10 @@
             </div>
           </div>
         </section>
+        <!-- =====================================================
+Assim que tiver as fotos e mais de 3 profissionais trabalhando na agencia liberar e edita essa area -->
 
-        <!-- Team Section -->
+        <!-- Team Section
         <section class="content-section animate-on-scroll">
           <h2>Nossa Equipe</h2>
           <div class="team-grid">
@@ -173,9 +175,9 @@
               </div>
             </div>
           </div>
-        </section>
+        </section> -->
 
-        <!-- Statistics Section -->
+        <!-- Statistics Section
         <section class="content-section animate-on-scroll stats-section">
           <h2>Nossos Números</h2>
           <div class="stats-grid">
@@ -196,16 +198,18 @@
               <div class="stat-label">Clientes Satisfeitos</div>
             </div>
           </div>
-        </section>
+        </section> -->
       </div>
+      <ContatoService />
     </main>
   </div>
 </template>
 
 <script>
+import ContatoService from "../celulas/ContatoService.vue";
 export default {
   name: "SobreView",
-  components: {},
+  components: { ContatoService },
   mounted() {
     const observer = new IntersectionObserver(
       (entries) => {

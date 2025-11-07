@@ -120,17 +120,11 @@
             </section>
 
             <section id="contato" class="content-section animate-on-scroll">
-              <div class="section-header">
-                <img
-                  src="https://api.iconify.design/heroicons:chat.svg"
-                  alt="Contato"
-                />
-                <h2>Contato</h2>
-              </div>
-              <p>Para questões sobre privacidade:</p>
+              <div class="section-header"></div>
+
               <div class="contact-info">
-                <p>Email: privacidade@skilltech.com</p>
-                <p>Telefone: (11) 1234-5678</p>
+                <p>contato@skilltechnologywork</p>
+                <p>Telefone: (62) 98280-9010</p>
                 <router-link to="/contato" class="contact-button"
                   >Fale Conosco</router-link
                 >
@@ -246,7 +240,7 @@ export default {
 }
 
 .privacy-summary {
-  background: rgba(124, 38, 38, 0.1);
+  background: rgba(20, 214, 123, 0.1);
   padding: 1.5rem;
   border-radius: 10px;
   margin-top: 2rem;

@@ -18,9 +18,9 @@
             <button class="cta-button" @click="scrollToPricing">
               Ver Planos
             </button>
-            <button class="cta-button secondary" @click="scrollToContact">
+            <router-link to="/contato" class="cta-button secondary">
               Fale Conosco
-            </button>
+            </router-link>
           </div>
         </div>
         <div class="hero-visual">
@@ -309,6 +309,7 @@
         </div>
       </div>
     </section> -->
+    <ContatoService />
 
     <!-- Contact Modal -->
     <div class="modal-overlay" v-if="showModal" @click.self="closeModal">
@@ -410,8 +411,10 @@
 </template>
 
 <script>
+import ContatoService from "./ContatoService.vue";
 export default {
   name: "PremiumPricingPage",
+  components: { ContatoService },
   data() {
     return {
       currentServiceIndex: 0,
