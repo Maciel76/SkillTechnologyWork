@@ -9,7 +9,7 @@
     <!-- Error State -->
     <div v-else-if="error || !post" class="not-found">
       <h2>Artigo não encontrado</h2>
-      <p>{{ error || 'O artigo que você procura não está disponível.' }}</p>
+      <p>{{ error || "O artigo que você procura não está disponível." }}</p>
       <router-link to="/blog" class="back-link">Voltar ao Blog</router-link>
     </div>
 
@@ -98,9 +98,7 @@
 
         <!-- Comments Section -->
         <section class="comments-section">
-          <h2>
-            Comentários ({{ post.comments ? post.comments.length : 0 }})
-          </h2>
+          <h2>Comentários ({{ post.comments ? post.comments.length : 0 }})</h2>
 
           <!-- Comment Form -->
           <div class="comment-form">
@@ -130,15 +128,20 @@
               <button type="submit" :disabled="isSubmitting" class="submit-btn">
                 <i
                   class="fas"
-                  :class="isSubmitting ? 'fa-spinner fa-spin' : 'fa-paper-plane'"
+                  :class="
+                    isSubmitting ? 'fa-spinner fa-spin' : 'fa-paper-plane'
+                  "
                 ></i>
-                {{ isSubmitting ? 'Enviando...' : 'Enviar Comentário' }}
+                {{ isSubmitting ? "Enviando..." : "Enviar Comentário" }}
               </button>
             </form>
           </div>
 
           <!-- Comments List -->
-          <div v-if="post.comments && post.comments.length" class="comments-list">
+          <div
+            v-if="post.comments && post.comments.length"
+            class="comments-list"
+          >
             <div
               v-for="comment in post.comments"
               :key="comment._id || comment.id"
@@ -147,7 +150,9 @@
               <div class="comment-header">
                 <div class="comment-author">
                   <i class="fas fa-user-circle"></i>
-                  <strong>{{ comment.nome || comment.author || 'Anônimo' }}</strong>
+                  <strong>{{
+                    comment.nome || comment.author || "Anônimo"
+                  }}</strong>
                 </div>
                 <span class="comment-date">{{
                   formatDate(comment.data || comment.date)
@@ -212,6 +217,7 @@
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useBlog } from "@/components/composables/useBlog.js";
+import { useStats } from "@/components/composables/useStats.js"; // ← Adicione esta linha
 
 export default {
   name: "BlogpostView",
@@ -578,7 +584,8 @@ export default {
   color: #1f2937;
   font-size: 1.15rem;
   margin-bottom: 4rem;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
 }
 
 .post-content >>> h2 {

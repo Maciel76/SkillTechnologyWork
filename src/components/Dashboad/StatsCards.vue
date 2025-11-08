@@ -5,43 +5,63 @@
         <i class="fas fa-users"></i>
       </div>
       <div class="stat-info">
-        <h3>245</h3>
-        <p>Leads</p>
+        <h3>{{ stats.totalVisitors }}</h3>
+        <p>Visitantes Totais</p>
       </div>
     </div>
     <div class="stat-card">
       <div class="stat-icon projects">
-        <i class="fas fa-briefcase"></i>
+        <i class="fas fa-user-check"></i>
       </div>
       <div class="stat-info">
-        <h3>42</h3>
-        <p>Projetos Ativos</p>
+        <h3>{{ stats.uniqueVisitors }}</h3>
+        <p>Visitantes Únicos</p>
       </div>
     </div>
     <div class="stat-card">
       <div class="stat-icon revenue">
-        <i class="fas fa-dollar-sign"></i>
+        <i class="fas fa-eye"></i>
       </div>
       <div class="stat-info">
-        <h3>R$ 18.560</h3>
-        <p>Receita Mensal</p>
+        <h3>{{ stats.pageViews }}</h3>
+        <p>Visualizações</p>
       </div>
     </div>
     <div class="stat-card">
       <div class="stat-icon tasks">
-        <i class="fas fa-tasks"></i>
+        <i class="fas fa-chart-line"></i>
       </div>
       <div class="stat-info">
-        <h3>12</h3>
-        <p>Tarefas Pendentes</p>
+        <h3>{{ engagementRate }}%</h3>
+        <p>Taxa de Engajamento</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { computed } from "vue";
+import { useStats } from "../composables/useStats";
+
 export default {
   name: "StatsCards",
+  setup() {
+    const { stats, loading } = useStats();
+
+    const engagementRate = computed(() => {
+      if (stats.value.uniqueVisitors === 0) return 0;
+      return (
+        (stats.value.pageViews / stats.value.uniqueVisitors) *
+        100
+      ).toFixed(1);
+    });
+
+    return {
+      stats,
+      loading,
+      engagementRate,
+    };
+  },
 };
 </script>
 

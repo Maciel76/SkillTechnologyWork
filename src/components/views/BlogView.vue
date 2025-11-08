@@ -153,12 +153,14 @@
 //revisado
 import { ref, computed, onMounted } from "vue";
 import { useBlog } from "../composables/useBlog";
+import { useStats } from "../composables/useStats"; // ← Adicione esta linha
 
 export default {
   name: "BlogView",
   components: {},
   setup() {
     const { posts, featuredPosts, categories, tags, searchPosts } = useBlog();
+    const { registerVisit } = useStats(); // ← Adicione esta linha
 
     const searchQuery = ref("");
     const currentPage = ref(1);
@@ -241,6 +243,7 @@ export default {
         isDarkMode.value = true;
         document.documentElement.setAttribute("data-theme", "dark");
       }
+      registerVisit();
     });
 
     return {

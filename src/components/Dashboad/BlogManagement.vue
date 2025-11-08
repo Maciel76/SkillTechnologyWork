@@ -136,7 +136,11 @@
 
         <div class="article-image" @click="viewArticle(article)">
           <img
-            :src="article.imagem || article.image || 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800'"
+            :src="
+              article.imagem ||
+              article.image ||
+              'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800'
+            "
             :alt="article.titulo || article.title"
             @error="handleImageError"
           />
@@ -153,7 +157,11 @@
         <div class="article-content" @click="viewArticle(article)">
           <h3>{{ article.titulo || article.title }}</h3>
           <p class="article-excerpt">
-            {{ article.resumo || article.summary || getExcerpt(article.conteudo || article.content) }}
+            {{
+              article.resumo ||
+              article.summary ||
+              getExcerpt(article.conteudo || article.content)
+            }}
           </p>
           <div class="article-meta">
             <div class="meta-item">
@@ -551,6 +559,7 @@
 <script>
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
+import "@fortawesome/fontawesome-free/css/all.min.css"; // ← adicionado
 import articleService from "@/services/articleService";
 
 export default {
@@ -716,9 +725,9 @@ export default {
 
       // Verifica se o conteúdo tem texto real (remove tags HTML vazias)
       const cleanContent = this.formData.conteudo
-        ?.replace(/<p><br><\/p>/g, '')
-        ?.replace(/<p><\/p>/g, '')
-        ?.replace(/<br>/g, '')
+        ?.replace(/<p><br><\/p>/g, "")
+        ?.replace(/<p><\/p>/g, "")
+        ?.replace(/<br>/g, "")
         ?.trim();
 
       console.log("Conteúdo (após limpeza):", cleanContent);
@@ -879,7 +888,8 @@ export default {
     },
 
     handleImageError(event) {
-      event.target.src = 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800';
+      event.target.src =
+        "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800";
     },
 
     onContentChange() {

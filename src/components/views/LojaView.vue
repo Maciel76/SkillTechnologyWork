@@ -1,603 +1,1331 @@
 <template>
-  <div>
-    <!-- Hero Section with Slider -->
-    <section class="hero-slider">
-      <div class="slider-container">
-        <div
-          v-for="(slide, index) in slides"
-          :key="index"
-          :class="['slide', { active: currentSlide === index }]"
-        >
-          <div class="slide-content">
-            <h1>{{ slide.title }}</h1>
-            <p>{{ slide.description }}</p>
-            <a href="#products" class="cta-button">{{ slide.buttonText }}</a>
+  <div class="loja-digital">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          Produtos Digitais
+          <span class="highlight">Premium</span>
+        </h1>
+        <p class="hero-description">
+          Softwares, plugins, cursos e templates profissionais para impulsionar
+          seu negócio digital
+        </p>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-number">{{ publishedProducts.length }}+</span>
+            <span class="stat-label">Produtos</span>
           </div>
-          <div
-            class="slide-bg"
-            :style="{ backgroundImage: `url(${slide.backgroundImage})` }"
-          ></div>
+          <div class="stat-item">
+            <span class="stat-number">5.0</span>
+            <span class="stat-label">Avaliação</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">24/7</span>
+            <span class="stat-label">Suporte</span>
+          </div>
         </div>
       </div>
-      <div class="slider-controls">
-        <button @click="prevSlide" class="prev-slide">❮</button>
-        <button @click="nextSlide" class="next-slide">❯</button>
+      <div class="hero-decoration">
+        <div class="decoration-circle"></div>
+        <div class="decoration-dots"></div>
       </div>
     </section>
 
-    <!-- Products/Services Section -->
-    <section id="products" class="products-section">
+    <!-- Produtos em Destaque -->
+    <section v-if="featuredProducts.length > 0" class="featured-section">
+      <div class="section-header"></div>
+      <h2 class="section-title">
+        <i class="fas fa-star"></i>
+        Produtos em Destaque
+      </h2>
+      <p class="section-subtitle">Os produtos mais populares e recomendados</p>
+      <div class="featured-grid">
+        <div
+          v-for="product in featuredProducts"
+          :key="product._id"
+          class="featured-card"
+        >
+          <div class="featured-badge">
+            <i class="fas fa-star"></i>
+            Destaque
+          </div>
+          <div class="product-image-wrapper">
+            <img :src="product.image" :alt="product.name" />
+            <div class="product-overlay">
+              <button class="btn-demo" v-if="product.demoUrl">
+                <i class="fas fa-play"></i>
+                Demo
+              </button>
+            </div>
+          </div>
+          <div class="product-content">
+            <div class="product-meta">
+              <span class="category-tag" :class="product.category">
+                {{ getCategoryLabel(product.category) }}
+              </span>
+              <span v-if="product.version" class="version-tag">
+                v{{ product.version }}
+              </span>
+            </div>
+            <h3 class="product-name">{{ product.name }}</h3>
+            <p class="product-description">
+              {{
+                product.shortDescription ||
+                product.description.substring(0, 100) + "..."
+              }}
+            </p>
+            <div
+              class="product-features"
+              v-if="product.features && product.features.length > 0"
+            >
+              <div
+                v-for="(feature, index) in product.features.slice(0, 3)"
+                :key="index"
+                class="feature-item"
+              >
+                <i class="fas fa-check"></i>
+                {{ feature }}
+              </div>
+            </div>
+            <div class="product-footer">
+              <div class="price-section">
+                <div v-if="product.salePrice" class="price-group">
+                  <span class="old-price"
+                    >R$ {{ formatPrice(product.price) }}</span
+                  >
+                  <span class="current-price"
+                    >R$ {{ formatPrice(product.salePrice) }}</span
+                  >
+                  <span class="discount-badge">
+                    {{ calculateDiscount(product.price, product.salePrice) }}%
+                    OFF
+                  </span>
+                </div>
+                <div v-else>
+                  <span class="current-price"
+                    >R$ {{ formatPrice(product.price) }}</span
+                  >
+                </div>
+              </div>
+              <button class="btn-buy" @click="viewProduct(product)">
+                <i class="fas fa-shopping-cart"></i>
+                Ver Detalhes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filtros e Busca -->
+    <section class="products-section">
       <div class="section-header">
-        <h2>Nossas Soluções de IA</h2>
-        <div class="category-filter">
+        <h2 class="section-title">
+          <i class="fas fa-box-open"></i>
+          Todos os Produtos
+        </h2>
+      </div>
+
+      <div class="filters-container">
+        <div class="search-bar">
+          <i class="fas fa-search"></i>
+          <input
+            type="text"
+            v-model="searchQuery"
+            placeholder="Buscar produtos..."
+            @input="handleSearch"
+          />
+        </div>
+        <div class="category-filters">
           <button
             v-for="category in categories"
-            :key="category"
-            :class="['filter-btn', { active: selectedCategory === category }]"
-            @click="filterProducts(category)"
+            :key="category.value"
+            :class="[
+              'filter-btn',
+              { active: selectedCategory === category.value },
+            ]"
+            @click="filterByCategory(category.value)"
           >
-            {{ category }}
+            <i :class="category.icon"></i>
+            {{ category.label }}
           </button>
         </div>
       </div>
-      <div class="products-grid">
+
+      <!-- Grid de Produtos -->
+      <div v-if="loading" class="loading-state">
+        <i class="fas fa-spinner fa-spin"></i>
+        <p>Carregando produtos...</p>
+      </div>
+
+      <div v-else-if="error" class="error-state">
+        <i class="fas fa-exclamation-triangle"></i>
+        <p>{{ error }}</p>
+      </div>
+
+      <div v-else-if="filteredProducts.length === 0" class="empty-state">
+        <i class="fas fa-box-open"></i>
+        <p>Nenhum produto encontrado</p>
+      </div>
+
+      <div v-else class="products-grid">
         <div
           v-for="product in filteredProducts"
-          :key="product.id"
+          :key="product._id"
           class="product-card"
         >
-          <img
-            :src="product.image"
-            :alt="product.title"
-            class="product-image"
-          />
-          <div class="product-content">
-            <h3 class="product-title">{{ product.title }}</h3>
-            <p class="product-description">{{ product.description }}</p>
-            <div class="product-price">
-              R$ {{ product.price.toLocaleString("pt-BR") }}
-              <small>/mês</small>
+          <div class="card-image-wrapper">
+            <img :src="product.image" :alt="product.name" />
+            <div v-if="product.salePrice" class="discount-label">
+              -{{ calculateDiscount(product.price, product.salePrice) }}%
             </div>
-            <button class="product-button">
-              <router-link :to="`/produtos/${product.id}`" class="btn-carrinho">
-                <span>Detalhes do Produto</span>
-              </router-link>
-
-              <img
-                src="https://api.iconify.design/heroicons:shopping-cart.svg"
-                alt="Cart"
-              />
-            </button>
+          </div>
+          <div class="card-content">
+            <span class="category-tag" :class="product.category">
+              {{ getCategoryLabel(product.category) }}
+            </span>
+            <h3 class="product-title">{{ product.name }}</h3>
+            <p class="product-desc">
+              {{
+                product.shortDescription ||
+                product.description.substring(0, 80) + "..."
+              }}
+            </p>
+            <div class="card-footer">
+              <div class="price-info">
+                <span v-if="product.salePrice" class="original-price">
+                  R$ {{ formatPrice(product.price) }}
+                </span>
+                <span class="final-price">
+                  R$ {{ formatPrice(product.salePrice || product.price) }}
+                </span>
+              </div>
+              <button class="btn-view" @click="viewProduct(product)">
+                <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </section>
+
+    <!-- Recursos e Benefícios -->
+    <section class="benefits-section">
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <i class="fas fa-download"></i>
+          </div>
+          <h3>Download Imediato</h3>
+          <p>Acesso instantâneo após a compra</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <i class="fas fa-sync"></i>
+          </div>
+          <h3>Atualizações Grátis</h3>
+          <p>Receba todas as atualizações futuras</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <i class="fas fa-headset"></i>
+          </div>
+          <h3>Suporte Premium</h3>
+          <p>Atendimento dedicado 24/7</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h3>Pagamento Seguro</h3>
+          <p>Transações protegidas e criptografadas</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Modal de Produto (Opcional - você pode criar uma página de detalhes depois) -->
+    <div
+      v-if="selectedProduct"
+      class="product-modal"
+      @click="selectedProduct = null"
+    >
+      <div class="modal-content" @click.stop>
+        <button class="close-modal" @click="selectedProduct = null">
+          <i class="fas fa-times"></i>
+        </button>
+        <div class="modal-body">
+          <div class="modal-image">
+            <img :src="selectedProduct.image" :alt="selectedProduct.name" />
+          </div>
+          <div class="modal-details">
+            <span class="category-tag" :class="selectedProduct.category">
+              {{ getCategoryLabel(selectedProduct.category) }}
+            </span>
+            <h2>{{ selectedProduct.name }}</h2>
+            <p class="modal-description">{{ selectedProduct.description }}</p>
+
+            <div
+              v-if="
+                selectedProduct.features && selectedProduct.features.length > 0
+              "
+              class="features-list"
+            >
+              <h4>Recursos:</h4>
+              <ul>
+                <li
+                  v-for="(feature, index) in selectedProduct.features"
+                  :key="index"
+                >
+                  <i class="fas fa-check-circle"></i>
+                  {{ feature }}
+                </li>
+              </ul>
+            </div>
+
+            <div class="product-info-grid">
+              <div v-if="selectedProduct.version" class="info-item">
+                <i class="fas fa-code-branch"></i>
+                <span>Versão {{ selectedProduct.version }}</span>
+              </div>
+              <div v-if="selectedProduct.fileSize" class="info-item">
+                <i class="fas fa-hdd"></i>
+                <span>{{ selectedProduct.fileSize }}</span>
+              </div>
+              <div v-if="selectedProduct.format" class="info-item">
+                <i class="fas fa-file"></i>
+                <span>{{ selectedProduct.format }}</span>
+              </div>
+              <div v-if="selectedProduct.language" class="info-item">
+                <i class="fas fa-language"></i>
+                <span>{{ selectedProduct.language }}</span>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <div class="modal-price">
+                <span v-if="selectedProduct.salePrice" class="old-price">
+                  R$ {{ formatPrice(selectedProduct.price) }}
+                </span>
+                <span class="current-price">
+                  R$
+                  {{
+                    formatPrice(
+                      selectedProduct.salePrice || selectedProduct.price
+                    )
+                  }}
+                </span>
+              </div>
+              <div class="modal-actions">
+                <button
+                  v-if="selectedProduct.demoUrl"
+                  class="btn-demo-full"
+                  @click="openDemo(selectedProduct.demoUrl)"
+                >
+                  <i class="fas fa-play"></i>
+                  Ver Demo
+                </button>
+                <button class="btn-buy-full">
+                  <i class="fas fa-shopping-cart"></i>
+                  Comprar Agora
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
-<script>
-//revisado
-export default {
-  name: "EcommerceView",
-  components: {},
+<script lang="ts">
+import { defineComponent } from "vue";
+import { useProductStore } from "@/stores/productStore";
+import { Product } from "@/services/productService";
+import "@fortawesome/fontawesome-free/css/all.min.css"; // ← adicionado
+
+export default defineComponent({
+  name: "LojaView",
   data() {
     return {
-      // Dados do slider
-      slides: [
-        {
-          title: "Transforme Seu Negócio com IA",
-          description:
-            "Soluções inteligentes para automatizar e escalar seu negócio",
-          buttonText: "Explorar Soluções",
-          backgroundImage:
-            "https://images.unsplash.com/photo-1677442136019-21780ecad995",
-        },
-        {
-          title: "Automatize Processos com IA",
-          description: "Tecnologia de ponta para otimizar suas operações",
-          buttonText: "Descobrir Mais",
-          backgroundImage:
-            "https://images.unsplash.com/photo-1674027444485-cec3da58eef4?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D5",
-        },
-        {
-          title: "Automatize Processos com IA",
-          description: "Tecnologia de ponta para otimizar suas operações",
-          buttonText: "Descobrir Mais",
-          backgroundImage:
-            "https://plus.unsplash.com/premium_photo-1683121718643-fb18d2668d53?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        },
+      searchQuery: "",
+      selectedCategory: "",
+      selectedProduct: null as Product | null,
+      searchTimeout: null as any,
+      categories: [
+        { value: "", label: "Todos", icon: "fas fa-th" },
+        { value: "software", label: "Software", icon: "fas fa-laptop-code" },
+        { value: "plugin", label: "Plugins", icon: "fas fa-plug" },
+        { value: "curso", label: "Cursos", icon: "fas fa-graduation-cap" },
+        { value: "tutorial", label: "Tutoriais", icon: "fas fa-book" },
+        { value: "ebook", label: "E-books", icon: "fas fa-book-open" },
+        { value: "template", label: "Templates", icon: "fas fa-paint-brush" },
+        { value: "outros", label: "Outros", icon: "fas fa-ellipsis-h" },
       ],
-      currentSlide: 0,
-
-      // Dados dos produtos
-      products: [
-        {
-          id: 1,
-          title: "AI Chatbot Enterprise",
-          description:
-            "Chatbot avançado com IA para atendimento ao cliente 24/7, integração multicanal e análise de sentimentos.",
-          price: 2499.99,
-          category: "chatbot",
-          image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71",
-        },
-        {
-          id: 2,
-          title: "Análise Preditiva de Dados",
-          description:
-            "Sistema de análise de dados com IA para previsão de tendências de mercado e comportamento do consumidor.",
-          price: 3999.99,
-          category: "analytics",
-          image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71",
-        },
-        {
-          id: 3,
-          title: "Marketing Automation Pro",
-          description:
-            "Plataforma de automação de marketing com IA para personalização de campanhas e otimização de conversão.",
-          price: 1999.99,
-          category: "marketing",
-          image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f",
-        },
-        {
-          id: 4,
-          title: "Smart Content Generator",
-          description:
-            "Gerador de conteúdo inteligente com IA para blogs, redes sociais e email marketing.",
-          price: 899.99,
-          category: "marketing",
-          image: "https://images.unsplash.com/photo-1542435503-956c469947f6",
-        },
-        {
-          id: 5,
-          title: "Business Intelligence Suite",
-          description:
-            "Suite completa de BI com dashboards inteligentes e relatórios automatizados.",
-          price: 4999.99,
-          category: "analytics",
-          image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71",
-        },
-        {
-          id: 6,
-          title: "Customer Service Bot",
-          description:
-            "Chatbot especializado em suporte técnico com aprendizado contínuo e integração com CRM.",
-          price: 1499.99,
-          category: "chatbot",
-          image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71",
-        },
-      ],
-      selectedCategory: "all",
-      categories: ["all", "chatbot", "analytics", "marketing"],
     };
   },
   computed: {
-    // Filtra os produtos com base na categoria selecionada
+    productStore() {
+      return useProductStore();
+    },
+    publishedProducts() {
+      return this.productStore.publishedProducts;
+    },
+    featuredProducts() {
+      return this.productStore.getFeaturedProducts;
+    },
     filteredProducts() {
-      if (this.selectedCategory === "all") {
-        return this.products;
+      let products = this.publishedProducts;
+
+      // Filtrar produtos em destaque da lista principal
+      products = products.filter((p) => !p.featured);
+
+      if (this.selectedCategory) {
+        products = products.filter((p) => p.category === this.selectedCategory);
       }
-      return this.products.filter(
-        (product) => product.category === this.selectedCategory
-      );
+
+      return products;
+    },
+    loading() {
+      return this.productStore.loading;
+    },
+    error() {
+      return this.productStore.error;
     },
   },
   methods: {
-    // Navegação do slider
-    nextSlide() {
-      this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+    async loadProducts() {
+      await this.productStore.fetchPublishedProducts({ limit: 100 });
     },
-    prevSlide() {
-      this.currentSlide =
-        (this.currentSlide - 1 + this.slides.length) % this.slides.length;
-    },
-    // Filtra os produtos por categoria
-    filterProducts(category) {
+    filterByCategory(category: string) {
       this.selectedCategory = category;
+    },
+    handleSearch() {
+      clearTimeout(this.searchTimeout);
+      this.searchTimeout = setTimeout(async () => {
+        const params: any = { limit: 100 };
+        if (this.searchQuery) params.search = this.searchQuery;
+        if (this.selectedCategory) params.category = this.selectedCategory;
+
+        await this.productStore.fetchPublishedProducts(params);
+      }, 500);
+    },
+    viewProduct(product: Product) {
+      this.selectedProduct = product;
+    },
+    openDemo(url: string) {
+      window.open(url, "_blank");
+    },
+    getCategoryLabel(category: string): string {
+      const categoryMap: Record<string, string> = {
+        software: "Software",
+        plugin: "Plugin",
+        tutorial: "Tutorial",
+        curso: "Curso",
+        ebook: "E-book",
+        template: "Template",
+        outros: "Outros",
+      };
+      return categoryMap[category] || category;
+    },
+    formatPrice(price: number): string {
+      return price.toLocaleString("pt-BR", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    },
+    calculateDiscount(originalPrice: number, salePrice: number): number {
+      return Math.round(((originalPrice - salePrice) / originalPrice) * 100);
     },
   },
   mounted() {
-    // Auto-avanço do slider
-    setInterval(this.nextSlide, 5000);
+    this.loadProducts();
   },
-};
+});
 </script>
 
 <style scoped>
-/* Adicione seus estilos aqui, se necessário */
-.btn-carrinho {
-  text-decoration: none;
-  color: inherit;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
+.loja-digital {
+  min-height: 100vh;
+  background: #f9fafb;
 }
 
-/* Global Styles */
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Inter", system-ui, -apple-system, sans-serif;
-  background-color: #ffffff; /* Substituído --bg-primary */
-  color: #1f2937; /* Substituído --text-primary */
-  transition: all 0.3s ease; /* Substituído --transition */
-  line-height: 1.6;
-}
-
-[data-theme="dark"] body {
-  background-color: #1f2937; /* Substituído --bg-primary */
-  color: #f3f4f6; /* Substituído --text-primary */
-}
-
-/* Header Styles */
-.header {
-  background-color: #ffffff; /* Substituído --bg-primary */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  position: fixed;
-  width: 100%;
-  top: 0;
-  z-index: 1000;
-  backdrop-filter: blur(10px);
-}
-
-.header-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo img {
-  height: 40px;
-  transition: transform 0.3s ease;
-}
-
-.logo:hover img {
-  transform: scale(1.05);
-}
-
-.main-nav {
-  display: flex;
-  gap: 2rem;
-}
-
-.nav-link {
-  color: #1f2937; /* Substituído --text-primary */
-  text-decoration: none;
-  font-weight: 500;
-  transition: all 0.3s ease; /* Substituído --transition */
+/* Hero Section */
+.hero-section {
   position: relative;
-  padding: 0.5rem 0;
-}
-
-.nav-link::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background-color: #0052ff; /* Substituído --primary-color */
-  transition: width 0.3s ease;
-}
-
-.nav-link:hover::after {
-  width: 100%;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.theme-toggle,
-.account-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #1f2937; /* Substituído --text-primary */
-  padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
-  transition: all 0.3s ease; /* Substituído --transition */
-  font-weight: 500;
-}
-
-.theme-toggle:hover,
-.account-button:hover {
-  background-color: #f3f4f6; /* Substituído --bg-secondary */
-  transform: translateY(-2px);
-}
-
-/* Hero Slider */
-.hero-slider {
-  margin-top: 80px;
-  position: relative;
-  height: 600px;
+  background: linear-gradient(135deg, #0052ff 0%, #0041cc 100%);
+  padding: 120px 20px 80px;
   overflow: hidden;
-}
-
-.slider-container {
-  height: 100%;
-  position: relative;
-}
-
-.slide {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  transition: opacity 0.8s ease-in-out;
-}
-
-.slide.active {
-  opacity: 1;
-}
-
-.slide-content {
-  position: relative;
-  z-index: 2;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 6rem 2rem;
   color: white;
 }
 
-.slide-content h1 {
-  font-size: 4rem;
+.hero-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-title {
+  font-size: 56px;
   font-weight: 800;
-  margin-bottom: 1.5rem;
-  animation: slideUp 0.8s ease-out;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  margin-bottom: 24px;
+  line-height: 1.2;
 }
 
-.slide-content p {
-  font-size: 1.5rem;
-  margin-bottom: 2.5rem;
-  animation: slideUp 0.8s ease-out 0.2s;
-  opacity: 0;
-  animation-fill-mode: forwards;
+.highlight {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-description {
+  font-size: 20px;
+  margin-bottom: 48px;
+  opacity: 0.95;
   max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.slide-bg {
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stat-number {
+  font-size: 36px;
+  font-weight: 700;
+  color: #fbbf24;
+}
+
+.stat-label {
+  font-size: 14px;
+  opacity: 0.9;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.hero-decoration {
   position: absolute;
   top: 0;
   left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.decoration-circle {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  top: -200px;
+  right: -200px;
+}
+
+.decoration-dots {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background-image: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.1) 1px,
+    transparent 1px
+  );
+  background-size: 20px 20px;
+  bottom: -100px;
+  left: -100px;
+}
+
+/* Section Headers */
+.section-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.section-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.section-title i {
+  color: #0052ff;
+}
+
+.section-subtitle {
+  font-size: 18px;
+  color: #6b7280;
+}
+
+/* Featured Section */
+.featured-section {
+  max-width: 1200px;
+  margin: -60px auto 80px;
+  padding: 0 20px;
+  position: relative;
+  z-index: 3;
+}
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 32px;
+}
+
+.featured-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s ease;
+  position: relative;
+}
+
+.featured-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.featured-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.product-image-wrapper {
+  position: relative;
+  height: 250px;
+  overflow: hidden;
+}
+
+.product-image-wrapper img {
   width: 100%;
   height: 100%;
-  background-size: cover;
-  background-position: center;
-  filter: brightness(0.6);
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.featured-card:hover .product-image-wrapper img {
   transform: scale(1.1);
-  transition: transform 8s ease;
 }
 
-.slide.active .slide-bg {
-  transform: scale(1);
-}
-
-.cta-button {
-  display: inline-block;
-  background-color: #0052ff; /* Substituído --primary-color */
-  color: rgb(255, 255, 255);
-  text-decoration: none;
-  padding: 1rem 2rem;
-  border-radius: 2rem;
-  font-weight: 600;
-  transition: all 0.3s ease; /* Substituído --transition */
-  border: 2px solid transparent;
-  animation: slideUp 0.8s ease-out 0.4s;
+.product-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   opacity: 0;
-  animation-fill-mode: forwards;
-  transition: transform 0.5s ease;
+  transition: opacity 0.3s ease;
 }
 
-.cta-button:hover {
-  border-color: rgb(48, 50, 175);
-  color: #10b981; /* Substituído --success-color */
-  transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+.featured-card:hover .product-overlay {
+  opacity: 1;
+}
+
+.btn-demo {
+  background: white;
+  color: #0052ff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.btn-demo:hover {
+  transform: scale(1.05);
+}
+
+.product-content {
+  padding: 28px;
+}
+
+.product-meta {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  align-items: center;
+}
+
+.category-tag {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.category-tag.software {
+  background: #dbeafe;
+  color: #1e40af;
+}
+.category-tag.plugin {
+  background: #fce7f3;
+  color: #be185d;
+}
+.category-tag.tutorial {
+  background: #fef3c7;
+  color: #92400e;
+}
+.category-tag.curso {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+.category-tag.ebook {
+  background: #ddd6fe;
+  color: #5b21b6;
+}
+.category-tag.template {
+  background: #d1fae5;
+  color: #065f46;
+}
+.category-tag.outros {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.version-tag {
+  font-size: 12px;
+  color: #6b7280;
+  background: #f3f4f6;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.product-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.product-description {
+  color: #6b7280;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  font-size: 15px;
+}
+
+.product-features {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #374151;
+  font-size: 14px;
+}
+
+.feature-item i {
+  color: #10b981;
+  font-size: 12px;
+}
+
+.product-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 24px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.price-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.old-price {
+  font-size: 14px;
+  color: #9ca3af;
+  text-decoration: line-through;
+}
+
+.current-price {
+  font-size: 28px;
+  font-weight: 700;
+  color: #0052ff;
+}
+
+.discount-badge {
+  font-size: 12px;
+  background: #dcfce7;
+  color: #065f46;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.btn-buy {
+  background: linear-gradient(135deg, #0052ff, #0041cc);
+  color: white;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.btn-buy:hover {
+  transform: translateX(4px);
+  box-shadow: 0 8px 16px rgba(0, 82, 255, 0.3);
 }
 
 /* Products Section */
 .products-section {
   max-width: 1200px;
-  margin: 6rem auto;
-  padding: 0 2rem;
+  margin: 80px auto;
+  padding: 0 20px;
 }
 
-.section-header {
-  text-align: center;
-  margin-bottom: 4rem;
+.filters-container {
+  margin-bottom: 48px;
 }
 
-.section-header h2 {
-  font-size: 2.5rem;
-  font-weight: 800;
-  margin-bottom: 1rem;
-  background: linear-gradient(
-    to right,
-    #0052ff,
-    #e5e7eb
-  ); /* Substituído --primary-color e --secondary-color */
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.search-bar {
+  position: relative;
+  max-width: 500px;
+  margin: 0 auto 32px;
 }
 
-.category-filter {
+.search-bar i {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  font-size: 18px;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 16px 20px 16px 56px;
+  border: 2px solid #e5e7eb;
+  border-radius: 50px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.search-bar input:focus {
+  outline: none;
+  border-color: #0052ff;
+  box-shadow: 0 0 0 4px rgba(0, 82, 255, 0.1);
+}
+
+.category-filters {
   display: flex;
+  gap: 12px;
   justify-content: center;
-  gap: 1rem;
-  margin: 2rem 0;
   flex-wrap: wrap;
 }
 
 .filter-btn {
-  background: none;
-  border: 2px solid #0052ff; /* Substituído --primary-color */
-  color: #0052ff; /* Substituído --primary-color */
-  padding: 0.75rem 2rem;
-  border-radius: 2rem;
+  padding: 12px 24px;
+  border: 2px solid #e5e7eb;
+  background: white;
+  border-radius: 25px;
   cursor: pointer;
-  transition: all 0.3s ease; /* Substituído --transition */
   font-weight: 600;
+  color: #6b7280;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.filter-btn.active,
 .filter-btn:hover {
-  background-color: #0052ff; /* Substituído --primary-color */
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+  border-color: #0052ff;
+  color: #0052ff;
 }
 
+.filter-btn.active {
+  background: linear-gradient(135deg, #0052ff, #0041cc);
+  color: white;
+  border-color: #0052ff;
+}
+
+/* Products Grid */
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2.5rem;
-  margin-top: 3rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 32px;
 }
 
 .product-card {
-  background-color: #f3f4f6; /* Substituído --bg-secondary */
-  border-radius: 1.5rem;
+  background: white;
+  border-radius: 16px;
   overflow: hidden;
-  transition: all 0.3s ease; /* Substituído --transition */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  position: relative;
-  animation: 3s ease-in-out 0s 1 slideUp;
-  transition: transform 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .product-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-  animation: 3s ease-in-out 0s 1 slideUp;
-  transform: scale(1.1);
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
 }
 
-.product-image {
+.card-image-wrapper {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.card-image-wrapper img {
   width: 100%;
-  height: 250px;
+  height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  transition: transform 0.4s ease;
 }
 
-.product-card:hover .product-image {
+.product-card:hover .card-image-wrapper img {
   transform: scale(1.1);
 }
 
-.product-content {
-  padding: 2rem;
+.discount-label {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #ef4444;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.card-content {
+  padding: 24px;
 }
 
 .product-title {
-  font-size: 1.5rem;
+  font-size: 20px;
   font-weight: 700;
-  margin-bottom: 1rem;
-  color: #1f2937; /* Substituído --text-primary */
+  color: #1f2937;
+  margin: 12px 0 8px;
+  line-height: 1.3;
 }
 
-.product-description {
-  color: #4b5563; /* Substituído --text-secondary */
-  margin-bottom: 1.5rem;
+.product-desc {
+  color: #6b7280;
+  font-size: 14px;
   line-height: 1.6;
+  margin-bottom: 20px;
 }
 
-.product-price {
-  font-size: 1.75rem;
-  font-weight: 800;
-  color: #0052ff; /* Substituído --primary-color */
-  margin-bottom: 1.5rem;
+.card-footer {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 0.5rem;
+  padding-top: 20px;
+  border-top: 1px solid #f3f4f6;
 }
 
-.product-price small {
-  font-size: 1rem;
-  color: #4b5563; /* Substituído --text-secondary */
-  font-weight: normal;
+.price-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.product-button {
-  background-color: #0052ff; /* Substituído --primary-color */
+.original-price {
+  font-size: 13px;
+  color: #9ca3af;
+  text-decoration: line-through;
+}
+
+.final-price {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0052ff;
+}
+
+.btn-view {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0052ff, #0041cc);
   color: white;
   border: none;
-  padding: 1rem 2rem;
-  border-radius: 0.75rem;
   cursor: pointer;
-  transition: all 0.3s ease; /* Substituído --transition */
-  width: 100%;
-  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  transition: all 0.3s ease;
 }
 
-.product-button:hover {
-  background-color: #f59e0b; /* Substituído --warning-color */
+.btn-view:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 16px rgba(0, 82, 255, 0.3);
+}
+
+/* Benefits Section */
+.benefits-section {
+  max-width: 1200px;
+  margin: 80px auto;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 24px;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 32px;
+}
+
+.benefit-card {
+  text-align: center;
+  padding: 32px 24px;
+}
+
+.benefit-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 24px;
+  background: linear-gradient(135deg, #0052ff, #0041cc);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
   color: white;
+}
+
+.benefit-card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 12px;
+}
+
+.benefit-card p {
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+/* States */
+.loading-state,
+.error-state,
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: #6b7280;
+}
+
+.loading-state i,
+.error-state i,
+.empty-state i {
+  font-size: 64px;
+  margin-bottom: 24px;
+  display: block;
+  color: #9ca3af;
+}
+
+.loading-state i {
+  color: #0052ff;
+}
+
+.error-state i {
+  color: #ef4444;
+}
+
+/* Product Modal */
+.product-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 24px;
+  max-width: 1000px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.close-modal {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+.close-modal:hover {
+  background: rgba(0, 0, 0, 0.8);
+  transform: rotate(90deg);
+}
+
+.modal-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  padding: 40px;
+}
+
+.modal-image {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.modal-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-details {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.modal-details h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.modal-description {
+  color: #6b7280;
+  line-height: 1.8;
+  font-size: 16px;
+}
+
+.features-list h4 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 16px;
+}
+
+.features-list ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.features-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #374151;
+}
+
+.features-list i {
+  color: #10b981;
+  font-size: 18px;
+}
+
+.product-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #f9fafb;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #374151;
+}
+
+.info-item i {
+  color: #0052ff;
+  font-size: 18px;
+}
+
+.modal-footer {
+  padding-top: 24px;
+  border-top: 2px solid #f3f4f6;
+}
+
+.modal-price {
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.modal-price .old-price {
+  font-size: 18px;
+}
+
+.modal-price .current-price {
+  font-size: 40px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-demo-full,
+.btn-buy-full {
+  flex: 1;
+  padding: 16px 32px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.btn-demo-full {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.btn-demo-full:hover {
+  background: #e5e7eb;
   transform: translateY(-2px);
 }
 
-/* Animations */
-@keyframes slideUp {
-  from {
-    transform: translateY(30px);
-    opacity: 0;
+.btn-buy-full {
+  background: linear-gradient(135deg, #0052ff, #0041cc);
+  color: white;
+}
+
+.btn-buy-full:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 82, 255, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .modal-body {
+    grid-template-columns: 1fr;
   }
-  to {
-    transform: translateY(0);
-    opacity: 1;
+
+  .featured-grid {
+    grid-template-columns: 1fr;
   }
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
-  .header-content {
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1rem 2rem;
+  .hero-title {
+    font-size: 40px;
   }
 
-  .main-nav {
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+  .hero-description {
+    font-size: 18px;
   }
 
-  .nav-link {
-    width: 100%;
-    text-align: center;
-    padding: 0.75rem 0;
-  }
-
-  .slide-content h1 {
-    font-size: 2.5rem;
-  }
-
-  .slide-content p {
-    font-size: 1.25rem;
+  .section-title {
+    font-size: 28px;
   }
 
   .products-grid {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-    padding: 0 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
   }
 
-  .product-card {
-    margin-bottom: 1rem;
+  .category-filters {
+    gap: 8px;
+  }
+
+  .filter-btn {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 32px;
+  }
+
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-actions {
+    flex-direction: column;
   }
 }
 </style>
