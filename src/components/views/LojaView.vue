@@ -340,12 +340,15 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useProductStore } from "@/stores/productStore";
-import { Product } from "@/services/productService";
-import "@fortawesome/fontawesome-free/css/all.min.css"; // ← adicionado
+import { useProductStore } from "../../stores/productStore";
+import type { Product } from "../../services/productService";
 
 export default defineComponent({
   name: "LojaView",
+  setup() {
+    const productStore = useProductStore();
+    return { productStore };
+  },
   data() {
     return {
       searchQuery: "",
@@ -365,31 +368,30 @@ export default defineComponent({
     };
   },
   computed: {
-    productStore() {
-      return useProductStore();
-    },
-    publishedProducts() {
+    publishedProducts(): Product[] {
       return this.productStore.publishedProducts;
     },
-    featuredProducts() {
+    featuredProducts(): Product[] {
       return this.productStore.getFeaturedProducts;
     },
-    filteredProducts() {
+    filteredProducts(): Product[] {
       let products = this.publishedProducts;
 
       // Filtrar produtos em destaque da lista principal
-      products = products.filter((p) => !p.featured);
+      products = products.filter((p: Product) => !p.featured);
 
       if (this.selectedCategory) {
-        products = products.filter((p) => p.category === this.selectedCategory);
+        products = products.filter(
+          (p: Product) => p.category === this.selectedCategory
+        );
       }
 
       return products;
     },
-    loading() {
+    loading(): boolean {
       return this.productStore.loading;
     },
-    error() {
+    error(): string | null {
       return this.productStore.error;
     },
   },

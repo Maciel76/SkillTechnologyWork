@@ -128,7 +128,7 @@
               <button
                 class="status-toggle"
                 :class="{ active: product.published }"
-                @click="togglePublish(product._id!)"
+                @click="togglePublish(product)"
                 :title="
                   product.published ? 'Despublicar produto' : 'Publicar produto'
                 "
@@ -143,7 +143,7 @@
               <button
                 class="featured-toggle"
                 :class="{ active: product.featured }"
-                @click="toggleFeatured(product._id!)"
+                @click="toggleFeatured(product)"
                 :title="
                   product.featured ? 'Remover destaque' : 'Marcar como destaque'
                 "
@@ -419,30 +419,30 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent } from "vue";
 import { useProductStore } from "@/stores/productStore";
-import { Product } from "@/services/productService";
-import "@fortawesome/fontawesome-free/css/all.min.css"; // ← adicionado
 
 export default defineComponent({
   name: "EcommerceManagement",
+
   data() {
     return {
+      productStore: useProductStore(),
       searchQuery: "",
       filterCategory: "",
       filterPublished: "",
       showProductModal: false,
       showDeleteModal: false,
-      editingProduct: null as Product | null,
-      productToDelete: null as Product | null,
+      editingProduct: null,
+      productToDelete: null,
       productForm: {
         name: "",
         description: "",
         shortDescription: "",
         price: 0,
-        salePrice: undefined as number | undefined,
-        category: "" as any,
+        salePrice: undefined,
+        category: "",
         image: "",
         demoUrl: "",
         version: "",
@@ -456,13 +456,11 @@ export default defineComponent({
       },
       featuresInput: "",
       tagsInput: "",
-      searchTimeout: null as any,
+      searchTimeout: null,
     };
   },
+
   computed: {
-    productStore() {
-      return useProductStore();
-    },
     products() {
       return this.productStore.products;
     },
@@ -476,23 +474,26 @@ export default defineComponent({
       return this.productStore.error;
     },
   },
+
   methods: {
     async loadProducts() {
       await this.productStore.fetchAllProducts();
       await this.productStore.fetchStats();
     },
+
     async applyFilters() {
-      const params: any = {};
+      const params = {};
       if (this.filterCategory) params.category = this.filterCategory;
       if (this.filterPublished !== "")
         params.published = this.filterPublished === "true";
 
       await this.productStore.fetchAllProducts(params);
     },
+
     handleSearch() {
       clearTimeout(this.searchTimeout);
       this.searchTimeout = setTimeout(async () => {
-        const params: any = {};
+        const params = {};
         if (this.searchQuery) params.search = this.searchQuery;
         if (this.filterCategory) params.category = this.filterCategory;
         if (this.filterPublished !== "")
@@ -501,7 +502,8 @@ export default defineComponent({
         await this.productStore.fetchAllProducts(params);
       }, 500);
     },
-    editProduct(product: Product) {
+
+    editProduct(product) {
       this.editingProduct = product;
       this.productForm = {
         name: product.name,
@@ -525,9 +527,10 @@ export default defineComponent({
       this.tagsInput = product.tags?.join(", ") || "";
       this.showProductModal = true;
     },
+
     async saveProduct() {
       try {
-        const productData: any = {
+        const productData = {
           ...this.productForm,
           features: this.featuresInput
             ? this.featuresInput.split(",").map((f) => f.trim())
@@ -535,12 +538,12 @@ export default defineComponent({
           tags: this.tagsInput
             ? this.tagsInput.split(",").map((t) => t.trim())
             : [],
-          type: "digital" as const,
+          type: "digital",
         };
 
-        if (this.editingProduct) {
+        if (this.editingProduct && this.editingProduct._id) {
           await this.productStore.updateProduct(
-            this.editingProduct._id!,
+            this.editingProduct._id,
             productData
           );
         } else {
@@ -553,31 +556,43 @@ export default defineComponent({
         console.error("Erro ao salvar produto:", error);
       }
     },
-    async togglePublish(id: string) {
+
+    async togglePublish(product) {
+      if (!product._id) {
+        console.error("ID do produto não encontrado");
+        return;
+      }
       try {
-        await this.productStore.togglePublish(id);
+        await this.productStore.togglePublish(product._id);
         await this.productStore.fetchStats();
       } catch (error) {
         console.error("Erro ao alternar publicação:", error);
       }
     },
-    async toggleFeatured(id: string) {
+
+    async toggleFeatured(product) {
+      if (!product._id) {
+        console.error("ID do produto não encontrado");
+        return;
+      }
       try {
-        await this.productStore.toggleFeatured(id);
+        await this.productStore.toggleFeatured(product._id);
         await this.productStore.fetchStats();
       } catch (error) {
         console.error("Erro ao alternar destaque:", error);
       }
     },
-    confirmDelete(product: Product) {
+
+    confirmDelete(product) {
       this.productToDelete = product;
       this.showDeleteModal = true;
     },
+
     async deleteProduct() {
-      if (!this.productToDelete) return;
+      if (!this.productToDelete || !this.productToDelete._id) return;
 
       try {
-        await this.productStore.deleteProduct(this.productToDelete._id!);
+        await this.productStore.deleteProduct(this.productToDelete._id);
         this.showDeleteModal = false;
         this.productToDelete = null;
         await this.loadProducts();
@@ -585,11 +600,13 @@ export default defineComponent({
         console.error("Erro ao deletar produto:", error);
       }
     },
+
     closeModal() {
       this.showProductModal = false;
       this.editingProduct = null;
       this.resetForm();
     },
+
     resetForm() {
       this.productForm = {
         name: "",
@@ -597,7 +614,7 @@ export default defineComponent({
         shortDescription: "",
         price: 0,
         salePrice: undefined,
-        category: "" as any,
+        category: "",
         image: "",
         demoUrl: "",
         version: "",
@@ -612,8 +629,9 @@ export default defineComponent({
       this.featuresInput = "";
       this.tagsInput = "";
     },
-    getCategoryLabel(category: string): string {
-      const labels: Record<string, string> = {
+
+    getCategoryLabel(category) {
+      const labels = {
         software: "Software",
         plugin: "Plugin",
         tutorial: "Tutorial",
@@ -624,13 +642,15 @@ export default defineComponent({
       };
       return labels[category] || category;
     },
-    formatPrice(price: number): string {
+
+    formatPrice(price) {
       return price.toLocaleString("pt-BR", {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       });
     },
   },
+
   mounted() {
     this.loadProducts();
   },

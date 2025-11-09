@@ -1150,7 +1150,7 @@ export default {
 
 .article-image {
   position: relative;
-  height: 220px;
+  height: 180px;
   overflow: hidden;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   cursor: pointer;
@@ -1197,7 +1197,7 @@ export default {
 }
 
 .article-content {
-  padding: 20px;
+  padding: 16px;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -1208,7 +1208,7 @@ export default {
 .article-content h3 {
   margin: 0;
   font-weight: 700;
-  color: #111827;
+  color: #1f2937;
   font-size: 1.3rem;
   line-height: 1.4;
   display: -webkit-box;
@@ -1224,7 +1224,7 @@ export default {
 
 .article-excerpt {
   color: #6b7280;
-  margin-bottom: 16px;
+  margin: 0 0 12px 0;
   line-height: 1.5;
   font-size: 0.95rem;
   display: -webkit-box;
@@ -1235,7 +1235,7 @@ export default {
 
 .article-meta {
   display: flex;
-  gap: 16px;
+  gap: 12px;
   margin-bottom: 12px;
   font-size: 0.85rem;
   color: #9ca3af;
@@ -1278,7 +1278,7 @@ export default {
 
 .article-actions {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   padding: 16px 20px;
   background: #ffffff;
   border-top: 1px solid #e5e7eb;

@@ -1,5 +1,5 @@
-import { defineStore } from 'pinia';
-import productService, { Product } from '@/services/productService';
+import { defineStore } from "pinia";
+import productService, { Product } from "@/services/productService";
 
 interface ProductState {
   products: Product[];
@@ -27,7 +27,7 @@ interface ProductState {
   } | null;
 }
 
-export const useProductStore = defineStore('product', {
+export const useProductStore = defineStore("product", {
   state: (): ProductState => ({
     products: [],
     publishedProducts: [],
@@ -43,7 +43,9 @@ export const useProductStore = defineStore('product', {
 
     // Produtos por categoria
     getProductsByCategory: (state) => (category: string) => {
-      return state.publishedProducts.filter((product) => product.category === category);
+      return state.publishedProducts.filter(
+        (product) => product.category === category
+      );
     },
 
     // Produtos em destaque
@@ -55,10 +57,12 @@ export const useProductStore = defineStore('product', {
     getTotalProducts: (state) => state.products.length,
 
     // Produtos rascunho
-    getDraftProducts: (state) => state.products.filter((product) => !product.published),
+    getDraftProducts: (state) =>
+      state.products.filter((product) => !product.published),
 
     // Produtos publicados (admin)
-    getPublishedProductsAdmin: (state) => state.products.filter((product) => product.published),
+    getPublishedProductsAdmin: (state) =>
+      state.products.filter((product) => product.published),
 
     // Produto atual
     getCurrentProduct: (state) => state.currentProduct,
@@ -81,8 +85,8 @@ export const useProductStore = defineStore('product', {
         const response = await productService.getPublishedProducts(params);
         this.publishedProducts = response.data;
       } catch (error: any) {
-        this.error = error.message || 'Erro ao carregar produtos';
-        console.error('Erro ao buscar produtos publicados:', error);
+        this.error = error.message || "Erro ao carregar produtos";
+        console.error("Erro ao buscar produtos publicados:", error);
       } finally {
         this.loading = false;
       }
@@ -105,8 +109,8 @@ export const useProductStore = defineStore('product', {
         const response = await productService.getAllProducts(params);
         this.products = response.data;
       } catch (error: any) {
-        this.error = error.message || 'Erro ao carregar produtos';
-        console.error('Erro ao buscar todos os produtos:', error);
+        this.error = error.message || "Erro ao carregar produtos";
+        console.error("Erro ao buscar todos os produtos:", error);
       } finally {
         this.loading = false;
       }
@@ -122,8 +126,8 @@ export const useProductStore = defineStore('product', {
         this.currentProduct = response.data;
         return response.data;
       } catch (error: any) {
-        this.error = error.message || 'Erro ao carregar produto';
-        console.error('Erro ao buscar produto:', error);
+        this.error = error.message || "Erro ao carregar produto";
+        console.error("Erro ao buscar produto:", error);
         throw error;
       } finally {
         this.loading = false;
@@ -140,8 +144,8 @@ export const useProductStore = defineStore('product', {
         this.currentProduct = response.data;
         return response.data;
       } catch (error: any) {
-        this.error = error.message || 'Erro ao carregar produto';
-        console.error('Erro ao buscar produto:', error);
+        this.error = error.message || "Erro ao carregar produto";
+        console.error("Erro ao buscar produto:", error);
         throw error;
       } finally {
         this.loading = false;
@@ -149,7 +153,9 @@ export const useProductStore = defineStore('product', {
     },
 
     // Criar novo produto
-    async createProduct(product: Omit<Product, '_id' | 'createdAt' | 'updatedAt'>) {
+    async createProduct(
+      product: Omit<Product, "_id" | "createdAt" | "updatedAt">
+    ) {
       this.loading = true;
       this.error = null;
 
@@ -164,8 +170,8 @@ export const useProductStore = defineStore('product', {
 
         return response.data;
       } catch (error: any) {
-        this.error = error.message || 'Erro ao criar produto';
-        console.error('Erro ao criar produto:', error);
+        this.error = error.message || "Erro ao criar produto";
+        console.error("Erro ao criar produto:", error);
         throw error;
       } finally {
         this.loading = false;
@@ -207,8 +213,8 @@ export const useProductStore = defineStore('product', {
 
         return response.data;
       } catch (error: any) {
-        this.error = error.message || 'Erro ao atualizar produto';
-        console.error('Erro ao atualizar produto:', error);
+        this.error = error.message || "Erro ao atualizar produto";
+        console.error("Erro ao atualizar produto:", error);
         throw error;
       } finally {
         this.loading = false;
@@ -227,15 +233,17 @@ export const useProductStore = defineStore('product', {
         this.products = this.products.filter((p) => p._id !== id);
 
         // Remover da lista de produtos publicados
-        this.publishedProducts = this.publishedProducts.filter((p) => p._id !== id);
+        this.publishedProducts = this.publishedProducts.filter(
+          (p) => p._id !== id
+        );
 
         // Limpar produto atual se for o mesmo
         if (this.currentProduct?._id === id) {
           this.currentProduct = null;
         }
       } catch (error: any) {
-        this.error = error.message || 'Erro ao deletar produto';
-        console.error('Erro ao deletar produto:', error);
+        this.error = error.message || "Erro ao deletar produto";
+        console.error("Erro ao deletar produto:", error);
         throw error;
       } finally {
         this.loading = false;
@@ -272,8 +280,8 @@ export const useProductStore = defineStore('product', {
 
         return response.data;
       } catch (error: any) {
-        this.error = error.message || 'Erro ao alternar publicação';
-        console.error('Erro ao alternar publicação:', error);
+        this.error = error.message || "Erro ao alternar publicação";
+        console.error("Erro ao alternar publicação:", error);
         throw error;
       } finally {
         this.loading = false;
@@ -302,8 +310,8 @@ export const useProductStore = defineStore('product', {
 
         return response.data;
       } catch (error: any) {
-        this.error = error.message || 'Erro ao alternar destaque';
-        console.error('Erro ao alternar destaque:', error);
+        this.error = error.message || "Erro ao alternar destaque";
+        console.error("Erro ao alternar destaque:", error);
         throw error;
       } finally {
         this.loading = false;
@@ -319,8 +327,8 @@ export const useProductStore = defineStore('product', {
         const response = await productService.getStats();
         this.stats = response.data;
       } catch (error: any) {
-        this.error = error.message || 'Erro ao carregar estatísticas';
-        console.error('Erro ao buscar estatísticas:', error);
+        this.error = error.message || "Erro ao carregar estatísticas";
+        console.error("Erro ao buscar estatísticas:", error);
       } finally {
         this.loading = false;
       }

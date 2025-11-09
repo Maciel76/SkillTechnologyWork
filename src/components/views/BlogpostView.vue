@@ -916,10 +916,14 @@ textarea {
   width: 100%;
   height: 180px;
   object-fit: cover;
+  transition: transform 0.3s ease;
 }
 
 .related-post-info {
-  padding: 20px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .related-category {
@@ -935,10 +939,15 @@ textarea {
 
 .related-post-card h3 {
   margin: 0 0 12px 0;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   color: #1f2937;
   font-weight: 600;
-  line-height: 1.3;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: color 0.2s;
 }
 
 .related-post-card p {
@@ -950,6 +959,7 @@ textarea {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  flex-grow: 1;
 }
 
 .related-meta {
@@ -957,6 +967,9 @@ textarea {
   gap: 16px;
   font-size: 0.85rem;
   color: #9ca3af;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid #f3f4f6;
 }
 
 /* Toast */

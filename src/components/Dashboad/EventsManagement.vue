@@ -60,13 +60,13 @@
             <button class="btn-edit" @click.stop="editEvent(event)">
               <i class="fas fa-edit"></i> Editar
             </button>
-            <button class="btn-delete" @click.stop="deleteEvent(event._id!)">
+            <button class="btn-delete" @click.stop="deleteEvent(event._id)">
               <i class="fas fa-trash"></i> Excluir
             </button>
             <button
               class="btn-publish"
               :class="{ published: event.published }"
-              @click.stop="togglePublish(event._id!)"
+              @click.stop="togglePublish(event._id)"
             >
               <i
                 class="fas"
@@ -111,12 +111,18 @@
                   <div class="step-number">1</div>
                   <span>Imagem</span>
                 </div>
-                <div class="step-line" :class="{ active: currentStep >= 2 }"></div>
+                <div
+                  class="step-line"
+                  :class="{ active: currentStep >= 2 }"
+                ></div>
                 <div class="step" :class="{ active: currentStep >= 2 }">
                   <div class="step-number">2</div>
                   <span>Detalhes</span>
                 </div>
-                <div class="step-line" :class="{ active: currentStep >= 3 }"></div>
+                <div
+                  class="step-line"
+                  :class="{ active: currentStep >= 3 }"
+                ></div>
                 <div class="step" :class="{ active: currentStep >= 3 }">
                   <div class="step-number">3</div>
                   <span>Galeria</span>
@@ -126,7 +132,9 @@
               <!-- Step 1: Imagem Principal -->
               <div v-show="currentStep === 1" class="form-step">
                 <h3>Imagem Principal do Evento</h3>
-                <p class="step-description">Escolha uma imagem que represente seu evento</p>
+                <p class="step-description">
+                  Escolha uma imagem que represente seu evento
+                </p>
 
                 <div class="image-upload-new">
                   <div v-if="formData.image" class="image-preview-new">
@@ -182,7 +190,9 @@
               <!-- Step 2: Detalhes do Evento -->
               <div v-show="currentStep === 2" class="form-step">
                 <h3>Detalhes do Evento</h3>
-                <p class="step-description">Informações sobre data, horário e local</p>
+                <p class="step-description">
+                  Informações sobre data, horário e local
+                </p>
 
                 <div class="form-grid">
                   <div class="form-group-new">
@@ -245,7 +255,9 @@
                     <label for="eventDescription">
                       <i class="fas fa-align-left"></i>
                       Descrição Curta *
-                      <span class="char-counter">{{ formData.description.length }}/150</span>
+                      <span class="char-counter"
+                        >{{ formData.description.length }}/150</span
+                      >
                     </label>
                     <textarea
                       id="eventDescription"
@@ -299,7 +311,11 @@
               <!-- Step 3: Galeria -->
               <div v-show="currentStep === 3" class="form-step">
                 <h3>Galeria de Imagens</h3>
-                <p class="step-description">Adicione até 3 imagens para a galeria ({{ formData.gallery.length }}/3)</p>
+                <p class="step-description">
+                  Adicione até 3 imagens para a galeria ({{
+                    formData.gallery.length
+                  }}/3)
+                </p>
 
                 <div class="gallery-grid-new">
                   <div
@@ -355,7 +371,9 @@
                       type="button"
                       class="btn-add-url"
                       @click="addGalleryImageFromUrl"
-                      :disabled="!galleryImageUrl || formData.gallery.length >= 3"
+                      :disabled="
+                        !galleryImageUrl || formData.gallery.length >= 3
+                      "
                     >
                       <i class="fas fa-link"></i>
                     </button>
@@ -392,7 +410,10 @@
                 >
                   <i v-if="isSaving" class="fas fa-spinner fa-spin"></i>
                   <i v-else class="fas fa-check"></i>
-                  {{ isSaving ? "Salvando..." : (isEditing ? "Atualizar" : "Criar") }} Evento
+                  {{
+                    isSaving ? "Salvando..." : isEditing ? "Atualizar" : "Criar"
+                  }}
+                  Evento
                 </button>
               </div>
             </form>
@@ -438,7 +459,10 @@
             </div>
             <div class="detail">
               <i class="fas fa-info-circle"></i>
-              <span class="status-badge" :class="`status-${selectedEvent.status}`">
+              <span
+                class="status-badge"
+                :class="`status-${selectedEvent.status}`"
+              >
                 {{ getStatusLabel(selectedEvent.status) }}
               </span>
             </div>
@@ -470,7 +494,7 @@
             <button class="btn-edit" @click="editEvent(selectedEvent)">
               <i class="fas fa-edit"></i> Editar Evento
             </button>
-            <button class="btn-delete" @click="deleteEvent(selectedEvent._id!)">
+            <button class="btn-delete" @click="deleteEvent(selectedEvent._id)">
               <i class="fas fa-trash"></i> Excluir Evento
             </button>
           </div>
@@ -515,9 +539,7 @@
               <span v-if="isDeleting">
                 <i class="fas fa-spinner fa-spin"></i> Excluindo...
               </span>
-              <span v-else>
-                Excluir
-              </span>
+              <span v-else> Excluir </span>
             </button>
           </div>
         </div>
@@ -526,27 +548,9 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { useEventStore } from '@/stores/eventStore';
-import { Event } from '@/services/eventService';
-
-interface FormData {
-  _id?: string;
-  title: string;
-  description: string;
-  fullDescription: string;
-  date: string;
-  day: string;
-  month: string;
-  fullDate: string;
-  time: string;
-  location: string;
-  image: string;
-  gallery: string[];
-  status: 'planejado' | 'confirmado' | 'cancelado' | 'realizado';
-  published: boolean;
-}
+<script>
+import { defineComponent } from "vue";
+import { useEventStore } from "@/stores/eventStore";
 
 export default defineComponent({
   name: "EventsManagement",
@@ -559,8 +563,8 @@ export default defineComponent({
       isEditing: false,
       isSaving: false,
       isDeleting: false,
-      selectedEvent: null as Event | null,
-      eventToDelete: null as Event | null,
+      selectedEvent: null,
+      eventToDelete: null,
       currentStep: 1,
       imageUrl: "",
       galleryImageUrl: "",
@@ -577,9 +581,9 @@ export default defineComponent({
         location: "",
         image: "",
         gallery: [],
-        status: "planejado" as const,
+        status: "planejado",
         published: false,
-      } as FormData,
+      },
       months: [
         "JAN",
         "FEV",
@@ -612,7 +616,7 @@ export default defineComponent({
   },
 
   computed: {
-    canProceedToNextStep(): boolean {
+    canProceedToNextStep() {
       if (this.currentStep === 1) {
         return !!this.formData.image;
       }
@@ -635,12 +639,12 @@ export default defineComponent({
   },
 
   methods: {
-    getStatusLabel(status: string): string {
-      const labels: Record<string, string> = {
-        planejado: 'Planejado',
-        confirmado: 'Confirmado',
-        cancelado: 'Cancelado',
-        realizado: 'Realizado',
+    getStatusLabel(status) {
+      const labels = {
+        planejado: "Planejado",
+        confirmado: "Confirmado",
+        cancelado: "Cancelado",
+        realizado: "Realizado",
       };
       return labels[status] || status;
     },
@@ -659,13 +663,13 @@ export default defineComponent({
     },
 
     // Image Upload Handlers
-    handleMainImageUpload(event: any) {
-      const target = event.target as HTMLInputElement;
+    handleMainImageUpload(event) {
+      const target = event.target;
       const file = target.files?.[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = (e) => {
-          this.formData.image = e.target?.result as string;
+          this.formData.image = e.target?.result;
         };
         reader.readAsDataURL(file);
       }
@@ -682,13 +686,13 @@ export default defineComponent({
       this.formData.image = "";
     },
 
-    handleGalleryImageUpload(event: any) {
-      const target = event.target as HTMLInputElement;
+    handleGalleryImageUpload(event) {
+      const target = event.target;
       const file = target.files?.[0];
       if (file && this.formData.gallery.length < 3) {
         const reader = new FileReader();
         reader.onload = (e) => {
-          this.formData.gallery.push(e.target?.result as string);
+          this.formData.gallery.push(e.target?.result);
           this.showGalleryUpload = false;
         };
         reader.readAsDataURL(file);
@@ -707,7 +711,7 @@ export default defineComponent({
       }
     },
 
-    removeGalleryImage(index: number) {
+    removeGalleryImage(index) {
       this.formData.gallery.splice(index, 1);
     },
 
@@ -733,7 +737,7 @@ export default defineComponent({
       this.showModal = true;
     },
 
-    editEvent(event: Event) {
+    editEvent(event) {
       this.isEditing = true;
       this.currentStep = 1;
       this.formData = {
@@ -741,7 +745,7 @@ export default defineComponent({
         title: event.title,
         description: event.description,
         fullDescription: event.fullDescription || "",
-        date: event.date.split('T')[0],
+        date: event.date.split("T")[0],
         day: event.day,
         month: event.month,
         fullDate: event.fullDate,
@@ -771,9 +775,11 @@ export default defineComponent({
         }
 
         this.closeModal();
-        console.log(`Evento ${this.isEditing ? 'atualizado' : 'criado'} com sucesso!`);
+        console.log(
+          `Evento ${this.isEditing ? "atualizado" : "criado"} com sucesso!`
+        );
       } catch (error) {
-        console.error('Erro ao salvar evento:', error);
+        console.error("Erro ao salvar evento:", error);
       } finally {
         this.isSaving = false;
       }
@@ -781,8 +787,8 @@ export default defineComponent({
 
     updateDateDisplay() {
       if (this.formData.date) {
-        const date = new Date(this.formData.date + 'T00:00:00');
-        this.formData.day = date.getDate().toString().padStart(2, '0');
+        const date = new Date(this.formData.date + "T00:00:00");
+        this.formData.day = date.getDate().toString().padStart(2, "0");
         this.formData.month = this.months[date.getMonth()];
         this.formData.fullDate = `${date.getDate()} de ${
           this.monthNames[date.getMonth()]
@@ -790,7 +796,7 @@ export default defineComponent({
       }
     },
 
-    openEventModal(event: Event) {
+    openEventModal(event) {
       this.selectedEvent = event;
     },
 
@@ -798,7 +804,7 @@ export default defineComponent({
       this.selectedEvent = null;
     },
 
-    deleteEvent(eventId: string) {
+    deleteEvent(eventId) {
       const event = this.eventStore.events.find((e) => e._id === eventId);
       if (event) {
         this.eventToDelete = event;
@@ -812,23 +818,23 @@ export default defineComponent({
       this.isDeleting = true;
 
       try {
-        await this.eventStore.deleteEvent(this.eventToDelete._id!);
+        await this.eventStore.deleteEvent(this.eventToDelete._id);
         this.closeDeleteModal();
         this.closeEventModal();
-        console.log('Evento excluído com sucesso!');
+        console.log("Evento excluído com sucesso!");
       } catch (error) {
-        console.error('Erro ao excluir evento:', error);
+        console.error("Erro ao excluir evento:", error);
       } finally {
         this.isDeleting = false;
       }
     },
 
-    async togglePublish(eventId: string) {
+    async togglePublish(eventId) {
       try {
         await this.eventStore.togglePublish(eventId);
-        console.log('Status de publicação alterado com sucesso!');
+        console.log("Status de publicação alterado com sucesso!");
       } catch (error) {
-        console.error('Erro ao alternar publicação:', error);
+        console.error("Erro ao alternar publicação:", error);
       }
     },
 
@@ -1000,7 +1006,8 @@ export default defineComponent({
   max-height: 90vh;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 .modal-header-new {
@@ -1493,7 +1500,9 @@ export default defineComponent({
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .error-message {
