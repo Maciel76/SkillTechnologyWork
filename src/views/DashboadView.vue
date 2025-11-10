@@ -32,6 +32,7 @@
         <TestimonialsManagement v-if="activeMenu === 'testimonials'" />
         <EcommerceManagement v-if="activeMenu === 'ecommerce'" />
         <EventsManagement v-if="activeMenu === 'events'" />
+        <ProjectsManagement v-if="activeMenu === 'projects'" />
         <StatsCards v-if="activeMenu === 'dashboard'" />
       </div>
     </div>
@@ -49,6 +50,7 @@ import PortfolioManagement from "@/components/Dashboad/PortfolioManagement.vue";
 import TestimonialsManagement from "@/components/Dashboad/TestimonialsManagement.vue";
 import EcommerceManagement from "@/components/Dashboad/EcommerceManagement.vue";
 import EventsManagement from "@/components/Dashboad/EventsManagement.vue";
+import ProjectsManagement from "@/components/Dashboad/ProjectsManagement.vue";
 import StatsCards from "@/components/Dashboad/StatsCards.vue";
 
 export default {
@@ -64,6 +66,7 @@ export default {
     TestimonialsManagement,
     EcommerceManagement,
     EventsManagement,
+    ProjectsManagement,
     StatsCards,
   },
   data() {
@@ -80,6 +83,7 @@ export default {
         { id: "testimonials", name: "Depoimentos", icon: "fas fa-comment" },
         { id: "ecommerce", name: "Loja Virtual", icon: "fas fa-shopping-cart" },
         { id: "events", name: "Eventos", icon: "fas fa-calendar" },
+        { id: "projects", name: "Projetos Recentes", icon: "fas fa-folder-open" },
       ],
     };
   },

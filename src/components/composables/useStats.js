@@ -62,9 +62,10 @@ export function useStats() {
     }
   };
 
-  onMounted(() => {
-    fetchStats();
-  });
+  // Comentado para evitar erro 404 - descomentar quando a rota /api/stats for implementada
+  // onMounted(() => {
+  //   fetchStats();
+  // });
 
   return {
     stats,

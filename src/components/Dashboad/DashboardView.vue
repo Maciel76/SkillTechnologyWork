@@ -32,6 +32,7 @@
         <TestimonialsManagement v-if="activeMenu === 'testimonials'" />
         <EcommerceManagement v-if="activeMenu === 'ecommerce'" />
         <EventsManagement v-if="activeMenu === 'events'" />
+        <ProjectsManagement v-if="activeMenu === 'projects'" />
         <StatsCards v-if="activeMenu === 'dashboard'" />
       </div>
     </div>
@@ -39,16 +40,17 @@
 </template>
 
 <script>
-import Sidebar from "@/components/Dashboad/layout/SidebarDashboad.vue";
-import AppHeader from "@/components/Dashboad/layout/HeaderDashboad.vue";
+import Sidebar from "@/components/Dashboad/SidebarDashboad.vue";
+import AppHeader from "@/components/Dashboad/HeaderDashboad.vue";
 import DashboardOverview from "@/components/Dashboad/DashboardOverview.vue";
-import LeadsManagement from "@/components/Dashboad/sections/LeadsManagement.vue";
-import BlogManagement from "@/components/Dashboad/sections/BlogManagement.vue";
-import ServicesManagement from "@/components/Dashboad/sections/ServicesManagement.vue";
-import PortfolioManagement from "@/components/Dashboad/sections/PortfolioManagement.vue";
-import TestimonialsManagement from "@/components/Dashboad/sections/TestimonialsManagement.vue";
-import EcommerceManagement from "@/components/Dashboad/sections/EcommerceManagement.vue";
-import EventsManagement from "@/components/Dashboad/sections/EventsManagement.vue";
+import LeadsManagement from "@/components/Dashboad/LeadsManagement.vue";
+import BlogManagement from "@/components/Dashboad/BlogManagement.vue";
+import ServicesManagement from "@/components/Dashboad/ServicesManagement.vue";
+import PortfolioManagement from "@/components/Dashboad/PortfolioManagement.vue";
+import TestimonialsManagement from "@/components/Dashboad/TestimonialsManagement.vue";
+import EcommerceManagement from "@/components/Dashboad/EcommerceManagement.vue";
+import EventsManagement from "@/components/Dashboad/EventsManagement.vue";
+import ProjectsManagement from "@/components/Dashboad/ProjectsManagement.vue";
 import StatsCards from "@/components/Dashboad/StatsCards.vue";
 
 export default {
@@ -64,6 +66,7 @@ export default {
     TestimonialsManagement,
     EcommerceManagement,
     EventsManagement,
+    ProjectsManagement,
     StatsCards,
   },
   data() {
@@ -80,6 +83,7 @@ export default {
         { id: "testimonials", name: "Depoimentos", icon: "fas fa-comment" },
         { id: "ecommerce", name: "Loja Virtual", icon: "fas fa-shopping-cart" },
         { id: "events", name: "Eventos", icon: "fas fa-calendar" },
+        { id: "projects", name: "Projetos Recentes", icon: "fas fa-folder-open" },
       ],
     };
   },

@@ -198,10 +198,17 @@
 
 <script>
 import { onMounted, onBeforeUpdate, ref } from "vue";
+import { useRecentProjectStore } from "@/stores/recentProjectStore";
 
 export default {
   name: "FeaturedProjects",
   setup() {
+    const projectStore = useRecentProjectStore();
+
+    // Carregar projetos publicados ao montar o componente
+    onMounted(() => {
+      projectStore.fetchPublishedProjects({ limit: 4 });
+    });
     // Refs para os elementos que queremos animar
     const sectionHeader = ref(null);
     const projectCards = ref([]);
@@ -251,11 +258,12 @@ export default {
       // Retorna os refs para que possam ser usados no template
       sectionHeader,
       projectCards,
+      projectStore,
     };
   },
   data() {
     return {
-      projects: [
+      staticProjects: [
         {
           id: 1,
           title: "Dashboard com IA para Controle de Estoque",
@@ -365,6 +373,28 @@ export default {
     };
   },
   computed: {
+    // Usar projetos da store se disponíveis, senão usa os estáticos
+    projects() {
+      if (this.projectStore.publishedProjects && this.projectStore.publishedProjects.length > 0) {
+        return this.projectStore.publishedProjects.map(project => ({
+          id: project._id || project.id,
+          title: project.title,
+          category: project.category,
+          client: project.client,
+          year: project.year,
+          thumbnail: project.thumbnail,
+          images: project.images,
+          technologies: project.technologies,
+          challenge: project.challenge,
+          solution: project.solution,
+          results: project.results,
+          liveUrl: project.liveUrl,
+          githubUrl: project.githubUrl,
+        }));
+      }
+      // Fallback para projetos estáticos se não houver dados da API
+      return this.staticProjects;
+    },
     challengeItems() {
       if (!this.selectedProject || !this.selectedProject.challenge) return [];
       // Divide a string por quebras de linha, remove itens vazios e espaços extras.
