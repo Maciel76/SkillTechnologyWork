@@ -73,139 +73,6 @@
       </div>
     </section>
 
-    <!-- Testimonials -->
-    <section class="testimonials-section">
-      <h2 class="section-title">
-        <span class="title-part">O Que Dizem</span>
-        <span class="title-part highlight">Nossos Clientes</span>
-      </h2>
-
-      <div class="testimonials-slider">
-        <div
-          class="testimonial-card"
-          v-for="(testimonial, index) in testimonials"
-          :key="index"
-        >
-          <div class="client-rating">
-            <span v-for="star in 5" :key="star">★</span>
-          </div>
-          <p class="testimonial-text">"{{ testimonial.text }}"</p>
-          <div class="client-info">
-            <div
-              class="client-avatar"
-              :style="{ 'background-image': `url(${testimonial.avatar})` }"
-            ></div>
-            <div class="client-details">
-              <h3>{{ testimonial.name }}</h3>
-              <span>{{ testimonial.company }}</span>
-              <div class="client-project">
-                <img
-                  :src="testimonial.projectIcon"
-                  :alt="testimonial.projectType"
-                />
-                <span>{{ testimonial.projectType }}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section class="faq-section">
-      <h2 class="section-title">
-        <span class="title-part">Perguntas</span>
-        <span class="title-part highlight">Frequentes</span>
-      </h2>
-
-      <div class="faq-grid">
-        <div
-          class="faq-item"
-          v-for="(faq, index) in faqs"
-          :key="index"
-          @click="toggleFaq(index)"
-        >
-          <div class="faq-question">
-            <h3>{{ faq.question }}</h3>
-            <span class="faq-toggle">{{
-              activeFaq === index ? "−" : "+"
-            }}</span>
-          </div>
-          <div class="faq-answer" :class="{ active: activeFaq === index }">
-            <p>{{ faq.answer }}</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact CTA -->
-    <section class="contact-section" id="contact">
-      <div class="contact-container">
-        <div class="contact-text">
-          <h2>Pronto para Transformar Sua Ideia em Realidade?</h2>
-          <p>
-            Entre em contato para uma consultoria gratuita e descubra como
-            podemos ajudar seu negócio a crescer no mundo digital.
-          </p>
-          <div class="contact-methods">
-            <a href="mailto:contato@exemplo.com" class="contact-method">
-              <span class="icon">✉️</span>
-              contato@exemplo.com
-            </a>
-            <a href="tel:+5511999999999" class="contact-method">
-              <span class="icon">📞</span>
-              (11) 99999-9999
-            </a>
-            <a href="https://wa.me/5511999999999" class="contact-method">
-              <span class="icon">💬</span>
-              WhatsApp
-            </a>
-          </div>
-        </div>
-        <div class="contact-form">
-          <h3>Ou nos envie uma mensagem</h3>
-          <form @submit.prevent="submitForm">
-            <div class="form-group">
-              <input
-                type="text"
-                v-model="form.name"
-                placeholder="Seu nome"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <input
-                type="email"
-                v-model="form.email"
-                placeholder="Seu e-mail"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <select v-model="form.service" required>
-                <option value="" disabled selected>Serviço de interesse</option>
-                <option
-                  v-for="(service, index) in services"
-                  :key="index"
-                  :value="service.name"
-                >
-                  {{ service.name }}
-                </option>
-              </select>
-            </div>
-            <div class="form-group">
-              <textarea
-                v-model="form.message"
-                placeholder="Conte-nos sobre seu projeto"
-                required
-              ></textarea>
-            </div>
-            <button type="submit" class="submit-button">Enviar Mensagem</button>
-          </form>
-        </div>
-      </div>
-    </section>
-
     <!-- Contact Modal -->
     <div class="modal-overlay" v-if="showModal" @click.self="closeModal">
       <div class="modal-content">
@@ -253,8 +120,12 @@
                 placeholder="Alguma informação adicional sobre seu projeto"
               ></textarea>
             </div>
-            <button type="submit" class="submit-button" :disabled="isSubmitting">
-              {{ isSubmitting ? 'Enviando...' : 'Enviar Solicitação' }}
+            <button
+              type="submit"
+              class="submit-button"
+              :disabled="isSubmitting"
+            >
+              {{ isSubmitting ? "Enviando..." : "Enviar Solicitação" }}
             </button>
           </form>
         </div>
@@ -262,19 +133,40 @@
     </div>
 
     <!-- Success Animation Modal -->
-    <div class="success-modal-overlay" v-if="showSuccess" @click="closeSuccessModal">
+    <div
+      class="success-modal-overlay"
+      v-if="showSuccess"
+      @click="closeSuccessModal"
+    >
       <div class="success-modal-content">
         <div class="success-checkmark">
-          <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
-            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+          <svg
+            class="checkmark"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 52 52"
+          >
+            <circle
+              class="checkmark-circle"
+              cx="26"
+              cy="26"
+              r="25"
+              fill="none"
+            />
+            <path
+              class="checkmark-check"
+              fill="none"
+              d="M14.1 27.2l7.1 7.2 16.7-16.8"
+            />
           </svg>
         </div>
         <h2 class="success-title">Solicitação Enviada com Sucesso!</h2>
         <p class="success-message">
-          Obrigado pelo seu interesse! Entraremos em contato em breve para discutir os detalhes do seu projeto.
+          Obrigado pelo seu interesse! Entraremos em contato em breve para
+          discutir os detalhes do seu projeto.
         </p>
-        <button class="success-button" @click="closeSuccessModal">Fechar</button>
+        <button class="success-button" @click="closeSuccessModal">
+          Fechar
+        </button>
       </div>
     </div>
   </div>
@@ -649,22 +541,25 @@ export default {
           planPrice: this.annualBilling
             ? this.selectedPlan.annualPrice
             : this.selectedPlan.monthlyPrice,
-          billingType: this.annualBilling ? 'anual' : 'mensal',
-          serviceName: this.currentService.name
+          billingType: this.annualBilling ? "anual" : "mensal",
+          serviceName: this.currentService.name,
         };
 
-        const response = await fetch('http://localhost:3000/api/service-requests', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(requestData),
-        });
+        const response = await fetch(
+          "http://localhost:3000/api/service-requests",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(requestData),
+          }
+        );
 
         const data = await response.json();
 
         if (!response.ok) {
-          throw new Error(data.message || 'Erro ao enviar solicitação');
+          throw new Error(data.message || "Erro ao enviar solicitação");
         }
 
         // Limpa o formulário
@@ -684,10 +579,9 @@ export default {
           this.showSuccess = true;
           document.body.style.overflow = "hidden";
         }, 300);
-
       } catch (error) {
-        console.error('Erro ao enviar solicitação:', error);
-        alert('Erro ao enviar solicitação. Por favor, tente novamente.');
+        console.error("Erro ao enviar solicitação:", error);
+        alert("Erro ao enviar solicitação. Por favor, tente novamente.");
       } finally {
         this.isSubmitting = false;
       }
@@ -1294,7 +1188,8 @@ input:checked + .slider:before {
   stroke-width: 3;
   stroke: #10b981;
   stroke-miterlimit: 10;
-  animation: fill 0.4s ease-in-out 0.4s forwards, scale 0.3s ease-in-out 0.9s both;
+  animation: fill 0.4s ease-in-out 0.4s forwards,
+    scale 0.3s ease-in-out 0.9s both;
 }
 
 .checkmark-circle {
@@ -1386,7 +1281,8 @@ input:checked + .slider:before {
 }
 
 @keyframes scale {
-  0%, 100% {
+  0%,
+  100% {
     transform: none;
   }
   50% {

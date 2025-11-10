@@ -1,63 +1,71 @@
 <template>
   <div class="branding-page">
-      <!-- Hero Section Imersivo -->
-  <section class="hero-section">
-    <div class="hero-content">
-      <div class="hero-text">
-        <h1 class="hero-title">
-          <span class="title-line">Identidade Visual</span>
-          <span class="title-line highlight">que <span class="pulse-text">Cativa</span> & <span class="rotate-text">Diferencia</span></span>
-        </h1>
-        <p class="hero-subtitle">Sua marca não é apenas um logo - é uma experiência emocional memorável</p>
-        <div class="cta-container">
-          <button class="cta-button" @click="scrollToProcess">Quero minha Identidade Visual</button>
-          <div class="trust-badges">
-            <div class="badge">
-              <span>+150</span>
-              <small>Marcas Transformadas</small>
+    <!-- Hero Section Imersivo -->
+    <section class="hero-section">
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1 class="hero-title">
+            <span class="title-line">Identidade Visual</span>
+            <span class="title-line highlight"
+              >que <span class="pulse-text">Cativa</span> &
+              <span class="rotate-text">Diferencia</span></span
+            >
+          </h1>
+          <p class="hero-subtitle">
+            Sua marca não é apenas um logo - é uma experiência emocional
+            memorável
+          </p>
+          <div class="cta-container">
+            <button class="cta-button" @click="scrollToProcess">
+              Quero minha Identidade Visual
+            </button>
+            <div class="trust-badges">
+              <div class="badge">
+                <span>+150</span>
+                <small>Marcas Transformadas</small>
+              </div>
+              <div class="badge">
+                <span>100%</span>
+                <small>Briefing Estratégico</small>
+              </div>
             </div>
-            <div class="badge">
-              <span>100%</span>
-              <small>Briefing Estratégico</small>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="brand-morph">
+            <!-- Ícones com Font Awesome -->
+            <div class="morph-item" style="--delay: 0s">
+              <i class="fa-solid fa-pen-nib morph-icon"></i>
+              <span class="morph-name">Logo</span>
+            </div>
+            <div class="morph-item" style="--delay: 0.2s">
+              <i class="fa-solid fa-palette morph-icon"></i>
+              <span class="morph-name">Cores</span>
+            </div>
+            <div class="morph-item" style="--delay: 0.4s">
+              <i class="fa-solid fa-font morph-icon"></i>
+              <span class="morph-name">Tipografia</span>
+            </div>
+            <div class="morph-item" style="--delay: 0.6s">
+              <i class="fa-solid fa-camera-retro morph-icon"></i>
+              <span class="morph-name">Fotografia</span>
+            </div>
+            <div class="morph-item" style="--delay: 0.8s">
+              <i class="fa-solid fa-star-of-life morph-icon"></i>
+              <span class="morph-name">Ícones</span>
+            </div>
+            <div class="morph-item" style="--delay: 1s">
+              <i class="fa-solid fa-puzzle-piece morph-icon"></i>
+              <span class="morph-name">Patterns</span>
             </div>
           </div>
         </div>
       </div>
-      <div class="hero-visual">
-        <div class="brand-morph">
-          <!-- Ícones via API do Iconify -->
-          <div class="morph-item" style="top: 10%; left: 5%; --delay: 0s">
-            <img src="https://api.iconify.design/mdi:brush.svg" alt="Logo" class="morph-icon" />
-            <span class="morph-name">Logo</span>
-          </div>
-          <div class="morph-item" style="top: 60%; left: 15%; --delay: 0.2s">
-            <img src="https://api.iconify.design/mdi:palette.svg" alt="Cores" class="morph-icon" />
-            <span class="morph-name">Cores</span>
-          </div>
-          <div class="morph-item" style="top: 30%; left: 30%; --delay: 0.4s">
-            <img src="https://api.iconify.design/mdi:format-letter-matches.svg" alt="Tipografia" class="morph-icon" />
-            <span class="morph-name">Tipografia</span>
-          </div>
-          <div class="morph-item" style="top: 70%; left: 50%; --delay: 0.6s">
-            <img src="https://api.iconify.design/mdi:camera.svg" alt="Fotografia" class="morph-icon" />
-            <span class="morph-name">Fotografia</span>
-          </div>
-          <div class="morph-item" style="top: 20%; left: 65%; --delay: 0.8s">
-            <img src="https://api.iconify.design/mdi:star-shooting.svg" alt="Ícones" class="morph-icon" />
-            <span class="morph-name">Ícones</span>
-          </div>
-          <div class="morph-item" style="top: 50%; left: 80%; --delay: 1s">
-            <img src="https://api.iconify.design/mdi:puzzle.svg" alt="Patterns" class="morph-icon" />
-            <span class="morph-name">Patterns</span>
-          </div>
-        </div>
+      <div class="scroll-indicator">
+        <span>Explore o Processo</span>
+        <div class="arrow"></div>
       </div>
-    </div>
-    <div class="scroll-indicator">
-      <span>Explore o Processo</span>
-      <div class="arrow"></div>
-    </div>
-  </section>
+    </section>
 
     <!-- O Que Inclui - Mega Lista -->
     <section class="includes-section">
@@ -66,10 +74,16 @@
           <span class="title-part">Tudo que sua</span>
           <span class="title-part highlight">Marca Precisa</span>
         </h2>
-        <p class="section-subtitle">Componentes completos de branding para posicionamento dominante</p>
-        
+        <p class="section-subtitle">
+          Componentes completos de branding para posicionamento dominante
+        </p>
+
         <div class="includes-grid">
-          <div class="include-category" v-for="(category, index) in includes" :key="index">
+          <div
+            class="include-category"
+            v-for="(category, index) in includes"
+            :key="index"
+          >
             <h3 class="category-title">
               <span class="category-icon">{{ category.icon }}</span>
               {{ category.title }}
@@ -92,12 +106,14 @@
           <span class="title-part">Processo de</span>
           <span class="title-part highlight">Criação</span>
         </h2>
-        <p class="section-subtitle">Metodologia comprovada para marcas memoráveis</p>
-        
+        <p class="section-subtitle">
+          Metodologia comprovada para marcas memoráveis
+        </p>
+
         <div class="process-timeline">
-          <div 
-            class="process-step" 
-            v-for="(step, index) in processSteps" 
+          <div
+            class="process-step"
+            v-for="(step, index) in processSteps"
             :key="index"
             @mouseenter="activeStep = index"
             @mouseleave="activeStep = null"
@@ -107,7 +123,11 @@
               <h3>{{ step.title }}</h3>
               <p>{{ step.description }}</p>
               <div class="step-visual" v-if="activeStep === index">
-                <img :src="step.visual" :alt="step.title" class="visual-image">
+                <img
+                  :src="step.visual"
+                  :alt="step.title"
+                  class="visual-image"
+                />
               </div>
             </div>
           </div>
@@ -122,27 +142,29 @@
           <span class="title-part">Marcas que</span>
           <span class="title-part highlight">Inspiram</span>
         </h2>
-        <p class="section-subtitle">Identidades visuais que revolucionaram negócios</p>
-        
+        <p class="section-subtitle">
+          Identidades visuais que revolucionaram negócios
+        </p>
+
         <div class="portfolio-carousel">
-          <div 
-            class="portfolio-item" 
-            v-for="(item, index) in portfolioItems" 
+          <div
+            class="portfolio-item"
+            v-for="(item, index) in portfolioItems"
             :key="index"
             :style="{ '--hue': item.colorHue }"
           >
             <div class="brand-preview">
               <div class="brand-logo">
-                <img :src="item.logo" :alt="item.client + ' logo'">
+                <img :src="item.logo" :alt="item.client + ' logo'" />
               </div>
               <div class="brand-applications">
-                <img 
-                  v-for="(app, i) in item.applications" 
+                <img
+                  v-for="(app, i) in item.applications"
                   :key="i"
-                  :src="app" 
-                  :alt="'Aplicação ' + (i+1) + ' para ' + item.client"
+                  :src="app"
+                  :alt="'Aplicação ' + (i + 1) + ' para ' + item.client"
                   class="application-image"
-                >
+                />
               </div>
             </div>
             <div class="brand-info">
@@ -176,12 +198,14 @@
           <span class="title-part">Solução Completa</span>
           <span class="title-part highlight">para cada Fase</span>
         </h2>
-        <p class="section-subtitle">Do essencial ao branding corporativo premium</p>
-        
+        <p class="section-subtitle">
+          Do essencial ao branding corporativo premium
+        </p>
+
         <div class="tabs-container">
           <div class="tabs-header">
-            <button 
-              v-for="(tab, index) in tabs" 
+            <button
+              v-for="(tab, index) in tabs"
               :key="index"
               @click="activeTab = tab.id"
               :class="{ active: activeTab === tab.id }"
@@ -190,9 +214,14 @@
             </button>
           </div>
           <div class="tabs-content">
-            <div class="tab-panel" v-for="(tab, index) in tabs" :key="index" v-show="activeTab === tab.id">
+            <div
+              class="tab-panel"
+              v-for="(tab, index) in tabs"
+              :key="index"
+              v-show="activeTab === tab.id"
+            >
               <div class="tab-visual">
-                <img :src="tab.visual" :alt="tab.label">
+                <img :src="tab.visual" :alt="tab.label" />
               </div>
               <div class="tab-info">
                 <h3>{{ tab.title }}</h3>
@@ -222,18 +251,32 @@
           <span class="title-part">Elementos de</span>
           <span class="title-part highlight">Identidade Visual</span>
         </h2>
-        
+
         <div class="elements-showcase">
-          <div class="element-card" v-for="(element, index) in brandingElements" :key="index">
-            <div class="element-preview" :style="{ 'background': element.bgColor }">
-              <img :src="element.image" :alt="element.title" class="element-image">
+          <div
+            class="element-card"
+            v-for="(element, index) in brandingElements"
+            :key="index"
+          >
+            <div
+              class="element-preview"
+              :style="{ background: element.bgColor }"
+            >
+              <img
+                :src="element.image"
+                :alt="element.title"
+                class="element-image"
+              />
             </div>
             <div class="element-info">
               <h3>{{ element.title }}</h3>
               <p>{{ element.description }}</p>
               <div class="element-importance">
                 <span>Importância:</span>
-                <div class="importance-bar" :style="{ width: element.importance + '%' }"></div>
+                <div
+                  class="importance-bar"
+                  :style="{ width: element.importance + '%' }"
+                ></div>
                 <span class="importance-value">{{ element.importance }}%</span>
               </div>
             </div>
@@ -249,11 +292,16 @@
           <div class="brand-sphere"></div>
         </div>
         <div class="cta-content">
-          <h2>Pronto para <span class="highlight">transformar</span> sua marca?</h2>
-          <p>Solicite um briefing criativo gratuito e receba uma proposta personalizada</p>
+          <h2>
+            Pronto para <span class="highlight">transformar</span> sua marca?
+          </h2>
+          <p>
+            Solicite um briefing criativo gratuito e receba uma proposta
+            personalizada
+          </p>
           <form class="cta-form">
-            <input type="text" placeholder="Seu nome">
-            <input type="email" placeholder="Seu melhor e-mail">
+            <input type="text" placeholder="Seu nome" />
+            <input type="email" placeholder="Seu melhor e-mail" />
             <button type="submit">Quero minha Identidade Visual</button>
           </form>
           <div class="guarantee">
@@ -269,119 +317,149 @@
 
 <script>
 export default {
-  name: 'BrandingPage',
+  name: "BrandingPage",
   data() {
     return {
       activeStep: null,
-      activeTab: 'basic',
+      activeTab: "basic",
       morphItems: [
-        { name: 'Logo', icon: '🖋️', style: { top: '10%', left: '5%', '--delay': '0s' } },
-        { name: 'Cores', icon: '🎨', style: { top: '60%', left: '15%', '--delay': '0.2s' } },
-        { name: 'Tipografia', icon: '🔤', style: { top: '30%', left: '30%', '--delay': '0.4s' } },
-        { name: 'Fotografia', icon: '📸', style: { top: '70%', left: '50%', '--delay': '0.6s' } },
-        { name: 'Ícones', icon: '✨', style: { top: '20%', left: '65%', '--delay': '0.8s' } },
-        { name: 'Patterns', icon: '🧩', style: { top: '50%', left: '80%', '--delay': '1s' } }
+        {
+          name: "Logo",
+          icon: "🖋️",
+          style: { top: "10%", left: "5%", "--delay": "0s" },
+        },
+        {
+          name: "Cores",
+          icon: "🎨",
+          style: { top: "60%", left: "15%", "--delay": "0.2s" },
+        },
+        {
+          name: "Tipografia",
+          icon: "🔤",
+          style: { top: "30%", left: "30%", "--delay": "0.4s" },
+        },
+        {
+          name: "Fotografia",
+          icon: "📸",
+          style: { top: "70%", left: "50%", "--delay": "0.6s" },
+        },
+        {
+          name: "Ícones",
+          icon: "✨",
+          style: { top: "20%", left: "65%", "--delay": "0.8s" },
+        },
+        {
+          name: "Patterns",
+          icon: "🧩",
+          style: { top: "50%", left: "80%", "--delay": "1s" },
+        },
       ],
       includes: [
         {
-          icon: '🆔',
-          title: 'Identidade Primária',
+          icon: "🆔",
+          title: "Identidade Primária",
           items: [
-            'Design de Logo Principal',
-            'Versões Alternativas',
-            'Favicon & App Icon',
-            'Área de Proteção',
-            'Uso em Fundos Claros/Escuros',
-            'Sistema de Redução'
-          ]
+            "Design de Logo Principal",
+            "Versões Alternativas",
+            "Favicon & App Icon",
+            "Área de Proteção",
+            "Uso em Fundos Claros/Escuros",
+            "Sistema de Redução",
+          ],
         },
         {
-          icon: '🎨',
-          title: 'Sistema de Cores',
+          icon: "🎨",
+          title: "Sistema de Cores",
           items: [
-            'Paleta Primária (3-5 cores)',
-            'Paleta Secundária',
-            'Gradientes Autorais',
-            'Cores para Dark Mode',
-            'Combinações Aprovadas',
-            'Guia de Aplicação'
-          ]
+            "Paleta Primária (3-5 cores)",
+            "Paleta Secundária",
+            "Gradientes Autorais",
+            "Cores para Dark Mode",
+            "Combinações Aprovadas",
+            "Guia de Aplicação",
+          ],
         },
         {
-          icon: '🖋️',
-          title: 'Tipografia',
+          icon: "🖋️",
+          title: "Tipografia",
           items: [
-            'Família Primária (1-2 fontes)',
-            'Hierarquia Tipográfica',
-            'Web Fonts Configuradas',
-            'Fallback Fonts',
-            'Espaçamento e Leading',
-            'Sistema de Escala'
-          ]
+            "Família Primária (1-2 fontes)",
+            "Hierarquia Tipográfica",
+            "Web Fonts Configuradas",
+            "Fallback Fonts",
+            "Espaçamento e Leading",
+            "Sistema de Escala",
+          ],
         },
         {
-          icon: '📸',
-          title: 'Diretrizes de Imagem',
+          icon: "📸",
+          title: "Diretrizes de Imagem",
           items: [
-            'Estilo Fotográfico',
-            'Direção de Arte',
-            'Tratamento de Imagem',
-            'Biblioteca de Referência',
-            'Ilustrações Customizadas',
-            'Ícones Exclusivos'
-          ]
+            "Estilo Fotográfico",
+            "Direção de Arte",
+            "Tratamento de Imagem",
+            "Biblioteca de Referência",
+            "Ilustrações Customizadas",
+            "Ícones Exclusivos",
+          ],
         },
         {
-          icon: '🧩',
-          title: 'Elementos Gráficos',
+          icon: "🧩",
+          title: "Elementos Gráficos",
           items: [
-            'Patterns Exclusivos',
-            'Texturas Autorais',
-            'Formas e Elementos',
-            'Sistema de Grid',
-            'Efeitos Visuais',
-            'Animação Básica'
-          ]
+            "Patterns Exclusivos",
+            "Texturas Autorais",
+            "Formas e Elementos",
+            "Sistema de Grid",
+            "Efeitos Visuais",
+            "Animação Básica",
+          ],
         },
         {
-          icon: '📱',
-          title: 'Aplicações Práticas',
+          icon: "📱",
+          title: "Aplicações Práticas",
           items: [
-            'Templates para Redes Sociais',
-            'Apresentações Corporativas',
-            'Material Institucional',
-            'Uniforme e Sinalização',
-            'Embalagens e Produtos',
-            'Merchandising'
-          ]
-        }
+            "Templates para Redes Sociais",
+            "Apresentações Corporativas",
+            "Material Institucional",
+            "Uniforme e Sinalização",
+            "Embalagens e Produtos",
+            "Merchandising",
+          ],
+        },
       ],
       processSteps: [
         {
-          title: 'Descoberta da Marca',
-          description: 'Workshop estratégico para extrair essência, valores e público-alvo',
-          visual: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+          title: "Descoberta da Marca",
+          description:
+            "Workshop estratégico para extrair essência, valores e público-alvo",
+          visual:
+            "https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         },
         {
-          title: 'Pesquisa e Análise',
-          description: 'Benchmarking de concorrentes e tendências de mercado',
-          visual: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+          title: "Pesquisa e Análise",
+          description: "Benchmarking de concorrentes e tendências de mercado",
+          visual:
+            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         },
         {
-          title: 'Conceituação',
-          description: 'Desenvolvimento de 3 direções criativas distintas',
-          visual: 'https://images.unsplash.com/photo-1519337265831-281ec6cc8514?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+          title: "Conceituação",
+          description: "Desenvolvimento de 3 direções criativas distintas",
+          visual:
+            "https://images.unsplash.com/photo-1519337265831-281ec6cc8514?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         },
         {
-          title: 'Design e Refinamento',
-          description: 'Criação do sistema visual e aplicações práticas',
-          visual: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+          title: "Design e Refinamento",
+          description: "Criação do sistema visual e aplicações práticas",
+          visual:
+            "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         },
         {
-          title: 'Manual da Marca',
-          description: 'Documentação completa com diretrizes de aplicação',
-          visual: 'https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-        }
+          title: "Manual da Marca",
+          description: "Documentação completa com diretrizes de aplicação",
+          visual:
+            "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        },
       ],
       portfolioItems: [
         {
@@ -391,18 +469,18 @@ export default {
           applications: [
             "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Embalagem",
             "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Site",
-            "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Uniforme"
+            "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Uniforme",
           ],
           colorHue: 30,
           stats: {
             growth: 3.2,
-            recognition: 87
+            recognition: 87,
           },
           features: [
             "Logo Responsivo",
             "Paleta Terrosa",
-            "Tipografia Orgânica"
-          ]
+            "Tipografia Orgânica",
+          ],
         },
         {
           client: "Nexus Tech",
@@ -411,18 +489,18 @@ export default {
           applications: [
             "https://via.placeholder.com/300x200/f1f5f9/64748b?text=App",
             "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Apresentação",
-            "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Office"
+            "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Office",
           ],
           colorHue: 220,
           stats: {
             growth: 4.5,
-            recognition: 92
+            recognition: 92,
           },
           features: [
             "Sistema Modular",
             "Gradientes Digitais",
-            "Ícones Pixel-Perfect"
-          ]
+            "Ícones Pixel-Perfect",
+          ],
         },
         {
           client: "Viva Verde",
@@ -431,134 +509,147 @@ export default {
           applications: [
             "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Embalagem",
             "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Social+Media",
-            "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Sinalização"
+            "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Sinalização",
           ],
           colorHue: 140,
           stats: {
             growth: 2.8,
-            recognition: 95
+            recognition: 95,
           },
           features: [
             "Ilustrações Manuais",
             "Texturas Naturais",
-            "Fotografia Autoral"
-          ]
-        }
+            "Fotografia Autoral",
+          ],
+        },
       ],
       tabs: [
         {
-          id: 'basic',
-          label: 'Branding Essencial',
-          title: 'Identidade Visual Básica',
-          description: 'Tudo que você precisa para lançar sua marca com personalidade',
-          visual: 'https://via.placeholder.com/500x400/f1f5f9/64748b?text=Essencial',
+          id: "basic",
+          label: "Branding Essencial",
+          title: "Identidade Visual Básica",
+          description:
+            "Tudo que você precisa para lançar sua marca com personalidade",
+          visual:
+            "https://via.placeholder.com/500x400/f1f5f9/64748b?text=Essencial",
           features: [
-            'Logo Principal + 2 Alternativas',
-            'Paleta de Cores (3 primárias + 2 secundárias)',
-            '1 Família Tipográfica',
-            'Diretrizes Básicas de Aplicação',
-            'Favicon e Ícone de App',
-            '5 Templates para Redes Sociais'
+            "Logo Principal + 2 Alternativas",
+            "Paleta de Cores (3 primárias + 2 secundárias)",
+            "1 Família Tipográfica",
+            "Diretrizes Básicas de Aplicação",
+            "Favicon e Ícone de App",
+            "5 Templates para Redes Sociais",
           ],
-          price: 'R$ 4.900',
-          time: '3-4 semanas'
+          price: "R$ 4.900",
+          time: "3-4 semanas",
         },
         {
-          id: 'complete',
-          label: 'Branding Completo',
-          title: 'Sistema de Identidade Visual',
-          description: 'Solução abrangente para marcas que querem dominar seu mercado',
-          visual: 'https://via.placeholder.com/500x400/f1f5f9/64748b?text=Completo',
+          id: "complete",
+          label: "Branding Completo",
+          title: "Sistema de Identidade Visual",
+          description:
+            "Solução abrangente para marcas que querem dominar seu mercado",
+          visual:
+            "https://via.placeholder.com/500x400/f1f5f9/64748b?text=Completo",
           features: [
-            'Tudo do Pacote Essencial +',
-            'Sistema de Ícones Customizados',
-            '2 Famílias Tipográficas (Display e Texto)',
-            'Patterns e Elementos Gráficos Exclusivos',
-            'Diretrizes de Fotografia e Ilustração',
-            'Manual da Marca Digital (50+ páginas)',
-            '20 Templates para Mídias Sociais'
+            "Tudo do Pacote Essencial +",
+            "Sistema de Ícones Customizados",
+            "2 Famílias Tipográficas (Display e Texto)",
+            "Patterns e Elementos Gráficos Exclusivos",
+            "Diretrizes de Fotografia e Ilustração",
+            "Manual da Marca Digital (50+ páginas)",
+            "20 Templates para Mídias Sociais",
           ],
-          price: 'R$ 9.900',
-          time: '6-8 semanas'
+          price: "R$ 9.900",
+          time: "6-8 semanas",
         },
         {
-          id: 'premium',
-          label: 'Branding Corporativo',
-          title: 'Identidade Visual Premium',
-          description: 'Experiência completa para marcas que exigem excelência absoluta',
-          visual: 'https://via.placeholder.com/500x400/f1f5f9/64748b?text=Premium',
+          id: "premium",
+          label: "Branding Corporativo",
+          title: "Identidade Visual Premium",
+          description:
+            "Experiência completa para marcas que exigem excelência absoluta",
+          visual:
+            "https://via.placeholder.com/500x400/f1f5f9/64748b?text=Premium",
           features: [
-            'Tudo do Pacote Completo +',
-            'Workshop de Branding Presencial',
-            'Sistema 3D e Motion Design',
-            'Fotografia Profissional (1 dia de ensaio)',
-            'Ilustrações Completamente Exclusivas',
-            'Aplicações em Produtos Físicos',
-            'Treinamento para Equipe Interna',
-            'Consultoria de 3 meses'
+            "Tudo do Pacote Completo +",
+            "Workshop de Branding Presencial",
+            "Sistema 3D e Motion Design",
+            "Fotografia Profissional (1 dia de ensaio)",
+            "Ilustrações Completamente Exclusivas",
+            "Aplicações em Produtos Físicos",
+            "Treinamento para Equipe Interna",
+            "Consultoria de 3 meses",
           ],
-          price: 'R$ 19.900+',
-          time: '10-12 semanas'
-        }
+          price: "R$ 19.900+",
+          time: "10-12 semanas",
+        },
       ],
       brandingElements: [
         {
-          title: 'Logo Design',
-          description: 'Símbolo único que encapsula a essência da sua marca',
-          image: 'https://via.placeholder.com/300x200/f1f5f9/64748b?text=Logo+Design',
-          bgColor: '#f1f5f9',
-          importance: 95
+          title: "Logo Design",
+          description: "Símbolo único que encapsula a essência da sua marca",
+          image:
+            "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Logo+Design",
+          bgColor: "#f1f5f9",
+          importance: 95,
         },
         {
-          title: 'Sistema de Cores',
-          description: 'Paleta estratégica que evoca as emoções certas',
-          image: 'https://via.placeholder.com/300x200/f1f5f9/64748b?text=Color+System',
-          bgColor: '#e0f2fe',
-          importance: 90
+          title: "Sistema de Cores",
+          description: "Paleta estratégica que evoca as emoções certas",
+          image:
+            "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Color+System",
+          bgColor: "#e0f2fe",
+          importance: 90,
         },
         {
-          title: 'Tipografia',
-          description: 'Fontes que dão voz e personalidade à sua marca',
-          image: 'https://via.placeholder.com/300x200/f1f5f9/64748b?text=Typography',
-          bgColor: '#ecfdf5',
-          importance: 85
+          title: "Tipografia",
+          description: "Fontes que dão voz e personalidade à sua marca",
+          image:
+            "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Typography",
+          bgColor: "#ecfdf5",
+          importance: 85,
         },
         {
-          title: 'Fotografia',
-          description: 'Estilo visual consistente em todas as imagens',
-          image: 'https://via.placeholder.com/300x200/f1f5f9/64748b?text=Photography',
-          bgColor: '#fef2f2',
-          importance: 80
+          title: "Fotografia",
+          description: "Estilo visual consistente em todas as imagens",
+          image:
+            "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Photography",
+          bgColor: "#fef2f2",
+          importance: 80,
         },
         {
-          title: 'Elementos Gráficos',
-          description: 'Padrões, ícones e texturas que complementam a identidade',
-          image: 'https://via.placeholder.com/300x200/f1f5f9/64748b?text=Graphics',
-          bgColor: '#f5f3ff',
-          importance: 75
+          title: "Elementos Gráficos",
+          description:
+            "Padrões, ícones e texturas que complementam a identidade",
+          image:
+            "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Graphics",
+          bgColor: "#f5f3ff",
+          importance: 75,
         },
         {
-          title: 'Tom de Voz',
-          description: 'Personalidade verbal que reforça sua identidade visual',
-          image: 'https://via.placeholder.com/300x200/f1f5f9/64748b?text=Tone+of+Voice',
-          bgColor: '#fffbeb',
-          importance: 70
-        }
-      ]
-    }
+          title: "Tom de Voz",
+          description: "Personalidade verbal que reforça sua identidade visual",
+          image:
+            "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Tone+of+Voice",
+          bgColor: "#fffbeb",
+          importance: 70,
+        },
+      ],
+    };
   },
   methods: {
     scrollToProcess() {
-      document.getElementById('process').scrollIntoView({ behavior: 'smooth' });
-    }
-  }
-}
+      document.getElementById("process").scrollIntoView({ behavior: "smooth" });
+    },
+  },
+};
 </script>
 
 <style scoped>
 /* Estilos Base */
 .branding-page {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   color: #1e293b;
   line-height: 1.6;
   overflow-x: hidden;
@@ -570,7 +661,6 @@ export default {
   padding: 0 2rem;
 }
 
-
 /* Hero Section */
 .hero-section {
   background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
@@ -581,15 +671,22 @@ export default {
 }
 
 .hero-section::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: 
-    radial-gradient(circle at 20% 30%, rgba(251, 191, 36, 0.1) 0%, transparent 30%),
-    radial-gradient(circle at 80% 70%, rgba(79, 70, 229, 0.1) 0%, transparent 30%);
+  background: radial-gradient(
+      circle at 20% 30%,
+      rgba(251, 191, 36, 0.1) 0%,
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 80% 70%,
+      rgba(79, 70, 229, 0.1) 0%,
+      transparent 30%
+    );
 }
 
 .hero-content {
@@ -621,7 +718,7 @@ export default {
 }
 
 .highlight::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 5px;
   left: 0;
@@ -643,11 +740,30 @@ export default {
 }
 
 @keyframes rotateWords {
-  0%, 20% { opacity: 1; transform: translateY(0); }
-  25%, 45% { opacity: 0; transform: translateY(-20px); }
-  50%, 70% { opacity: 1; transform: translateY(0); }
-  75%, 95% { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
+  0%,
+  20% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  25%,
+  45% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  50%,
+  70% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  75%,
+  95% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .hero-subtitle {
@@ -728,13 +844,16 @@ export default {
 }
 
 .brand-morph {
-  position: relative;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
   width: 100%;
   height: 100%;
 }
 
 .morph-item {
-  position: absolute;
   background: white;
   border-radius: 12px;
   padding: 1rem;
@@ -750,8 +869,13 @@ export default {
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
 }
 
 .morph-icon {
@@ -790,7 +914,11 @@ export default {
 }
 
 @keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
     transform: rotate(45deg) translateY(0);
   }
   40% {
@@ -801,14 +929,14 @@ export default {
   }
 }
 
-
 /* ... (mantenha todos os outros estilos anteriores) ... */
 
 .morph-icon {
   width: 32px;
   height: 32px;
   margin-bottom: 0.5rem;
-  filter: invert(26%) sepia(89%) saturate(1550%) hue-rotate(230deg) brightness(95%) contrast(90%);
+  filter: invert(26%) sepia(89%) saturate(1550%) hue-rotate(230deg)
+    brightness(95%) contrast(90%);
 }
 
 /* Includes Section */
@@ -910,7 +1038,7 @@ export default {
 }
 
 .process-timeline::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   bottom: 0;
@@ -1146,7 +1274,7 @@ export default {
 }
 
 .tabs-header button.active::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -1px;
   left: 0;
@@ -1353,9 +1481,16 @@ export default {
   width: 300px;
   height: 300px;
   border-radius: 50%;
-  background: 
-    radial-gradient(circle at 30% 30%, rgba(251, 191, 36, 0.2) 0%, transparent 50%),
-    radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  background: radial-gradient(
+      circle at 30% 30%,
+      rgba(251, 191, 36, 0.2) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 70% 70%,
+      rgba(255, 255, 255, 0.1) 0%,
+      transparent 50%
+    );
   position: absolute;
   top: 50%;
   left: 50%;
@@ -1364,8 +1499,12 @@ export default {
 }
 
 @keyframes rotate {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to { transform: translate(-50%, -50%) rotate(360deg); }
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
 
 .cta-content {
@@ -1439,24 +1578,24 @@ export default {
     flex-direction: column;
     text-align: center;
   }
-  
+
   .hero-visual {
     margin-top: 3rem;
   }
-  
+
   .tab-panel {
     flex-direction: column;
   }
-  
+
   .cta-container {
     flex-direction: column;
     text-align: center;
   }
-  
+
   .cta-form {
     margin: 0 auto;
   }
-  
+
   .guarantee {
     justify-content: center;
   }
@@ -1466,33 +1605,33 @@ export default {
   .hero-title {
     font-size: 2.5rem;
   }
-  
+
   .includes-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .portfolio-carousel {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   }
-  
+
   .tabs-header {
     flex-direction: column;
   }
-  
+
   .tabs-header button {
     text-align: left;
     border-bottom: 1px solid #e2e8f0;
   }
-  
+
   .tabs-header button.active::after {
     display: none;
   }
   /* Responsividade */
-@media (max-width: 768px) {
-  .morph-icon {
-    width: 24px;
-    height: 24px;
+  @media (max-width: 768px) {
+    .morph-icon {
+      width: 24px;
+      height: 24px;
+    }
   }
-}
 }
 </style>

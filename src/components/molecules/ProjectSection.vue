@@ -1,116 +1,33 @@
 <template>
   <section class="featured-projects">
-    <div class="section-header">
+    <div class="section-header" ref="sectionHeader">
       <h2>Projetos <span class="highlight">Recentes</span></h2>
       <p class="subtitle">Explore Nossos Projetos Desenvolvidos Recentemente</p>
     </div>
 
     <div class="projects-grid">
-      <!-- Projeto 1 -->
-      <article class="project-card" @click="openOverlay(projects[0])">
+      <!-- Loop para renderizar os cards de projeto dinamicamente -->
+      <article
+        v-for="(project, index) in projects"
+        :key="project.id"
+        class="project-card"
+        @click="openOverlay(project)"
+        :ref="
+          (el) => {
+            if (el) projectCards[index] = el;
+          }
+        "
+      >
         <div
           class="card-bg"
-          :style="{ backgroundImage: `url(${projects[0].thumbnail})` }"
+          :style="{ backgroundImage: `url(${project.thumbnail})` }"
         ></div>
         <div class="card-content">
-          <span class="category">Website & Sistema</span>
-          <h3>{{ projects[0].title }}</h3>
+          <span class="category">{{ project.category }}</span>
+          <h3>{{ project.title }}</h3>
           <div class="tech-tags">
             <span
-              v-for="(tech, i) in projects[0].technologies.slice(0, 3)"
-              :key="i"
-              >{{ tech }}</span
-            >
-          </div>
-          <button class="view-btn">
-            Ver Detalhes
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M5 12H19M19 12L12 5M19 12L12 19"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </button>
-        </div>
-      </article>
-
-      <!-- Projeto 2 -->
-      <article class="project-card" @click="openOverlay(projects[1])">
-        <div
-          class="card-bg"
-          :style="{ backgroundImage: `url(${projects[1].thumbnail})` }"
-        ></div>
-        <div class="card-content">
-          <span class="category">Plataforma Educacional</span>
-          <h3>{{ projects[1].title }}</h3>
-          <div class="tech-tags">
-            <span
-              v-for="(tech, i) in projects[1].technologies.slice(0, 3)"
-              :key="i"
-              >{{ tech }}</span
-            >
-          </div>
-          <button class="view-btn">
-            Ver Detalhes
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M5 12H19M19 12L12 5M19 12L12 19"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </button>
-        </div>
-      </article>
-
-      <!-- Projeto 3 -->
-      <article class="project-card" @click="openOverlay(projects[2])">
-        <div
-          class="card-bg"
-          :style="{ backgroundImage: `url(${projects[2].thumbnail})` }"
-        ></div>
-        <div class="card-content">
-          <span class="category">E-commerce</span>
-          <h3>{{ projects[2].title }}</h3>
-          <div class="tech-tags">
-            <span
-              v-for="(tech, i) in projects[2].technologies.slice(0, 3)"
-              :key="i"
-              >{{ tech }}</span
-            >
-          </div>
-          <button class="view-btn">
-            Ver Detalhes
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M5 12H19M19 12L12 5M19 12L12 19"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </button>
-        </div>
-      </article>
-
-      <!-- Projeto 4 -->
-      <article class="project-card" @click="openOverlay(projects[3])">
-        <div
-          class="card-bg"
-          :style="{ backgroundImage: `url(${projects[3].thumbnail})` }"
-        ></div>
-        <div class="card-content">
-          <span class="category">Identidade Visual / Ilustração</span>
-          <h3>{{ projects[3].title }}</h3>
-          <div class="tech-tags">
-            <span
-              v-for="(tech, i) in projects[3].technologies.slice(0, 3)"
+              v-for="(tech, i) in project.technologies.slice(0, 3)"
               :key="i"
               >{{ tech }}</span
             >
@@ -156,6 +73,7 @@
               <img
                 :src="selectedProject.images[0]"
                 :alt="selectedProject.title"
+                loading="lazy"
               />
             </div>
           </div>
@@ -176,8 +94,11 @@
               <div class="description">
                 <!-- O Desafio como lista -->
                 <h3>O Desafio</h3>
-                <ul class="results">
-                  <li>
+                <ul class="results" v-if="challengeItems.length">
+                  <li
+                    v-for="(item, index) in challengeItems"
+                    :key="`challenge-${index}`"
+                  >
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                       <path
                         d="M20 6L9 17L4 12"
@@ -187,14 +108,17 @@
                         stroke-linejoin="round"
                       />
                     </svg>
-                    {{ selectedProject.challenge }}
+                    {{ item }}
                   </li>
                 </ul>
 
                 <!-- Nossa Solução como lista -->
                 <h3>Nossa Solução</h3>
-                <ul class="results">
-                  <li>
+                <ul class="results" v-if="solutionItems.length">
+                  <li
+                    v-for="(item, index) in solutionItems"
+                    :key="`solution-${index}`"
+                  >
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                       <path
                         d="M20 6L9 17L4 12"
@@ -204,7 +128,7 @@
                         stroke-linejoin="round"
                       />
                     </svg>
-                    {{ selectedProject.solution }}
+                    {{ item }}
                   </li>
                 </ul>
 
@@ -234,7 +158,12 @@
                       v-for="(tech, i) in selectedProject.technologies"
                       :key="i"
                     >
-                      <img :src="getTechIcon(tech)" :alt="tech" :title="tech" />
+                      <img
+                        :src="getTechIcon(tech)"
+                        :alt="tech"
+                        :title="tech"
+                        loading="lazy"
+                      />
                       <span>{{ tech }}</span>
                     </div>
                   </div>
@@ -268,8 +197,62 @@
 </template>
 
 <script>
+import { onMounted, onBeforeUpdate, ref } from "vue";
+
 export default {
   name: "FeaturedProjects",
+  setup() {
+    // Refs para os elementos que queremos animar
+    const sectionHeader = ref(null);
+    const projectCards = ref([]);
+
+    // Função para criar e configurar o IntersectionObserver
+    const createObserver = () => {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target); // Para a observação após a animação
+            }
+          });
+        },
+        {
+          threshold: 0.1, // Anima quando 10% do elemento está visível
+        }
+      );
+
+      // Observa o cabeçalho
+      if (sectionHeader.value) {
+        sectionHeader.value.classList.add("animate-on-scroll");
+        observer.observe(sectionHeader.value);
+      }
+
+      // Observa cada card de projeto com um pequeno atraso na transição
+      projectCards.value.forEach((card, index) => {
+        if (card) {
+          card.classList.add("animate-on-scroll");
+          card.style.transitionDelay = `${index * 100}ms`;
+          observer.observe(card);
+        }
+      });
+    };
+
+    onMounted(() => {
+      createObserver();
+    });
+
+    // Garante que os refs dos cards sejam limpos antes de cada atualização
+    onBeforeUpdate(() => {
+      projectCards.value = [];
+    });
+
+    return {
+      // Retorna os refs para que possam ser usados no template
+      sectionHeader,
+      projectCards,
+    };
+  },
   data() {
     return {
       projects: [
@@ -381,6 +364,30 @@ export default {
       selectedProject: null,
     };
   },
+  computed: {
+    challengeItems() {
+      if (!this.selectedProject || !this.selectedProject.challenge) return [];
+      // Divide a string por quebras de linha, remove itens vazios e espaços extras.
+      return this.selectedProject.challenge
+        .split("\n")
+        .map((item) => item.trim())
+        .filter((item) => item.length > 0);
+    },
+    solutionItems() {
+      if (!this.selectedProject || !this.selectedProject.solution) return [];
+      // Se já for um array, usa diretamente.
+      if (Array.isArray(this.selectedProject.solution)) {
+        return this.selectedProject.solution
+          .map((item) => item.trim())
+          .filter((item) => item.length > 0);
+      }
+      // Se for uma string, divide por quebras de linha.
+      return this.selectedProject.solution
+        .split("\n")
+        .map((item) => item.trim())
+        .filter((item) => item.length > 0);
+    },
+  },
   methods: {
     openOverlay(project) {
       this.selectedProject = project;
@@ -432,6 +439,8 @@ export default {
 .section-header {
   text-align: center;
   margin-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .section-header h2 {
@@ -439,6 +448,7 @@ export default {
   font-weight: 700;
   margin-bottom: 1rem;
   color: #1e293b;
+  display: block;
 }
 
 .highlight {
@@ -464,6 +474,7 @@ export default {
   color: #64748b;
   max-width: 600px;
   margin: 0 auto;
+  display: block;
 }
 
 .projects-grid {
@@ -477,7 +488,8 @@ export default {
   border-radius: 16px;
   overflow: hidden;
   height: 380px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.6s ease-out,
+    transform 0.6s ease-out;
   cursor: pointer;
 }
 
@@ -771,6 +783,18 @@ export default {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+/* Estilos para a animação de entrada */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.animate-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Responsive */

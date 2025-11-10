@@ -2,19 +2,17 @@
   <main>
     <section class="features-section">
       <div class="section-header">
-        <h2>O Que Você <span class="highlight">Recebe</span></h2>
+        <h2>Uma Parceria para o <span class="highlight">Seu Sucesso</span></h2>
         <p class="section-subtitle">
-          Soluções completas que vão além da implementação técnica
+          Da implementação à análise de resultados, estamos com você em cada
+          etapa do projeto.
         </p>
       </div>
 
       <div class="features-grid">
         <div class="feature-card">
           <div class="feature-icon">
-            <img
-              src="https://api.iconify.design/heroicons:cog.svg"
-              alt="Implementation"
-            />
+            <i class="fas fa-cogs"></i>
           </div>
           <div class="feature-content">
             <h3>Implementação Completa</h3>
@@ -39,10 +37,7 @@
 
         <div class="feature-card">
           <div class="feature-icon">
-            <img
-              src="https://api.iconify.design/heroicons:lifebuoy.svg"
-              alt="Support"
-            />
+            <i class="fas fa-life-ring"></i>
           </div>
           <div class="feature-content">
             <h3>Suporte Contínuo</h3>
@@ -60,10 +55,7 @@
 
         <div class="feature-card">
           <div class="feature-icon">
-            <img
-              src="https://api.iconify.design/heroicons:document-chart-bar.svg"
-              alt="Reports"
-            />
+            <i class="fas fa-chart-bar"></i>
           </div>
           <div class="feature-content">
             <h3>Relatórios Detalhados</h3>
@@ -86,8 +78,30 @@
 </template>
 
 <script>
+import "@fortawesome/fontawesome-free/css/all.min.css";
+
 export default {
   name: "FeaturesPage",
+  mounted() {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target); // Opcional: para a animação acontecer apenas uma vez
+          }
+        });
+      },
+      {
+        threshold: 0.1, // A animação começa quando 10% do card está visível
+      }
+    );
+
+    // Observa cada card
+    this.$el.querySelectorAll(".feature-card").forEach((card) => {
+      observer.observe(card);
+    });
+  },
 };
 </script>
 
@@ -105,6 +119,7 @@ export default {
 .section-header {
   text-align: center;
   margin-bottom: 4rem;
+  display: block; /* Garante que o container se comporte como um bloco */
 }
 
 .section-header h2 {
@@ -164,6 +179,26 @@ export default {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
   border: 1px solid rgba(0, 0, 0, 0.03);
+  /* Estado inicial para a animação */
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* Atraso escalonado para cada card */
+.feature-card:nth-of-type(1) {
+  transition-delay: 0.1s;
+}
+.feature-card:nth-of-type(2) {
+  transition-delay: 0.2s;
+}
+.feature-card:nth-of-type(3) {
+  transition-delay: 0.3s;
+}
+
+.feature-card.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 [data-theme="dark"] .feature-card {
@@ -185,12 +220,30 @@ export default {
   align-items: center;
   justify-content: center;
   margin-bottom: 1.5rem;
+  background: rgba(0, 82, 255, 0.1); /* Cor padrão (azul) */
 }
 
-.feature-icon img {
-  width: 32px;
-  height: 32px;
-  color: #0052ff;
+.feature-icon i {
+  font-size: 32px;
+  color: #0052ff; /* Cor padrão (azul) */
+}
+
+/* Cor para o segundo card (Suporte) */
+.features-grid .feature-card:nth-of-type(2) .feature-icon {
+  background: rgba(16, 185, 129, 0.1); /* Verde */
+}
+
+.features-grid .feature-card:nth-of-type(2) .feature-icon i {
+  color: #10b981;
+}
+
+/* Cor para o terceiro card (Relatórios) */
+.features-grid .feature-card:nth-of-type(3) .feature-icon {
+  background: rgba(236, 72, 153, 0.1); /* Rosa */
+}
+
+.features-grid .feature-card:nth-of-type(3) .feature-icon i {
+  color: #ec4899;
 }
 
 .feature-content h3 {
@@ -252,6 +305,15 @@ export default {
 
   .section-header {
     margin-bottom: 2rem;
+  }
+
+  .feature-card {
+    text-align: center;
+  }
+
+  .feature-icon {
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .extra-card {

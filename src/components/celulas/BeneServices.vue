@@ -3,10 +3,11 @@
     <div class="benefits-container">
       <div class="benefits-intro">
         <h2 class="benefits-heading">
-          Os <span class="highlight">Neneficios</span> ao trabalhar conosco
+          Soluções que geram <span class="highlight">resultados reais</span>
         </h2>
         <p class="benefits-subheading">
-          Benefícios mensuráveis que fazem a diferença no seu dia a dia
+          Entregamos mais que tecnologia. Oferecemos vantagens competitivas que
+          transformam o seu negócio.
         </p>
       </div>
 
@@ -19,11 +20,7 @@
         >
           <div class="benefit-visual">
             <div class="visual-circle"></div>
-            <img
-              :src="benefit.icon"
-              :alt="benefit.title"
-              class="benefit-icon"
-            />
+            <i :class="['benefit-icon', benefit.icon]" aria-hidden="true"></i>
           </div>
           <div class="benefit-content">
             <h3 class="benefit-title">{{ benefit.title }}</h3>
@@ -43,7 +40,7 @@
         </div>
       </div>
 
-      <div class="benefits-guarantee">
+      <!-- <div class="benefits-guarantee">
         <div class="guarantee-card">
           <h3 class="guarantee-title">Garantia de Resultados</h3>
           <p class="guarantee-text">
@@ -63,19 +60,21 @@
             </svg>
           </router-link>
         </div>
-      </div>
+      </div> -->
     </div>
   </section>
 </template>
 
 <script>
+import "@fortawesome/fontawesome-free/css/all.min.css";
+
 export default {
   name: "ClientBenefits",
   data() {
     return {
       clientBenefits: [
         {
-          icon: "https://api.iconify.design/heroicons:banknotes.svg",
+          icon: "fas fa-money-bill-wave",
           title: "Redução de Custos e Ganhos Reais",
           description:
             "Elimine retrabalhos e reduza gastos com soluções inteligentes, planejadas para gerar retorno desde o primeiro dia.",
@@ -86,18 +85,18 @@ export default {
           ],
         },
         {
-          icon: "https://api.iconify.design/heroicons:clock.svg",
+          icon: "fas fa-clock",
           title: "Entrega Rápida com Qualidade",
           description:
             "Projetos entregues em tempo recorde, com foco em performance e sem abrir mão do resultado final.",
           color: "#3B82F6",
           proofs: [
             { value: "10x", label: "Mais agilidade na entrega" },
-            { value: "Dias", label: "Economizados por projeto" },
+            { value: "Semanas", label: "Economizadas por projeto" },
           ],
         },
         {
-          icon: "https://api.iconify.design/heroicons:arrow-trending-up.svg",
+          icon: "fas fa-arrow-trend-up",
           title: "Escalabilidade e Crescimento",
           description:
             "Criamos sistemas e sites prontos para crescer com o seu negócio — do primeiro cliente ao grande volume.",
@@ -219,14 +218,18 @@ export default {
   opacity: 0.1;
   position: absolute;
   top: 10px;
-  left: 0;
 }
 
 .benefit-icon {
-  width: 48px;
-  height: 48px;
+  font-size: 40px;
   position: relative;
   color: var(--benefit-color);
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .benefit-content {
@@ -344,6 +347,16 @@ export default {
     grid-template-columns: repeat(1, 1fr);
     align-items: center;
     justify-items: center;
+  }
+
+  .benefit-item {
+    text-align: center;
+  }
+
+  .benefit-visual {
+    margin-left: auto;
+    margin-right: auto;
+    width: 60px; /* Garante que o container tenha a mesma largura do círculo */
   }
 }
 

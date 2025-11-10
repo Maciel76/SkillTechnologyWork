@@ -20,7 +20,9 @@
             "A implementação da IA revolucionou nossos processos internos,
             reduzindo custos em 40% e aumentando a produtividade em 60%."
           </p>
-          <router-link to="#" class="learn-more">Ver Projeto →</router-link>
+          <router-link to="/Clientes" class="learn-more"
+            >Ver mais -></router-link
+          >
         </div>
         <div class="testimonial-card">
           <div class="client-info">
@@ -38,7 +40,9 @@
             "A implementação da IA revolucionou nossos processos internos,
             reduzindo custos em 40% e aumentando a produtividade em 60%."
           </p>
-          <router-link to="#" class="learn-more">Ver Projeto →</router-link>
+          <router-link to="/Clientes" class="learn-more"
+            >Ver mais -></router-link
+          >
         </div>
         <div class="testimonial-card">
           <div class="client-info">
@@ -56,7 +60,9 @@
             "O sistema de marketing automatizado nos ajudou a triplicar nossas
             conversões em apenas 3 meses."
           </p>
-          <router-link to="#" class="learn-more">Ver Projeto →</router-link>
+          <router-link to="/Clientes" class="learn-more"
+            >Ver mais -></router-link
+          >
         </div>
       </div>
     </section>
@@ -162,7 +168,6 @@ export default {
 
 .learn-more:hover {
   color: #2c6add;
-  transform: translateX(10px);
 }
 
 /* Responsividade */

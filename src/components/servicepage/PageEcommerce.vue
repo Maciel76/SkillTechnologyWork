@@ -11,13 +11,18 @@
               <span class="pulse-dot"></span>
             </span>
           </h1>
-          <p class="hero-subtitle">Vendas escaláveis, experiência personalizada e automação preditiva para seu e-commerce.</p>
+          <p class="hero-subtitle">
+            Vendas escaláveis, experiência personalizada e automação preditiva
+            para seu e-commerce.
+          </p>
           <div class="cta-container">
-            <button class="cta-button" @click="scrollToDemo">Quero um E-commerce IA</button>
+            <button class="cta-button" @click="scrollToDemo">
+              Quero um E-commerce IA
+            </button>
             <div class="trust-badges">
               <div class="badge">
                 <span>+300%</span>
-              <small>Conversão em lojas</small>
+                <small>Conversão em lojas</small>
               </div>
               <div class="badge">
                 <span>24/7</span>
@@ -44,7 +49,9 @@
                 <div class="ai-recommendation">
                   <div class="ai-message">
                     <div class="ai-avatar">🤖</div>
-                    <p>"Recomendo destacar o produto X em promoção relâmpago!"</p>
+                    <p>
+                      "Recomendo destacar o produto X em promoção relâmpago!"
+                    </p>
                   </div>
                 </div>
               </div>
@@ -64,10 +71,17 @@
         <span class="title-part">Seu E-commerce</span>
         <span class="title-part highlight">com Superpoderes de IA</span>
       </h2>
-      <p class="section-subtitle">Tecnologia que aprende, recomenda e escala suas vendas automaticamente.</p>
-      
+      <p class="section-subtitle">
+        Tecnologia que aprende, recomenda e escala suas vendas automaticamente.
+      </p>
+
       <div class="features-grid">
-        <div class="feature-card" v-for="(feature, index) in aiFeatures" :key="index" @mouseenter="hoverFeature(index)">
+        <div
+          class="feature-card"
+          v-for="(feature, index) in aiFeatures"
+          :key="index"
+          @mouseenter="hoverFeature(index)"
+        >
           <div class="feature-icon">{{ feature.icon }}</div>
           <h3>{{ feature.title }}</h3>
           <p>{{ feature.description }}</p>
@@ -89,7 +103,10 @@
       <div class="demo-container">
         <div class="demo-text">
           <h2>Experimente a <span class="highlight">IA em Ação</span></h2>
-          <p>Veja como nosso sistema inteligente transforma visitantes em clientes:</p>
+          <p>
+            Veja como nosso sistema inteligente transforma visitantes em
+            clientes:
+          </p>
           <div class="demo-steps">
             <div class="step">
               <div class="step-number">1</div>
@@ -113,9 +130,14 @@
           <div class="live-demo">
             <div class="user-avatar">👩</div>
             <div class="ai-response">
-              <div class="message">"Recomendo este produto baseado no seu histórico!"</div>
+              <div class="message">
+                "Recomendo este produto baseado no seu histórico!"
+              </div>
               <div class="product-card">
-                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1999&auto=format&fit=crop" alt="Produto recomendado">
+                <img
+                  src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1999&auto=format&fit=crop"
+                  alt="Produto recomendado"
+                />
                 <button class="buy-button">Comprar Agora</button>
               </div>
             </div>
@@ -126,21 +148,34 @@
 
     <!-- **Resultados - Estatísticas Dinâmicas** -->
     <section class="results-section">
-      <h2 class="section-title">E-commerces que <span class="highlight">cresceram com IA</span></h2>
-      
+      <h2 class="section-title">
+        E-commerces que <span class="highlight">cresceram com IA</span>
+      </h2>
+
       <div class="results-grid">
-        <div class="result-card" v-for="(result, index) in results" :key="index">
-          <div class="result-value" v-counter="result.value">{{ result.value }}{{ result.unit }}</div>
+        <div
+          class="result-card"
+          v-for="(result, index) in results"
+          :key="index"
+        >
+          <div class="result-value" v-counter="result.value">
+            {{ result.value }}{{ result.unit }}
+          </div>
           <div class="result-label">{{ result.label }}</div>
-          <div class="result-bar" :style="{ height: result.percentage + '%' }"></div>
+          <div
+            class="result-bar"
+            :style="{ height: result.percentage + '%' }"
+          ></div>
         </div>
       </div>
     </section>
 
     <!-- **Fluxo de IA - Timeline Animada** -->
     <section class="ai-flow">
-      <h2 class="section-title">Como a <span class="highlight">IA transforma</span> seu e-commerce</h2>
-      
+      <h2 class="section-title">
+        Como a <span class="highlight">IA transforma</span> seu e-commerce
+      </h2>
+
       <div class="flow-container">
         <div class="flow-step" v-for="(step, index) in aiFlow" :key="index">
           <div class="step-number">{{ index + 1 }}</div>
@@ -152,19 +187,30 @@
         </div>
       </div>
     </section>
-    <PortfolioEcommece />
+    <!-- <PortfolioEcommece /> -->
 
     <!-- **Planos - Com Comparativo de IA** -->
     <section class="pricing-section">
-      <h2 class="section-title">Escolha seu <span class="highlight">nível de IA</span></h2>
-      
+      <h2 class="section-title">
+        Escolha seu <span class="highlight">nível de IA</span>
+      </h2>
+
       <div class="pricing-grid">
-        <div class="pricing-card" v-for="(plan, index) in pricingPlans" :key="index" :class="{ featured: plan.featured }">
-          <div class="ai-level" :style="{ background: plan.color }">{{ plan.aiLevel }}</div>
+        <div
+          class="pricing-card"
+          v-for="(plan, index) in pricingPlans"
+          :key="index"
+          :class="{ featured: plan.featured }"
+        >
+          <div class="ai-level" :style="{ background: plan.color }">
+            {{ plan.aiLevel }}
+          </div>
           <h3>{{ plan.name }}</h3>
           <div class="price">{{ plan.price }}</div>
           <ul class="features">
-            <li v-for="(feature, fIndex) in plan.features" :key="fIndex">{{ feature }}</li>
+            <li v-for="(feature, fIndex) in plan.features" :key="fIndex">
+              {{ feature }}
+            </li>
           </ul>
           <button class="buy-button">Começar Agora</button>
           <div class="ai-power">
@@ -192,12 +238,12 @@
 </template>
 
 <script>
-import PortfolioEcommece from './Portifolio/PortfolioEcommece.vue';
+// import PortfolioEcommece from "./Portifolio/PortfolioEcommece.vue";
 export default {
-  name: 'EcommerceAI',
-  components: {
-    PortfolioEcommece,
-  },
+  name: "EcommerceAI",
+  // components: {
+  //   PortfolioEcommece,
+  // },
   data() {
     return {
       activeHover: null,
@@ -206,66 +252,79 @@ export default {
           icon: "🤖",
           title: "Recomendação Inteligente",
           description: "Sugere produtos com base em comportamento de compra.",
-          result: "+180% em vendas cruzadas"
+          result: "+180% em vendas cruzadas",
         },
         {
           icon: "📊",
           title: "Precificação Dinâmica",
-          description: "Ajusta preços e promoções em tempo real para maximizar lucro.",
-          result: "23% mais margem em 3 meses"
+          description:
+            "Ajusta preços e promoções em tempo real para maximizar lucro.",
+          result: "23% mais margem em 3 meses",
         },
         {
           icon: "🔍",
           title: "Busca Predictiva",
-          description: "Autocompleta pesquisas e encontra produtos mesmo com erros.",
-          result: "40% menos abandonos"
+          description:
+            "Autocompleta pesquisas e encontra produtos mesmo com erros.",
+          result: "40% menos abandonos",
         },
         {
           icon: "💬",
           title: "Chatbot de Vendas",
           description: "Atendimento 24/7 que converte como um vendedor humano.",
-          result: "35% dos fechamentos"
+          result: "35% dos fechamentos",
         },
         {
           icon: "📈",
           title: "Estoque Inteligente",
           description: "Prevê demanda e evita falta ou excesso de produtos.",
-          result: "Redução de 60% em custos"
+          result: "Redução de 60% em custos",
         },
         {
           icon: "🎯",
           title: "Anúncios Automatizados",
-          description: "Cria e otimiza campanhas no Meta/Google sem intervenção.",
-          result: "ROI 5x maior"
-        }
+          description:
+            "Cria e otimiza campanhas no Meta/Google sem intervenção.",
+          result: "ROI 5x maior",
+        },
       ],
       results: [
-        { value: 320, unit: "%", label: "Aumento na conversão", percentage: 90 },
-        { value: 5, unit: "x", label: "Retorno sobre investimento", percentage: 70 },
+        {
+          value: 320,
+          unit: "%",
+          label: "Aumento na conversão",
+          percentage: 90,
+        },
+        {
+          value: 5,
+          unit: "x",
+          label: "Retorno sobre investimento",
+          percentage: 70,
+        },
         { value: 68, unit: "%", label: "Redução de abandonos", percentage: 80 },
-        { value: 24, unit: "/7", label: "Vendas automáticas", percentage: 100 }
+        { value: 24, unit: "/7", label: "Vendas automáticas", percentage: 100 },
       ],
       aiFlow: [
         {
           title: "Coleta de Dados",
-          description: "IA analisa comportamento de usuários em tempo real."
+          description: "IA analisa comportamento de usuários em tempo real.",
         },
         {
           title: "Padrões Ocultos",
-          description: "Identifica tendências que humanos não percebem."
+          description: "Identifica tendências que humanos não percebem.",
         },
         {
           title: "Personalização",
-          description: "Cada visitante recebe ofertas únicas."
+          description: "Cada visitante recebe ofertas únicas.",
         },
         {
           title: "Automação",
-          description: "Toma decisões de preço, estoque e marketing."
+          description: "Toma decisões de preço, estoque e marketing.",
         },
         {
           title: "Otimização Contínua",
-          description: "Aprende e melhora sozinha a cada interação."
-        }
+          description: "Aprende e melhora sozinha a cada interação.",
+        },
       ],
       pricingPlans: [
         {
@@ -277,10 +336,10 @@ export default {
             "Recomendações simples",
             "Relatórios automáticos",
             "Integração com ERP",
-            "Suporte 12h/dia"
+            "Suporte 12h/dia",
           ],
           power: 40,
-          featured: false
+          featured: false,
         },
         {
           name: "Growth AI",
@@ -291,10 +350,10 @@ export default {
             "Precificação dinâmica",
             "Chatbot de vendas",
             "Anúncios automáticos",
-            "Suporte 24/7"
+            "Suporte 24/7",
           ],
           power: 75,
-          featured: true
+          featured: true,
         },
         {
           name: "Enterprise AI",
@@ -305,21 +364,21 @@ export default {
             "Machine Learning customizado",
             "Gestão de estoque preditiva",
             "CRM inteligente",
-            "Equipe dedicada"
+            "Equipe dedicada",
           ],
           power: 100,
-          featured: false
-        }
-      ]
-    }
+          featured: false,
+        },
+      ],
+    };
   },
   methods: {
     hoverFeature(index) {
       this.activeHover = index;
     },
     scrollToDemo() {
-      document.getElementById('demo').scrollIntoView({ behavior: 'smooth' });
-    }
+      document.getElementById("demo").scrollIntoView({ behavior: "smooth" });
+    },
   },
   directives: {
     counter: {
@@ -328,28 +387,28 @@ export default {
         const duration = 1500;
         const step = target / (duration / 16);
         let current = 0;
-        
+
         const updateCounter = () => {
           current += step;
           if (current < target) {
             el.textContent = Math.floor(current);
             requestAnimationFrame(updateCounter);
           } else {
-            el.textContent = target + (binding.arg === 'percent' ? '%' : '');
+            el.textContent = target + (binding.arg === "percent" ? "%" : "");
           }
         };
-        
+
         updateCounter();
-      }
-    }
-  }
-}
+      },
+    },
+  },
+};
 </script>
 
 <style scoped>
 /* 🎨 Estilo Completo - E-commerce IA */
 .ecommerce-page {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   color: #1e293b;
   line-height: 1.6;
   overflow-x: hidden;
@@ -365,22 +424,29 @@ export default {
 }
 
 .hero-section::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -50%;
   left: -50%;
   width: 200%;
   height: 200%;
-  background: 
-    radial-gradient(circle, rgba(251, 191, 36, 0.1) 0%, transparent 70%),
+  background: radial-gradient(
+      circle,
+      rgba(251, 191, 36, 0.1) 0%,
+      transparent 70%
+    ),
     url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M30,30 L70,30 L70,70 L30,70 Z" fill="none" stroke="white" stroke-width="0.5" stroke-dasharray="5,5"/></svg>');
   opacity: 0.15;
   animation: rotate 120s linear infinite;
 }
 
 @keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .hero-content {
@@ -420,7 +486,7 @@ export default {
 }
 
 .ai-text::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 5px;
   left: 0;
@@ -444,14 +510,28 @@ export default {
 }
 
 @keyframes pulse {
-  0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.3); opacity: 0.7; }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
 }
 
 .hero-subtitle {
@@ -484,7 +564,7 @@ export default {
 }
 
 .cta-button::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 50%;
   left: 50%;
@@ -572,8 +652,7 @@ export default {
   background: #1e293b;
   border-radius: 20px;
   padding: 12px;
-  box-shadow: 
-    0 20px 40px rgba(0, 0, 0, 0.3),
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
     inset 0 0 0 1px rgba(255, 255, 255, 0.1);
   transform: rotateX(10deg) rotateY(-5deg);
   transform-style: preserve-3d;
@@ -612,7 +691,7 @@ export default {
 }
 
 .ai-chip::before {
-  content: '';
+  content: "";
   width: 8px;
   height: 8px;
   background: #fbbf24;
@@ -662,19 +741,28 @@ export default {
 }
 
 .ai-graph::before {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   height: 70%;
-  background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.3), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(251, 191, 36, 0.3),
+    transparent
+  );
   animation: graphWave 3s infinite linear;
 }
 
 @keyframes graphWave {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 .ai-recommendation {
@@ -737,7 +825,11 @@ export default {
 }
 
 @keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
     transform: rotate(45deg) translateY(0);
   }
   40% {
@@ -801,7 +893,7 @@ export default {
 }
 
 .feature-card::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -854,7 +946,11 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(79, 70, 229, 0.9), rgba(123, 58, 237, 0.9));
+  background: linear-gradient(
+    135deg,
+    rgba(79, 70, 229, 0.9),
+    rgba(123, 58, 237, 0.9)
+  );
   color: white;
   display: flex;
   align-items: center;
@@ -963,14 +1059,17 @@ export default {
 }
 
 .live-demo::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: 
-    linear-gradient(135deg, transparent 60%, rgba(79, 70, 229, 0.05) 100%),
+  background: linear-gradient(
+      135deg,
+      transparent 60%,
+      rgba(79, 70, 229, 0.05) 100%
+    ),
     url('data:image/svg+xml;utf8,<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M0,0 L20,0 L20,20 L0,20 Z" fill="none" stroke="%23e2e8f0" stroke-width="0.5"/></svg>');
   opacity: 0.5;
 }
@@ -1000,7 +1099,7 @@ export default {
 }
 
 .ai-response::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 20px;
   right: -8px;
@@ -1068,7 +1167,7 @@ export default {
 }
 
 .result-card::before {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -1114,7 +1213,7 @@ export default {
 }
 
 .flow-container::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   bottom: 0;
@@ -1202,7 +1301,7 @@ export default {
 }
 
 .pricing-card.featured::before {
-  content: 'RECOMENDADO';
+  content: "RECOMENDADO";
   position: absolute;
   top: -10px;
   right: 20px;
@@ -1240,7 +1339,7 @@ export default {
 }
 
 .price::before {
-  content: 'R$ ';
+  content: "R$ ";
   font-size: 1.5rem;
 }
 
@@ -1258,7 +1357,7 @@ export default {
 }
 
 .features li::before {
-  content: '✓';
+  content: "✓";
   position: absolute;
   left: 0;
   color: #4f46e5;
@@ -1308,14 +1407,17 @@ export default {
 }
 
 .final-cta::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -50%;
   left: -50%;
   width: 200%;
   height: 200%;
-  background: 
-    radial-gradient(circle, rgba(251, 191, 36, 0.1) 0%, transparent 70%),
+  background: radial-gradient(
+      circle,
+      rgba(251, 191, 36, 0.1) 0%,
+      transparent 70%
+    ),
     url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M30,30 L70,30 L70,70 L30,70 Z" fill="none" stroke="white" stroke-width="0.5" stroke-dasharray="5,5"/></svg>');
   opacity: 0.15;
   animation: rotate 120s linear infinite;
@@ -1362,21 +1464,21 @@ export default {
     flex-direction: column;
     text-align: center;
   }
-  
+
   .flow-container::before {
     left: 25px;
   }
-  
+
   .flow-step {
     padding-left: 60px;
   }
-  
+
   .step-arrow {
     left: 35px;
     transform: rotate(90deg);
     top: 80px;
   }
-  
+
   .pricing-card.featured {
     transform: none;
   }
@@ -1386,23 +1488,23 @@ export default {
   .hero-title {
     font-size: 2.5rem;
   }
-  
+
   .hero-subtitle {
     font-size: 1.1rem;
   }
-  
+
   .cta-container {
     justify-content: center;
   }
-  
+
   .features-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .results-grid {
     grid-template-columns: 1fr 1fr;
   }
-  
+
   .guarantee {
     flex-direction: column;
     gap: 1rem;
@@ -1413,20 +1515,20 @@ export default {
   .hero-section {
     padding: 6rem 1.5rem 8rem;
   }
-  
+
   .results-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .flow-step {
     flex-direction: column;
     padding-left: 0;
   }
-  
+
   .step-number {
     margin-bottom: 1rem;
   }
-  
+
   .step-arrow {
     display: none;
   }

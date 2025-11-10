@@ -1,15 +1,17 @@
 <template>
   <div>
+    <!-- Adicionando Font Awesome via CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
     <main>
       <!-- Hero Section with Summary Banner -->
       <section class="institutional-hero">
         <h1>Política de <span class="highlight">Privacidade</span></h1>
         <p>Saiba como protegemos e utilizamos seus dados pessoais.</p>
         <div class="privacy-summary">
-          <img
-            src="https://api.iconify.design/heroicons:shield-check.svg"
-            alt="Proteção"
-          />
+          <i class="fas fa-shield-alt"></i>
           <p>
             Seus dados estão seguros conosco. Utilizamos criptografia de ponta a
             ponta e seguimos as melhores práticas de segurança.
@@ -36,10 +38,7 @@
           <div class="privacy-content">
             <section id="coleta" class="content-section animate-on-scroll">
               <div class="section-header">
-                <img
-                  src="https://api.iconify.design/heroicons:document-text.svg"
-                  alt="Coleta"
-                />
+                <i class="fas fa-file-alt icon-coleta"></i>
                 <h2>Coleta de Dados</h2>
               </div>
               <p>Coletamos informações para melhorar sua experiência:</p>
@@ -53,10 +52,7 @@
 
             <section id="uso" class="content-section animate-on-scroll">
               <div class="section-header">
-                <img
-                  src="https://api.iconify.design/heroicons:cog.svg"
-                  alt="Uso"
-                />
+                <i class="fas fa-cogs icon-uso"></i>
                 <h2>Uso das Informações</h2>
               </div>
               <p>Utilizamos seus dados para:</p>
@@ -70,10 +66,7 @@
 
             <section id="cookies" class="content-section animate-on-scroll">
               <div class="section-header">
-                <img
-                  src="https://api.iconify.design/heroicons:cookie.svg"
-                  alt="Cookies"
-                />
+                <i class="fas fa-cookie-bite icon-cookies"></i>
                 <h2>Política de Cookies</h2>
               </div>
               <p>Utilizamos cookies para melhorar sua experiência:</p>
@@ -87,10 +80,7 @@
 
             <section id="direitos" class="content-section animate-on-scroll">
               <div class="section-header">
-                <img
-                  src="https://api.iconify.design/heroicons:user-circle.svg"
-                  alt="Direitos"
-                />
+                <i class="fas fa-user-shield icon-direitos"></i>
                 <h2>Seus Direitos</h2>
               </div>
               <p>Você tem direito a:</p>
@@ -104,10 +94,7 @@
 
             <section id="seguranca" class="content-section animate-on-scroll">
               <div class="section-header">
-                <img
-                  src="https://api.iconify.design/heroicons:lock-closed.svg"
-                  alt="Segurança"
-                />
+                <i class="fas fa-lock icon-seguranca"></i>
                 <h2>Segurança</h2>
               </div>
               <p>Implementamos medidas de segurança:</p>
@@ -158,14 +145,16 @@ export default {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
           }
         });
       },
       { threshold: 0.1 }
     );
 
-    document.querySelectorAll(".animate-on-scroll").forEach((section) => {
-      observer.observe(section);
+    document.querySelectorAll(".animate-on-scroll").forEach((el, index) => {
+      el.style.transitionDelay = `${index * 100}ms`;
+      observer.observe(el);
     });
   },
 };
@@ -239,6 +228,17 @@ export default {
   text-align: center;
 }
 
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.animate-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .privacy-summary {
   background: rgba(20, 214, 123, 0.1);
   padding: 1.5rem;
@@ -252,10 +252,9 @@ export default {
   margin-right: auto;
 }
 
-.privacy-summary img {
-  width: 32px;
-  height: 32px;
-  filter: invert(1);
+.privacy-summary i {
+  font-size: 2rem;
+  color: #14d67b;
 }
 
 .privacy-container {
@@ -305,10 +304,34 @@ export default {
   margin-bottom: 1.5rem;
 }
 
-.section-header img {
-  width: 32px;
-  height: 32px;
+.section-header i {
+  font-size: 1.8rem;
+  width: 40px;
+  text-align: center;
+}
+
+.icon-coleta {
   color: #2064bd;
+}
+
+.icon-uso {
+  color: #8b5cf6;
+}
+
+.icon-cookies {
+  color: #d97706;
+}
+
+.icon-direitos {
+  color: #10b981;
+}
+
+.icon-seguranca {
+  color: #ef4444;
+}
+
+.icon-contato {
+  color: #64748b;
 }
 
 .contact-info {

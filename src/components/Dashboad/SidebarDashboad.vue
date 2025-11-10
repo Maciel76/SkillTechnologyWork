@@ -2,7 +2,7 @@
   <div class="sidebar" :class="{ 'sidebar-collapsed': collapsed }">
     <div class="sidebar-header">
       <h2 v-if="!collapsed">Agência Web</h2>
-      <h2 v-else>AW</h2>
+      <h2 v-else></h2>
       <button class="toggle-sidebar" @click="$emit('toggle')">
         <i
           class="fas"

@@ -1,517 +1,718 @@
 <template>
-  <section class="hero">
-    <!-- Efeito de partículas no background -->
-    <div class="particles" id="particles-js"></div>
-
-    <div class="hero-container">
+  <div class="branding-page">
+    <!-- Hero Section Imersivo -->
+    <section class="hero-section">
       <div class="hero-content">
-        <!-- Social Proof melhorado -->
-        <div class="social-proof">
-          <div class="avatar-group">
-            <img
-              v-for="(avatar, index) in avatars"
-              :key="index"
-              :src="avatar.src"
-              :alt="avatar.alt"
-              :style="{ zIndex: avatars.length - index }"
-              class="user-avatar"
-            />
-          </div>
-          <div class="social-text">
-            <span class="rating">
-              <span class="stars">★★★★★</span> 4.8 de 150+ avaliações
-            </span>
-            <router-link to="/feedback" class="see-more">
-              Ver avaliações <span class="arrow">→</span>
-            </router-link>
-          </div>
-        </div>
-
-        <!-- Conteúdo principal com animação -->
-        <div class="text-content">
-          <h1 class="animated-text">
-            <span class="text-wrapper">
-              <span class="line line1" v-html="texts[currentIndex].h1"></span>
-            </span>
+        <div class="hero-text">
+          <h1 class="hero-title">
+            <span class="title-line">Identidade Visual</span>
+            <span class="title-line highlight"
+              >que <span class="pulse-text">Cativa</span> &
+              <span class="rotate-text">Diferencia</span></span
+            >
           </h1>
-
-          <p class="animated-subtext">
-            <span class="text-wrapper">
-              <span class="line" v-html="texts[currentIndex].p"></span>
-            </span>
+          <p class="hero-subtitle">
+            Sua marca não é apenas um logo - é uma experiência emocional
+            memorável
           </p>
-
-          <div class="cta-buttons">
-            <router-link
-              :to="texts[currentIndex].link"
-              class="cta-button primary"
-            >
-              {{ texts[currentIndex].ctaText }}
-              <span class="hover-effect"></span>
-            </router-link>
-
-            <router-link to="/contato" class="cta-button secondary">
-              Fale Conosco
-              <span class="hover-effect"></span>
-            </router-link>
-          </div>
-        </div>
-
-        <!-- Marcas de clientes (opcional) -->
-        <div class="client-logos">
-          <p>Trabalhamos com as mais modernas e inovadoras tecnologias.</p>
-          <div class="logos">
-            <img
-              v-for="(logo, index) in clientLogos"
-              :key="index"
-              :src="logo.src"
-              :alt="logo.alt"
-            />
-          </div>
-        </div>
-      </div>
-
-      <!-- Slider de imagens melhorado -->
-      <div class="hero-visual">
-        <div
-          class="slider-container"
-          @mouseenter="pauseSlider"
-          @mouseleave="resumeSlider"
-        >
-          <div class="slider" :style="sliderStyle">
-            <div
-              v-for="(image, index) in images"
-              :key="index"
-              class="slide"
-              :class="{ active: currentIndex === index }"
-            >
-              <img
-                :src="image.src"
-                :alt="image.alt"
-                class="slide-image"
-                loading="eager"
-              />
-              <div class="slide-overlay"></div>
+          <div class="cta-container">
+            <button class="cta-button" @click="scrollToProcess">
+              Quero minha Identidade Visual
+            </button>
+            <div class="trust-badges">
+              <div class="badge">
+                <span>+150</span>
+                <small>Marcas Transformadas</small>
+              </div>
+              <div class="badge">
+                <span>100%</span>
+                <small>Briefing Estratégico</small>
+              </div>
             </div>
           </div>
-
-          <!-- Controles do slider -->
-          <button
-            class="nav-button prev"
-            @click="previousSlide"
-            aria-label="Slide anterior"
-          >
-            <svg viewBox="0 0 24 24">
-              <path
-                d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"
-              />
-            </svg>
-          </button>
-          <button
-            class="nav-button next"
-            @click="nextSlide"
-            aria-label="Próximo slide"
-          >
-            <svg viewBox="0 0 24 24">
-              <path
-                d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"
-              />
-            </svg>
-          </button>
-
-          <!-- Indicadores -->
-          <div class="slider-indicators">
-            <button
-              v-for="(_, index) in images"
-              :key="index"
-              :class="{ active: currentIndex === index }"
-              @click="goToSlide(index)"
-              :aria-label="`Ir para slide ${index + 1}`"
-            ></button>
+        </div>
+        <div class="hero-visual">
+          <div class="brand-morph">
+            <!-- Ícones com Font Awesome -->
+            <div class="morph-item" style="--delay: 0s">
+              <i class="fa-solid fa-pen-nib morph-icon"></i>
+              <span class="morph-name">Logo</span>
+            </div>
+            <div class="morph-item" style="--delay: 0.2s">
+              <i class="fa-solid fa-palette morph-icon"></i>
+              <span class="morph-name">Cores</span>
+            </div>
+            <div class="morph-item" style="--delay: 0.4s">
+              <i class="fa-solid fa-font morph-icon"></i>
+              <span class="morph-name">Tipografia</span>
+            </div>
+            <div class="morph-item" style="--delay: 0.6s">
+              <i class="fa-solid fa-camera-retro morph-icon"></i>
+              <span class="morph-name">Fotografia</span>
+            </div>
+            <div class="morph-item" style="--delay: 0.8s">
+              <i class="fa-solid fa-star-of-life morph-icon"></i>
+              <span class="morph-name">Ícones</span>
+            </div>
+            <div class="morph-item" style="--delay: 1s">
+              <i class="fa-solid fa-puzzle-piece morph-icon"></i>
+              <span class="morph-name">Patterns</span>
+            </div>
           </div>
         </div>
+      </div>
+      <div class="scroll-indicator">
+        <span>Explore o Processo</span>
+        <div class="arrow"></div>
+      </div>
+    </section>
 
-        <!-- Efeito decorativo -->
-        <div class="floating-shapes">
-          <div class="shape circle"></div>
-          <div class="shape triangle"></div>
-          <div class="shape square"></div>
+    <!-- O Que Inclui - Mega Lista -->
+    <section class="includes-section">
+      <div class="container">
+        <h2 class="section-title">
+          <span class="title-part">Tudo que sua</span>
+          <span class="title-part highlight">Marca Precisa</span>
+        </h2>
+        <p class="section-subtitle">
+          Componentes completos de branding para posicionamento dominante
+        </p>
+
+        <div class="includes-grid">
+          <div
+            class="include-category"
+            v-for="(category, index) in includes"
+            :key="index"
+          >
+            <h3 class="category-title">
+              <span class="category-icon">{{ category.icon }}</span>
+              {{ category.title }}
+            </h3>
+            <ul class="features-list">
+              <li v-for="(item, i) in category.items" :key="i">
+                <span class="feature-check">✓</span>
+                <span class="feature-text">{{ item }}</span>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Scroll indicator -->
-    <div class="scroll-indicator" @click="scrollToContent">
-      <div class="mouse">
-        <div class="wheel"></div>
+    <!-- Processo Criativo - Timeline Interativa -->
+    <section class="process-section" id="process">
+      <div class="container">
+        <h2 class="section-title">
+          <span class="title-part">Processo de</span>
+          <span class="title-part highlight">Criação</span>
+        </h2>
+        <p class="section-subtitle">
+          Metodologia comprovada para marcas memoráveis
+        </p>
+
+        <div class="process-timeline">
+          <div
+            class="process-step"
+            v-for="(step, index) in processSteps"
+            :key="index"
+            @mouseenter="activeStep = index"
+            @mouseleave="activeStep = null"
+          >
+            <div class="step-number">{{ index + 1 }}</div>
+            <div class="step-content">
+              <h3>{{ step.title }}</h3>
+              <p>{{ step.description }}</p>
+              <div class="step-visual" v-if="activeStep === index">
+                <img
+                  :src="step.visual"
+                  :alt="step.title"
+                  class="visual-image"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <span>Role para baixo</span>
-    </div>
-  </section>
+    </section>
+
+    <!-- Portfolio de Marcas - Carrossel -->
+    <section class="portfolio-section">
+      <div class="container">
+        <h2 class="section-title">
+          <span class="title-part">Marcas que</span>
+          <span class="title-part highlight">Inspiram</span>
+        </h2>
+        <p class="section-subtitle">
+          Identidades visuais que revolucionaram negócios
+        </p>
+
+        <div class="portfolio-carousel">
+          <div
+            class="portfolio-item"
+            v-for="(item, index) in portfolioItems"
+            :key="index"
+            :style="{ '--hue': item.colorHue }"
+          >
+            <div class="brand-preview">
+              <div class="brand-logo">
+                <img :src="item.logo" :alt="item.client + ' logo'" />
+              </div>
+              <div class="brand-applications">
+                <img
+                  v-for="(app, i) in item.applications"
+                  :key="i"
+                  :src="app"
+                  :alt="'Aplicação ' + (i + 1) + ' para ' + item.client"
+                  class="application-image"
+                />
+              </div>
+            </div>
+            <div class="brand-info">
+              <h3>{{ item.client }}</h3>
+              <span class="industry">{{ item.industry }}</span>
+              <div class="brand-stats">
+                <div class="stat">
+                  <span class="stat-value">{{ item.stats.growth }}x</span>
+                  <span class="stat-label">Crescimento</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">{{ item.stats.recognition }}%</span>
+                  <span class="stat-label">Reconhecimento</span>
+                </div>
+              </div>
+              <div class="brand-features">
+                <span v-for="(feature, fIndex) in item.features" :key="fIndex">
+                  {{ feature }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Níveis de Branding - Tabs -->
+    <section class="levels-section">
+      <div class="container">
+        <h2 class="section-title">
+          <span class="title-part">Solução Completa</span>
+          <span class="title-part highlight">para cada Fase</span>
+        </h2>
+        <p class="section-subtitle">
+          Do essencial ao branding corporativo premium
+        </p>
+
+        <div class="tabs-container">
+          <div class="tabs-header">
+            <button
+              v-for="(tab, index) in tabs"
+              :key="index"
+              @click="activeTab = tab.id"
+              :class="{ active: activeTab === tab.id }"
+            >
+              {{ tab.label }}
+            </button>
+          </div>
+          <div class="tabs-content">
+            <div
+              class="tab-panel"
+              v-for="(tab, index) in tabs"
+              :key="index"
+              v-show="activeTab === tab.id"
+            >
+              <div class="tab-visual">
+                <img :src="tab.visual" :alt="tab.label" />
+              </div>
+              <div class="tab-info">
+                <h3>{{ tab.title }}</h3>
+                <p class="tab-description">{{ tab.description }}</p>
+                <ul class="tab-features">
+                  <li v-for="(feature, fIndex) in tab.features" :key="fIndex">
+                    <span class="feature-icon">✓</span>
+                    <span class="feature-text">{{ feature }}</span>
+                  </li>
+                </ul>
+                <div class="tab-price">
+                  <span class="price">{{ tab.price }}</span>
+                  <span class="time">{{ tab.time }}</span>
+                </div>
+                <button class="tab-button">Quero este Pacote</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Branding Elements - Showcase Interativo -->
+    <section class="elements-section">
+      <div class="container">
+        <h2 class="section-title">
+          <span class="title-part">Elementos de</span>
+          <span class="title-part highlight">Identidade Visual</span>
+        </h2>
+
+        <div class="elements-showcase">
+          <div
+            class="element-card"
+            v-for="(element, index) in brandingElements"
+            :key="index"
+          >
+            <div
+              class="element-preview"
+              :style="{ background: element.bgColor }"
+            >
+              <img
+                :src="element.image"
+                :alt="element.title"
+                class="element-image"
+              />
+            </div>
+            <div class="element-info">
+              <h3>{{ element.title }}</h3>
+              <p>{{ element.description }}</p>
+              <div class="element-importance">
+                <span>Importância:</span>
+                <div
+                  class="importance-bar"
+                  :style="{ width: element.importance + '%' }"
+                ></div>
+                <span class="importance-value">{{ element.importance }}%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Final - Personalizado -->
+    <section class="final-cta">
+      <div class="cta-container">
+        <div class="cta-visual">
+          <div class="brand-sphere"></div>
+        </div>
+        <div class="cta-content">
+          <h2>
+            Pronto para <span class="highlight">transformar</span> sua marca?
+          </h2>
+          <p>
+            Solicite um briefing criativo gratuito e receba uma proposta
+            personalizada
+          </p>
+          <form class="cta-form">
+            <input type="text" placeholder="Seu nome" />
+            <input type="email" placeholder="Seu melhor e-mail" />
+            <button type="submit">Quero minha Identidade Visual</button>
+          </form>
+          <div class="guarantee">
+            <span>✅ Briefing 100% estratégico</span>
+            <span>✅ 3 conceitos iniciais</span>
+            <span>✅ Garantia de satisfação</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 </template>
 
 <script>
 export default {
-  name: "AgencyHero",
+  name: "BrandingPage",
   data() {
     return {
-      avatars: [
-        { src: require("@/assets/images/avatars/user1.png"), alt: "Cliente 1" },
-        { src: require("@/assets/images/avatars/user2.png"), alt: "Cliente 2" },
-        { src: require("@/assets/images/avatars/user3.png"), alt: "Cliente 3" },
-        { src: require("@/assets/images/avatars/user4.png"), alt: "Cliente 4" },
-      ],
-      clientLogos: [
+      activeStep: null,
+      activeTab: "basic",
+      morphItems: [
         {
-          src: require("@/assets/images/icons/node.png"),
-          alt: "Logo cliente 1",
+          name: "Logo",
+          icon: "🖋️",
+          style: { top: "10%", left: "5%", "--delay": "0s" },
         },
         {
-          src: require("@/assets/images/icons/vue.png"),
-          alt: "Logo cliente 2",
+          name: "Cores",
+          icon: "🎨",
+          style: { top: "60%", left: "15%", "--delay": "0.2s" },
         },
         {
-          src: require("@/assets/images/icons/mongodb.png"),
-          alt: "Logo cliente 4",
+          name: "Tipografia",
+          icon: "🔤",
+          style: { top: "30%", left: "30%", "--delay": "0.4s" },
         },
         {
-          src: require("@/assets/images/icons/aws.png"),
-          alt: "Logo cliente 4",
+          name: "Fotografia",
+          icon: "📸",
+          style: { top: "70%", left: "50%", "--delay": "0.6s" },
         },
         {
-          src: require("@/assets/images/icons/gitrub.png"),
-          alt: "Logo cliente 4",
+          name: "Ícones",
+          icon: "✨",
+          style: { top: "20%", left: "65%", "--delay": "0.8s" },
         },
         {
-          src: require("@/assets/images/icons/photoshop.png"),
-          alt: "Logo cliente 4",
-        },
-      ],
-      images: [
-        {
-          src: require("@/assets/images/banners/skillTech.jpg"),
-          alt: "Desenvolvimento de software personalizado e website responsivo",
-          link: "/servicos",
-        },
-        {
-          src: require("@/assets/images/banners/relogio.jpg"),
-          alt: "Inteligência Artificial para o futuro do seu negócio",
-          link: "/portfolio",
-        },
-        {
-          src: require("@/assets/images/banners/ecommerce.jpg"),
-          alt: "Tecnologia e inovação",
-          link: "/inovacao",
-        },
-        {
-          src: require("@/assets/images/banners/sistemasAi.jpg"),
-          alt: "Inteligência Artificial aplicada",
-          link: "/Service/sistemasweb",
+          name: "Patterns",
+          icon: "🧩",
+          style: { top: "50%", left: "80%", "--delay": "1s" },
         },
       ],
-      texts: [
+      includes: [
         {
-          h1: "Sites Personalizados que Impulsionam Seu Negócio",
-          p: "Criamos sites rápidos, responsivos e otimizados para atrair clientes e gerar resultados reais.",
-          link: "/Service/Desenvolvimento-website",
-          ctaText: "Solicite um Orçamento Gratuito",
+          icon: "🆔",
+          title: "Identidade Primária",
+          items: [
+            "Design de Logo Principal",
+            "Versões Alternativas",
+            "Favicon & App Icon",
+            "Área de Proteção",
+            "Uso em Fundos Claros/Escuros",
+            "Sistema de Redução",
+          ],
         },
         {
-          h1: "Fotos Comuns? Transformamos em Fotos profissional",
-          p: "Utilizamos IA para elevar suas imagens a um novo nível de criatividade e impacto visual.",
-          link: "/sevice/edi-imagem",
-          ctaText: "Tranforme suas Imagens",
+          icon: "🎨",
+          title: "Sistema de Cores",
+          items: [
+            "Paleta Primária (3-5 cores)",
+            "Paleta Secundária",
+            "Gradientes Autorais",
+            "Cores para Dark Mode",
+            "Combinações Aprovadas",
+            "Guia de Aplicação",
+          ],
         },
         {
-          h1: "Sua Loja Online com Design Incrível e Foco em Vendas",
-          p: "Criamos lojas rápidas, com visual profissional e estrutura pensada para vender mais desde o primeiro dia.",
-          link: "/Sevice/lojasvituais",
-          ctaText: "Quero uma Loja Virtual",
+          icon: "🖋️",
+          title: "Tipografia",
+          items: [
+            "Família Primária (1-2 fontes)",
+            "Hierarquia Tipográfica",
+            "Web Fonts Configuradas",
+            "Fallback Fonts",
+            "Espaçamento e Leading",
+            "Sistema de Escala",
+          ],
         },
         {
-          h1: "Desenvolvimento de Sistemas com Inteligência Artificial Integrada",
-          p: "Criamos sistemas personalizados que integram inteligência artificial para automatizar processos, melhorar decisões e gerar mais resultados.",
-          link: "/Service/sistemasweb",
-          ctaText: "Solicite orçamento gratuito",
+          icon: "📸",
+          title: "Diretrizes de Imagem",
+          items: [
+            "Estilo Fotográfico",
+            "Direção de Arte",
+            "Tratamento de Imagem",
+            "Biblioteca de Referência",
+            "Ilustrações Customizadas",
+            "Ícones Exclusivos",
+          ],
+        },
+        {
+          icon: "🧩",
+          title: "Elementos Gráficos",
+          items: [
+            "Patterns Exclusivos",
+            "Texturas Autorais",
+            "Formas e Elementos",
+            "Sistema de Grid",
+            "Efeitos Visuais",
+            "Animação Básica",
+          ],
+        },
+        {
+          icon: "📱",
+          title: "Aplicações Práticas",
+          items: [
+            "Templates para Redes Sociais",
+            "Apresentações Corporativas",
+            "Material Institucional",
+            "Uniforme e Sinalização",
+            "Embalagens e Produtos",
+            "Merchandising",
+          ],
         },
       ],
-      currentIndex: 0,
-      autoplayInterval: null,
-      transitionSpeed: 6000,
-      isPaused: false,
+      processSteps: [
+        {
+          title: "Descoberta da Marca",
+          description:
+            "Workshop estratégico para extrair essência, valores e público-alvo",
+          visual:
+            "https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        },
+        {
+          title: "Pesquisa e Análise",
+          description: "Benchmarking de concorrentes e tendências de mercado",
+          visual:
+            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        },
+        {
+          title: "Conceituação",
+          description: "Desenvolvimento de 3 direções criativas distintas",
+          visual:
+            "https://images.unsplash.com/photo-1519337265831-281ec6cc8514?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        },
+        {
+          title: "Design e Refinamento",
+          description: "Criação do sistema visual e aplicações práticas",
+          visual:
+            "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        },
+        {
+          title: "Manual da Marca",
+          description: "Documentação completa com diretrizes de aplicação",
+          visual:
+            "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        },
+      ],
+      portfolioItems: [
+        {
+          client: "Urban Café",
+          industry: "Gastronomia",
+          logo: "https://via.placeholder.com/150x80/f1f5f9/64748b?text=Urban+Café",
+          applications: [
+            "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Embalagem",
+            "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Site",
+            "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Uniforme",
+          ],
+          colorHue: 30,
+          stats: {
+            growth: 3.2,
+            recognition: 87,
+          },
+          features: [
+            "Logo Responsivo",
+            "Paleta Terrosa",
+            "Tipografia Orgânica",
+          ],
+        },
+        {
+          client: "Nexus Tech",
+          industry: "Tecnologia",
+          logo: "https://via.placeholder.com/150x80/f1f5f9/64748b?text=Nexus+Tech",
+          applications: [
+            "https://via.placeholder.com/300x200/f1f5f9/64748b?text=App",
+            "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Apresentação",
+            "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Office",
+          ],
+          colorHue: 220,
+          stats: {
+            growth: 4.5,
+            recognition: 92,
+          },
+          features: [
+            "Sistema Modular",
+            "Gradientes Digitais",
+            "Ícones Pixel-Perfect",
+          ],
+        },
+        {
+          client: "Viva Verde",
+          industry: "Sustentabilidade",
+          logo: "https://via.placeholder.com/150x80/f1f5f9/64748b?text=Viva+Verde",
+          applications: [
+            "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Embalagem",
+            "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Social+Media",
+            "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Sinalização",
+          ],
+          colorHue: 140,
+          stats: {
+            growth: 2.8,
+            recognition: 95,
+          },
+          features: [
+            "Ilustrações Manuais",
+            "Texturas Naturais",
+            "Fotografia Autoral",
+          ],
+        },
+      ],
+      tabs: [
+        {
+          id: "basic",
+          label: "Branding Essencial",
+          title: "Identidade Visual Básica",
+          description:
+            "Tudo que você precisa para lançar sua marca com personalidade",
+          visual:
+            "https://via.placeholder.com/500x400/f1f5f9/64748b?text=Essencial",
+          features: [
+            "Logo Principal + 2 Alternativas",
+            "Paleta de Cores (3 primárias + 2 secundárias)",
+            "1 Família Tipográfica",
+            "Diretrizes Básicas de Aplicação",
+            "Favicon e Ícone de App",
+            "5 Templates para Redes Sociais",
+          ],
+          price: "R$ 4.900",
+          time: "3-4 semanas",
+        },
+        {
+          id: "complete",
+          label: "Branding Completo",
+          title: "Sistema de Identidade Visual",
+          description:
+            "Solução abrangente para marcas que querem dominar seu mercado",
+          visual:
+            "https://via.placeholder.com/500x400/f1f5f9/64748b?text=Completo",
+          features: [
+            "Tudo do Pacote Essencial +",
+            "Sistema de Ícones Customizados",
+            "2 Famílias Tipográficas (Display e Texto)",
+            "Patterns e Elementos Gráficos Exclusivos",
+            "Diretrizes de Fotografia e Ilustração",
+            "Manual da Marca Digital (50+ páginas)",
+            "20 Templates para Mídias Sociais",
+          ],
+          price: "R$ 9.900",
+          time: "6-8 semanas",
+        },
+        {
+          id: "premium",
+          label: "Branding Corporativo",
+          title: "Identidade Visual Premium",
+          description:
+            "Experiência completa para marcas que exigem excelência absoluta",
+          visual:
+            "https://via.placeholder.com/500x400/f1f5f9/64748b?text=Premium",
+          features: [
+            "Tudo do Pacote Completo +",
+            "Workshop de Branding Presencial",
+            "Sistema 3D e Motion Design",
+            "Fotografia Profissional (1 dia de ensaio)",
+            "Ilustrações Completamente Exclusivas",
+            "Aplicações em Produtos Físicos",
+            "Treinamento para Equipe Interna",
+            "Consultoria de 3 meses",
+          ],
+          price: "R$ 19.900+",
+          time: "10-12 semanas",
+        },
+      ],
+      brandingElements: [
+        {
+          title: "Logo Design",
+          description: "Símbolo único que encapsula a essência da sua marca",
+          image:
+            "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Logo+Design",
+          bgColor: "#f1f5f9",
+          importance: 95,
+        },
+        {
+          title: "Sistema de Cores",
+          description: "Paleta estratégica que evoca as emoções certas",
+          image:
+            "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Color+System",
+          bgColor: "#e0f2fe",
+          importance: 90,
+        },
+        {
+          title: "Tipografia",
+          description: "Fontes que dão voz e personalidade à sua marca",
+          image:
+            "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Typography",
+          bgColor: "#ecfdf5",
+          importance: 85,
+        },
+        {
+          title: "Fotografia",
+          description: "Estilo visual consistente em todas as imagens",
+          image:
+            "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Photography",
+          bgColor: "#fef2f2",
+          importance: 80,
+        },
+        {
+          title: "Elementos Gráficos",
+          description:
+            "Padrões, ícones e texturas que complementam a identidade",
+          image:
+            "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Graphics",
+          bgColor: "#f5f3ff",
+          importance: 75,
+        },
+        {
+          title: "Tom de Voz",
+          description: "Personalidade verbal que reforça sua identidade visual",
+          image:
+            "https://via.placeholder.com/300x200/f1f5f9/64748b?text=Tone+of+Voice",
+          bgColor: "#fffbeb",
+          importance: 70,
+        },
+      ],
     };
   },
-  computed: {
-    sliderStyle() {
-      return {
-        transform: `translateX(-${this.currentIndex * 100}%)`,
-        transition: this.isPaused
-          ? "none"
-          : "transform 0.8s cubic-bezier(0.77, 0, 0.175, 1)",
-      };
-    },
-  },
   methods: {
-    nextSlide() {
-      this.currentIndex = (this.currentIndex + 1) % this.images.length;
-      this.animateText();
+    scrollToProcess() {
+      document.getElementById("process").scrollIntoView({ behavior: "smooth" });
     },
-    previousSlide() {
-      this.currentIndex =
-        (this.currentIndex - 1 + this.images.length) % this.images.length;
-      this.animateText();
-    },
-    goToSlide(index) {
-      this.currentIndex = index;
-      this.animateText();
-    },
-    startAutoplay() {
-      this.autoplayInterval = setInterval(() => {
-        if (!this.isPaused) this.nextSlide();
-      }, this.transitionSpeed);
-    },
-    pauseSlider() {
-      this.isPaused = true;
-    },
-    resumeSlider() {
-      this.isPaused = false;
-    },
-    animateText() {
-      // Reset animation classes
-      const textLines = document.querySelectorAll(".line");
-      textLines.forEach((line) => {
-        line.style.opacity = "0";
-        line.style.transform = "translateY(20px)";
-      });
-
-      // Reapply animation
-      setTimeout(() => {
-        textLines.forEach((line) => {
-          line.style.opacity = "1";
-          line.style.transform = "translateY(0)";
-          line.style.transition =
-            "opacity 0.6s ease-out, transform 0.6s ease-out";
-        });
-      }, 50);
-    },
-    scrollToContent() {
-      window.scrollTo({
-        top: window.innerHeight,
-        behavior: "smooth",
-      });
-    },
-    initParticles() {
-      // Configuração do efeito de partículas
-      if (window.particlesJS) {
-        window.particlesJS("particles-js", {
-          particles: {
-            number: { value: 60, density: { enable: true, value_area: 800 } },
-            color: { value: "#0099DD" },
-            shape: { type: "circle" },
-            opacity: { value: 0.5, random: true },
-            size: { value: 3, random: true },
-            line_linked: {
-              enable: true,
-              distance: 150,
-              color: "#0099DD",
-              opacity: 0.3,
-              width: 1,
-            },
-            move: {
-              enable: true,
-              speed: 2,
-              direction: "none",
-              random: true,
-              straight: false,
-              out_mode: "out",
-            },
-          },
-          interactivity: {
-            detect_on: "canvas",
-            events: {
-              onhover: { enable: true, mode: "repulse" },
-              onclick: { enable: true, mode: "push" },
-            },
-          },
-        });
-      }
-    },
-  },
-  mounted() {
-    this.startAutoplay();
-    this.animateText();
-    this.initParticles();
-  },
-  beforeUnmount() {
-    clearInterval(this.autoplayInterval);
   },
 };
 </script>
 
 <style scoped>
-/* Estilos base e reset */
-.hero {
-  position: relative;
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  overflow: hidden;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
-  color: #2d3748;
+/* Estilos Base */
+.branding-page {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #1e293b;
+  line-height: 1.6;
+  overflow-x: hidden;
 }
 
-.particles {
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  color: white;
+  padding: 8rem 0 10rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: "";
   position: absolute;
-  width: 100%;
-  height: 100%;
   top: 0;
   left: 0;
-  z-index: 1;
-}
-
-.hero-container {
-  position: relative;
-  z-index: 2;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 2rem;
-  display: flex;
-  align-items: center;
-  gap: 4rem;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+      circle at 20% 30%,
+      rgba(251, 191, 36, 0.1) 0%,
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 80% 70%,
+      rgba(79, 70, 229, 0.1) 0%,
+      transparent 30%
+    );
 }
 
 .hero-content {
-  flex: 1;
-  max-width: 600px;
-  position: relative;
-  z-index: 3;
-}
-
-/* Social Proof */
-.social-proof {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 2.5rem;
-}
-
-.avatar-group {
-  display: flex;
+  gap: 4rem;
   position: relative;
-  height: 48px;
-}
-
-.user-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: 3px solid white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-  position: absolute;
-}
-
-.user-avatar:nth-child(1) {
-  left: 0;
-  z-index: 4;
-}
-.user-avatar:nth-child(2) {
-  left: 30px;
-  z-index: 3;
-}
-.user-avatar:nth-child(3) {
-  left: 60px;
   z-index: 2;
 }
-.user-avatar:nth-child(4) {
-  left: 90px;
-  z-index: 1;
+
+.hero-text {
+  flex: 1;
 }
 
-.avatar-group:hover .user-avatar:nth-child(1) {
-  transform: translateX(-5px);
-}
-.avatar-group:hover .user-avatar:nth-child(2) {
-  transform: translateX(0);
-}
-.avatar-group:hover .user-avatar:nth-child(3) {
-  transform: translateX(5px);
-}
-.avatar-group:hover .user-avatar:nth-child(4) {
-  transform: translateX(10px);
-}
-
-.social-text {
-  display: flex;
-  flex-direction: column;
-  margin-left: 120px;
-}
-
-.rating {
-  font-weight: 600;
-  font-size: 0.9rem;
-  color: #4a5568;
-}
-
-.stars {
-  color: #f59e0b;
-  margin-right: 0.5rem;
-}
-
-.see-more {
-  color: #0099dd;
-  font-weight: 600;
-  text-decoration: none;
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  transition: color 0.3s ease;
-}
-
-.see-more:hover {
-  color: #0077b3;
-}
-
-.arrow {
-  margin-left: 0.3rem;
-  transition: transform 0.3s ease;
-}
-
-.see-more:hover .arrow {
-  transform: translateX(3px);
-}
-
-/* Text Content */
-.text-content {
-  margin-bottom: 3rem;
-}
-
-h1 {
-  font-size: clamp(2.5rem, 5vw, 3.5rem);
+.hero-title {
+  font-size: clamp(2.5rem, 5vw, 3.8rem);
   font-weight: 800;
   line-height: 1.2;
   margin-bottom: 1.5rem;
-  color: #1a202c;
 }
 
-.animated-text .line {
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-p {
-  font-size: 1.25rem;
-  line-height: 1.6;
-  color: #4a5568;
-  margin-bottom: 2.5rem;
-  max-width: 90%;
+.title-line {
+  display: block;
 }
 
 .highlight {
-  color: #0099dd;
   position: relative;
   display: inline-block;
 }
@@ -519,442 +720,918 @@ p {
 .highlight::after {
   content: "";
   position: absolute;
-  bottom: 2px;
+  bottom: 5px;
   left: 0;
   width: 100%;
-  height: 8px;
-  background: rgba(0, 153, 221, 0.2);
+  height: 12px;
+  background: rgba(251, 191, 36, 0.4);
   z-index: -1;
   border-radius: 4px;
+  transform: skewX(-15deg);
 }
 
-/* CTA Buttons */
-.cta-buttons {
-  display: flex;
-  gap: 1.5rem;
-  margin-top: 3rem;
+.pulse-text {
+  animation: pulse 2s infinite;
 }
 
-.cta-button {
-  position: relative;
-  padding: 1rem 2rem;
-  border-radius: 50px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  overflow: hidden;
-  border: none;
-  cursor: pointer;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.rotate-text {
+  display: inline-block;
+  animation: rotateWords 8s infinite;
 }
 
-.cta-button.primary {
-  background: #0099dd;
-  color: white;
-  box-shadow: 0 4px 15px rgba(0, 153, 221, 0.3);
+@keyframes rotateWords {
+  0%,
+  20% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  25%,
+  45% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  50%,
+  70% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  75%,
+  95% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.cta-button.secondary {
-  background: white;
-  color: #0099dd;
-  border: 2px solid #0099dd;
+.hero-subtitle {
+  font-size: 1.25rem;
+  opacity: 0.9;
+  margin-bottom: 2.5rem;
+  max-width: 600px;
 }
 
-.hover-effect {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.1);
-  top: 0;
-  left: -100%;
-  transition: all 0.4s ease;
-  z-index: -1;
-}
-
-.cta-button:hover .hover-effect {
-  left: 0;
-}
-
-.cta-button.secondary:hover {
-  background: #0099dd;
-  color: white;
-}
-
-/* Client Logos */
-.client-logos {
-  margin-top: 4rem;
-}
-
-.client-logos p {
-  font-size: 0.9rem;
-  color: #718096;
-  margin-bottom: 1rem;
-}
-
-.logos {
+.cta-container {
   display: flex;
   align-items: center;
   gap: 2rem;
   flex-wrap: wrap;
 }
 
-.logos img {
-  height: 30px;
-  opacity: 0.7;
-  transition: opacity 0.3s ease;
-  filter: grayscale(100%);
+.cta-button {
+  background: #fbbf24;
+  color: #1e293b;
+  border: none;
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+  position: relative;
+  overflow: hidden;
 }
 
-.logos img:hover {
-  opacity: 1;
-  filter: grayscale(0%);
+.cta-button:hover {
+  background: #f59e0b;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(251, 191, 36, 0.4);
 }
 
-/* Hero Visual */
+.trust-badges {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.badge {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 0.75rem 1.25rem;
+  text-align: center;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+}
+
+.badge:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.badge span {
+  font-size: 1.5rem;
+  font-weight: 700;
+  display: block;
+  background: linear-gradient(90deg, #fbbf24, #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.badge small {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  display: block;
+}
+
 .hero-visual {
   flex: 1;
   position: relative;
-  min-height: 500px;
+  min-height: 400px;
 }
 
-.slider-container {
-  position: relative;
-  width: 100%;
-  height: 500px;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-}
-
-.slider {
+.brand-morph {
   display: flex;
-  height: 100%;
-}
-
-.slide {
-  flex: 0 0 100%;
-  position: relative;
-}
-
-.slide-image {
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center;
 }
 
-.slide-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to right, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
-}
-
-.nav-button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 50px;
-  height: 50px;
-  background: rgba(255, 255, 255, 0.9);
-  border: none;
-  border-radius: 50%;
+.morph-item {
+  background: white;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  z-index: 10;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  width: 100px;
+  height: 100px;
+  animation: float 5s ease-in-out infinite;
+  animation-delay: var(--delay);
 }
 
-.nav-button:hover {
-  background: white;
-  transform: translateY(-50%) scale(1.1);
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
 }
 
-.nav-button svg {
-  width: 24px;
-  height: 24px;
-  fill: #0099dd;
+.morph-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
 }
 
-.nav-button.prev {
-  left: 2rem;
+.morph-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1e293b;
 }
 
-.nav-button.next {
-  right: 2rem;
-}
-
-.slider-indicators {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 0.75rem;
-  z-index: 10;
-}
-
-.slider-indicators button {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(255, 255, 255, 0.5);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  padding: 0;
-}
-
-.slider-indicators button.active {
-  background: white;
-  transform: scale(1.2);
-}
-
-/* Floating Shapes */
-.floating-shapes {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  z-index: -1;
-}
-
-.shape {
-  position: absolute;
-  opacity: 0.1;
-}
-
-.circle {
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-  background: #0099dd;
-  top: -100px;
-  right: -100px;
-  animation: float 8s ease-in-out infinite;
-}
-
-.triangle {
-  width: 0;
-  height: 0;
-  border-left: 150px solid transparent;
-  border-right: 150px solid transparent;
-  border-bottom: 260px solid #0099dd;
-  bottom: -100px;
-  left: -50px;
-  animation: float 10s ease-in-out infinite 2s;
-}
-
-.square {
-  width: 200px;
-  height: 200px;
-  background: #0099dd;
-  bottom: 50px;
-  right: 50px;
-  animation: float 12s ease-in-out infinite 4s;
-}
-
-/* Scroll Indicator */
 .scroll-indicator {
   position: absolute;
   bottom: 2rem;
   left: 50%;
   transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   cursor: pointer;
-  z-index: 10;
-  color: #4a5568;
+}
+
+.arrow {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-left: 0;
+  border-top: 0;
+  transform: rotate(45deg);
+  margin-top: 8px;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: rotate(45deg) translateY(0);
+  }
+  40% {
+    transform: rotate(45deg) translateY(-10px);
+  }
+  60% {
+    transform: rotate(45deg) translateY(-5px);
+  }
+}
+
+/* ... (mantenha todos os outros estilos anteriores) ... */
+
+.morph-icon {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 0.5rem;
+  filter: invert(26%) sepia(89%) saturate(1550%) hue-rotate(230deg)
+    brightness(95%) contrast(90%);
+}
+
+/* Includes Section */
+.includes-section {
+  padding: 6rem 0;
+  background: white;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.section-subtitle {
+  text-align: center;
+  color: #64748b;
+  max-width: 700px;
+  margin: 0 auto 3rem;
+  font-size: 1.1rem;
+}
+
+.includes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+.include-category {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 2rem;
+  transition: all 0.3s ease;
+}
+
+.include-category:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+.category-title {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.category-icon {
+  background: #4f46e5;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.features-list {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.features-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.feature-check {
+  color: #4f46e5;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.feature-text {
+  color: #475569;
+}
+
+/* Process Section */
+.process-section {
+  padding: 6rem 0;
+  background: #f8fafc;
+}
+
+.process-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.process-timeline::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 25px;
+  width: 2px;
+  background: #cbd5e1;
+  z-index: 1;
+}
+
+.process-step {
+  display: flex;
+  gap: 2rem;
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.step-number {
+  width: 50px;
+  height: 50px;
+  background: #4f46e5;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.step-content {
+  flex: 1;
+  padding-top: 0.5rem;
+}
+
+.step-content h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #1e293b;
+}
+
+.step-content p {
+  color: #64748b;
+  margin-bottom: 1rem;
+}
+
+.step-visual {
+  height: 200px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 1rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease;
+}
+
+.process-step:hover .step-visual {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.visual-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Portfolio Section */
+.portfolio-section {
+  padding: 6rem 0;
+  background: white;
+}
+
+.portfolio-carousel {
+  display: flex;
+  gap: 2rem;
+  overflow-x: auto;
+  padding-bottom: 2rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.portfolio-item {
+  min-width: 350px;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.portfolio-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(79, 70, 229, 0.15);
+}
+
+.brand-preview {
+  height: 250px;
+  position: relative;
+  background: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.brand-logo {
+  margin-bottom: 2rem;
+  z-index: 2;
+}
+
+.brand-logo img {
+  max-width: 200px;
+  max-height: 80px;
+  object-fit: contain;
+}
+
+.brand-applications {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  overflow: hidden;
+  height: 100px;
+}
+
+.application-image {
+  flex: 1;
+  object-fit: cover;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+
+.application-image:hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.brand-info {
+  padding: 1.5rem;
+}
+
+.brand-info h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1.5rem;
+  color: #1e293b;
+}
+
+.industry {
+  color: #64748b;
+  font-size: 0.9rem;
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+.brand-stats {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: hsl(var(--hue), 80%, 50%);
+  display: block;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.brand-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.brand-features span {
+  background: #f1f5f9;
+  color: hsl(var(--hue), 80%, 40%);
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
   font-weight: 500;
 }
 
-.mouse {
-  width: 30px;
-  height: 50px;
-  border: 2px solid #4a5568;
-  border-radius: 15px;
-  margin-bottom: 0.5rem;
+/* Levels Section */
+.levels-section {
+  padding: 6rem 0;
+  background: #f8fafc;
+}
+
+.tabs-container {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.tabs-header {
   display: flex;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.tabs-header button {
+  flex: 1;
+  padding: 1.5rem;
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.tabs-header button:hover {
+  color: #4f46e5;
+}
+
+.tabs-header button.active {
+  color: #4f46e5;
+}
+
+.tabs-header button.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: #4f46e5;
+}
+
+.tabs-content {
+  padding: 2rem;
+}
+
+.tab-panel {
+  display: flex;
+  gap: 3rem;
+}
+
+.tab-visual {
+  flex: 1;
+  min-height: 400px;
+  background: #f8fafc;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  padding-top: 10px;
 }
 
-.wheel {
-  width: 6px;
-  height: 10px;
-  background: #4a5568;
+.tab-visual img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.tab-info {
+  flex: 1;
+}
+
+.tab-info h3 {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+  color: #1e293b;
+}
+
+.tab-description {
+  color: #64748b;
+  margin-bottom: 1.5rem;
+}
+
+.tab-features {
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 2rem;
+}
+
+.tab-features li {
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.feature-icon {
+  color: #4f46e5;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.feature-text {
+  color: #475569;
+}
+
+.tab-price {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.price {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #4f46e5;
+}
+
+.time {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.tab-button {
+  background: #4f46e5;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tab-button:hover {
+  background: #4338ca;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(79, 70, 229, 0.3);
+}
+
+/* Elements Section */
+.elements-section {
+  padding: 6rem 0;
+  background: white;
+}
+
+.elements-showcase {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+.element-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.element-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(79, 70, 229, 0.15);
+}
+
+.element-preview {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.element-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.element-info {
+  padding: 1.5rem;
+}
+
+.element-info h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #1e293b;
+}
+
+.element-info p {
+  color: #64748b;
+  margin-bottom: 1.5rem;
+}
+
+.element-importance {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.importance-bar {
+  flex: 1;
+  height: 6px;
+  background: #4f46e5;
   border-radius: 3px;
-  animation: scroll 2s infinite;
 }
 
-@keyframes scroll {
-  0% {
-    transform: translateY(0);
-    opacity: 1;
+.importance-value {
+  font-weight: 600;
+  color: #4f46e5;
+}
+
+/* Final CTA */
+.final-cta {
+  padding: 6rem 0;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+}
+
+.cta-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+}
+
+.cta-visual {
+  flex: 1;
+  position: relative;
+  min-height: 400px;
+}
+
+.brand-sphere {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(
+      circle at 30% 30%,
+      rgba(251, 191, 36, 0.2) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 70% 70%,
+      rgba(255, 255, 255, 0.1) 0%,
+      transparent 50%
+    );
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: rotate 30s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
   }
-  100% {
-    transform: translateY(10px);
-    opacity: 0;
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
   }
 }
 
-@keyframes float {
-  0% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-20px) rotate(5deg);
-  }
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
+.cta-content {
+  flex: 1;
+}
+
+.cta-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.highlight {
+  color: #fbbf24;
+}
+
+.cta-content p {
+  font-size: 1.25rem;
+  opacity: 0.9;
+  margin-bottom: 2rem;
+}
+
+.cta-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 500px;
+}
+
+.cta-form input {
+  padding: 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.cta-form button {
+  background: #fbbf24;
+  color: #1e293b;
+  border: none;
+  padding: 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.cta-form button:hover {
+  background: #f59e0b;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(251, 191, 36, 0.3);
+}
+
+.guarantee {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.guarantee span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
 }
 
 /* Responsividade */
 @media (max-width: 1024px) {
-  .hero-container {
-    flex-direction: column;
-    gap: 3rem;
-    padding-top: 6rem;
-  }
-
   .hero-content {
-    max-width: 100%;
+    flex-direction: column;
     text-align: center;
-    order: 1;
-  }
-
-  .text-content {
-    order: 1;
-  }
-
-  .social-proof {
-    justify-content: center;
-    order: 4;
-  }
-
-  .social-text {
-    margin-left: 1rem;
   }
 
   .hero-visual {
-    order: 2;
+    margin-top: 3rem;
   }
 
-  p {
-    max-width: 100%;
-    margin-left: auto;
-    margin-right: auto;
+  .tab-panel {
+    flex-direction: column;
   }
 
-  .cta-buttons {
-    justify-content: center;
-    order: 3;
-  }
-
-  .client-logos {
+  .cta-container {
+    flex-direction: column;
     text-align: center;
-    order: 5;
   }
 
-  .logos {
+  .cta-form {
+    margin: 0 auto;
+  }
+
+  .guarantee {
     justify-content: center;
-  }
-
-  .slider-container {
-    height: 400px;
   }
 }
 
 @media (max-width: 768px) {
-  h1 {
+  .hero-title {
     font-size: 2.5rem;
   }
 
-  p {
-    font-size: 1.1rem;
+  .includes-grid {
+    grid-template-columns: 1fr;
   }
 
-  .cta-buttons {
+  .portfolio-carousel {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+
+  .tabs-header {
     flex-direction: column;
-    gap: 1rem;
   }
 
-  .cta-button {
-    width: 100%;
+  .tabs-header button {
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
   }
 
-  .nav-button {
-    width: 40px;
-    height: 40px;
+  .tabs-header button.active::after {
+    display: none;
   }
-
-  .nav-button.prev {
-    left: 1rem;
-  }
-
-  .nav-button.next {
-    right: 1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero-container {
-    padding: 1.5rem;
-  }
-
-  .social-proof {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .social-text {
-    margin-left: 0;
-    margin-top: 1rem;
-  }
-
-  .hero-content {
-    order: 1;
-  }
-
-  .text-content {
-    order: 1;
-  }
-
-  .hero-visual {
-    order: 2;
-  }
-
-  .cta-buttons {
-    order: 3;
-  }
-
-  .social-proof {
-    order: 4;
-  }
-
-  .client-logos {
-    order: 5;
-  }
-
-  h1 {
-    font-size: 2rem;
-  }
-
-  .slider-container {
-    height: 300px;
+  /* Responsividade */
+  @media (max-width: 768px) {
+    .morph-icon {
+      width: 24px;
+      height: 24px;
+    }
   }
 }
 </style>

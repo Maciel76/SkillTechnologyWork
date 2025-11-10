@@ -1,3 +1,4 @@
+<!-- nao mechei aqui -->
 <template>
   <div class="product-gallery">
     <h2>Galeria de Imagens</h2>

@@ -3,13 +3,12 @@
     <div class="section-container">
       <div class="section-header">
         <h2 class="section-title">
-          Nossos
-          <span class="highlight">Serviços Inteligentes</span> para Empresas que
-          Querem Crescer
+          Soluções Digitais que
+          <span class="highlight">Impulsionam o Crescimento</span>
         </h2>
         <p class="section-subtitle">
-          Desenvolvimento de soluções digitais com foco em performance,
-          automação e escalabilidade.
+          Criamos tecnologia sob medida para transformar desafios em
+          oportunidades e gerar resultados reais para o seu negócio.
         </p>
       </div>
 
@@ -21,7 +20,13 @@
           :style="{ '--card-color': service.color }"
         >
           <div class="card-icon">
-            <img :src="service.icon" :alt="service.title" class="icon-img" />
+            <div
+              class="icon-img"
+              :style="{
+                maskImage: `url(${service.icon})`,
+                WebkitMaskImage: `url(${service.icon})`,
+              }"
+            ></div>
           </div>
           <h3 class="card-title">{{ service.title }}</h3>
           <p class="card-description">{{ service.description }}</p>
@@ -201,6 +206,7 @@ export default {
 .section-header {
   text-align: center;
   margin-bottom: 4rem;
+  display: block; /* Garante que o container se comporte como um bloco */
 }
 
 .section-title {
@@ -209,6 +215,9 @@ export default {
   line-height: 1.2;
   margin-bottom: 1rem;
   color: #1e293b;
+}
+[data-theme="dark"] .section-title {
+  color: #f8fafc;
 }
 
 [data-theme="dark"] .section-title {
@@ -238,6 +247,7 @@ export default {
   color: #64748b;
   max-width: 700px;
   margin: 0 auto;
+  line-height: 1.6;
 }
 
 [data-theme="dark"] .section-subtitle {
@@ -295,7 +305,13 @@ export default {
 .icon-img {
   width: 48px;
   height: 48px;
-  color: var(--card-color);
+  background-color: var(--card-color);
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
 }
 
 .card-title {
