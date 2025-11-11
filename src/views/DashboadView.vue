@@ -26,6 +26,7 @@
       <div class="content">
         <DashboardOverview v-if="activeMenu === 'dashboard'" />
         <DashboardOverview v-if="activeMenu === 'dashboard1'" />
+        <ProposalsManagement v-if="activeMenu === 'propostas'" />
         <LeadsManagement v-if="activeMenu === 'leads'" />
         <BlogManagement v-if="activeMenu === 'blog'" />
         <ServicesManagement v-if="activeMenu === 'services'" />
@@ -45,6 +46,7 @@
 import Sidebar from "@/components/Dashboad/SidebarDashboad.vue";
 import AppHeader from "@/components/Dashboad/HeaderDashboad.vue";
 import DashboardOverview from "@/components/Dashboad/DashboardOverview.vue";
+import ProposalsManagement from "@/components/Dashboad/ProposalsManagement.vue";
 import LeadsManagement from "@/components/Dashboad/LeadsManagement.vue";
 import BlogManagement from "@/components/Dashboad/BlogManagement.vue";
 import ServicesManagement from "@/components/Dashboad/ServicesManagement.vue";
@@ -62,6 +64,7 @@ export default {
     Sidebar,
     AppHeader,
     DashboardOverview,
+    ProposalsManagement,
     LeadsManagement,
     BlogManagement,
     ServicesManagement,
@@ -85,6 +88,7 @@ export default {
           name: "Contatos Mensagem",
           icon: "fas fa-comments",
           submenu: [
+            { id: "propostas", name: "Propostas", icon: "fas fa-gem" },
             { id: "leads", name: "Leads", icon: "fas fa-users" },
             { id: "testimonials", name: "Depoimentos", icon: "fas fa-comment" },
             { id: "contato", name: "Contato", icon: "fas fa-envelope" },
@@ -112,7 +116,9 @@ export default {
       // Se não encontrar, procura nos submenus
       for (const menuItem of this.menuItems) {
         if (menuItem.submenu) {
-          const subitem = menuItem.submenu.find((subitem) => subitem.id === this.activeMenu);
+          const subitem = menuItem.submenu.find(
+            (subitem) => subitem.id === this.activeMenu
+          );
           if (subitem) return subitem.name;
         }
       }

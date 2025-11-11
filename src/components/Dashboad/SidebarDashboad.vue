@@ -74,26 +74,26 @@ export default {
   props: {
     collapsed: {
       type: Boolean,
-      default: false
+      default: false,
     },
     activeMenu: {
       type: String,
-      default: 'dashboard'
+      default: "dashboard",
     },
     menuItems: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
   },
   emits: ["toggle", "menu-change"],
   data() {
     return {
-      openDropdowns: {}
+      openDropdowns: {},
     };
   },
   methods: {
     handleMenuClick(menuId) {
-      this.$emit('menu-change', menuId);
+      this.$emit("menu-change", menuId);
     },
     toggleDropdown(menuId) {
       if (this.collapsed) return;
@@ -101,7 +101,7 @@ export default {
       // Força a reatividade usando Vue.set ou atribuição direta
       this.openDropdowns = {
         ...this.openDropdowns,
-        [menuId]: !this.openDropdowns[menuId]
+        [menuId]: !this.openDropdowns[menuId],
       };
     },
     isDropdownOpen(menuId) {
@@ -109,28 +109,28 @@ export default {
     },
     isAnySubmenuActive(item) {
       if (!item.submenu) return false;
-      return item.submenu.some(sub => sub.id === this.activeMenu);
-    }
+      return item.submenu.some((sub) => sub.id === this.activeMenu);
+    },
   },
   watch: {
     activeMenu: {
       handler(newMenu) {
         // Auto-abrir dropdown que contém o item ativo
-        this.menuItems.forEach(item => {
+        this.menuItems.forEach((item) => {
           if (item.submenu) {
-            const hasActive = item.submenu.some(sub => sub.id === newMenu);
+            const hasActive = item.submenu.some((sub) => sub.id === newMenu);
             if (hasActive) {
               this.openDropdowns = {
                 ...this.openDropdowns,
-                [item.id]: true
+                [item.id]: true,
               };
             }
           }
         });
       },
-      immediate: true
-    }
-  }
+      immediate: true,
+    },
+  },
 };
 </script>
 
@@ -333,15 +333,9 @@ export default {
   list-style: none;
   padding: 12px 0 12px 0;
   margin: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.3) 0%,
-    rgba(0, 0, 0, 0.2) 100%
-  );
-  border-left: 2px solid rgba(99, 102, 241, 0.3);
-  margin-left: 12px;
+
+  margin-left: -12px;
   border-radius: 0 0 12px 12px;
-  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .submenu-item {
@@ -355,6 +349,7 @@ export default {
   align-items: center;
   position: relative;
   font-weight: 500;
+  list-style: none;
 }
 
 .submenu-item::before {
