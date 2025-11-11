@@ -26,10 +26,11 @@
       <div class="content">
         <DashboardOverview v-if="activeMenu === 'dashboard'" />
         <LeadsManagement v-if="activeMenu === 'leads'" />
+        <ContactManagement v-if="activeMenu === 'contact'" />
+        <TestimonialsManagement v-if="activeMenu === 'testimonials'" />
         <BlogManagement v-if="activeMenu === 'blog'" />
         <ServicesManagement v-if="activeMenu === 'services'" />
         <PortfolioManagement v-if="activeMenu === 'portfolio'" />
-        <TestimonialsManagement v-if="activeMenu === 'testimonials'" />
         <EcommerceManagement v-if="activeMenu === 'ecommerce'" />
         <EventsManagement v-if="activeMenu === 'events'" />
         <ProjectsManagement v-if="activeMenu === 'projects'" />
@@ -44,6 +45,7 @@ import Sidebar from "@/components/Dashboad/SidebarDashboad.vue";
 import AppHeader from "@/components/Dashboad/HeaderDashboad.vue";
 import DashboardOverview from "@/components/Dashboad/DashboardOverview.vue";
 import LeadsManagement from "@/components/Dashboad/LeadsManagement.vue";
+import ContactManagement from "@/components/Dashboad/ContactManagement.vue";
 import BlogManagement from "@/components/Dashboad/BlogManagement.vue";
 import ServicesManagement from "@/components/Dashboad/ServicesManagement.vue";
 import PortfolioManagement from "@/components/Dashboad/PortfolioManagement.vue";
@@ -60,6 +62,7 @@ export default {
     AppHeader,
     DashboardOverview,
     LeadsManagement,
+    ContactManagement,
     BlogManagement,
     ServicesManagement,
     PortfolioManagement,
@@ -76,11 +79,19 @@ export default {
       activeMenu: "dashboard",
       menuItems: [
         { id: "dashboard", name: "Dashboard", icon: "fas fa-tachometer-alt" },
-        { id: "leads", name: "Leads", icon: "fas fa-users" },
+        {
+          id: "contacts",
+          name: "Contatos",
+          icon: "fas fa-address-book",
+          submenu: [
+            { id: "leads", name: "Leads", icon: "fas fa-users" },
+            { id: "testimonials", name: "Depoimentos", icon: "fas fa-comment" },
+            { id: "contact", name: "Mensagens", icon: "fas fa-envelope" },
+          ]
+        },
         { id: "blog", name: "Blog", icon: "fas fa-blog" },
         { id: "services", name: "Serviços", icon: "fas fa-concierge-bell" },
         { id: "portfolio", name: "Portfólio", icon: "fas fa-briefcase" },
-        { id: "testimonials", name: "Depoimentos", icon: "fas fa-comment" },
         { id: "ecommerce", name: "Loja Virtual", icon: "fas fa-shopping-cart" },
         { id: "events", name: "Eventos", icon: "fas fa-calendar" },
         { id: "projects", name: "Projetos Recentes", icon: "fas fa-folder-open" },
@@ -89,8 +100,19 @@ export default {
   },
   computed: {
     getActiveMenuTitle() {
-      const item = this.menuItems.find((item) => item.id === this.activeMenu);
-      return item ? item.name : "Dashboard";
+      // Procura no menu principal
+      let item = this.menuItems.find((item) => item.id === this.activeMenu);
+      if (item) return item.name;
+
+      // Procura nos submenus
+      for (const menuItem of this.menuItems) {
+        if (menuItem.submenu) {
+          const subItem = menuItem.submenu.find((sub) => sub.id === this.activeMenu);
+          if (subItem) return subItem.name;
+        }
+      }
+
+      return "Dashboard";
     },
   },
   methods: {

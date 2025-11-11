@@ -238,32 +238,62 @@
                   <div class="form-group-new full-width">
                     <label>
                       <i class="fas fa-code"></i>
-                      Tecnologias (pressione Enter para adicionar)
+                      Tecnologias Utilizadas
                     </label>
-                    <div class="tech-input-container">
-                      <div class="tech-tags-input">
-                        <span
-                          v-for="(tech, i) in formData.technologies"
-                          :key="i"
-                          class="tech-tag-input"
+
+                    <!-- Tecnologias Selecionadas -->
+                    <div v-if="formData.technologies.length > 0" class="selected-technologies">
+                      <span
+                        v-for="(tech, i) in formData.technologies"
+                        :key="i"
+                        class="tech-tag-selected"
+                      >
+                        {{ tech }}
+                        <button
+                          type="button"
+                          @click="removeTechnology(i)"
+                          class="remove-tech"
                         >
-                          {{ tech }}
-                          <button
-                            type="button"
-                            @click="removeTechnology(i)"
-                            class="remove-tech"
-                          >
-                            <i class="fas fa-times"></i>
-                          </button>
-                        </span>
+                          <i class="fas fa-times"></i>
+                        </button>
+                      </span>
+                    </div>
+
+                    <!-- Grid de Tecnologias Populares -->
+                    <div class="tech-grid">
+                      <label
+                        v-for="tech in availableTechnologies"
+                        :key="tech"
+                        class="tech-checkbox-item"
+                        :class="{ selected: formData.technologies.includes(tech) }"
+                      >
                         <input
-                          type="text"
-                          v-model="techInput"
-                          @keydown.enter.prevent="addTechnology"
-                          placeholder="Digite e pressione Enter"
-                          class="tech-input"
+                          type="checkbox"
+                          :value="tech"
+                          :checked="formData.technologies.includes(tech)"
+                          @change="toggleTechnology(tech)"
                         />
-                      </div>
+                        <span class="tech-name">{{ tech }}</span>
+                      </label>
+                    </div>
+
+                    <!-- Input para Tecnologia Customizada -->
+                    <div class="custom-tech-input">
+                      <input
+                        type="text"
+                        v-model="customTechInput"
+                        @keydown.enter.prevent="addCustomTechnology"
+                        placeholder="Outra tecnologia? Digite e pressione Enter"
+                        class="tech-input-custom"
+                      />
+                      <button
+                        type="button"
+                        @click="addCustomTechnology"
+                        class="btn-add-custom-tech"
+                        :disabled="!customTechInput.trim()"
+                      >
+                        <i class="fas fa-plus"></i>
+                      </button>
                     </div>
                   </div>
 
@@ -707,9 +737,87 @@ export default defineComponent({
       thumbnailUrl: "",
       galleryImageUrl: "",
       showGalleryUpload: false,
-      techInput: "",
+      customTechInput: "",
       solutionInput: "",
       resultInput: "",
+      availableTechnologies: [
+        "Vue.js",
+        "React",
+        "Angular",
+        "Node.js",
+        "Express",
+        "MongoDB",
+        "PostgreSQL",
+        "MySQL",
+        "Firebase",
+        "TypeScript",
+        "JavaScript",
+        "Python",
+        "Django",
+        "Flask",
+        "PHP",
+        "Laravel",
+        "Next.js",
+        "Nuxt.js",
+        "TailwindCSS",
+        "Bootstrap",
+        "SASS",
+        "Docker",
+        "Kubernetes",
+        "AWS",
+        "Azure",
+        "Google Cloud",
+        "Git",
+        "GitHub",
+        "GitLab",
+        "HTML5",
+        "CSS3",
+        "jQuery",
+        "Redux",
+        "Vuex",
+        "Pinia",
+        "GraphQL",
+        "REST API",
+        "WebSocket",
+        "Socket.io",
+        "Webpack",
+        "Vite",
+        "Figma",
+        "Adobe XD",
+        "Photoshop",
+        "Illustrator",
+        "WordPress",
+        "Shopify",
+        "Stripe",
+        "PayPal",
+        "TensorFlow.js",
+        "Three.js",
+        "D3.js",
+        "Chart.js",
+        "Jest",
+        "Cypress",
+        "Mocha",
+        "Chai",
+        "WebRTC",
+        "Electron",
+        "React Native",
+        "Flutter",
+        "Swift",
+        "Kotlin",
+        "Java",
+        "C#",
+        ".NET",
+        "Spring Boot",
+        "Redis",
+        "Elasticsearch",
+        "RabbitMQ",
+        "Nginx",
+        "Apache",
+        "Linux",
+        "Ubuntu",
+        "Debian",
+        "CentOS"
+      ],
       formData: {
         title: "",
         category: "",
@@ -767,10 +875,25 @@ export default defineComponent({
     },
 
     // Technologies
-    addTechnology() {
-      if (this.techInput.trim()) {
-        this.formData.technologies.push(this.techInput.trim());
-        this.techInput = "";
+    toggleTechnology(tech) {
+      const index = this.formData.technologies.indexOf(tech);
+      if (index > -1) {
+        // Se já está selecionado, remove
+        this.formData.technologies.splice(index, 1);
+      } else {
+        // Se não está selecionado, adiciona
+        this.formData.technologies.push(tech);
+      }
+    },
+
+    addCustomTechnology() {
+      if (this.customTechInput.trim()) {
+        const customTech = this.customTechInput.trim();
+        // Verifica se já não existe na lista
+        if (!this.formData.technologies.includes(customTech)) {
+          this.formData.technologies.push(customTech);
+        }
+        this.customTechInput = "";
       }
     },
 
@@ -1617,6 +1740,183 @@ export default defineComponent({
   min-width: 150px;
   padding: 4px 8px;
   font-size: 0.95rem;
+}
+
+/* Tecnologias Selecionadas */
+.selected-technologies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding: 12px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 12px;
+  border: 1px solid #dee2e6;
+}
+
+.tech-tag-selected {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+}
+
+.tech-tag-selected:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.tech-tag-selected .remove-tech {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  transition: all 0.2s ease;
+}
+
+.tech-tag-selected .remove-tech:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+/* Grid de Tecnologias */
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.tech-checkbox-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+}
+
+.tech-checkbox-item:hover {
+  border-color: #667eea;
+  background: #f0f4ff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+}
+
+.tech-checkbox-item.selected {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: #667eea;
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.tech-checkbox-item input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.tech-checkbox-item .tech-name {
+  width: 100%;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.tech-checkbox-item.selected .tech-name::before {
+  content: "✓ ";
+  font-weight: bold;
+}
+
+/* Input para Tecnologia Customizada */
+.custom-tech-input {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.tech-input-custom {
+  flex: 1;
+  padding: 10px 14px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.tech-input-custom:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.btn-add-custom-tech {
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 45px;
+}
+
+.btn-add-custom-tech:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.btn-add-custom-tech:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Scrollbar customizada para tech-grid */
+.tech-grid::-webkit-scrollbar {
+  width: 8px;
+}
+
+.tech-grid::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.tech-grid::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 10px;
+}
+
+.tech-grid::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
 }
 
 /* Solution and Results */
