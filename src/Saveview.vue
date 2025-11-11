@@ -1,55 +1,40 @@
 <template>
-  <div class="portfolio-container">
-    <h2 class="section-title">
-      Projetos <span class="highlight">Recentes</span>
-    </h2>
-    <p class="section-subtitle">
-      Explore nossos trabalhos mais recentes e veja como transformamos ideias em
-      soluções digitais de sucesso.
-    </p>
-
-    <div class="filters">
-      <button
-        v-for="filter in filters"
-        :key="filter.value"
-        @click="activeFilter = filter.value"
-        :class="{ active: activeFilter === filter.value }"
-      >
-        {{ filter.name }}
-      </button>
+  <section class="featured-projects">
+    <div class="section-header" ref="sectionHeader">
+      <h2>Projetos <span class="highlight">Recentes</span></h2>
+      <p class="subtitle">Explore Nossos Projetos Desenvolvidos Recentemente</p>
     </div>
 
     <div class="projects-grid">
+      <!-- Loop para renderizar os cards de projeto dinamicamente -->
       <article
-        v-for="project in filteredProjects"
+        v-for="(project, index) in projects"
         :key="project.id"
         class="project-card"
-        @click="openModal(project)"
+        @click="openOverlay(project)"
+        :ref="
+          (el) => {
+            if (el) projectCards[index] = el;
+          }
+        "
       >
         <div
           class="card-bg"
           :style="{ backgroundImage: `url(${project.thumbnail})` }"
         ></div>
         <div class="card-content">
-          <span class="category-badge">{{ project.category }}</span>
+          <span class="category">{{ project.category }}</span>
           <h3>{{ project.title }}</h3>
           <div class="tech-tags">
-            <span v-for="tech in project.technologies.slice(0, 3)" :key="tech">
-              {{ tech }}
-            </span>
-            <span v-if="project.technologies.length > 3" class="tech-plus">
-              +{{ project.technologies.length - 3 }}
-            </span>
+            <span
+              v-for="(tech, i) in project.technologies.slice(0, 3)"
+              :key="i"
+              >{{ tech }}</span
+            >
           </div>
           <button class="view-btn">
             Ver Detalhes
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
               <path
                 d="M5 12H19M19 12L12 5M19 12L12 19"
                 stroke="currentColor"
@@ -63,15 +48,15 @@
       </article>
     </div>
 
-    <!-- Modal -->
+    <!-- Modal de Detalhes -->
     <transition name="fade">
       <div
-        v-if="selectedProject"
         class="project-modal"
-        @click.self="closeModal"
+        v-if="selectedProject"
+        @click.self="closeOverlay"
       >
         <div class="modal-content">
-          <button class="close-btn" @click="closeModal">
+          <button class="close-btn" @click="closeOverlay">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path
                 d="M18 6L6 18M6 6L18 18"
@@ -107,8 +92,9 @@
 
             <div class="details-body">
               <div class="description">
+                <!-- O Desafio como lista -->
                 <h3>O Desafio</h3>
-                <ul v-if="challengeItems.length">
+                <ul class="results" v-if="challengeItems.length">
                   <li
                     v-for="(item, index) in challengeItems"
                     :key="`challenge-${index}`"
@@ -125,8 +111,10 @@
                     {{ item }}
                   </li>
                 </ul>
+
+                <!-- Nossa Solução como lista -->
                 <h3>Nossa Solução</h3>
-                <ul v-if="solutionItems.length">
+                <ul class="results" v-if="solutionItems.length">
                   <li
                     v-for="(item, index) in solutionItems"
                     :key="`solution-${index}`"
@@ -143,12 +131,11 @@
                     {{ item }}
                   </li>
                 </ul>
+
+                <!-- Resultados (mantido igual) -->
                 <h3>Resultados</h3>
                 <ul class="results">
-                  <li
-                    v-for="(item, index) in selectedProject.results"
-                    :key="index"
-                  >
+                  <li v-for="(result, i) in selectedProject.results" :key="i">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                       <path
                         d="M20 6L9 17L4 12"
@@ -158,17 +145,18 @@
                         stroke-linejoin="round"
                       />
                     </svg>
-                    {{ item }}
+                    {{ result }}
                   </li>
                 </ul>
               </div>
+
               <div class="sidebar">
                 <div class="tech-stack">
                   <h4>Tecnologias</h4>
                   <div class="tech-icons">
                     <div
-                      v-for="(tech, index) in selectedProject.technologies"
-                      :key="index"
+                      v-for="(tech, i) in selectedProject.technologies"
+                      :key="i"
                     >
                       <img
                         :src="getTechIcon(tech)"
@@ -180,6 +168,7 @@
                     </div>
                   </div>
                 </div>
+
                 <div class="project-cta">
                   <a
                     v-if="selectedProject.liveUrl"
@@ -204,23 +193,68 @@
         </div>
       </div>
     </transition>
-  </div>
+  </section>
 </template>
 
 <script>
+import { onMounted, onBeforeUpdate, ref } from "vue";
+
 export default {
-  name: "paginaAjuste",
+  name: "FeaturedProjects",
+  setup() {
+    // Refs para os elementos que queremos animar
+    const sectionHeader = ref(null);
+    const projectCards = ref([]);
+
+    // Função para criar e configurar o IntersectionObserver
+    const createObserver = () => {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target); // Para a observação após a animação
+            }
+          });
+        },
+        {
+          threshold: 0.1, // Anima quando 10% do elemento está visível
+        }
+      );
+
+      // Observa o cabeçalho
+      if (sectionHeader.value) {
+        sectionHeader.value.classList.add("animate-on-scroll");
+        observer.observe(sectionHeader.value);
+      }
+
+      // Observa cada card de projeto com um pequeno atraso na transição
+      projectCards.value.forEach((card, index) => {
+        if (card) {
+          card.classList.add("animate-on-scroll");
+          card.style.transitionDelay = `${index * 100}ms`;
+          observer.observe(card);
+        }
+      });
+    };
+
+    onMounted(() => {
+      createObserver();
+    });
+
+    // Garante que os refs dos cards sejam limpos antes de cada atualização
+    onBeforeUpdate(() => {
+      projectCards.value = [];
+    });
+
+    return {
+      // Retorna os refs para que possam ser usados no template
+      sectionHeader,
+      projectCards,
+    };
+  },
   data() {
     return {
-      activeFilter: "all",
-      selectedProject: null,
-      filters: [
-        { name: "Todos", value: "all" },
-        { name: "Website & Sistema", value: "Website & Sistema" },
-        { name: "Plataforma Educacional", value: "Plataforma Educacional" },
-        { name: "E-commerce", value: "E-commerce" },
-        { name: "Identidade Visual", value: "Identidade Visual / Ilustração" },
-      ],
       projects: [
         {
           id: 1,
@@ -228,22 +262,21 @@ export default {
           category: "Website & Sistema",
           client: "TechCorp Inc.",
           year: "2023",
-          thumbnail:
-            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800",
+          thumbnail: require("@/assets/images/banners/sistemaControle.jpg"),
           images: [
-            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800",
-            "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800",
+            require("@/assets/images/banners/sistemaControle.jpg"),
+            require("@/assets/images/banners/sistemaControle.jpg"),
           ],
           technologies: ["Vue.js", "Node.js", "TensorFlow.js", "MongoDB"],
           challenge:
-            "A empresa enfrentava dificuldades em manter o controle preciso de seus estoques, o que resultava em:\n- erros manuais nos lançamentos de dados,\n- Falta de previsibilidade sobre quando repor produtos.\n- Perdas financeiras com excesso ou falta de mercadoria.\n- Falta de integração entre os setores de vendas e logística.",
+            "A empresa enfrentava dificuldades em manter o controle preciso de seus estoques, o que resultava em:\n- erros manuais nos lacamentos de dados,\n- Falta de previsibilidade sobre quando repor produtos.\n- Perdas financeiras com excesso ou falta de mercadoria.\n- Falta de integração entre os setores de vendas e logística.",
           solution: [
             "Desenvolvemos uma plataforma web com IA integrada que.",
-            "Analisa os padrões de entrada e saída de produtos em tempo real.",
-            "Utiliza modelos de machine learning para prever demandas futuras com base em histórico, sazonalidade e comportamento de vendas.",
-            "Automatiza alertas de reposição com base em regras inteligentes personalizadas.",
-            "Gera relatórios dinâmicos com recomendações de ação.",
-            "Integra com sistemas de venda (ERP, e-commerce) para decisões mais rápidas e assertivas.",
+            "--Analisa os padrões de entrada e saída de produtos em tempo real.",
+            "-- Utiliza modelos de machine learning para prever demandas futuras com base em histórico, sazonalidade e comportamento de vendas.",
+            "--Automatiza alertas de reposição com base em regras inteligentes personalizadas.",
+            "--Gera relatórios dinâmicos com recomendações de ação.",
+            "--Integra com sistemas de venda (ERP, e-commerce) para decisões mais rápidas e assertivas.",
           ],
           results: [
             "Redução de 70% no tempo de processos",
@@ -255,27 +288,21 @@ export default {
         },
         {
           id: 2,
-          title: "Instituto Educar: Educação Digital",
+          title:
+            "Instituto Educar: Educação Digital com Conexão entre Escola, Alunos e Pais",
           category: "Plataforma Educacional",
           client: "EduTech Solutions",
           year: "2024",
-          thumbnail:
-            "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800",
+          thumbnail: require("@/assets/images/banners/institutoEducar.png"),
           images: [
-            "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800",
-            "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800",
+            require("@/assets/images/banners/institutoEducar.png"),
+            require("@/assets/images/banners/institutoEducar.png"),
           ],
           technologies: ["React", "Firebase", "Stripe", "WebRTC"],
           challenge:
             "O instituto precisava modernizar seus processos de matrícula e melhorar a comunicação com pais e alunos. As informações eram descentralizadas e o controle manual dificultava o acompanhamento pedagógico e financeiro.",
-          solution: [
-            "Criamos uma plataforma web segura com:",
-            "Área restrita para pais e alunos com login individual.",
-            "Histórico escolar, atividades e boletins acessíveis online.",
-            "Notificações em tempo real e canal direto com a coordenação.",
-            "Sistema de matrícula online com upload de documentos, status e assinatura digital.",
-            "Painel administrativo para gestão de turmas, calendários e relatórios.",
-          ],
+          solution:
+            "Criamos uma plataforma web segura com:\n-Área restrita para pais e alunos com login individual.\n- Histórico escolar, atividades e boletins acessíveis online. \n- Notificações em tempo real e canal direto com a coordenação. \n- Sistema de matrícula online com upload de documentos, status e assinatura digital.\n- Painel administrativo para gestão de turmas, calendários e relatórios.   ",
           results: [
             "85% dos processos de matrícula digitalizados em 3 meses.",
             "Redução de 60% no volume de atendimento telefônico.",
@@ -286,28 +313,21 @@ export default {
         },
         {
           id: 3,
-          title: "Loja Virtual Boutique Elegance",
+          title:
+            "Loja Virtual Boutique Elegance, com foco em moda feminina premium",
           category: "E-commerce",
           client: "Boutique Elegance",
           year: "2023",
-          thumbnail:
-            "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800",
+          thumbnail: require("@/assets/images/banners/BoutiqueElegance.png"),
           images: [
-            "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800",
-            "https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=800",
+            require("@/assets/images/banners/BoutiqueElegance.png"),
+            require("@/assets/images/banners/BoutiqueElegance.png"),
           ],
           technologies: ["Vue.js", "Shopify", "Tailwind CSS", "Algolia"],
           challenge:
             "A marca precisava lançar sua primeira loja online com identidade visual refinada, navegação fluida e um processo de compra que transmitisse o valor da boutique. Além disso, era essencial que o site fosse rápido, mobile-first e com gestão simples de produtos.",
-          solution: [
-            "Design moderno, minimalista e elegante, inspirado no estilo da boutique:",
-            "Layout responsivo e performance otimizada para mobile.",
-            "Sistema de catálogo com controle de estoque, variações e categorias inteligentes.",
-            "Integração com gateway de pagamento seguro",
-            "Painel administrativo intuitivo com relatórios de pedidos e clientes.",
-            "SEO otimizado e integração com redes sociais.",
-            "Algolia para busca rápida e precisa de produtos.",
-          ],
+          solution:
+            "Design moderno, minimalista e elegante, inspirado no estilo da boutique:\n- Layout responsivo e performance otimizada para mobile.\n- Sistema de catálogo com controle de estoque, variações e categorias inteligentes.\n- Integração com gateway de pagamento seguro\n- Painel administrativo intuitivo com relatórios de pedidos e clientes.\n- SEO otimizado e integração com redes sociais.\n- Algolia para busca rápida e precisa de produtos.",
           results: [
             "Primeira venda realizada em menos de 48h após o lançamento.",
             "Crescimento de 70% nas visitas orgânicas em 2 meses.",
@@ -322,19 +342,16 @@ export default {
           category: "Identidade Visual / Ilustração",
           client: "Neoblog",
           year: "2025",
-          thumbnail:
-            "https://images.unsplash.com/photo-1626785774573-4b799315345d?w=800",
+          thumbnail: require("@/assets/images/banners/neoblog.jpg"),
           images: [
-            "https://images.unsplash.com/photo-1626785774573-4b799315345d?w=800",
-            "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800",
+            require("@/assets/images/banners/neoblog2.jpg"),
+            require("@/assets/images/banners/neoblog.jpg"),
           ],
           technologies: ["Adobe Photoshop"],
           challenge:
             "O Neoblog precisava de uma identidade visual única e memorável, algo que representasse inovação, curiosidade e proximidade com o público jovem e criativo. O objetivo era criar um mascote que fosse carismático e pudesse ser utilizado em várias aplicações visuais do site e redes sociais.",
-          solution: [
-            "Criamos um mascote exclusivo com estilo cartoon, que transmite simpatia, inteligência e dinamismo.",
-            "O personagem foi pensado para interagir com os leitores do blog em diversas aplicações.",
-          ],
+          solution:
+            "Criamos um mascote exclusivo com estilo cartoon, que transmite simpatia, inteligência e dinamismo. O personagem foi pensado para interagir com os leitores do blog em:",
           results: [
             "Aumento do engajamento em postagens com o mascote.",
             "Visitantes reconhecendo e comentando sobre o personagem.",
@@ -344,52 +361,43 @@ export default {
           githubUrl: "/contato",
         },
       ],
+      selectedProject: null,
     };
   },
   computed: {
-    filteredProjects() {
-      if (this.activeFilter === "all") {
-        return this.projects;
-      }
-      return this.projects.filter(
-        (project) => project.category === this.activeFilter
-      );
-    },
     challengeItems() {
-      if (this.selectedProject && this.selectedProject.challenge) {
-        return this.selectedProject.challenge
-          .split("\n")
-          .map((item) => item.trim())
-          .filter((item) => item.length > 0);
-      }
-      return [];
+      if (!this.selectedProject || !this.selectedProject.challenge) return [];
+      // Divide a string por quebras de linha, remove itens vazios e espaços extras.
+      return this.selectedProject.challenge
+        .split("\n")
+        .map((item) => item.trim())
+        .filter((item) => item.length > 0);
     },
     solutionItems() {
-      if (this.selectedProject && this.selectedProject.solution) {
-        // Check if solution is an array or a string
-        if (Array.isArray(this.selectedProject.solution)) {
-          return this.selectedProject.solution
-            .map((item) => item.trim())
-            .filter((item) => item.length > 0);
-        }
+      if (!this.selectedProject || !this.selectedProject.solution) return [];
+      // Se já for um array, usa diretamente.
+      if (Array.isArray(this.selectedProject.solution)) {
         return this.selectedProject.solution
-          .split("\n")
           .map((item) => item.trim())
           .filter((item) => item.length > 0);
       }
-      return [];
+      // Se for uma string, divide por quebras de linha.
+      return this.selectedProject.solution
+        .split("\n")
+        .map((item) => item.trim())
+        .filter((item) => item.length > 0);
     },
   },
   methods: {
-    openModal(project) {
+    openOverlay(project) {
       this.selectedProject = project;
       document.body.style.overflow = "hidden";
     },
-    closeModal() {
+    closeOverlay() {
       this.selectedProject = null;
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = "";
     },
-    getTechIcon(techName) {
+    getTechIcon(tech) {
       const icons = {
         "Vue.js": "https://cdn.worldvectorlogo.com/logos/vue-9.svg",
         "Node.js": "https://cdn.worldvectorlogo.com/logos/nodejs-icon.svg",
@@ -414,204 +422,215 @@ export default {
           "https://cdn.worldvectorlogo.com/logos/after-effects-cc.svg",
       };
       return (
-        icons[techName] ||
-        "https://cdn.worldvectorlogo.com/logos/javascript.svg"
-      ); // Fallback icon
+        icons[tech] || "https://cdn.worldvectorlogo.com/logos/javascript.svg"
+      );
     },
   },
 };
 </script>
 
 <style scoped>
-.portfolio-container {
+.featured-projects {
+  padding: 5rem 2rem;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 5rem 2rem;
-  font-family: "Inter", sans-serif;
 }
 
-.section-title {
+.section-header {
   text-align: center;
-  font-size: 2.8rem;
-  font-weight: 800;
+  margin-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.section-header h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
   margin-bottom: 1rem;
   color: #1e293b;
-  letter-spacing: -1px;
+  display: block;
 }
 
 .highlight {
-  color: #3b82f6;
+  color: #0052ff;
+  position: relative;
+  z-index: 10;
 }
 
-.section-subtitle {
-  text-align: center;
+.highlight::after {
+  content: "";
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background: rgba(111, 221, 60, 0.3);
+  z-index: -1;
+  border-radius: 4px;
+}
+
+.subtitle {
+  font-size: 1.1rem;
   color: #64748b;
-  font-size: 1.15rem;
-  margin-bottom: 3rem;
   max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-  line-height: 1.6;
-}
-
-.filters {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 3.5rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.filters button {
-  padding: 10px 20px;
-  border: 2px solid #e2e8f0;
-  background: transparent;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 600;
-  color: #64748b;
-  font-size: 0.9rem;
-}
-
-.filters button:hover {
-  background-color: #f8fafc;
-  border-color: #cbd5e1;
-}
-
-.filters button.active {
-  background: #3b82f6;
-  color: white;
-  border-color: #3b82f6;
-  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.25);
+  margin: 0 auto;
+  display: block;
 }
 
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
 }
 
 .project-card {
   position: relative;
-  border-radius: 15px;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  height: 380px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.6s ease-out,
+    transform 0.6s ease-out;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  background: #fff;
-  border: 1px solid #e2e8f0;
 }
 
 .project-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
 .card-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 220px;
-  object-fit: cover;
+  height: 100%;
   background-size: cover;
   background-position: center;
+  transition: transform 0.5s ease;
+}
+
+.project-card:hover .card-bg {
+  transform: scale(1.05);
 }
 
 .card-content {
-  padding: 1.5rem;
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  color: white;
 }
 
-.category-badge {
-  display: inline-block;
-  background-color: #eef2ff;
-  color: #4338ca;
-  padding: 4px 12px;
-  border-radius: 9999px;
-  font-size: 0.75rem;
+.category {
+  font-size: 0.8rem;
   font-weight: 600;
-  margin-bottom: 1rem;
+  color: #e2e8f0;
+  margin-bottom: 0.5rem;
 }
 
-.card-content h3 {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #1e293b;
-  margin-bottom: 0.75rem;
-  line-height: 1.4;
+.project-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  line-height: 1.3;
 }
 
 .tech-tags {
   display: flex;
-  flex-wrap: wrap;
   gap: 0.5rem;
+  flex-wrap: wrap;
   margin-bottom: 1.5rem;
 }
 
 .tech-tags span {
-  background-color: #f1f5f9;
-  color: #475569;
-  padding: 4px 10px;
-  border-radius: 6px;
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-.tech-plus {
-  font-weight: 700 !important;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
 }
 
 .view-btn {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: none;
-  border: none;
-  color: #3b82f6;
+  background: transparent;
+  border: 2px solid white;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
   font-weight: 600;
   cursor: pointer;
-  padding: 0;
-  transition: gap 0.3s ease;
+  transition: all 0.3s ease;
+  width: fit-content;
 }
 
 .view-btn:hover {
-  gap: 0.75rem;
+  background: white;
+  color: #1e293b;
 }
 
-/* Modal styles */
+.view-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.view-btn:hover svg {
+  transform: translateX(4px);
+}
+
+/* Modal Styles */
 .project-modal {
   position: fixed;
-  inset: 0;
-  background: rgba(15, 23, 42, 0.8);
-  backdrop-filter: blur(8px);
-  z-index: 1000;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1000;
   padding: 2rem;
 }
 
 .modal-content {
-  background: #f8fafc;
+  background: white;
   border-radius: 16px;
+  max-width: 1200px;
   width: 100%;
-  max-width: 1100px;
   max-height: 90vh;
-  display: grid;
-  grid-template-rows: auto 1fr;
-  overflow: hidden;
+  overflow-y: auto;
   position: relative;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.close-btn {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #64748b;
+  z-index: 10;
+}
+
+.close-btn:hover {
+  color: #1e293b;
 }
 
 .modal-gallery {
-  grid-row: 1 / 2;
-  height: 400px;
+  padding: 2rem;
 }
 
 .main-image {
-  width: 100%;
-  height: 100%;
+  height: 400px;
+  border-radius: 8px;
+  overflow: hidden;
 }
+
 .main-image img {
   width: 100%;
   height: 100%;
@@ -619,164 +638,209 @@ export default {
 }
 
 .modal-details {
-  grid-row: 2 / 3;
-  overflow-y: auto;
-  padding: 2.5rem;
+  padding: 0 2rem 2rem;
 }
 
-.details-header {
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid #e2e8f0;
-  margin-bottom: 2rem;
-}
-
-.details-header .badge {
-  background-color: #e0f2fe;
-  color: #0284c7;
-  padding: 5px 15px;
+.badge {
+  background: #6366f1;
+  color: white;
+  padding: 0.25rem 0.75rem;
   border-radius: 20px;
   font-size: 0.8rem;
   font-weight: 600;
   display: inline-block;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
 }
 
-.details-header h2 {
-  font-size: 2.25rem;
-  font-weight: 800;
+.modal-details h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
   color: #1e293b;
-  margin-bottom: 0.5rem;
 }
 
-.details-header .meta {
+.meta {
   display: flex;
   gap: 1.5rem;
   color: #64748b;
   font-size: 0.9rem;
+  margin-bottom: 2rem;
 }
 
 .details-body {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  gap: 3rem;
+  gap: 2rem;
 }
 
 .description h3 {
   font-size: 1.25rem;
-  font-weight: 700;
-  color: #334155;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-}
-.description h3:first-child {
-  margin-top: 0;
+  margin: 1.5rem 0 1rem;
+  color: #1e293b;
 }
 
-.description ul {
+.description p {
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.results {
   list-style: none;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
 }
 
-.description li {
+.results li {
+  margin-bottom: 0.75rem;
   display: flex;
   align-items: flex-start;
-  gap: 0.75rem;
-  color: #475569;
-  line-height: 1.6;
-}
-
-.description li svg {
-  flex-shrink: 0;
-  margin-top: 4px;
-  color: #3b82f6;
+  gap: 0.5rem;
+  color: #64748b;
 }
 
 .results li svg {
-  color: #10b981;
+  color: #6366f1;
+  flex-shrink: 0;
+  margin-top: 2px;
 }
 
-.sidebar .tech-stack {
-  background: #fff;
+.sidebar {
+  background: #f8fafc;
+  border-radius: 8px;
   padding: 1.5rem;
-  border-radius: 12px;
-  border: 1px solid #e2e8f0;
+  align-self: flex-start;
 }
 
 .tech-stack h4 {
   font-size: 1.1rem;
-  font-weight: 600;
   margin-bottom: 1rem;
-  color: #334155;
+  color: #1e293b;
 }
 
 .tech-icons {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
 .tech-icons > div {
   display: flex;
-  flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  text-align: center;
 }
 
 .tech-icons img {
-  width: 32px;
-  height: 32px;
-  object-fit: contain;
+  width: 24px;
+  height: 24px;
 }
 
 .tech-icons span {
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   color: #64748b;
-  font-weight: 500;
 }
 
 .project-cta {
-  margin-top: 2rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
-.project-cta a {
+.live-link,
+.github-link {
   display: block;
   text-align: center;
-  padding: 12px;
+  padding: 0.75rem;
   border-radius: 8px;
+  font-weight: 500;
   text-decoration: none;
-  font-weight: 600;
   transition: all 0.3s ease;
 }
 
 .live-link {
-  background-color: #3b82f6;
+  background: #3b82f6;
   color: white;
 }
+
 .live-link:hover {
-  background-color: #2563eb;
+  background: #2563eb;
 }
 
 .github-link {
-  background-color: #1e293b;
+  background: #1e293b;
   color: white;
 }
+
 .github-link:hover {
-  background-color: #0f172a;
+  background: #0f172a;
 }
 
+/* Animations */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s ease;
 }
+
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+/* Estilos para a animação de entrada */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.animate-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .details-body {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .section-header h2 {
+    font-size: 2rem;
+  }
+
+  .modal-gallery {
+    padding: 1rem;
+  }
+
+  .main-image {
+    height: 300px;
+  }
+
+  .modal-details {
+    padding: 0 1rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .featured-projects {
+    padding: 3rem 1rem;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-card {
+    height: 320px;
+  }
+
+  .card-content {
+    padding: 1.5rem;
+  }
 }
 </style>

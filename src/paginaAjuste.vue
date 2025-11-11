@@ -1,846 +1,928 @@
 <template>
-  <section class="featured-projects">
-    <div class="section-header" ref="sectionHeader">
-      <h2>Projetos <span class="highlight">Recentes</span></h2>
-      <p class="subtitle">Explore Nossos Projetos Desenvolvidos Recentemente</p>
-    </div>
-
-    <div class="projects-grid">
-      <!-- Loop para renderizar os cards de projeto dinamicamente -->
-      <article
-        v-for="(project, index) in projects"
-        :key="project.id"
-        class="project-card"
-        @click="openOverlay(project)"
-        :ref="
-          (el) => {
-            if (el) projectCards[index] = el;
-          }
-        "
-      >
-        <div
-          class="card-bg"
-          :style="{ backgroundImage: `url(${project.thumbnail})` }"
-        ></div>
-        <div class="card-content">
-          <span class="category">{{ project.category }}</span>
-          <h3>{{ project.title }}</h3>
-          <div class="tech-tags">
-            <span
-              v-for="(tech, i) in project.technologies.slice(0, 3)"
-              :key="i"
-              >{{ tech }}</span
-            >
-          </div>
-          <button class="view-btn">
-            Ver Detalhes
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M5 12H19M19 12L12 5M19 12L12 19"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+  <div class="mascot-page">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-content">
+        <h1>
+          Mascotes <span class="highlight">Inteligentes</span> para sua Marca
+        </h1>
+        <p class="subtitle">
+          Personagens únicos gerados por IA de alto nível, prontos para
+          conquistar seu público
+        </p>
+        <div class="cta-container">
+          <button class="cta-button" @click="scrollToExamples">
+            Ver Exemplos
+          </button>
+          <button class="secondary-button" @click="scrollToProcess">
+            Como Funciona
           </button>
         </div>
-      </article>
-    </div>
+      </div>
+      <div class="hero-mascot">
+        <img
+          :src="heroMascotUrl"
+          alt="Mascote Inteligente"
+          class="mascot-image"
+          style="width: 100%; max-width: 500px; border-radius: 16px"
+        />
+      </div>
+    </section>
 
-    <!-- Modal de Detalhes -->
-    <transition name="fade">
-      <div
-        class="project-modal"
-        v-if="selectedProject"
-        @click.self="closeOverlay"
-      >
-        <div class="modal-content">
-          <button class="close-btn" @click="closeOverlay">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M18 6L6 18M6 6L18 18"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </button>
+    <!-- USP Section -->
+    <section class="usp-section">
+      <h2>Por que ter um mascote gerado por IA?</h2>
+      <div class="usp-grid">
+        <div class="usp-card">
+          <div class="usp-icon">🤖</div>
+          <h3>Tecnologia de Ponta</h3>
+          <p>
+            Utilizamos modelos de IA especializados em design de personagens com
+            consistência absoluta
+          </p>
+        </div>
+        <div class="usp-card">
+          <div class="usp-icon">⚡</div>
+          <h3>Versatilidade Ilimitada</h3>
+          <p>
+            Seu mascote em qualquer pose, expressão ou situação que sua campanha
+            precisar
+          </p>
+        </div>
+        <div class="usp-card">
+          <div class="usp-icon">🎨</div>
+          <h3>Adaptação Perfeita</h3>
+          <p>Integração perfeita em todos os materiais da sua marca</p>
+        </div>
+      </div>
+    </section>
 
-          <div class="modal-gallery">
-            <div class="main-image">
-              <img
-                :src="selectedProject.images[0]"
-                :alt="selectedProject.title"
-                loading="lazy"
-              />
+    <!-- AI Showcase -->
+    <section class="ai-showcase">
+      <div class="showcase-content">
+        <h2>IA Generativa Especializada</h2>
+        <p>
+          Nossos modelos proprietários foram treinados especificamente para:
+        </p>
+        <ul class="ai-features">
+          <li>Manter consistência em diferentes poses e ângulos</li>
+          <li>Preservar características únicas da marca</li>
+          <li>Gerar variações coerentes em segundos</li>
+          <li>Criar expressões faciais e corporais naturais</li>
+        </ul>
+        <button class="cta-button">Quero meu Mascote IA</button>
+      </div>
+      <div class="showcase-visual">
+        <div class="mascot-variations">
+          <img
+            v-for="(variation, index) in variations"
+            :key="index"
+            :src="variation"
+            :alt="'Mascote variação ' + (index + 1)"
+            class="mascot-variation"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Examples Section -->
+    <section class="examples-section" id="examples">
+      <h2>O que você pode fazer com seu mascote IA</h2>
+      <p class="section-description">
+        Aplicações práticas para potencializar sua comunicação
+      </p>
+
+      <div class="examples-grid">
+        <div class="example-card">
+          <div
+            class="example-image"
+            :style="{
+              backgroundImage: `url(${examples.print})`,
+            }"
+          >
+            <div class="example-overlay">
+              <h3>Materiais Impressos</h3>
+              <p>Flyers, cartazes, embalagens e muito mais</p>
             </div>
           </div>
-
-          <div class="modal-details">
-            <div class="details-header">
-              <span class="badge">{{ selectedProject.category }}</span>
-              <h2>{{ selectedProject.title }}</h2>
-              <div class="meta">
-                <span
-                  ><strong>Cliente:</strong> {{ selectedProject.client }}</span
-                >
-                <span><strong>Ano:</strong> {{ selectedProject.year }}</span>
-              </div>
+        </div>
+        <div class="example-card">
+          <div
+            class="example-image"
+            :style="{
+              backgroundImage: `url(${examples.digital})`,
+            }"
+          >
+            <div class="example-overlay">
+              <h3>Banners Digitais</h3>
+              <p>Anúncios, redes sociais e sites</p>
             </div>
-
-            <div class="details-body">
-              <div class="description">
-                <!-- O Desafio como lista -->
-                <h3>O Desafio</h3>
-                <ul class="results" v-if="challengeItems.length">
-                  <li
-                    v-for="(item, index) in challengeItems"
-                    :key="`challenge-${index}`"
-                  >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                      <path
-                        d="M20 6L9 17L4 12"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                    {{ item }}
-                  </li>
-                </ul>
-
-                <!-- Nossa Solução como lista -->
-                <h3>Nossa Solução</h3>
-                <ul class="results" v-if="solutionItems.length">
-                  <li
-                    v-for="(item, index) in solutionItems"
-                    :key="`solution-${index}`"
-                  >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                      <path
-                        d="M20 6L9 17L4 12"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                    {{ item }}
-                  </li>
-                </ul>
-
-                <!-- Resultados (mantido igual) -->
-                <h3>Resultados</h3>
-                <ul class="results">
-                  <li v-for="(result, i) in selectedProject.results" :key="i">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                      <path
-                        d="M20 6L9 17L4 12"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                    {{ result }}
-                  </li>
-                </ul>
-              </div>
-
-              <div class="sidebar">
-                <div class="tech-stack">
-                  <h4>Tecnologias</h4>
-                  <div class="tech-icons">
-                    <div
-                      v-for="(tech, i) in selectedProject.technologies"
-                      :key="i"
-                    >
-                      <img
-                        :src="getTechIcon(tech)"
-                        :alt="tech"
-                        :title="tech"
-                        loading="lazy"
-                      />
-                      <span>{{ tech }}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="project-cta">
-                  <a
-                    v-if="selectedProject.liveUrl"
-                    :href="selectedProject.liveUrl"
-                    target="_blank"
-                    class="live-link"
-                  >
-                    Ver Detalhes
-                  </a>
-                  <a
-                    v-if="selectedProject.githubUrl"
-                    :href="selectedProject.githubUrl"
-                    target="_blank"
-                    class="github-link"
-                  >
-                    Entre em Contato
-                  </a>
-                </div>
-              </div>
+          </div>
+        </div>
+        <div class="example-card">
+          <div
+            class="example-image"
+            :style="{
+              backgroundImage: `url(${examples.animation})`,
+            }"
+          >
+            <div class="example-overlay">
+              <h3>Animações e Vídeos</h3>
+              <p>Motion graphics e explicações animadas</p>
+            </div>
+          </div>
+        </div>
+        <div class="example-card">
+          <div
+            class="example-image"
+            :style="{
+              backgroundImage: `url(${examples.merch})`,
+            }"
+          >
+            <div class="example-overlay">
+              <h3>Merchandising</h3>
+              <p>Camisetas, canecas e produtos licenciados</p>
             </div>
           </div>
         </div>
       </div>
-    </transition>
-  </section>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process-section" id="process">
+      <h2>Nosso Processo de Criação</h2>
+      <p class="section-description">
+        Do conceito inicial ao mascote pronto para uso em todas as plataformas
+      </p>
+
+      <div class="process-steps">
+        <div class="process-step">
+          <div class="step-number">1</div>
+          <h3>Briefing Criativo</h3>
+          <p>Definimos personalidade, traços e conexão com sua marca</p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">2</div>
+          <h3>Geração por IA</h3>
+          <p>
+            Criamos as primeiras versões usando nossos modelos proprietários
+          </p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">3</div>
+          <h3>Refinamento Manual</h3>
+          <p>Designers especializados ajustam detalhes e garantem qualidade</p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">4</div>
+          <h3>Produção de Variantes</h3>
+          <p>Criamos todas as poses e expressões necessárias</p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">5</div>
+          <h3>Entrega Completa</h3>
+          <p>Você recebe pacote com todas as versões e formatos</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Packages Section -->
+    <section class="packages-section">
+      <h2>Pacotes Completos</h2>
+      <p class="section-description">
+        Soluções adaptáveis para diferentes necessidades
+      </p>
+
+      <div class="packages-grid">
+        <div class="package-card">
+          <h3>Básico</h3>
+          <div class="price">R$ 1.900</div>
+          <ul class="features">
+            <li>1 mascote em 5 poses diferentes</li>
+            <li>3 expressões faciais</li>
+            <li>Arquivos PNG transparente</li>
+            <li>2 revisões de conceito</li>
+          </ul>
+          <button class="package-button">Contratar</button>
+        </div>
+
+        <div class="package-card popular">
+          <div class="popular-tag">MAIS PEDIDO</div>
+          <h3>Completo</h3>
+          <div class="price">R$ 3.500</div>
+          <ul class="features">
+            <li>1 mascote em 12 poses diferentes</li>
+            <li>6 expressões faciais</li>
+            <li>Arquivos vetoriais (AI, EPS)</li>
+            <li>5 revisões ilimitadas</li>
+            <li>2 variações de cor</li>
+            <li>1 animação simples (GIF)</li>
+          </ul>
+          <button class="package-button">Contratar</button>
+        </div>
+
+        <div class="package-card">
+          <h3>Enterprise</h3>
+          <div class="price">R$ 6.900+</div>
+          <ul class="features">
+            <li>Mascote principal + 2 secundários</li>
+            <li>Poses ilimitadas por 1 ano</li>
+            <li>Expressões faciais ilimitadas</li>
+            <li>Arquivos vetoriais e camadas PSD</li>
+            <li>Revisões ilimitadas</li>
+            <li>3 animações profissionais</li>
+            <li>Manual de uso da marca</li>
+          </ul>
+          <button class="package-button">Contratar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+      <h2>O que dizem nossos clientes</h2>
+      <p class="section-description">
+        Marcas que transformaram sua comunicação com nossos mascotes IA
+      </p>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="client-info">
+            <div
+              class="client-avatar"
+              :style="{
+                backgroundImage: `url(${testimonials.client1})`,
+              }"
+            ></div>
+            <div class="client-details">
+              <h4>Carlos Mendes</h4>
+              <p>CEO da EcoKids</p>
+            </div>
+          </div>
+          <div class="testimonial-text">
+            <p>
+              "O mascote que criaram se tornou o rosto da nossa marca. As
+              crianças adoram e o reconhecem em qualquer material que
+              publicamos!"
+            </p>
+          </div>
+          <div class="client-results">
+            <div class="result">
+              <span class="value">+65%</span>
+              <span class="label">engajamento</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="client-info">
+            <div
+              class="client-avatar"
+              :style="{
+                backgroundImage: `url(${testimonials.client2})`,
+              }"
+            ></div>
+            <div class="client-details">
+              <h4>Ana Souza</h4>
+              <p>CMO da TechSolutions</p>
+            </div>
+          </div>
+          <div class="testimonial-text">
+            <p>
+              "A capacidade de gerar variações consistentes em minutos
+              revolucionou nossas campanhas. Podemos testar diferentes
+              abordagens com o mesmo personagem."
+            </p>
+          </div>
+          <div class="client-results">
+            <div class="result">
+              <span class="value">3x</span>
+              <span class="label">mais rápido</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <h2>Pronto para dar vida à sua marca?</h2>
+      <p>
+        Solicite um orçamento personalizado e receba conceitos iniciais em 24h
+      </p>
+      <button class="cta-button">Criar meu Mascote IA</button>
+    </section>
+  </div>
 </template>
 
 <script>
-import { onMounted, onBeforeUpdate, ref } from "vue";
-
 export default {
-  name: "FeaturedProjects",
-  setup() {
-    // Refs para os elementos que queremos animar
-    const sectionHeader = ref(null);
-    const projectCards = ref([]);
-
-    // Função para criar e configurar o IntersectionObserver
-    const createObserver = () => {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("is-visible");
-              observer.unobserve(entry.target); // Para a observação após a animação
-            }
-          });
-        },
-        {
-          threshold: 0.1, // Anima quando 10% do elemento está visível
-        }
-      );
-
-      // Observa o cabeçalho
-      if (sectionHeader.value) {
-        sectionHeader.value.classList.add("animate-on-scroll");
-        observer.observe(sectionHeader.value);
-      }
-
-      // Observa cada card de projeto com um pequeno atraso na transição
-      projectCards.value.forEach((card, index) => {
-        if (card) {
-          card.classList.add("animate-on-scroll");
-          card.style.transitionDelay = `${index * 100}ms`;
-          observer.observe(card);
-        }
-      });
-    };
-
-    onMounted(() => {
-      createObserver();
-    });
-
-    // Garante que os refs dos cards sejam limpos antes de cada atualização
-    onBeforeUpdate(() => {
-      projectCards.value = [];
-    });
-
-    return {
-      // Retorna os refs para que possam ser usados no template
-      sectionHeader,
-      projectCards,
-    };
-  },
+  name: "MascotPage",
   data() {
     return {
-      projects: [
-        {
-          id: 1,
-          title: "Dashboard com IA para Controle de Estoque",
-          category: "Website & Sistema",
-          client: "TechCorp Inc.",
-          year: "2023",
-          thumbnail: require("@/assets/images/banners/sistemaControle.jpg"),
-          images: [
-            require("@/assets/images/banners/sistemaControle.jpg"),
-            require("@/assets/images/banners/sistemaControle.jpg"),
-          ],
-          technologies: ["Vue.js", "Node.js", "TensorFlow.js", "MongoDB"],
-          challenge:
-            "A empresa enfrentava dificuldades em manter o controle preciso de seus estoques, o que resultava em:\n- erros manuais nos lacamentos de dados,\n- Falta de previsibilidade sobre quando repor produtos.\n- Perdas financeiras com excesso ou falta de mercadoria.\n- Falta de integração entre os setores de vendas e logística.",
-          solution: [
-            "Desenvolvemos uma plataforma web com IA integrada que.",
-            "--Analisa os padrões de entrada e saída de produtos em tempo real.",
-            "-- Utiliza modelos de machine learning para prever demandas futuras com base em histórico, sazonalidade e comportamento de vendas.",
-            "--Automatiza alertas de reposição com base em regras inteligentes personalizadas.",
-            "--Gera relatórios dinâmicos com recomendações de ação.",
-            "--Integra com sistemas de venda (ERP, e-commerce) para decisões mais rápidas e assertivas.",
-          ],
-          results: [
-            "Redução de 70% no tempo de processos",
-            "Aumento de 40% na satisfação do cliente",
-            "Crescimento de 25% na retenção",
-          ],
-          liveUrl: "/portfolio/sistemas-web",
-          githubUrl: "/contato",
-        },
-        {
-          id: 2,
-          title:
-            "Instituto Educar: Educação Digital com Conexão entre Escola, Alunos e Pais",
-          category: "Plataforma Educacional",
-          client: "EduTech Solutions",
-          year: "2024",
-          thumbnail: require("@/assets/images/banners/institutoEducar.png"),
-          images: [
-            require("@/assets/images/banners/institutoEducar.png"),
-            require("@/assets/images/banners/institutoEducar.png"),
-          ],
-          technologies: ["React", "Firebase", "Stripe", "WebRTC"],
-          challenge:
-            "O instituto precisava modernizar seus processos de matrícula e melhorar a comunicação com pais e alunos. As informações eram descentralizadas e o controle manual dificultava o acompanhamento pedagógico e financeiro.",
-          solution:
-            "Criamos uma plataforma web segura com:\n-Área restrita para pais e alunos com login individual.\n- Histórico escolar, atividades e boletins acessíveis online. \n- Notificações em tempo real e canal direto com a coordenação. \n- Sistema de matrícula online com upload de documentos, status e assinatura digital.\n- Painel administrativo para gestão de turmas, calendários e relatórios.   ",
-          results: [
-            "85% dos processos de matrícula digitalizados em 3 meses.",
-            "Redução de 60% no volume de atendimento telefônico.",
-            "Melhoria na satisfação dos pais e transparência com alunos.",
-          ],
-          liveUrl: "/portfolio/site-institucional",
-          githubUrl: "/contato",
-        },
-        {
-          id: 3,
-          title:
-            "Loja Virtual Boutique Elegance, com foco em moda feminina premium",
-          category: "E-commerce",
-          client: "Boutique Elegance",
-          year: "2023",
-          thumbnail: require("@/assets/images/banners/BoutiqueElegance.png"),
-          images: [
-            require("@/assets/images/banners/BoutiqueElegance.png"),
-            require("@/assets/images/banners/BoutiqueElegance.png"),
-          ],
-          technologies: ["Vue.js", "Shopify", "Tailwind CSS", "Algolia"],
-          challenge:
-            "A marca precisava lançar sua primeira loja online com identidade visual refinada, navegação fluida e um processo de compra que transmitisse o valor da boutique. Além disso, era essencial que o site fosse rápido, mobile-first e com gestão simples de produtos.",
-          solution:
-            "Design moderno, minimalista e elegante, inspirado no estilo da boutique:\n- Layout responsivo e performance otimizada para mobile.\n- Sistema de catálogo com controle de estoque, variações e categorias inteligentes.\n- Integração com gateway de pagamento seguro\n- Painel administrativo intuitivo com relatórios de pedidos e clientes.\n- SEO otimizado e integração com redes sociais.\n- Algolia para busca rápida e precisa de produtos.",
-          results: [
-            "Primeira venda realizada em menos de 48h após o lançamento.",
-            "Crescimento de 70% nas visitas orgânicas em 2 meses.",
-            "Redução de 50% no abandono de carrinho com checkout otimizado.",
-          ],
-          liveUrl: "/portfolio/lojas-virtuais",
-          githubUrl: "/contato",
-        },
-        {
-          id: 4,
-          title: "Mascote Oficial do Neoblog",
-          category: "Identidade Visual / Ilustração",
-          client: "Neoblog",
-          year: "2025",
-          thumbnail: require("@/assets/images/banners/neoblog.jpg"),
-          images: [
-            require("@/assets/images/banners/neoblog2.jpg"),
-            require("@/assets/images/banners/neoblog.jpg"),
-          ],
-          technologies: ["Adobe Photoshop"],
-          challenge:
-            "O Neoblog precisava de uma identidade visual única e memorável, algo que representasse inovação, curiosidade e proximidade com o público jovem e criativo. O objetivo era criar um mascote que fosse carismático e pudesse ser utilizado em várias aplicações visuais do site e redes sociais.",
-          solution:
-            "Criamos um mascote exclusivo com estilo cartoon, que transmite simpatia, inteligência e dinamismo. O personagem foi pensado para interagir com os leitores do blog em:",
-          results: [
-            "Aumento do engajamento em postagens com o mascote.",
-            "Visitantes reconhecendo e comentando sobre o personagem.",
-            "Fortalecimento da marca visual do Neoblog.",
-          ],
-          liveUrl: "/portfolio/mascotes-personalizados",
-          githubUrl: "/contato",
-        },
+      heroMascotUrl:
+        "https://images.unsplash.com/photo-1690765133939-556d40d7ab43?w=500&auto=format&fit=crop&q=60",
+      variations: [
+        "https://images.unsplash.com/photo-1540981412106-6de4e3c1fc92?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1470",
+        "https://images.unsplash.com/photo-1565338215510-7a33eef2056b?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bWFzY290ZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=500",
+        "https://plus.unsplash.com/premium_photo-1732757787135-ce2ad37bb72c?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjR8fG1hc2NvdGV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&q=60&w=500",
+        "https://plus.unsplash.com/premium_photo-1720741596299-56cb76359e6f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8bWFzY290ZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=500",
+        "https://plus.unsplash.com/premium_photo-1720601644187-ae0e130a65af?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fG1hc2NvdGV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&q=60&w=500",
       ],
-      selectedProject: null,
+      examples: {
+        print:
+          "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60",
+        digital:
+          "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=500&auto=format&fit=crop&q=60",
+        animation:
+          "https://images.unsplash.com/photo-1505330622279-bf7d7fc918f4?w=500&auto=format&fit=crop&q=60",
+        merch:
+          "https://images.unsplash.com/photo-1581655353564-df123a43e246?w=500&auto=format&fit=crop&q=60",
+      },
+      testimonials: {
+        client1:
+          "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&auto=format&fit=crop&q=60",
+        client2:
+          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&auto=format&fit=crop&q=60",
+      },
     };
   },
-  computed: {
-    challengeItems() {
-      if (!this.selectedProject || !this.selectedProject.challenge) return [];
-      // Divide a string por quebras de linha, remove itens vazios e espaços extras.
-      return this.selectedProject.challenge
-        .split("\n")
-        .map((item) => item.trim())
-        .filter((item) => item.length > 0);
-    },
-    solutionItems() {
-      if (!this.selectedProject || !this.selectedProject.solution) return [];
-      // Se já for um array, usa diretamente.
-      if (Array.isArray(this.selectedProject.solution)) {
-        return this.selectedProject.solution
-          .map((item) => item.trim())
-          .filter((item) => item.length > 0);
-      }
-      // Se for uma string, divide por quebras de linha.
-      return this.selectedProject.solution
-        .split("\n")
-        .map((item) => item.trim())
-        .filter((item) => item.length > 0);
-    },
-  },
   methods: {
-    openOverlay(project) {
-      this.selectedProject = project;
-      document.body.style.overflow = "hidden";
+    scrollToExamples() {
+      document
+        .getElementById("examples")
+        .scrollIntoView({ behavior: "smooth" });
     },
-    closeOverlay() {
-      this.selectedProject = null;
-      document.body.style.overflow = "";
-    },
-    getTechIcon(tech) {
-      const icons = {
-        "Vue.js": "https://cdn.worldvectorlogo.com/logos/vue-9.svg",
-        "Node.js": "https://cdn.worldvectorlogo.com/logos/nodejs-icon.svg",
-        "TensorFlow.js":
-          "https://cdn.worldvectorlogo.com/logos/tensorflow-2.svg",
-        MongoDB: "https://cdn.worldvectorlogo.com/logos/mongodb-icon-1.svg",
-        React: "https://cdn.worldvectorlogo.com/logos/react-2.svg",
-        Firebase: "https://cdn.worldvectorlogo.com/logos/firebase-1.svg",
-        Stripe: "https://cdn.worldvectorlogo.com/logos/stripe-4.svg",
-        WebRTC: "https://cdn.worldvectorlogo.com/logos/webrtc.svg",
-        "Next.js": "https://cdn.worldvectorlogo.com/logos/next-js.svg",
-        Shopify: "https://cdn.worldvectorlogo.com/logos/shopify.svg",
-        "Tailwind CSS": "https://cdn.worldvectorlogo.com/logos/tailwindcss.svg",
-        Algolia: "https://cdn.worldvectorlogo.com/logos/algolia-1.svg",
-        Flutter: "https://cdn.worldvectorlogo.com/logos/flutter.svg",
-        "Plaid API": "https://cdn.worldvectorlogo.com/logos/plaid-1.svg",
-        "Adobe Photoshop":
-          "https://cdn.worldvectorlogo.com/logos/adobe-photoshop-2.svg",
-        "Adobe Illustrator":
-          "https://cdn.worldvectorlogo.com/logos/adobe-illustrator-cc-icon.svg",
-        "Adobe After Effects":
-          "https://cdn.worldvectorlogo.com/logos/after-effects-cc.svg",
-      };
-      return (
-        icons[tech] || "https://cdn.worldvectorlogo.com/logos/javascript.svg"
-      );
+    scrollToProcess() {
+      document.getElementById("process").scrollIntoView({ behavior: "smooth" });
     },
   },
 };
 </script>
 
 <style scoped>
-.featured-projects {
-  padding: 5rem 2rem;
+.mascot-page {
+  font-family: "Inter", sans-serif;
+  color: #2d3748;
+  line-height: 1.6;
+}
+
+/* Hero Section */
+.hero-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6rem 2rem;
   max-width: 1400px;
   margin: 0 auto;
 }
 
-.section-header {
-  text-align: center;
-  margin-bottom: 3rem;
-  display: flex;
-  flex-direction: column;
+.hero-content {
+  max-width: 600px;
 }
 
-.section-header h2 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: #1e293b;
-  display: block;
+.hero-section h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 800;
+  line-height: 1.2;
 }
 
 .highlight {
-  color: #0052ff;
-  position: relative;
-  z-index: 10;
-}
-
-.highlight::after {
-  content: "";
-  position: absolute;
-  bottom: 5px;
-  left: 0;
-  width: 100%;
-  height: 8px;
-  background: rgba(111, 221, 60, 0.3);
-  z-index: -1;
-  border-radius: 4px;
+  color: #8b5cf6;
 }
 
 .subtitle {
-  font-size: 1.1rem;
-  color: #64748b;
-  max-width: 600px;
-  margin: 0 auto;
-  display: block;
+  font-size: 1.5rem;
+  margin-bottom: 2.5rem;
+  color: #4b5563;
 }
 
-.projects-grid {
+.cta-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.cta-button {
+  background: #8b5cf6;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.cta-button:hover {
+  background: #7c3aed;
+  transform: translateY(-2px);
+}
+
+.secondary-button {
+  background: white;
+  color: #8b5cf6;
+  border: 2px solid #8b5cf6;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.secondary-button:hover {
+  background: #f5f3ff;
+  transform: translateY(-2px);
+}
+
+.hero-mascot img {
+  max-width: 100%;
+  border-radius: 16px;
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* USP Section */
+.usp-section {
+  padding: 6rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.usp-section h2 {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.usp-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
 }
 
-.project-card {
-  position: relative;
-  border-radius: 16px;
-  overflow: hidden;
-  height: 380px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.6s ease-out,
-    transform 0.6s ease-out;
-  cursor: pointer;
-}
-
-.project-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-}
-
-.card-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  transition: transform 0.5s ease;
-}
-
-.project-card:hover .card-bg {
-  transform: scale(1.05);
-}
-
-.card-content {
-  position: relative;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 2rem;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-  color: white;
-}
-
-.category {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #e2e8f0;
-  margin-bottom: 0.5rem;
-}
-
-.project-card h3 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  line-height: 1.3;
-}
-
-.tech-tags {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  margin-bottom: 1.5rem;
-}
-
-.tech-tags span {
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(5px);
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
-  font-size: 0.75rem;
-}
-
-.view-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: transparent;
-  border: 2px solid white;
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 50px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  width: fit-content;
-}
-
-.view-btn:hover {
+.usp-card {
   background: white;
-  color: #1e293b;
-}
-
-.view-btn svg {
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
 }
 
-.view-btn:hover svg {
-  transform: translateX(4px);
+.usp-card:hover {
+  transform: translateY(-5px);
 }
 
-/* Modal Styles */
-.project-modal {
-  position: fixed;
+.usp-icon {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+}
+
+.usp-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #2d3748;
+}
+
+.usp-card p {
+  color: #4b5563;
+}
+
+/* AI Showcase Section */
+.ai-showcase {
+  display: flex;
+  align-items: center;
+  padding: 6rem 2rem;
+  background: #f5f3ff;
+  gap: 4rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.showcase-content {
+  flex: 1;
+}
+
+.ai-showcase h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.ai-showcase p {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  color: #4b5563;
+}
+
+.ai-features {
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 3rem;
+}
+
+.ai-features li {
+  margin-bottom: 1rem;
+  padding-left: 2rem;
+  position: relative;
+  color: #4b5563;
+  font-size: 1.1rem;
+}
+
+.ai-features li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #8b5cf6;
+  font-weight: bold;
+}
+
+.showcase-visual {
+  flex: 1;
+}
+
+.mascot-variations {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.mascot-variation {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.mascot-variation:hover {
+  transform: scale(1.05);
+}
+
+/* Examples Section */
+.examples-section {
+  padding: 6rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.examples-section h2 {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.section-description {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 3rem;
+  color: #4b5563;
+  font-size: 1.1rem;
+}
+
+.examples-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.example-card {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.example-image {
+  height: 300px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.example-overlay {
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(5px);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2rem;
+  color: white;
+}
+
+.example-overlay h3 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.example-overlay p {
+  margin: 0.5rem 0 0;
+  opacity: 0.9;
+}
+
+/* Process Section */
+.process-section {
+  padding: 6rem 2rem;
+  background: white;
+}
+
+.process-steps {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 3rem auto 0;
+}
+
+.process-step {
+  flex: 1;
+  min-width: 200px;
+  max-width: 220px;
+  text-align: center;
+  padding: 2rem 1.5rem;
+  background: #f5f3ff;
+  border-radius: 12px;
+}
+
+.step-number {
+  width: 50px;
+  height: 50px;
+  background: #8b5cf6;
+  color: white;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
-  padding: 2rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 auto 1.5rem;
 }
 
-.modal-content {
-  background: white;
-  border-radius: 16px;
+.process-step h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: #2d3748;
+}
+
+.process-step p {
+  color: #4b5563;
+  font-size: 0.95rem;
+}
+
+/* Packages Section */
+.packages-section {
+  padding: 6rem 2rem;
+  background: #f5f3ff;
+}
+
+.packages-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
   max-width: 1200px;
-  width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
+  margin: 3rem auto 0;
+}
+
+.package-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   position: relative;
 }
 
-.close-btn {
+.package-card.popular {
+  border: 2px solid #8b5cf6;
+  transform: scale(1.05);
+}
+
+.popular-tag {
   position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #64748b;
-  z-index: 10;
-}
-
-.close-btn:hover {
-  color: #1e293b;
-}
-
-.modal-gallery {
-  padding: 2rem;
-}
-
-.main-image {
-  height: 400px;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.main-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.modal-details {
-  padding: 0 2rem 2rem;
-}
-
-.badge {
-  background: #6366f1;
+  top: -12px;
+  right: 20px;
+  background: #8b5cf6;
   color: white;
-  padding: 0.25rem 0.75rem;
+  padding: 0.5rem 1rem;
   border-radius: 20px;
   font-size: 0.8rem;
   font-weight: 600;
-  display: inline-block;
+}
+
+.package-card h3 {
+  font-size: 1.5rem;
+  text-align: center;
   margin-bottom: 1rem;
+  color: #2d3748;
 }
 
-.modal-details h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  color: #1e293b;
-}
-
-.meta {
-  display: flex;
-  gap: 1.5rem;
-  color: #64748b;
-  font-size: 0.9rem;
-  margin-bottom: 2rem;
-}
-
-.details-body {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 2rem;
-}
-
-.description h3 {
-  font-size: 1.25rem;
-  margin: 1.5rem 0 1rem;
-  color: #1e293b;
-}
-
-.description p {
-  color: #64748b;
-  line-height: 1.6;
+.price {
+  font-size: 2.5rem;
+  text-align: center;
+  font-weight: 800;
+  color: #8b5cf6;
   margin-bottom: 1.5rem;
 }
 
-.results {
-  list-style: none;
+.price::before {
+  content: "R$ ";
+  font-size: 1.5rem;
+}
+
+.features {
+  list-style-type: none;
   padding: 0;
-}
-
-.results li {
-  margin-bottom: 0.75rem;
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
-  color: #64748b;
-}
-
-.results li svg {
-  color: #6366f1;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-
-.sidebar {
-  background: #f8fafc;
-  border-radius: 8px;
-  padding: 1.5rem;
-  align-self: flex-start;
-}
-
-.tech-stack h4 {
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
-  color: #1e293b;
-}
-
-.tech-icons {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
   margin-bottom: 2rem;
 }
 
-.tech-icons > div {
+.features li {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+  position: relative;
+  color: #4b5563;
+}
+
+.features li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #8b5cf6;
+  font-weight: bold;
+}
+
+.package-button {
+  width: 100%;
+  padding: 1rem;
+  background: #8b5cf6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.package-button:hover {
+  background: #7c3aed;
+}
+
+/* Testimonials Section */
+.testimonials-section {
+  padding: 6rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.testimonial-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.client-info {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 }
 
-.tech-icons img {
-  width: 24px;
-  height: 24px;
+.client-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
 }
 
-.tech-icons span {
+.client-details h4 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #2d3748;
+}
+
+.client-details p {
+  margin: 0.25rem 0 0;
+  color: #6b7280;
   font-size: 0.9rem;
-  color: #64748b;
 }
 
-.project-cta {
+.testimonial-text p {
+  font-style: italic;
+  color: #4b5563;
+  line-height: 1.8;
+}
+
+.client-results {
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
 }
 
-.live-link,
-.github-link {
-  display: block;
+.result {
   text-align: center;
-  padding: 0.75rem;
-  border-radius: 8px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: all 0.3s ease;
+  padding: 0.5rem 1rem;
+  background: #f5f3ff;
+  border-radius: 6px;
 }
 
-.live-link {
-  background: #3b82f6;
+.value {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #8b5cf6;
+}
+
+.label {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+/* CTA Section */
+.cta-section {
+  padding: 6rem 2rem;
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
   color: white;
+  text-align: center;
 }
 
-.live-link:hover {
-  background: #2563eb;
+.cta-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
 }
 
-.github-link {
-  background: #1e293b;
-  color: white;
+.cta-section p {
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+  font-size: 1.25rem;
+  opacity: 0.9;
 }
 
-.github-link:hover {
-  background: #0f172a;
-}
-
-/* Animations */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-/* Estilos para a animação de entrada */
-.animate-on-scroll {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-.animate-on-scroll.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Responsive */
+/* Responsive Design */
 @media (max-width: 1024px) {
-  .details-body {
-    grid-template-columns: 1fr;
+  .hero-section {
+    flex-direction: column;
+    text-align: center;
   }
 
-  .sidebar {
-    width: 100%;
+  .hero-content {
+    margin-bottom: 3rem;
+  }
+
+  .cta-container {
+    justify-content: center;
+  }
+
+  .ai-showcase {
+    flex-direction: column;
+  }
+
+  .package-card.popular {
+    transform: none;
   }
 }
 
 @media (max-width: 768px) {
-  .section-header h2 {
-    font-size: 2rem;
+  .hero-section h1 {
+    font-size: 2.5rem;
   }
 
-  .modal-gallery {
-    padding: 1rem;
+  .subtitle {
+    font-size: 1.2rem;
   }
 
-  .main-image {
-    height: 300px;
+  .process-steps {
+    flex-direction: column;
+    align-items: center;
   }
 
-  .modal-details {
-    padding: 0 1rem 1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .featured-projects {
-    padding: 3rem 1rem;
+  .process-step {
+    max-width: 100%;
   }
 
-  .projects-grid {
+  .packages-grid {
     grid-template-columns: 1fr;
-  }
-
-  .project-card {
-    height: 320px;
-  }
-
-  .card-content {
-    padding: 1.5rem;
   }
 }
 </style>
