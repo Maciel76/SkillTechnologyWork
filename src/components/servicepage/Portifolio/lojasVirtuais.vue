@@ -137,9 +137,9 @@
               <li>Relatórios simples</li>
               <li>Suporte por email</li>
             </ul>
-            <button class="price-button">Quero este</button>
+            <button class="price-button" @click="openContactModal('Startup', 'R$ 5.900')">Quero este</button>
           </div>
-          
+
           <div class="pricing-card featured">
             <div class="popular-tag">MAIS VENDIDO</div>
             <h3>Profissional</h3>
@@ -153,9 +153,9 @@
               <li>Integração com ERP</li>
               <li>Suporte prioritário</li>
             </ul>
-            <button class="price-button">Quero este</button>
+            <button class="price-button" @click="openContactModal('Profissional', 'R$ 9.900')">Quero este</button>
           </div>
-          
+
           <div class="pricing-card">
             <h3>Enterprise</h3>
             <div class="price">R$ 14.900+</div>
@@ -168,7 +168,7 @@
               <li>CRM integrado</li>
               <li>Suporte 24/7</li>
             </ul>
-            <button class="price-button">Quero este</button>
+            <button class="price-button" @click="openContactModal('Enterprise', 'R$ 14.900+')">Quero este</button>
           </div>
         </div>
       </section>
@@ -195,17 +195,101 @@
       <section class="cta-section">
         <h2>Pronto para Vender Online?</h2>
         <p>Fale com nossos especialistas e leve sua loja virtual para o próximo nível</p>
-        <button class="cta-button">Quero minha loja virtual</button>
+        <button class="cta-button" @click="openContactModal('Loja Virtual Personalizada', 'A definir')">Quero minha loja virtual</button>
       </section>
+
+      <!-- Contact Modal -->
+      <div class="modal-overlay" v-if="showModal" @click.self="closeModal">
+        <div class="modal-content">
+          <button class="close-modal" @click="closeModal">×</button>
+          <div class="modal-header">
+            <h2>Solicitar {{ selectedPlan }}</h2>
+            <p class="plan-price-modal">{{ selectedPrice }}</p>
+          </div>
+          <div class="modal-body">
+            <form @submit.prevent="submitPlanRequest">
+              <div class="form-group">
+                <input
+                  type="text"
+                  v-model="planForm.name"
+                  placeholder="Seu nome"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <input
+                  type="email"
+                  v-model="planForm.email"
+                  placeholder="Seu e-mail"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <input
+                  type="tel"
+                  v-model="planForm.phone"
+                  placeholder="Seu telefone"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <textarea
+                  v-model="planForm.message"
+                  placeholder="Conte-nos sobre seu projeto de loja virtual"
+                ></textarea>
+              </div>
+              <button
+                type="submit"
+                class="submit-button"
+                :disabled="isSubmitting"
+              >
+                {{ isSubmitting ? "Enviando..." : "Enviar Solicitação" }}
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Success Modal -->
+      <transition name="modal-fade">
+        <div class="success-modal-overlay" v-if="showSuccess" @click="closeSuccessModal">
+          <div class="success-modal-content" @click.stop>
+            <div class="success-checkmark">
+              <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" />
+                <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+              </svg>
+            </div>
+            <h2 class="success-title">Solicitação Enviada!</h2>
+            <p class="success-message">
+              Recebemos sua solicitação de loja virtual. Nossa equipe entrará em contato em breve para discutir os detalhes!
+            </p>
+            <button class="success-button" @click="closeSuccessModal">Fechar</button>
+          </div>
+        </div>
+      </transition>
     </div>
   </template>
   
   <script>
+  import serviceRequestService from "@/services/serviceRequestService";
+
   export default {
     name: 'EcommercePage',
     data() {
       return {
         activeTab: 0,
+        showModal: false,
+        showSuccess: false,
+        isSubmitting: false,
+        selectedPlan: '',
+        selectedPrice: '',
+        planForm: {
+          name: '',
+          email: '',
+          phone: '',
+          message: ''
+        },
         tabs: [
           {
             label: 'Vendas',
@@ -367,6 +451,57 @@
       },
       toggleFaq(index) {
         this.activeFaq = this.activeFaq === index ? null : index;
+      },
+      openContactModal(planName, planPrice) {
+        this.selectedPlan = planName;
+        this.selectedPrice = planPrice;
+        this.showModal = true;
+        document.body.style.overflow = 'hidden';
+      },
+      closeModal() {
+        this.showModal = false;
+        document.body.style.overflow = 'auto';
+        this.planForm = {
+          name: '',
+          email: '',
+          phone: '',
+          message: ''
+        };
+      },
+      closeSuccessModal() {
+        this.showSuccess = false;
+        document.body.style.overflow = 'auto';
+      },
+      async submitPlanRequest() {
+        if (this.isSubmitting) return;
+
+        this.isSubmitting = true;
+
+        try {
+          await serviceRequestService.create({
+            nome: this.planForm.name,
+            email: this.planForm.email,
+            telefone: this.planForm.phone,
+            mensagem: this.planForm.message || `Solicitação do plano ${this.selectedPlan}`,
+            planName: this.selectedPlan,
+            planPrice: this.selectedPrice,
+            billingType: 'mensal',
+            serviceName: 'Loja Virtual'
+          });
+
+          this.closeModal();
+          this.showSuccess = true;
+
+          setTimeout(() => {
+            this.closeSuccessModal();
+          }, 400);
+
+        } catch (error) {
+          console.error('Erro ao enviar solicitação:', error);
+          alert('Erro ao enviar solicitação. Por favor, tente novamente.');
+        } finally {
+          this.isSubmitting = false;
+        }
       }
     }
   }
@@ -949,6 +1084,251 @@
     
     .pricing-grid {
       grid-template-columns: 1fr;
+    }
+  }
+
+  /* Modal Styles */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+    animation: fadeIn 0.2s ease;
+  }
+
+  .modal-content {
+    background: white;
+    border-radius: 16px;
+    padding: 2.5rem;
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .close-modal {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #64748b;
+    transition: color 0.2s;
+    line-height: 1;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .close-modal:hover {
+    color: #1e293b;
+  }
+
+  .modal-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .modal-header h2 {
+    font-size: 1.75rem;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+  }
+
+  .plan-price-modal {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #6366f1;
+  }
+
+  .modal-body form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 0.875rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+    font-family: inherit;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: #6366f1;
+  }
+
+  .form-group textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+
+  .submit-button {
+    background: #6366f1;
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .submit-button:hover:not(:disabled) {
+    background: #4f46e5;
+  }
+
+  .submit-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  /* Success Modal Styles */
+  .success-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1001;
+    padding: 20px;
+  }
+
+  .success-modal-content {
+    background: white;
+    border-radius: 16px;
+    padding: 3rem;
+    max-width: 450px;
+    width: 100%;
+    text-align: center;
+    animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .success-checkmark {
+    margin-bottom: 1.5rem;
+  }
+
+  .checkmark {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+  }
+
+  .checkmark-circle {
+    stroke: #6366f1;
+    stroke-width: 2;
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    animation: checkmark-circle 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+  }
+
+  .checkmark-check {
+    stroke: #6366f1;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: checkmark-check 0.3s 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+  }
+
+  .success-title {
+    font-size: 1.75rem;
+    color: #1e293b;
+    margin-bottom: 1rem;
+  }
+
+  .success-message {
+    color: #64748b;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  .success-button {
+    background: #6366f1;
+    color: white;
+    border: none;
+    padding: 1rem 2.5rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .success-button:hover {
+    background: #4f46e5;
+  }
+
+  /* Transition Animations */
+  .modal-fade-enter-active,
+  .modal-fade-leave-active {
+    transition: opacity 0.2s ease;
+  }
+
+  .modal-fade-enter-from,
+  .modal-fade-leave-to {
+    opacity: 0;
+  }
+
+  .modal-fade-enter-active .success-modal-content {
+    animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes checkmark-circle {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes checkmark-check {
+    to {
+      stroke-dashoffset: 0;
     }
   }
   </style>

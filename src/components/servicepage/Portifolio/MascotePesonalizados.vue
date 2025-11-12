@@ -203,7 +203,7 @@
             <li>Arquivos PNG transparente</li>
             <li>2 revisões de conceito</li>
           </ul>
-          <button class="package-button">Contratar</button>
+          <button class="package-button" @click="openContactModal('Básico', 'R$ 1.900')">Contratar</button>
         </div>
 
         <div class="package-card popular">
@@ -218,7 +218,7 @@
             <li>2 variações de cor</li>
             <li>1 animação simples (GIF)</li>
           </ul>
-          <button class="package-button">Contratar</button>
+          <button class="package-button" @click="openContactModal('Completo', 'R$ 3.500')">Contratar</button>
         </div>
 
         <div class="package-card">
@@ -233,7 +233,7 @@
             <li>3 animações profissionais</li>
             <li>Manual de uso da marca</li>
           </ul>
-          <button class="package-button">Contratar</button>
+          <button class="package-button" @click="openContactModal('Enterprise', 'R$ 6.900+')">Contratar</button>
         </div>
       </div>
     </section>
@@ -310,13 +310,85 @@
       <p>
         Solicite um orçamento personalizado e receba conceitos iniciais em 24h
       </p>
-      <button class="cta-button">Criar meu Mascote IA</button>
+      <button class="cta-button" @click="openContactModal('Consulta', 'A definir')">Criar meu Mascote IA</button>
     </section>
+
+    <!-- Contact Modal -->
+    <div class="modal-overlay" v-if="showModal" @click.self="closeModal">
+      <div class="modal-content">
+        <button class="close-modal" @click="closeModal">×</button>
+        <div class="modal-header">
+          <h2>Solicitar {{ selectedPlan }}</h2>
+          <p class="plan-price-modal">{{ selectedPrice }}</p>
+        </div>
+        <div class="modal-body">
+          <form @submit.prevent="submitPlanRequest">
+            <div class="form-group">
+              <input
+                type="text"
+                v-model="planForm.name"
+                placeholder="Seu nome"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <input
+                type="email"
+                v-model="planForm.email"
+                placeholder="Seu e-mail"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <input
+                type="tel"
+                v-model="planForm.phone"
+                placeholder="Seu telefone"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <textarea
+                v-model="planForm.message"
+                placeholder="Conte mais sobre o mascote que você precisa"
+              ></textarea>
+            </div>
+            <button
+              type="submit"
+              class="submit-button"
+              :disabled="isSubmitting"
+            >
+              {{ isSubmitting ? "Enviando..." : "Enviar Solicitação" }}
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="success-modal-overlay" v-if="showSuccess" @click="closeSuccessModal">
+      <div class="success-modal-content">
+        <div class="success-checkmark">
+          <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" />
+            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+          </svg>
+        </div>
+        <h2 class="success-title">Solicitação Enviada com Sucesso!</h2>
+        <p class="success-message">
+          Obrigado pelo seu interesse! Entraremos em contato em breve para
+          discutir os detalhes do seu mascote IA.
+        </p>
+        <button class="success-button" @click="closeSuccessModal">Fechar</button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import mascoteSkill from "@/assets/images/banners/mascoteSkill.png";
+import serviceRequestService from "@/services/serviceRequestService";
+
 export default {
   name: "MascotPage",
   data() {
@@ -328,6 +400,17 @@ export default {
         "https://source.unsplash.com/300x300/?cartoon,character,3",
         "https://source.unsplash.com/300x300/?cartoon,character,4",
       ],
+      showModal: false,
+      showSuccess: false,
+      isSubmitting: false,
+      selectedPlan: '',
+      selectedPrice: '',
+      planForm: {
+        name: "",
+        email: "",
+        phone: "",
+        message: "",
+      },
     };
   },
   methods: {
@@ -338,6 +421,57 @@ export default {
     },
     scrollToProcess() {
       document.getElementById("process").scrollIntoView({ behavior: "smooth" });
+    },
+    openContactModal(planName, planPrice) {
+      this.selectedPlan = planName;
+      this.selectedPrice = planPrice;
+      this.showModal = true;
+      document.body.style.overflow = "hidden";
+    },
+    closeModal() {
+      this.showModal = false;
+      document.body.style.overflow = "auto";
+    },
+    closeSuccessModal() {
+      this.showSuccess = false;
+      document.body.style.overflow = "auto";
+    },
+    async submitPlanRequest() {
+      try {
+        this.isSubmitting = true;
+
+        const requestData = {
+          nome: this.planForm.name,
+          email: this.planForm.email,
+          telefone: this.planForm.phone,
+          mensagem: this.planForm.message,
+          planName: this.selectedPlan,
+          planPrice: this.selectedPrice,
+          billingType: "mensal",
+          serviceName: "Mascotes Personalizados (IA)",
+        };
+
+        await serviceRequestService.create(requestData);
+
+        this.planForm = {
+          name: "",
+          email: "",
+          phone: "",
+          message: "",
+        };
+
+        this.closeModal();
+
+        setTimeout(() => {
+          this.showSuccess = true;
+          document.body.style.overflow = "hidden";
+        }, 300);
+      } catch (error) {
+        console.error("Erro ao enviar solicitação:", error);
+        alert("Erro ao enviar solicitação. Por favor, tente novamente.");
+      } finally {
+        this.isSubmitting = false;
+      }
     },
   },
 };
@@ -906,6 +1040,242 @@ export default {
 
   .packages-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  padding: 2rem;
+}
+
+.close-modal {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #64748b;
+}
+
+.modal-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.modal-header h2 {
+  font-size: 1.8rem;
+  color: #1e293b;
+  margin-bottom: 0.5rem;
+}
+
+.plan-price-modal {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #8b5cf6;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-group textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #8b5cf6;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+}
+
+.submit-button {
+  width: 100%;
+  padding: 1rem;
+  background: #8b5cf6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  font-size: 1.1rem;
+}
+
+.submit-button:hover {
+  background: #7c3aed;
+}
+
+.submit-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Success Modal */
+.success-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.success-modal-content {
+  background: white;
+  border-radius: 16px;
+  max-width: 500px;
+  width: 90%;
+  padding: 3rem 2rem;
+  text-align: center;
+  animation: slideUp 0.4s ease;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.success-checkmark {
+  margin: 0 auto 2rem;
+  width: 80px;
+  height: 80px;
+}
+
+.checkmark {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 3;
+  stroke: #10b981;
+  stroke-miterlimit: 10;
+  animation: fill 0.4s ease-in-out 0.4s forwards,
+    scale 0.3s ease-in-out 0.9s both;
+}
+
+.checkmark-circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 3;
+  stroke-miterlimit: 10;
+  stroke: #10b981;
+  fill: none;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark-check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  stroke: #10b981;
+  stroke-width: 3;
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+.success-title {
+  font-size: 1.8rem;
+  color: #1e293b;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.success-message {
+  font-size: 1.1rem;
+  color: #64748b;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.success-button {
+  background: #8b5cf6;
+  color: white;
+  border: none;
+  padding: 1rem 3rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.success-button:hover {
+  background: #7c3aed;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes scale {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: scale3d(1.1, 1.1, 1);
+  }
+}
+
+@keyframes fill {
+  100% {
+    box-shadow: inset 0px 0px 0px 30px #10b981;
   }
 }
 </style>
