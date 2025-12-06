@@ -15,12 +15,23 @@
           <img src="../../assets/svg/icons/bell.svg" width="35px" alt="" />
           <span class="notification-badge">3</span>
         </button>
-        <div class="user-profile">
+        <div class="user-profile" @click="toggleUserMenu">
           <img
             src="https://ui-avatars.com/api/?name=Admin+User&background=4361ee&color=fff"
             alt="Admin"
           />
           <span>Admin User</span>
+          <i class="fas fa-chevron-down" :class="{ 'rotated': showUserMenu }"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Menu Dropdown -->
+    <div v-if="showUserMenu" class="user-menu-dropdown" @click="closeUserMenu">
+      <div class="user-menu-content" @click.stop>
+        <div class="user-menu-item" @click="handleLogout">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Sair</span>
         </div>
       </div>
     </div>
@@ -28,12 +39,38 @@
 </template>
 
 <script>
+import { logout } from "@/services/authService";
+
 export default {
   name: "HeaderDashboard",
   props: {
     title: String,
   },
   emits: ["toggle-mobile-menu"],
+  data() {
+    return {
+      showUserMenu: false,
+    };
+  },
+  methods: {
+    toggleUserMenu() {
+      this.showUserMenu = !this.showUserMenu;
+    },
+    closeUserMenu() {
+      this.showUserMenu = false;
+    },
+    handleLogout() {
+      logout();
+      this.$router.push('/login');
+    },
+  },
+  mounted() {
+    // Close the menu when clicking outside
+    document.addEventListener('click', this.closeUserMenu);
+  },
+  beforeUnmount() {
+    document.removeEventListener('click', this.closeUserMenu);
+  },
 };
 </script>
 
@@ -51,6 +88,60 @@ export default {
   top: 0;
   z-index: 100;
   border-bottom: 1px solid var(--gray-200);
+  position: relative;
+}
+
+.user-profile {
+  cursor: pointer;
+  position: relative;
+}
+
+.user-profile i {
+  margin-left: 8px;
+  font-size: 12px;
+  transition: transform 0.3s ease;
+}
+
+.user-profile i.rotated {
+  transform: rotate(180deg);
+}
+
+.user-menu-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 1000;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  min-width: 200px;
+}
+
+.user-menu-content {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.user-menu-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  gap: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  color: #334155;
+  font-weight: 500;
+}
+
+.user-menu-item:hover {
+  background-color: #f1f5f9;
+}
+
+.user-menu-item i {
+  width: 16px;
+  text-align: center;
 }
 
 .header-left {

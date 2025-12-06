@@ -57,6 +57,7 @@ import EventsManagement from "@/components/Dashboad/EventsManagement.vue";
 import ContactManagement from "@/components/Dashboad/ContactManagement.vue";
 import ProjectsManagement from "@/components/Dashboad/ProjectsManagement.vue";
 import StatsCards from "@/components/Dashboad/StatsCards.vue";
+import { logout } from "@/services/authService";
 
 export default {
   name: "DashboardView",

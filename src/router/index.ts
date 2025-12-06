@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import { isAuthenticated, isAdmin } from '@/services/authService';
 import HomeView from "../views/HomeView.vue";
 import Heroconfig from "@/components/Dashboad/HeroConfig.vue";
 import SobreView from "@/components/views/SobreView.vue";
@@ -33,6 +34,7 @@ import ContatoView from "@/components/views/ContatoView.vue";
 import Testimonials from "@/components/views/ClientesView.vue";
 import PageNotFound from "@/components/views/PageNotFound.vue";
 import Dashboad from "@/views/DashboadView.vue";
+import Login from "@/components/Login/PageLogin.vue";
 
 // pagina de ajuste
 import PaginaAjuste from "@/paginaAjuste.vue";
@@ -120,7 +122,16 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       hideHeader: true,
       hideFooter: true, // ✅ NÃO MOSTRA O FOOTER
-      // WhatsApp permanece visível (a menos que você defina hideWhatsApp)
+      requiresAuth: true, // Require authentication
+      requiresAdmin: true, // Require admin role
+    },
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: Login,
+    meta: {
+      noLayout: true, // Don't use the main layout for login page
     },
   },
 
@@ -143,6 +154,37 @@ const router = createRouter({
     if (savedPosition) return savedPosition;
     else return { top: 0 }; // Rolagem suave para o topo
   },
+});
+
+// Navigation guard to protect routes
+router.beforeEach((to, from, next) => {
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  const requiresAdmin = to.matched.some(record => record.meta.requiresAdmin);
+
+  if (requiresAuth) {
+    if (!isAuthenticated()) {
+      // Redirect to login page if not authenticated
+      next({
+        name: 'login',
+        query: { redirect: to.fullPath } // Store the original route to redirect after login
+      });
+      return;
+    }
+
+    if (requiresAdmin && !isAdmin()) {
+      // If route requires admin and user is not admin, show unauthorized or redirect
+      next('/'); // Redirect to home page
+      return;
+    }
+  }
+
+  // If authenticated and trying to access login page, redirect to dashboard
+  if (to.name === 'login' && isAuthenticated()) {
+    next('/dashboard');
+    return;
+  }
+
+  next();
 });
 
 export default router;
