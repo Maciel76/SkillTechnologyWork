@@ -26,7 +26,7 @@ import LojasVirtuais from "@/components/servicepage/Portifolio/lojasVirtuais.vue
 import BlogsPesonalizado from "@/components/servicepage/Portifolio/BlogsPesonalizado.vue";
 import MascotePesonalizados from "@/components/servicepage/Portifolio/MascotePesonalizados.vue";
 import EditorImagem from "@/components/servicepage/Portifolio/EditorImagem.vue";
-import SistemasWeb from "@/components/servicepage/Portifolio/SistemasWeb..vue";
+import SistemasWeb from "@/components/servicepage/Portifolio/SistemasWeb.vue";
 import LandingPages from "@/components/servicepage/Portifolio/LandingPages.vue";
 import ProjectSection from "@/components/molecules/ProjectSection.vue";
 import ContatoView from "@/components/views/ContatoView.vue";

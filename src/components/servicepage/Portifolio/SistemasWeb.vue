@@ -1,12 +1,12 @@
 <template>
-  <div class="institutional-page">
+  <div class="systems-page">
     <!-- Hero Section -->
     <section class="hero-section">
       <div class="hero-content">
-        <h1>Sites <span class="highlight">Institucionais</span></h1>
+        <h1>Sistemas Web <span class="highlight">Personalizados</span></h1>
         <p class="subtitle">
-          Sua presença digital profissional que transmite credibilidade e atrai
-          novos clientes
+          Soluções sob medida para automatizar processos e melhorar a eficiência
+          do seu negócio
         </p>
         <button class="cta-button" @click="scrollToPortfolio">
           Ver Exemplos
@@ -16,37 +16,40 @@
 
     <!-- Value Proposition -->
     <section class="value-section">
-      <h2>Por que seu negócio precisa de um site institucional?</h2>
+      <h2>Por que investir em um sistema personalizado?</h2>
       <div class="value-grid">
         <div class="value-card">
-          <div class="value-icon">🏢</div>
-          <h3>Credibilidade</h3>
+          <div class="value-icon">⚙️</div>
+          <h3>Automatização</h3>
           <p>
-            81% dos consumidores pesquisam online antes de comprar - um site
-            profissional aumenta sua confiabilidade
+            Elimine tarefas repetitivas e reduza erros manuais com processos
+            automatizados
           </p>
         </div>
         <div class="value-card">
-          <div class="value-icon">🌐</div>
-          <h3>Visibilidade 24/7</h3>
+          <div class="value-icon">📊</div>
+          <h3>Tomada de Decisão</h3>
           <p>
-            Seu negócio aberto na internet o tempo todo, mesmo quando seu
-            escritório está fechado
+            Relatórios em tempo real com os dados mais relevantes para seu
+            negócio
           </p>
         </div>
         <div class="value-card">
-          <div class="value-icon">📈</div>
-          <h3>Base de Clientes</h3>
-          <p>Capture leads qualificados através de formulários estratégicos</p>
+          <div class="value-icon">🔗</div>
+          <h3>Integração</h3>
+          <p>
+            Conecte todos os sistemas que sua empresa já utiliza em uma única
+            plataforma
+          </p>
         </div>
       </div>
     </section>
 
     <!-- Portfolio Showcase -->
     <section class="portfolio-section" id="portfolio">
-      <h2>Nossos Sites Institucionais</h2>
+      <h2>Nossos Sistemas Desenvolvidos</h2>
       <p class="section-description">
-        Exemplos reais desenvolvidos para nossos clientes
+        Soluções reais criadas para otimizar os negócios de nossos clientes
       </p>
 
       <div class="portfolio-grid">
@@ -63,7 +66,7 @@
               <h3>{{ project.client }}</h3>
               <p>{{ project.industry }}</p>
               <a :href="project.link" class="view-button" target="_blank"
-                >Visitar Site</a
+                >Ver Detalhes</a
               >
             </div>
           </div>
@@ -79,19 +82,20 @@
             <p class="description">{{ project.description }}</p>
             <div class="results">
               <div class="result-item">
-                <span class="result-value">+{{ project.results.visits }}</span>
-                <span class="result-label">visitas/mês</span>
+                <span class="result-value">{{
+                  project.results.efficiency
+                }}</span>
+                <span class="result-label">de eficiência</span>
               </div>
               <div class="result-item">
-                <span class="result-value">+{{ project.results.leads }}</span>
-                <span class="result-label">leads/mês</span>
+                <span class="result-value">{{ project.results.time }}%</span>
+                <span class="result-label">tempo economizado</span>
               </div>
               <div class="result-item">
-                <span class="result-value"
-                  >{{ project.results.time }} dias</span
-                >
-
-                <span class="result-label">prazo</span>
+                <span class="result-value">{{
+                  project.results.development
+                }}</span>
+                <span class="result-label">prazo (semanas)</span>
               </div>
             </div>
           </div>
@@ -99,108 +103,162 @@
       </div>
     </section>
 
-    <!-- Standard Structure -->
-    <section class="structure-section">
-      <h2>Estrutura Completa para seu Site</h2>
+    <!-- Features Section -->
+    <section class="features-section">
+      <h2>Tecnologias e Funcionalidades</h2>
       <p class="section-description">
-        Todos os nossos sites institucionais incluem:
+        Nossos sistemas incluem as melhores tecnologias do mercado
       </p>
 
-      <div class="structure-grid">
-        <div class="structure-card">
-          <div class="structure-icon">🏠</div>
-          <h3>Home Page Impactante</h3>
+      <div class="features-grid">
+        <div class="features-card">
+          <div class="features-icon">💻</div>
+          <h3>Front-end Moderno</h3>
           <ul>
-            <li>Headline clara</li>
-            <li>Chamadas para ação</li>
-            <li>Destaque de serviços</li>
-            <li>Slider de imagens</li>
+            <li>Vue.js / React</li>
+            <li>Design responsivo</li>
+            <li>UX otimizado</li>
+            <li>PWA (Apps instaláveis)</li>
           </ul>
         </div>
 
-        <div class="structure-card">
-          <div class="structure-icon">📄</div>
-          <h3>Sobre a Empresa</h3>
+        <div class="features-card">
+          <div class="features-icon">🔐</div>
+          <h3>Back-end Robusto</h3>
           <ul>
-            <li>Nossa história</li>
-            <li>Missão e valores</li>
-            <li>Diferenciais</li>
-            <li>Equipe</li>
+            <li>Node.js / Laravel</li>
+            <li>APIs RESTful</li>
+            <li>Autenticação segura</li>
+            <li>Escalabilidade</li>
           </ul>
         </div>
 
-        <div class="structure-card">
-          <div class="structure-icon">🛠️</div>
-          <h3>Páginas de Serviços</h3>
+        <div class="features-card">
+          <div class="features-icon">📱</div>
+          <h3>Mobile</h3>
           <ul>
-            <li>Descrição detalhada</li>
-            <li>Benefícios</li>
-            <li>Processos</li>
-            <li>Portfólio</li>
+            <li>Aplicativos nativos</li>
+            <li>Responsividade</li>
+            <li>Offline-first</li>
+            <li>Notificações push</li>
           </ul>
         </div>
 
-        <div class="structure-card">
-          <div class="structure-icon">📱</div>
-          <h3>Contato Otimizado</h3>
+        <div class="features-card">
+          <div class="features-icon">📈</div>
+          <h3>Business Intelligence</h3>
           <ul>
-            <li>Formulário inteligente</li>
-            <li>Mapa de localização</li>
-            <li>Redes sociais</li>
-            <li>WhatsApp direto</li>
+            <li>Dashboards interativos</li>
+            <li>Relatórios personalizados</li>
+            <li>Exportação de dados</li>
+            <li>Gráficos avançados</li>
           </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process-section">
+      <h2>Nosso Processo de Desenvolvimento</h2>
+      <p class="section-description">
+        Metodologia ágil para garantir os melhores resultados
+      </p>
+
+      <div class="process-steps">
+        <div class="process-step">
+          <div class="step-number">1</div>
+          <h3>Análise de Requisitos</h3>
+          <p>Entendemos profundamente suas necessidades e processos atuais</p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">2</div>
+          <h3>Prototipação</h3>
+          <p>
+            Criamos protótipos interativos para validação antes do
+            desenvolvimento
+          </p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">3</div>
+          <h3>Desenvolvimento Iterativo</h3>
+          <p>
+            Entregas parciais a cada 2 semanas para acompanhamento e ajustes
+          </p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">4</div>
+          <h3>Implantação e Treinamento</h3>
+          <p>Instalação do sistema e capacitação da equipe para utilização</p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">5</div>
+          <h3>Manutenção</h3>
+          <p>Acompanhamento pós-implantação e melhorias contínuas</p>
         </div>
       </div>
     </section>
 
     <!-- Pricing Section -->
     <section class="pricing-section">
-      <h2>Investimento</h2>
+      <h2>Modelos de Contratação</h2>
       <p class="section-description">
-        Soluções para diferentes necessidades e orçamentos
+        Soluções flexíveis para diferentes necessidades
       </p>
 
       <div class="pricing-grid">
         <div class="pricing-card">
-          <h3>Básico</h3>
-          <div class="price">R$ 2.500</div>
+          <h3>Sistema Básico</h3>
+          <div class="price">R$ 15.000+</div>
           <ul class="features">
-            <li>Até 5 páginas</li>
-            <li>Design responsivo</li>
-            <li>Formulário de contato</li>
-            <li>SEO básico</li>
-            <li>1 mês de suporte</li>
+            <li>Até 3 módulos principais</li>
+            <li>Painel administrativo</li>
+            <li>Relatórios básicos</li>
+            <li>1 integração externa</li>
+            <li>3 meses de suporte</li>
           </ul>
-          <button class="price-button" @click="openContactModal('Site Institucional Básico', 'R$ 2.500')">Quero este</button>
+          <button
+            class="price-button"
+            @click="openContactModal('Sistema Básico', 'R$ 15.000+')"
+          >
+            Quero este
+          </button>
         </div>
 
         <div class="pricing-card featured">
           <div class="popular-tag">MAIS POPULAR</div>
-          <h3>Profissional</h3>
-          <div class="price">R$ 4.500</div>
+          <h3>Sistema Corporativo</h3>
+          <div class="price">R$ 35.000+</div>
           <ul class="features">
-            <li>Até 10 páginas</li>
-            <li>Design personalizado</li>
-            <li>Blog integrado</li>
-            <li>SEO avançado</li>
-            <li>Galeria de imagens</li>
-            <li>3 meses de suporte</li>
+            <li>Até 8 módulos</li>
+            <li>Dashboards completos</li>
+            <li>Múltiplas integrações</li>
+            <li>App mobile básico</li>
+            <li>6 meses de suporte</li>
           </ul>
-          <button class="price-button" @click="openContactModal('Site Institucional Profissional', 'R$ 4.500')">Quero este</button>
+          <button
+            class="price-button"
+            @click="openContactModal('Sistema Corporativo', 'R$ 35.000+')"
+          >
+            Quero este
+          </button>
         </div>
 
         <div class="pricing-card">
-          <h3>Premium</h3>
-          <div class="price">R$ 7.500+</div>
+          <h3>ERP Customizado</h3>
+          <div class="price">R$ 80.000+</div>
           <ul class="features">
-            <li>Páginas ilimitadas</li>
-            <li>Design exclusivo</li>
-            <li>Sistema de conteúdo</li>
-            <li>Otimização máxima</li>
-            <li>Integrações especiais</li>
-            <li>6 meses de suporte</li>
+            <li>Sistema completo</li>
+            <li>Módulos ilimitados</li>
+            <li>App mobile nativo</li>
+            <li>Business Intelligence</li>
+            <li>1 ano de suporte</li>
           </ul>
-          <button class="price-button" @click="openContactModal('Site Institucional Premium', 'R$ 7.500+')">Quero este</button>
+          <button
+            class="price-button"
+            @click="openContactModal('ERP Customizado', 'R$ 80.000+')"
+          >
+            Quero este
+          </button>
         </div>
       </div>
     </section>
@@ -208,9 +266,14 @@
     <!-- CTA Section -->
     <section class="cta-section">
       <div class="cta-content">
-        <h2>Pronto para transformar sua presença online?</h2>
-        <p>Solicite um orçamento personalizado para seu site institucional</p>
-        <button class="cta-button" @click="openContactModal('Solicitação de Site Institucional', 'A definir')">Solicitar Orçamento</button>
+        <h2>Pronto para transformar seus processos?</h2>
+        <p>Agende uma consultoria gratuita para discutir seu projeto</p>
+        <button
+          class="cta-button"
+          @click="openContactModal('Consultoria Gratuita', 'Gratuito')"
+        >
+          Agendar Consultoria
+        </button>
       </div>
     </section>
 
@@ -251,7 +314,7 @@
             <div class="form-group">
               <textarea
                 v-model="planForm.message"
-                placeholder="Conte mais sobre seu projeto de site institucional"
+                placeholder="Conte-nos sobre seu projeto de sistema web"
               ></textarea>
             </div>
             <button
@@ -278,7 +341,7 @@
           </div>
           <h2 class="success-title">Proposta Enviada!</h2>
           <p class="success-message">
-            Recebemos sua solicitação para o site institucional. Nossa equipe entrará em contato em breve para discutir os detalhes do projeto!
+            Recebemos sua solicitação para o sistema web personalizado. Nossa equipe entrará em contato em breve para discutir os detalhes do projeto!
           </p>
           <button class="success-button" @click="closeSuccessModal">Fechar</button>
         </div>
@@ -291,106 +354,108 @@
 import serviceRequestService from "@/services/serviceRequestService";
 
 export default {
-  name: "InstitutionalPage",
+  name: "SystemsPage",
   data() {
     return {
-      portfolio: [
-        {
-          client: "Advocacia Silva & Associados",
-          title: "Site profissional para escritório de advocacia",
-          industry: "Direito",
-          image:
-            "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-          link: "/demo/advocaciasilva",
-          features: [
-            "Design Premium",
-            "Áreas de atuação",
-            "Publicações",
-            "Formulário seguro",
-          ],
-          description:
-            "Site profissional com área de publicações jurídicas e formulário de contato criptografado para clientes.",
-          results: {
-            visits: 1200,
-            leads: 45,
-            time: 20,
-          },
-        },
-        {
-          client: "Clínica Vitalis",
-          title: "Site institucional para clínica médica",
-          industry: "Saúde",
-          image:
-            "https://images.unsplash.com/photo-1612375689547-b5351e63050b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-          link: "#",
-          features: [
-            "Agendamento online",
-            "Corpo clínico",
-            "Convênios",
-            "Blog de saúde",
-          ],
-          description:
-            "Plataforma com agendamento integrado, área de convênios e blog com artigos médicos.",
-          results: {
-            visits: 2500,
-            leads: 80,
-            time: 25,
-          },
-        },
-        {
-          client: "Construtora Alfa",
-          title: "Site corporativo para construtora",
-          industry: "Construção Civil",
-          image:
-            "https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-          link: "/demo/construtora-alpha",
-          features: [
-            "Portfólio de obras",
-            "Lançamentos",
-            "Trabalhe conosco",
-            "Tour virtual",
-          ],
-          description:
-            "Site com apresentação de empreendimentos, tour virtual 360° e sistema de currículos online.",
-          results: {
-            visits: 1800,
-            leads: 60,
-            time: 30,
-          },
-        },
-        {
-          client: "Instituto Educar",
-          title: "Site institucional para escola",
-          industry: "Educação",
-          image:
-            "https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-          link: "/demo/institutoeducar",
-          features: [
-            "Galeria de fotos",
-            "Matrícula online",
-            "Área do aluno",
-            "Eventos",
-          ],
-          description:
-            "Plataforma educacional com área restrita para alunos e pais, e sistema de matrículas digital.",
-          results: {
-            visits: 1500,
-            leads: 50,
-            time: 22,
-          },
-        },
-      ],
       showModal: false,
       showSuccess: false,
       isSubmitting: false,
-      selectedPlan: 'Site Institucional',
-      selectedPrice: 'A definir',
+      selectedPlan: "",
+      selectedPrice: "",
       planForm: {
         name: "",
         email: "",
         phone: "",
         message: "",
       },
+      serviceName: "Sistema Web", // Nome do serviço desta página
+
+      portfolio: [
+        {
+          client: "Rede de Farmácias Saúde Total",
+          title: "Sistema de gestão farmacêutica",
+          industry: "Saúde",
+          image:
+            "https://images.unsplash.com/photo-1587854692152-cbe660dbde88?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          link: "#",
+          features: [
+            "Controle de estoque",
+            "Vendas integradas",
+            "Receituário digital",
+            "Relatórios ANVISA",
+          ],
+          description:
+            "Sistema completo para gestão de farmácias com controle de medicamentos controlados e integração com os principais planos de saúde.",
+          results: {
+            efficiency: "40%",
+            time: 70,
+            development: 12,
+          },
+        },
+        {
+          client: "Transportadora LogFácil",
+          title: "Sistema de rastreamento de frota",
+          industry: "Logística",
+          image:
+            "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          link: "#",
+          features: [
+            "Rastreamento GPS",
+            "Gestão de motoristas",
+            "OTM (Otimização de rotas)",
+            "Integração com SEFAZ",
+          ],
+          description:
+            "Plataforma de gestão logística com rastreamento em tempo real, cálculo automático de rotas e emissão de documentos fiscais.",
+          results: {
+            efficiency: "35%",
+            time: 60,
+            development: 16,
+          },
+        },
+        {
+          client: "Escola Futuro Brillante",
+          title: "Plataforma de gestão educacional",
+          industry: "Educação",
+          image:
+            "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          link: "#",
+          features: [
+            "Diário de classe digital",
+            "Portal do aluno",
+            "Financeiro escolar",
+            "Comunicação pais-escola",
+          ],
+          description:
+            "Sistema completo para administração escolar com aplicativo para pais acompanharem desempenho dos alunos e pagamentos.",
+          results: {
+            efficiency: "50%",
+            time: 75,
+            development: 14,
+          },
+        },
+        {
+          client: "Construtora Edifício Alto",
+          title: "ERP para construção civil",
+          industry: "Engenharia",
+          image:
+            "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          link: "#",
+          features: [
+            "Gestão de obras",
+            "Controle de insumos",
+            "Orçamentos",
+            "Integração com Sienge",
+          ],
+          description:
+            "ERP especializado para construtoras com controle de custos por etapa da obra e integração com sistemas contábeis.",
+          results: {
+            efficiency: "45%",
+            time: 65,
+            development: 20,
+          },
+        },
+      ],
     };
   },
   methods: {
@@ -399,20 +464,24 @@ export default {
         .getElementById("portfolio")
         .scrollIntoView({ behavior: "smooth" });
     },
-    openContactModal(planName = 'Site Institucional', planPrice = 'A definir') {
-      this.selectedPlan = planName;
-      this.selectedPrice = planPrice;
+
+    openContactModal(plan, price) {
+      this.selectedPlan = plan;
+      this.selectedPrice = price;
       this.showModal = true;
       document.body.style.overflow = "hidden";
     },
+
     closeModal() {
       this.showModal = false;
       document.body.style.overflow = "auto";
     },
+
     closeSuccessModal() {
       this.showSuccess = false;
       document.body.style.overflow = "auto";
     },
+
     async submitPlanRequest() {
       try {
         this.isSubmitting = true;
@@ -425,11 +494,12 @@ export default {
           planName: this.selectedPlan,
           planPrice: this.selectedPrice,
           billingType: "mensal",
-          serviceName: "Site Institucional",
+          serviceName: this.serviceName,
         };
 
         await serviceRequestService.create(requestData);
 
+        // Limpa o formulário
         this.planForm = {
           name: "",
           email: "",
@@ -437,12 +507,15 @@ export default {
           message: "",
         };
 
+        // Fecha o modal de contato
         this.closeModal();
 
+        // Aguarda um pouco para suavizar a transição
         setTimeout(() => {
+          // Mostra o modal de sucesso
           this.showSuccess = true;
           document.body.style.overflow = "hidden";
-        }, 400);
+        }, 300);
       } catch (error) {
         console.error("Erro ao enviar solicitação:", error);
         alert("Erro ao enviar solicitação. Por favor, tente novamente.");
@@ -455,7 +528,7 @@ export default {
 </script>
 
 <style scoped>
-.institutional-page {
+.systems-page {
   font-family: "Inter", sans-serif;
   color: #2d3748;
   line-height: 1.6;
@@ -464,7 +537,7 @@ export default {
 /* Hero Section */
 .hero-section {
   background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-    url("https://images.unsplash.com/photo-1568992687947-868a62a9f521?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+    url("https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
   background-size: cover;
   background-position: center;
   color: white;
@@ -484,7 +557,7 @@ export default {
 }
 
 .highlight {
-  color: #4299e1;
+  color: #48bb78;
 }
 
 .subtitle {
@@ -494,7 +567,7 @@ export default {
 }
 
 .cta-button {
-  background: #4299e1;
+  background: #48bb78;
   color: white;
   border: none;
   padding: 1rem 2.5rem;
@@ -506,7 +579,7 @@ export default {
 }
 
 .cta-button:hover {
-  background: #3182ce;
+  background: #38a169;
   transform: translateY(-2px);
 }
 
@@ -625,7 +698,7 @@ export default {
 
 .view-button {
   align-self: flex-start;
-  background: #4299e1;
+  background: #48bb78;
   color: white;
   padding: 0.75rem 1.5rem;
   border-radius: 4px;
@@ -635,7 +708,7 @@ export default {
 }
 
 .view-button:hover {
-  background: #3182ce;
+  background: #38a169;
 }
 
 .portfolio-info {
@@ -683,7 +756,7 @@ export default {
   display: block;
   font-size: 1.5rem;
   font-weight: 700;
-  color: #4299e1;
+  color: #48bb78;
 }
 
 .result-label {
@@ -691,61 +764,111 @@ export default {
   color: #718096;
 }
 
-/* Structure Section */
-.structure-section {
+/* Features Section */
+.features-section {
   padding: 6rem 2rem;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.structure-grid {
+.features-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 2rem;
   margin-top: 3rem;
 }
 
-.structure-card {
+.features-card {
   background: white;
   border-radius: 8px;
   padding: 2rem;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-.structure-icon {
+.features-icon {
   font-size: 2.5rem;
   margin-bottom: 1.5rem;
 }
 
-.structure-card h3 {
+.features-card h3 {
   font-size: 1.25rem;
   margin-bottom: 1rem;
   color: #2d3748;
 }
 
-.structure-card ul {
+.features-card ul {
   list-style-type: none;
   padding: 0;
 }
 
-.structure-card li {
+.features-card li {
   margin-bottom: 0.75rem;
   color: #4a5568;
   position: relative;
   padding-left: 1.5rem;
 }
 
-.structure-card li::before {
+.features-card li::before {
   content: "✓";
   position: absolute;
   left: 0;
-  color: #4299e1;
+  color: #48bb78;
+}
+
+/* Process Section */
+.process-section {
+  padding: 6rem 2rem;
+  background: #f7fafc;
+}
+
+.process-steps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.process-step {
+  flex: 1;
+  min-width: 200px;
+  max-width: 220px;
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.step-number {
+  width: 50px;
+  height: 50px;
+  background: #48bb78;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 auto 1.5rem;
+}
+
+.process-step h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: #2d3748;
+}
+
+.process-step p {
+  color: #4a5568;
+  font-size: 0.95rem;
 }
 
 /* Pricing Section */
 .pricing-section {
   padding: 6rem 2rem;
-  background: #f7fafc;
 }
 
 .pricing-grid {
@@ -765,7 +888,7 @@ export default {
 }
 
 .pricing-card.featured {
-  border: 2px solid #4299e1;
+  border: 2px solid #48bb78;
   transform: scale(1.05);
 }
 
@@ -773,7 +896,7 @@ export default {
   position: absolute;
   top: -12px;
   right: 20px;
-  background: #4299e1;
+  background: #48bb78;
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 20px;
@@ -790,7 +913,7 @@ export default {
 .price {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #4299e1;
+  color: #48bb78;
   margin-bottom: 1.5rem;
 }
 
@@ -816,13 +939,13 @@ export default {
   content: "•";
   position: absolute;
   left: 0;
-  color: #4299e1;
+  color: #48bb78;
 }
 
 .price-button {
   width: 100%;
   padding: 1rem;
-  background: #4299e1;
+  background: #48bb78;
   color: white;
   border: none;
   border-radius: 4px;
@@ -832,12 +955,12 @@ export default {
 }
 
 .price-button:hover {
-  background: #3182ce;
+  background: #38a169;
 }
 
 /* CTA Section */
 .cta-section {
-  background: linear-gradient(135deg, #4299e1, #3182ce);
+  background: linear-gradient(135deg, #48bb78, #38a169);
   color: white;
   padding: 6rem 2rem;
   text-align: center;
@@ -857,41 +980,6 @@ export default {
   font-size: 1.25rem;
   margin-bottom: 2.5rem;
   opacity: 0.9;
-}
-
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .portfolio-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .pricing-card.featured {
-    transform: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .hero-section h1 {
-    font-size: 2.5rem;
-  }
-
-  .subtitle {
-    font-size: 1.2rem;
-  }
-
-  .portfolio-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .portfolio-item {
-    max-width: 100%;
-  }
-
-  .value-card,
-  .structure-card,
-  .pricing-card {
-    padding: 1.5rem;
-  }
 }
 
 /* Modal Styles */
@@ -1161,6 +1249,51 @@ export default {
 @keyframes fill {
   100% {
     box-shadow: inset 0px 0px 0px 30px #10b981;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pricing-card.featured {
+    transform: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section h1 {
+    font-size: 2.5rem;
+  }
+
+  .subtitle {
+    font-size: 1.2rem;
+  }
+
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .portfolio-item {
+    max-width: 100%;
+  }
+
+  .value-card,
+  .features-card,
+  .process-step,
+  .pricing-card {
+    padding: 1.5rem;
+  }
+
+  .process-steps {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .process-step {
+    max-width: 100%;
   }
 }
 </style>
