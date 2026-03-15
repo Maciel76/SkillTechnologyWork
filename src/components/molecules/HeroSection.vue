@@ -151,60 +151,75 @@
 </template>
 
 <script>
+import avatarUser1 from "@/assets/images/avatars/user1.png";
+import avatarUser2 from "@/assets/images/avatars/user2.png";
+import avatarUser3 from "@/assets/images/avatars/user3.png";
+import avatarUser4 from "@/assets/images/avatars/user4.png";
+import iconNode from "@/assets/images/icons/node.png";
+import iconVue from "@/assets/images/icons/vue.png";
+import iconMongodb from "@/assets/images/icons/mongodb.png";
+import iconAws from "@/assets/images/icons/aws.png";
+import iconGitrub from "@/assets/images/icons/gitrub.png";
+import iconPhotoshop from "@/assets/images/icons/photoshop.png";
+import bannerSkillTech from "@/assets/images/banners/skillTech.jpg";
+import bannerRelogio from "@/assets/images/banners/relogio.jpg";
+import bannerEcommerce from "@/assets/images/banners/ecommerce.jpg";
+import bannerSistemasAi from "@/assets/images/banners/sistemasAi.jpg";
+
 export default {
   name: "AgencyHero",
   data() {
     return {
       avatars: [
-        { src: require("@/assets/images/avatars/user1.png"), alt: "Cliente 1" },
-        { src: require("@/assets/images/avatars/user2.png"), alt: "Cliente 2" },
-        { src: require("@/assets/images/avatars/user3.png"), alt: "Cliente 3" },
-        { src: require("@/assets/images/avatars/user4.png"), alt: "Cliente 4" },
+        { src: avatarUser1, alt: "Cliente 1" },
+        { src: avatarUser2, alt: "Cliente 2" },
+        { src: avatarUser3, alt: "Cliente 3" },
+        { src: avatarUser4, alt: "Cliente 4" },
       ],
       clientLogos: [
         {
-          src: require("@/assets/images/icons/node.png"),
+          src: iconNode,
           alt: "Logo cliente 1",
         },
         {
-          src: require("@/assets/images/icons/vue.png"),
+          src: iconVue,
           alt: "Logo cliente 2",
         },
         {
-          src: require("@/assets/images/icons/mongodb.png"),
+          src: iconMongodb,
           alt: "Logo cliente 4",
         },
         {
-          src: require("@/assets/images/icons/aws.png"),
+          src: iconAws,
           alt: "Logo cliente 4",
         },
         {
-          src: require("@/assets/images/icons/gitrub.png"),
+          src: iconGitrub,
           alt: "Logo cliente 4",
         },
         {
-          src: require("@/assets/images/icons/photoshop.png"),
+          src: iconPhotoshop,
           alt: "Logo cliente 4",
         },
       ],
       images: [
         {
-          src: require("@/assets/images/banners/skillTech.jpg"),
+          src: bannerSkillTech,
           alt: "Desenvolvimento de software personalizado e website responsivo",
           link: "/servicos",
         },
         {
-          src: require("@/assets/images/banners/relogio.jpg"),
+          src: bannerRelogio,
           alt: "Inteligência Artificial para o futuro do seu negócio",
           link: "/portfolio",
         },
         {
-          src: require("@/assets/images/banners/ecommerce.jpg"),
+          src: bannerEcommerce,
           alt: "Tecnologia e inovação",
           link: "/inovacao",
         },
         {
-          src: require("@/assets/images/banners/sistemasAi.jpg"),
+          src: bannerSistemasAi,
           alt: "Inteligência Artificial aplicada",
           link: "/Service/sistemasweb",
         },

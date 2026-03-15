@@ -22,7 +22,7 @@
     </header>
 
     <main class="blog-main">
-      <!-- Featured Post Section. -->
+      <!-- Featured Post Section -->
       <section v-if="featuredPosts.length" class="featured-post">
         <router-link
           :to="`/blog/${featuredPosts[0].id}`"
@@ -39,8 +39,10 @@
             <h1>{{ featuredPosts[0].title }}</h1>
             <p>{{ featuredPosts[0].summary }}</p>
             <div class="post-meta">
-              <span>{{ formatDate(featuredPosts[0].date) }}</span>
-              <span>{{ featuredPosts[0].author }}</span>
+              <span><i class="fas fa-calendar"></i> {{ formatDate(featuredPosts[0].date) }}</span>
+              <span><i class="fas fa-user"></i> {{ featuredPosts[0].author }}</span>
+              <span><i class="fas fa-clock"></i> {{ featuredPosts[0].readTime }} min</span>
+              <span><i class="fas fa-eye"></i> {{ featuredPosts[0].views }}</span>
             </div>
           </div>
         </router-link>
@@ -69,7 +71,8 @@
                 </div>
                 <div class="post-meta">
                   <span>{{ formatDate(post.date) }}</span>
-                  <span>{{ post.author }}</span>
+                  <span><i class="fas fa-clock"></i> {{ post.readTime }} min</span>
+                  <span><i class="fas fa-eye"></i> {{ post.views }}</span>
                 </div>
               </div>
             </router-link>
@@ -126,6 +129,21 @@
               </button>
             </div>
           </div>
+
+          <!-- Newsletter -->
+          <div class="sidebar-section newsletter">
+            <h3>Newsletter</h3>
+            <p class="newsletter-text">Receba nossos artigos mais recentes no seu e-mail.</p>
+            <form class="newsletter-form" @submit.prevent="subscribeNewsletter">
+              <input
+                type="email"
+                v-model="newsletterEmail"
+                placeholder="Seu e-mail"
+                required
+              />
+              <button type="submit" class="newsletter-btn">Inscrever-se</button>
+            </form>
+          </div>
         </aside>
       </div>
 
@@ -152,18 +170,15 @@
 </template>
 
 <script>
-//revisado
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, onUnmounted, watch } from "vue";
 import { useBlog } from "../composables/useBlog";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { useStats } from "../composables/useStats"; // ← Adicione esta linha
 
 export default {
   name: "BlogView",
   components: {},
   setup() {
     const { posts, featuredPosts, categories, tags, searchPosts } = useBlog();
-    const { registerVisit } = useStats(); // ← Adicione esta linha
 
     const searchQuery = ref("");
     const currentPage = ref(1);
@@ -171,6 +186,61 @@ export default {
     const currentCategory = ref(null);
     const currentTag = ref(null);
     const isDarkMode = ref(false);
+    const newsletterEmail = ref("");
+    let searchTimeout = null;
+
+    // SEO: Update page meta
+    const updateMeta = () => {
+      document.title = "Blog | Artigos sobre Tecnologia, Design e Marketing";
+      let metaDesc = document.querySelector('meta[name="description"]');
+      if (!metaDesc) {
+        metaDesc = document.createElement("meta");
+        metaDesc.setAttribute("name", "description");
+        document.head.appendChild(metaDesc);
+      }
+      metaDesc.setAttribute("content", "Confira nossos artigos sobre tecnologia, design, marketing digital e muito mais. Dicas, tutoriais e novidades do mercado.");
+
+      // Open Graph
+      const ogTags = {
+        "og:title": "Blog | Artigos e Novidades",
+        "og:description": "Confira nossos artigos sobre tecnologia, design, marketing digital e muito mais.",
+        "og:type": "website",
+        "og:url": window.location.href,
+      };
+      Object.entries(ogTags).forEach(([property, content]) => {
+        let tag = document.querySelector(`meta[property="${property}"]`);
+        if (!tag) {
+          tag = document.createElement("meta");
+          tag.setAttribute("property", property);
+          document.head.appendChild(tag);
+        }
+        tag.setAttribute("content", content);
+      });
+    };
+
+    // SEO: JSON-LD for Blog
+    let jsonLdScript = null;
+    const injectJsonLd = () => {
+      const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "name": "Blog",
+        "description": "Artigos sobre tecnologia, design, marketing digital e muito mais.",
+        "url": window.location.href,
+        "blogPost": posts.value.slice(0, 10).map(post => ({
+          "@type": "BlogPosting",
+          "headline": post.title,
+          "description": post.summary,
+          "author": { "@type": "Person", "name": post.author },
+          "datePublished": post.date,
+          "image": post.image,
+        })),
+      };
+      jsonLdScript = document.createElement("script");
+      jsonLdScript.type = "application/ld+json";
+      jsonLdScript.textContent = JSON.stringify(jsonLd);
+      document.head.appendChild(jsonLdScript);
+    };
 
     // Filter and pagination logic
     const filteredPosts = computed(() => {
@@ -209,7 +279,10 @@ export default {
 
     // Methods
     const handleSearch = () => {
-      currentPage.value = 1;
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        currentPage.value = 1;
+      }, 300);
     };
 
     const filterByCategory = (category) => {
@@ -235,18 +308,44 @@ export default {
       isDarkMode.value = !isDarkMode.value;
       const newTheme = isDarkMode.value ? "dark" : "light";
       document.documentElement.setAttribute("data-theme", newTheme);
-      localStorage.setItem("blog-theme", newTheme); // Salva a preferência
+      localStorage.setItem("blog-theme", newTheme);
     };
 
-    // Initialize theme
+    const subscribeNewsletter = () => {
+      if (newsletterEmail.value) {
+        // Placeholder - pode ser conectado a mailchimp/sendinblue/etc.
+        alert("Obrigado por se inscrever! Você receberá nossas novidades.");
+        newsletterEmail.value = "";
+      }
+    };
+
+    // Inject JSON-LD when posts load
+    watch(
+      () => posts.value.length,
+      (len) => {
+        if (len > 0 && !jsonLdScript) {
+          injectJsonLd();
+        }
+      }
+    );
+
     onMounted(() => {
-      // Garante que o tema seja aplicado ao carregar
       const savedTheme = localStorage.getItem("blog-theme");
       if (savedTheme === "dark") {
         isDarkMode.value = true;
         document.documentElement.setAttribute("data-theme", "dark");
       }
-      registerVisit();
+      updateMeta();
+      if (posts.value.length > 0) {
+        injectJsonLd();
+      }
+    });
+
+    onUnmounted(() => {
+      if (jsonLdScript && jsonLdScript.parentNode) {
+        jsonLdScript.parentNode.removeChild(jsonLdScript);
+      }
+      clearTimeout(searchTimeout);
     });
 
     return {
@@ -261,11 +360,13 @@ export default {
       categories,
       tags,
       popularPosts,
+      newsletterEmail,
       handleSearch,
       filterByCategory,
       filterByTag,
       formatDate,
       toggleTheme,
+      subscribeNewsletter,
     };
   },
 };
@@ -649,6 +750,60 @@ body {
 .popular-post-info span {
   font-size: 0.9rem;
   color: #6b7280;
+}
+
+/* Newsletter */
+.newsletter-text {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.newsletter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.newsletter-form input {
+  padding: 0.75rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  width: 100%;
+}
+
+.newsletter-btn {
+  background: #3498db !important;
+  color: white !important;
+  border: none !important;
+  padding: 0.75rem 1rem !important;
+  border-radius: 8px !important;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s ease !important;
+}
+
+.newsletter-btn:hover {
+  background: #2980b9 !important;
+  transform: none !important;
+}
+
+[data-theme="dark"] .newsletter-text {
+  color: #9ca3af;
+}
+
+[data-theme="dark"] .newsletter-form input {
+  background: #374151;
+  border-color: #4b5563;
+  color: #e5e7eb;
+}
+
+/* Post meta icons */
+.post-meta i {
+  margin-right: 4px;
+  font-size: 0.8rem;
 }
 
 /* Paginação */

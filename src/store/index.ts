@@ -1,14 +1,17 @@
-// store.js
-import { createStore } from 'vuex';
+import { defineStore } from 'pinia';
+import hero6 from '@/assets/images/banners/hero6.jpg';
+import hero2 from '@/assets/images/banners/hero2.jpg';
+import hero3 from '@/assets/images/banners/hero3.jpg';
+import hero4 from '@/assets/images/banners/hero4.jpg';
 
-export default createStore({
-  state: {
+export const useHeroStore = defineStore('hero', {
+  state: () => ({
     heroConfig: {
       images: [
-        { src: require('@/assets/images/banners/hero6.jpg'), alt: 'Team' },
-        { src: require('@/assets/images/banners/hero2.jpg'), alt: 'Collaboration' },
-        { src: require('@/assets/images/banners/hero3.jpg'), alt: 'Team Meeting' },
-        { src: require('@/assets/images/banners/hero4.jpg'), alt: 'Innovation' }
+        { src: hero6, alt: 'Team' },
+        { src: hero2, alt: 'Collaboration' },
+        { src: hero3, alt: 'Team Meeting' },
+        { src: hero4, alt: 'Innovation' }
       ],
       texts: [
         { 
@@ -30,21 +33,13 @@ export default createStore({
       ],
       showButtons: true
     }
-  },
-  mutations: {
-    updateHeroConfig(state, newConfig) {
-      state.heroConfig = newConfig;
-    },
-    toggleButtons(state) {
-      state.heroConfig.showButtons = !state.heroConfig.showButtons;
-    }
-  },
+  }),
   actions: {
-    updateHeroConfig({ commit }, newConfig) {
-      commit('updateHeroConfig', newConfig);
+    updateHeroConfig(newConfig: any) {
+      this.heroConfig = newConfig;
     },
-    toggleButtons({ commit }) {
-      commit('toggleButtons');
+    toggleButtons() {
+      this.heroConfig.showButtons = !this.heroConfig.showButtons;
     }
   }
 });

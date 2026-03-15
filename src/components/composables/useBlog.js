@@ -52,7 +52,8 @@ export function useBlog() {
         readTime: article.tempoLeitura || 5,
         isDraft: article.status !== 'published',
         destaque: article.destaque || false,
-        slug: article.slug
+        slug: article.slug,
+        tipoConteudo: article.tipoConteudo || 'editor'
       }));
 
       initialized = true;
@@ -89,7 +90,7 @@ export function useBlog() {
   // Buscar post por ID
   const getPost = async (id) => {
     try {
-      const response = await articleService.getArticle(id);
+      const response = await articleService.getArticle(id, true);
       const article = response.data;
 
       return {
@@ -107,7 +108,8 @@ export function useBlog() {
         views: article.views || 0,
         comments: article.comments || article.comentarios || [],
         readTime: article.tempoLeitura || 5,
-        slug: article.slug
+        slug: article.slug,
+        tipoConteudo: article.tipoConteudo || 'editor'
       };
     } catch (err) {
       console.error('Erro ao buscar artigo:', err);
@@ -139,16 +141,15 @@ export function useBlog() {
   // Adicionar comentário
   const addComment = async (postId, comment) => {
     try {
-      const response = await articleService.addComment(
-        postId,
-        comment.text,
-        comment.author || 'Anônimo',
-        comment.userId
-      );
+      const response = await articleService.addComment(postId, {
+        content: comment.text,
+        author: comment.author || 'Anônimo',
+        email: comment.email || '',
+      });
 
       // Atualizar localmente
       const post = articles.value.find(p => p.id === postId);
-      if (post) {
+      if (post && response.comentarios) {
         post.comments = response.comentarios;
       }
 
@@ -159,36 +160,19 @@ export function useBlog() {
     }
   };
 
-  // Buscar posts relacionados
+  // Buscar posts relacionados (filtragem local por categoria/tags)
   const getRelatedPosts = async (currentPost) => {
-    try {
-      const related = await articleService.getRelatedArticles(currentPost.id, 3);
-
-      return related.map(article => ({
-        id: article._id,
-        title: article.titulo,
-        author: article.autor || 'Admin',
-        date: article.dataPublicacao || article.createdAt,
-        category: article.categorias && article.categorias.length > 0
-          ? article.categorias[0]
-          : 'geral',
-        tags: article.tags || [],
-        image: article.imagem || 'https://via.placeholder.com/800x450',
-        summary: article.resumo || '',
-        views: article.visualizacoes || 0,
-        slug: article.slug
-      }));
-    } catch (err) {
-      console.error('Erro ao buscar artigos relacionados:', err);
-      // Fallback: buscar localmente
-      return articles.value
-        .filter(post =>
-          post.id !== currentPost.id &&
-          (post.category === currentPost.category ||
-           post.tags.some(tag => currentPost.tags.includes(tag)))
-        )
-        .slice(0, 3);
+    // Garantir que artigos estão carregados
+    if (!initialized) {
+      await loadArticles();
     }
+    return articles.value
+      .filter(post =>
+        post.id !== currentPost.id &&
+        (post.category === currentPost.category ||
+         post.tags.some(tag => currentPost.tags.includes(tag)))
+      )
+      .slice(0, 3);
   };
 
   // Buscar artigo em destaque

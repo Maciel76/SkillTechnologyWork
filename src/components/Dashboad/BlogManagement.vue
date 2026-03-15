@@ -82,14 +82,20 @@
           </button>
         </div>
       </div>
-      <button class="btn-primary create-btn" @click="openCreateModal">
-        <img
-          src="@/assets/svg/icons/blogicons/rascunho.svg"
-          width="25px"
-          alt=""
-        />
-        Nova Postagem
-      </button>
+      <div class="header-actions">
+        <button class="btn-html create-btn" @click="openHtmlModal">
+          <i class="fas fa-code"></i>
+          Página HTML
+        </button>
+        <button class="btn-primary create-btn" @click="openCreateModal">
+          <img
+            src="@/assets/svg/icons/blogicons/rascunho.svg"
+            width="25px"
+            alt=""
+          />
+          Nova Postagem
+        </button>
+      </div>
     </div>
 
     <!-- Loading State -->
@@ -133,9 +139,14 @@
           <i class="fas fa-star"></i>
           Destaque
         </div>
-
-        <div class="article-image" @click="viewArticle(article)">
+        <!-- Badge HTML -->
+        <div v-if="article.tipoConteudo === 'html'" class="html-badge">
+          <i class="fas fa-code"></i>
+          HTML
+        </div>
+        <div class="article-image-wrap">
           <img
+            class="article-image"
             :src="
               article.imagem ||
               article.image ||
@@ -311,11 +322,9 @@
                 <div class="form-section">
                   <h4>Conteúdo do Artigo</h4>
                   <div class="editor-container">
-                    <QuillEditor
-                      v-model:content="formData.conteudo"
-                      contentType="html"
-                      :options="editorOptions"
-                      theme="snow"
+                    <TipTapEditor
+                      :key="formData._id || 'new'"
+                      v-model="formData.conteudo"
                       @textChange="onContentChange"
                     />
                   </div>
@@ -484,6 +493,115 @@
       </div>
     </transition>
 
+    <!-- Modal: Inserir Página HTML -->
+    <transition name="overlay">
+      <div v-if="showHtmlModal" class="modal-overlay" @click="closeHtmlModal">
+        <transition name="slide-up">
+          <div v-if="showHtmlModal" class="modal-content blog-modal" @click.stop>
+            <div class="modal-header">
+              <h3><i class="fas fa-code"></i> {{ isEditingHtml ? 'Editar Página HTML' : 'Nova Página HTML' }}</h3>
+              <button class="close-btn" @click="closeHtmlModal">
+                <img src="../../assets/svg/icons/blogicons/close.svg" alt="" />
+              </button>
+            </div>
+
+            <div class="modal-body">
+              <form @submit.prevent="saveHtmlPost" class="article-form">
+                <div class="form-section">
+                  <h4>Informações Básicas</h4>
+                  <div class="form-group">
+                    <label for="htmlTitle">Título *</label>
+                    <input
+                      id="htmlTitle"
+                      type="text"
+                      v-model="htmlFormData.titulo"
+                      placeholder="Título da página HTML"
+                      required
+                    />
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="htmlAuthor">Autor</label>
+                      <input
+                        id="htmlAuthor"
+                        type="text"
+                        v-model="htmlFormData.autor"
+                        placeholder="Nome do autor"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="htmlStatus">Status</label>
+                      <select id="htmlStatus" v-model="htmlFormData.status">
+                        <option value="draft">Rascunho</option>
+                        <option value="published">Publicado</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="htmlImage">Imagem de Capa (opcional)</label>
+                    <input
+                      id="htmlImage"
+                      type="url"
+                      v-model="htmlFormData.imagem"
+                      placeholder="https://exemplo.com/imagem.jpg"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="htmlSummary">Resumo (opcional)</label>
+                    <input
+                      id="htmlSummary"
+                      type="text"
+                      v-model="htmlFormData.resumo"
+                      placeholder="Breve descrição da página"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-section">
+                  <h4>Código HTML</h4>
+                  <p class="html-hint">
+                    <i class="fas fa-info-circle"></i>
+                    Cole o código HTML completo da página. Ele será renderizado isoladamente, sem os estilos do blog.
+                  </p>
+                  <div class="form-group">
+                    <textarea
+                      v-model="htmlFormData.conteudo"
+                      class="html-code-editor"
+                      placeholder="<!DOCTYPE html>&#10;<html>&#10;<head>...</head>&#10;<body>...</body>&#10;</html>"
+                      spellcheck="false"
+                    ></textarea>
+                  </div>
+                  <div v-if="htmlFormData.conteudo" class="html-preview-toggle">
+                    <button type="button" class="btn-secondary" @click="showHtmlPreview = !showHtmlPreview">
+                      <i class="fas" :class="showHtmlPreview ? 'fa-eye-slash' : 'fa-eye'"></i>
+                      {{ showHtmlPreview ? 'Ocultar Preview' : 'Ver Preview' }}
+                    </button>
+                  </div>
+                  <div v-if="showHtmlPreview && htmlFormData.conteudo" class="html-preview-container">
+                    <iframe
+                      :srcdoc="htmlFormData.conteudo"
+                      class="html-preview-iframe"
+                      sandbox="allow-scripts allow-same-origin"
+                    ></iframe>
+                  </div>
+                </div>
+
+                <div class="form-actions">
+                  <button type="button" class="btn-secondary" @click="closeHtmlModal">
+                    Cancelar
+                  </button>
+                  <button type="submit" class="btn-primary" :disabled="saving">
+                    <i class="fas" :class="saving ? 'fa-spinner fa-spin' : 'fa-save'"></i>
+                    {{ saving ? 'Salvando...' : isEditingHtml ? 'Atualizar' : 'Publicar' }}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </transition>
+      </div>
+    </transition>
+
     <!-- Modal de Confirmação de Exclusão -->
     <transition name="overlay">
       <div
@@ -557,15 +675,14 @@
 </template>
 
 <script>
-import { QuillEditor } from "@vueup/vue-quill";
-import "@vueup/vue-quill/dist/vue-quill.snow.css";
-import "@fortawesome/fontawesome-free/css/all.min.css"; // ← adicionado
+import TipTapEditor from "@/components/TipTapEditor.vue";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import articleService from "@/services/articleService";
 
 export default {
   name: "BlogManagement",
   components: {
-    QuillEditor,
+    TipTapEditor,
   },
   data() {
     return {
@@ -574,7 +691,10 @@ export default {
       deleting: false,
       showModal: false,
       showDeleteModal: false,
+      showHtmlModal: false,
+      showHtmlPreview: false,
       isEditing: false,
+      isEditingHtml: false,
       currentFilter: "all",
       articleToDelete: null,
       newTag: "",
@@ -600,23 +720,16 @@ export default {
         status: "draft",
         destaque: false,
       },
-      editorOptions: {
-        modules: {
-          toolbar: [
-            [{ header: [1, 2, 3, 4, 5, 6, false] }],
-            ["bold", "italic", "underline", "strike"],
-            [{ color: [] }, { background: [] }],
-            [{ list: "ordered" }, { list: "bullet" }],
-            [{ indent: "-1" }, { indent: "+1" }],
-            [{ align: [] }],
-            ["blockquote", "code-block"],
-            ["link", "image", "video"],
-            ["clean"],
-          ],
-        },
-        placeholder: "Comece a escrever seu artigo incrível aqui...",
-        theme: "snow",
+      htmlFormData: {
+        _id: null,
+        titulo: "",
+        conteudo: "",
+        resumo: "",
+        imagem: "",
+        autor: "Admin",
+        status: "draft",
       },
+
       blogCategories: [
         { value: "tecnologia", name: "Tecnologia" },
         { value: "negocios", name: "Negócios" },
@@ -694,6 +807,23 @@ export default {
     },
 
     editArticle(article) {
+      // Se for post HTML, abre o modal de HTML
+      if (article.tipoConteudo === 'html') {
+        this.isEditingHtml = true;
+        this.htmlFormData = {
+          _id: article._id,
+          titulo: article.titulo || article.title,
+          conteudo: article.conteudo || article.content,
+          resumo: article.resumo || article.summary || "",
+          imagem: article.imagem || article.image || "",
+          autor: article.autor || article.author || "Admin",
+          status: article.status,
+        };
+        this.showHtmlPreview = false;
+        this.showHtmlModal = true;
+        return;
+      }
+
       this.isEditing = true;
       this.formData = {
         _id: article._id,
@@ -911,6 +1041,72 @@ export default {
     closeDeleteModal() {
       this.showDeleteModal = false;
       this.articleToDelete = null;
+    },
+
+    // ── Métodos para Página HTML ──
+    openHtmlModal() {
+      this.isEditingHtml = false;
+      this.htmlFormData = {
+        _id: null,
+        titulo: "",
+        conteudo: "",
+        resumo: "",
+        imagem: "",
+        autor: "Admin",
+        status: "draft",
+      };
+      this.showHtmlPreview = false;
+      this.showHtmlModal = true;
+    },
+
+    closeHtmlModal() {
+      this.showHtmlModal = false;
+      this.showHtmlPreview = false;
+    },
+
+    async saveHtmlPost() {
+      if (!this.htmlFormData.titulo.trim()) {
+        this.showToast("O título é obrigatório", "error");
+        return;
+      }
+      if (!this.htmlFormData.conteudo.trim()) {
+        this.showToast("O código HTML não pode estar vazio", "error");
+        return;
+      }
+
+      try {
+        this.saving = true;
+
+        const articleData = {
+          titulo: this.htmlFormData.titulo.trim(),
+          conteudo: this.htmlFormData.conteudo,
+          resumo: this.htmlFormData.resumo || this.htmlFormData.titulo,
+          imagem: this.htmlFormData.imagem || undefined,
+          autor: this.htmlFormData.autor || "Admin",
+          status: this.htmlFormData.status,
+          tipoConteudo: "html",
+          categorias: [],
+          tags: [],
+          destaque: false,
+        };
+
+        if (this.isEditingHtml && this.htmlFormData._id) {
+          await articleService.updateArticle(this.htmlFormData._id, articleData);
+          this.showToast("Página HTML atualizada!", "success");
+        } else {
+          await articleService.createArticle(articleData);
+          this.showToast("Página HTML criada!", "success");
+        }
+
+        this.closeHtmlModal();
+        await this.loadArticles();
+        await this.loadStats();
+      } catch (error) {
+        console.error("Erro ao salvar página HTML:", error);
+        this.showToast(error.message || "Erro ao salvar página HTML", "error");
+      } finally {
+        this.saving = false;
+      }
     },
 
     showToast(message, type = "success") {
@@ -1839,6 +2035,109 @@ export default {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
+}
+
+/* HTML Post Button */
+.btn-html {
+  padding: 12px 24px;
+  border: 2px solid #f59e0b;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+}
+
+.btn-html:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(245, 158, 11, 0.3);
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* HTML Badge */
+.html-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  z-index: 2;
+}
+
+/* HTML Code Editor */
+.html-code-editor {
+  width: 100%;
+  min-height: 400px;
+  padding: 16px;
+  font-family: 'Courier New', Consolas, monospace;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  background: #1e1e2e;
+  color: #cdd6f4;
+  border: 2px solid #313244;
+  border-radius: 8px;
+  resize: vertical;
+  tab-size: 2;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.html-code-editor:focus {
+  outline: none;
+  border-color: #89b4fa;
+  box-shadow: 0 0 0 3px rgba(137, 180, 250, 0.2);
+}
+
+.html-hint {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  background: #fffbeb;
+  border-radius: 8px;
+  border-left: 3px solid #f59e0b;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.html-hint i {
+  color: #f59e0b;
+}
+
+.html-preview-toggle {
+  margin-top: 12px;
+}
+
+.html-preview-container {
+  margin-top: 12px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+}
+
+.html-preview-iframe {
+  width: 100%;
+  height: 500px;
+  border: none;
 }
 
 /* Delete Modal */

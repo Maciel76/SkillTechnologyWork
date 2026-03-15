@@ -36,7 +36,7 @@
     },
     methods: {
       saveConfig() {
-        this.heroStore.updateHeroConfig(this.heroStore);
+        this.heroStore.updateHeroConfig(this.heroStore.heroConfig);
         alert('Configuração salva com sucesso!');
       }
     }

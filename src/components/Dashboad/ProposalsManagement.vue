@@ -14,7 +14,7 @@
           <div class="stat-badge pendente-badge">Pendente</div>
         </div>
         <div class="stat-content">
-          <h3 class="stat-number">{{ stats.porStatus?.pendentes || 0 }}</h3>
+          <h3 class="stat-number">{{ proposalsStore.stats.pendentes || 0 }}</h3>
           <p class="stat-label">Aguardando</p>
         </div>
       </div>
@@ -31,7 +31,7 @@
           <div class="stat-badge analise-badge">Em Análise</div>
         </div>
         <div class="stat-content">
-          <h3 class="stat-number">{{ stats.porStatus?.emAnalise || 0 }}</h3>
+          <h3 class="stat-number">{{ proposalsStore.stats.emAnalise || 0 }}</h3>
           <p class="stat-label">Analisando</p>
         </div>
       </div>
@@ -48,7 +48,7 @@
           <div class="stat-badge aprovado-badge">Aprovado</div>
         </div>
         <div class="stat-content">
-          <h3 class="stat-number">{{ stats.porStatus?.aprovados || 0 }}</h3>
+          <h3 class="stat-number">{{ proposalsStore.stats.aprovados || 0 }}</h3>
           <p class="stat-label">Aceitos</p>
         </div>
       </div>
@@ -65,7 +65,7 @@
           <div class="stat-badge recusado-badge">Recusado</div>
         </div>
         <div class="stat-content">
-          <h3 class="stat-number">{{ stats.porStatus?.recusados || 0 }}</h3>
+          <h3 class="stat-number">{{ proposalsStore.stats.recusados || 0 }}</h3>
           <p class="stat-label">Negados</p>
         </div>
       </div>
@@ -82,7 +82,7 @@
           <div class="stat-badge concluido-badge">Concluído</div>
         </div>
         <div class="stat-content">
-          <h3 class="stat-number">{{ stats.porStatus?.concluidos || 0 }}</h3>
+          <h3 class="stat-number">{{ proposalsStore.stats.concluidos || 0 }}</h3>
           <p class="stat-label">Finalizados</p>
         </div>
       </div>
@@ -493,28 +493,22 @@
 
 <script>
 import serviceRequestService from "@/services/serviceRequestService";
+import { useProposalsStore } from "@/stores/proposalsStore";
 
 export default {
   name: "ProposalsManagement",
+  setup() {
+    const proposalsStore = useProposalsStore();
+
+    return {
+      proposalsStore
+    };
+  },
   data() {
     return {
       proposals: [],
       selectedProposals: [],
-      stats: {
-        total: 0,
-        porStatus: {
-          pendentes: 0,
-          emAnalise: 0,
-          aprovados: 0,
-          recusados: 0,
-          concluidos: 0,
-        },
-        naoLidos: 0,
-        naoRespondidos: 0,
-        porServico: [],
-      },
       selectAll: false,
-      loading: false,
       deletingId: null,
       error: null,
       searchQuery: "",
@@ -542,7 +536,8 @@ export default {
       this.error = null;
 
       try {
-        await this.fetchStats();
+        // Use the store to fetch stats
+        await this.proposalsStore.fetchStats();
         await this.fetchProposals();
       } catch (error) {
         console.error("Erro ao carregar dados:", error);
@@ -593,31 +588,33 @@ export default {
       }
     },
 
-    async fetchStats() {
-      try {
-        const response = await serviceRequestService.getStats();
-        this.stats = response.data || response;
-      } catch (error) {
-        console.error("Erro ao buscar estatísticas:", error);
-        this.calculateLocalStats();
-      }
-    },
+    // fetchStats is now handled by the store, so we don't need this method
+    // async fetchStats() {
+    //   try {
+    //     const response = await serviceRequestService.getStats();
+    //     this.stats = response.data || response;
+    //   } catch (error) {
+    //     console.error("Erro ao buscar estatísticas:", error);
+    //     this.calculateLocalStats();
+    //   }
+    // },
 
-    calculateLocalStats() {
-      const all = this.proposals;
-      this.stats = {
-        total: all.length,
-        porStatus: {
-          pendentes: all.filter((p) => p.status === "pendente").length,
-          emAnalise: all.filter((p) => p.status === "em_analise").length,
-          aprovados: all.filter((p) => p.status === "aprovado").length,
-          recusados: all.filter((p) => p.status === "recusado").length,
-          concluidos: all.filter((p) => p.status === "concluido").length,
-        },
-        naoLidos: all.filter((p) => !p.lido).length,
-        naoRespondidos: all.filter((p) => !p.respondido).length,
-      };
-    },
+    // calculateLocalStats() is not needed since we use the store and API
+    // calculateLocalStats() {
+    //   const all = this.proposals;
+    //   this.stats = {
+    //     total: all.length,
+    //     porStatus: {
+    //       pendentes: all.filter((p) => p.status === "pendente").length,
+    //       emAnalise: all.filter((p) => p.status === "em_analise").length,
+    //       aprovados: all.filter((p) => p.status === "aprovado").length,
+    //       recusados: all.filter((p) => p.status === "recusado").length,
+    //       concluidos: all.filter((p) => p.status === "concluido").length,
+    //     },
+    //     naoLidos: all.filter((p) => !p.lido).length,
+    //     naoRespondidos: all.filter((p) => !p.respondido).length,
+    //   };
+    // },
 
     async deleteProposal(id) {
       if (!id || !confirm("Tem certeza que deseja excluir esta proposta?")) {
@@ -630,8 +627,8 @@ export default {
         this.proposals = this.proposals.filter(
           (proposal) => (proposal.id || proposal._id) !== id
         );
-        this.stats.total--;
-        await this.fetchStats();
+        // Refresh stats using store instead of manually updating
+        await this.proposalsStore.fetchStats();
       } catch (error) {
         console.error("Erro ao excluir proposta:", error);
         this.error =
@@ -668,7 +665,8 @@ export default {
       try {
         await serviceRequestService.markAsRead(proposal.id || proposal._id);
         proposal.lido = true;
-        await this.fetchStats();
+        // Refresh stats using store
+        await this.proposalsStore.fetchStats();
       } catch (error) {
         console.error("Erro ao marcar como lido:", error);
       }
@@ -681,7 +679,8 @@ export default {
         await serviceRequestService.bulkMarkAsRead(ids);
         this.selectedProposals.forEach((p) => (p.lido = true));
         this.selectedProposals = [];
-        await this.fetchStats();
+        // Refresh stats using store
+        await this.proposalsStore.fetchStats();
       } catch (error) {
         console.error("Erro ao marcar múltiplas como lidas:", error);
         this.error = "Falha ao marcar propostas como lidas.";
@@ -699,7 +698,8 @@ export default {
         );
         this.selectedProposal.status = this.newStatus;
         this.selectedProposal.observacoes = this.newObservacoes;
-        await this.fetchData();
+        // Refresh stats using store
+        await this.proposalsStore.fetchStats();
         this.closeModal();
       } catch (error) {
         console.error("Erro ao atualizar status:", error);

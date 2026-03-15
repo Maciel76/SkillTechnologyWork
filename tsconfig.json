@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "esnext",
+    "target": "ESNext",
+    "module": "ESNext",
     "strict": true,
     "jsx": "preserve",
     "importHelpers": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -14,7 +14,7 @@
     "sourceMap": true,
     "baseUrl": ".",
     "types": [
-      "webpack-env"
+      "vite/client"
     ],
     "paths": {
       "@/*": [
@@ -22,10 +22,9 @@
       ]
     },
     "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable",
-      "scripthost"
+      "ESNext",
+      "DOM",
+      "DOM.Iterable"
     ]
   },
   "include": [
@@ -33,7 +32,8 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "tests/**/*.tsx",
+    "env.d.ts"
   ],
   "exclude": [
     "node_modules"

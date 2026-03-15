@@ -139,7 +139,7 @@
         <button @click="showYoutubeModal = true" title="Inserir vídeo do YouTube">
           <i class="fab fa-youtube"></i>
         </button>
-        <button @click="showLinkModal = true" title="Inserir link">
+        <button @click="openLinkModal" :class="{ 'is-active': editor.isActive('link') }" title="Inserir/remover link">
           <i class="fas fa-link"></i>
         </button>
         <button
@@ -190,6 +190,7 @@
           type="url"
           placeholder="https://exemplo.com/imagem.jpg"
           @keyup.enter="addImage"
+          ref="imageInput"
         />
         <div class="modal-actions">
           <button @click="addImage" class="btn-primary">Inserir</button>
@@ -219,6 +220,7 @@
     <div v-if="showLinkModal" class="modal-overlay" @click="closeLinkModal">
       <div class="modal-content" @click.stop>
         <h3>Inserir Link</h3>
+        <p class="link-hint" v-if="hasSelection">O link será aplicado ao texto selecionado.</p>
         <input
           v-model="linkUrl"
           type="url"
@@ -226,6 +228,7 @@
           @keyup.enter="addLink"
         />
         <div class="modal-actions">
+          <button v-if="editor && editor.isActive('link')" @click="removeLink" class="btn-danger">Remover Link</button>
           <button @click="addLink" class="btn-primary">Inserir</button>
           <button @click="closeLinkModal" class="btn-secondary">Cancelar</button>
         </div>
@@ -237,12 +240,12 @@
 <script>
 import { useEditor, EditorContent } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
-import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
-import Youtube from '@tiptap/extension-youtube';
 import TextAlign from '@tiptap/extension-text-align';
 import Highlight from '@tiptap/extension-highlight';
-import { ref, watch, onBeforeUnmount } from 'vue';
+import ResizableImage from './extensions/ResizableImage.js';
+import ResizableYoutube from './extensions/ResizableYoutube.js';
+import { ref, watch, onBeforeUnmount, nextTick } from 'vue';
 
 export default {
   name: 'TipTapEditor',
@@ -263,23 +266,26 @@ export default {
     const imageUrl = ref('');
     const youtubeUrl = ref('');
     const linkUrl = ref('');
+    const hasSelection = ref(false);
 
     const editor = useEditor({
       content: props.modelValue,
       extensions: [
         StarterKit,
-        Image.configure({
-          inline: true,
+        ResizableImage.configure({
+          inline: false,
           allowBase64: true,
         }),
         Link.configure({
           openOnClick: false,
+          autolink: false,
+          linkOnPaste: true,
           HTMLAttributes: {
             target: '_blank',
             rel: 'noopener noreferrer',
           },
         }),
-        Youtube.configure({
+        ResizableYoutube.configure({
           controls: true,
           nocookie: true,
         }),
@@ -297,41 +303,67 @@ export default {
       },
     });
 
-    // Watch for external changes
+    // Watch for external changes (critical for edit mode)
     watch(
       () => props.modelValue,
       (value) => {
+        if (!editor.value) return;
         const isSame = editor.value.getHTML() === value;
         if (!isSame) {
-          editor.value.commands.setContent(value, false);
+          editor.value.commands.setContent(value || '', false);
         }
       }
     );
 
     const addImage = () => {
-      if (imageUrl.value) {
+      if (imageUrl.value && editor.value) {
         editor.value.chain().focus().setImage({ src: imageUrl.value }).run();
         closeImageModal();
       }
     };
 
     const addYoutube = () => {
-      if (youtubeUrl.value) {
+      if (youtubeUrl.value && editor.value) {
         editor.value.chain().focus().setYoutubeVideo({ src: youtubeUrl.value }).run();
         closeYoutubeModal();
       }
     };
 
-    const addLink = () => {
-      if (linkUrl.value) {
-        editor.value
-          .chain()
-          .focus()
-          .extendMarkRange('link')
-          .setLink({ href: linkUrl.value })
-          .run();
-        closeLinkModal();
+    const openLinkModal = () => {
+      if (!editor.value) return;
+
+      // If link is already active, pre-fill URL
+      if (editor.value.isActive('link')) {
+        linkUrl.value = editor.value.getAttributes('link').href || '';
+      } else {
+        linkUrl.value = '';
       }
+
+      // Check if there's selected text
+      const { from, to } = editor.value.state.selection;
+      hasSelection.value = from !== to;
+
+      showLinkModal.value = true;
+    };
+
+    const addLink = () => {
+      if (!linkUrl.value || !editor.value) return;
+
+      // Apply link only to the current selection
+      editor.value
+        .chain()
+        .focus()
+        .setLink({ href: linkUrl.value })
+        .run();
+
+      closeLinkModal();
+    };
+
+    const removeLink = () => {
+      if (editor.value) {
+        editor.value.chain().focus().unsetLink().run();
+      }
+      closeLinkModal();
     };
 
     const closeImageModal = () => {
@@ -350,7 +382,9 @@ export default {
     };
 
     onBeforeUnmount(() => {
-      editor.value.destroy();
+      if (editor.value) {
+        editor.value.destroy();
+      }
     });
 
     return {
@@ -361,9 +395,12 @@ export default {
       imageUrl,
       youtubeUrl,
       linkUrl,
+      hasSelection,
       addImage,
       addYoutube,
+      openLinkModal,
       addLink,
+      removeLink,
       closeImageModal,
       closeYoutubeModal,
       closeLinkModal,
@@ -452,6 +489,13 @@ export default {
   margin-top: 0.75em;
 }
 
+/* Clearfix for floated content */
+.editor-content :deep(.ProseMirror::after) {
+  content: '';
+  display: table;
+  clear: both;
+}
+
 .editor-content :deep(h1) {
   font-size: 2em;
   font-weight: 700;
@@ -496,8 +540,6 @@ export default {
   max-width: 100%;
   height: auto;
   border-radius: 8px;
-  margin: 1rem 0;
-  display: block;
 }
 
 .editor-content :deep(pre) {
@@ -544,6 +586,17 @@ export default {
   max-width: 100%;
   border-radius: 8px;
   margin: 1rem 0;
+}
+
+/* Link hint in modal */
+.link-hint {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin: 0 0 12px 0;
+  padding: 8px 12px;
+  background: #eff6ff;
+  border-radius: 6px;
+  border-left: 3px solid #3b82f6;
 }
 
 /* Modals */
@@ -622,6 +675,21 @@ export default {
 
 .btn-secondary:hover {
   background: #e5e7eb;
+}
+
+.btn-danger {
+  padding: 10px 20px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
 }
 
 /* Responsive */

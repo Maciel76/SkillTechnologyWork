@@ -1,43 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import { isAuthenticated, isAdmin } from '@/services/authService';
 import HomeView from "../views/HomeView.vue";
-import Heroconfig from "@/components/Dashboad/HeroConfig.vue";
-import SobreView from "@/components/views/SobreView.vue";
-import TermosView from "@/components/views/TermosView.vue";
-import EventosView from "@/components/views/EventosView.vue";
-import PoliticasView from "@/components/views/PoliticasView.vue";
-import MissionView from "@/components/views/MissionView.vue";
-import ServiceView from "@/components/views/ServiceView.vue";
-import PortfolioView from "@/components/views/PortfolioView.vue";
-import PricinglogView from "@/components/views/PricinglogView.vue";
-import ClientesView from "@/components/views/ClientesView.vue";
-import LojaView from "@/components/views/LojaView.vue";
-import BlogView from "@/components/views/BlogView.vue";
-import BlogpostView from "@/components/views/BlogpostView.vue";
-//import ProdutoView from "@/components/views/ProdutoView.vue";
-// Serviços importação
-import DesevolvimentoMobile from "@/components/servicepage/DesenvolvimentoMobile.vue";
-import PageConsultoria from "@/components/servicepage/PageConsultoria.vue";
-import PageDoacoes from "@/components/servicepage/PageDoacoes.vue";
-import PageEcommerce from "@/components/servicepage/PageEcommerce.vue";
-import PageInterface from "@/components/servicepage/PageInterface.vue";
-import PageWebsite from "@/components/servicepage/PageWebsite.vue";
-import SiteInstucional from "@/components/servicepage/Portifolio/SiteInstucional.vue";
-import LojasVirtuais from "@/components/servicepage/Portifolio/lojasVirtuais.vue";
-import BlogsPesonalizado from "@/components/servicepage/Portifolio/BlogsPesonalizado.vue";
-import MascotePesonalizados from "@/components/servicepage/Portifolio/MascotePesonalizados.vue";
-import EditorImagem from "@/components/servicepage/Portifolio/EditorImagem.vue";
-import SistemasWeb from "@/components/servicepage/Portifolio/SistemasWeb.vue";
-import LandingPages from "@/components/servicepage/Portifolio/LandingPages.vue";
-import ProjectSection from "@/components/molecules/ProjectSection.vue";
-import ContatoView from "@/components/views/ContatoView.vue";
-import Testimonials from "@/components/views/ClientesView.vue";
-import PageNotFound from "@/components/views/PageNotFound.vue";
-import Dashboad from "@/views/DashboadView.vue";
-import Login from "@/components/Login/PageLogin.vue";
-
-// pagina de ajuste
-import PaginaAjuste from "@/paginaAjuste.vue";
 
 // ========== 🛣️ CONFIGURAÇÃO DAS ROTAS ========== //
 const routes: Array<RouteRecordRaw> = [
@@ -48,107 +11,120 @@ const routes: Array<RouteRecordRaw> = [
     component: HomeView,
     meta: { title: "Página Inicial" },
   },
-  //pagina de Ajuste
-  { path: "/paginaajuste", name: "paginaajuste", component: PaginaAjuste },
+
+  // pagina de Ajuste
+  {
+    path: "/paginaajuste",
+    name: "paginaajuste",
+    component: () => import("@/paginaAjuste.vue"),
+  },
+
   // 📌 PÁGINAS PRINCIPAIS
+  { path: "/sobre", name: "sobre", component: () => import("@/components/views/SobreView.vue") },
+  { path: "/termos", name: "termos", component: () => import("@/components/views/TermosView.vue") },
+  { path: "/eventos", name: "eventos", component: () => import("@/components/views/EventosView.vue") },
+  { path: "/privacidade", name: "privacidade", component: () => import("@/components/views/PoliticasView.vue") },
+  { path: "/missao", name: "missao", component: () => import("@/components/views/MissionView.vue") },
+  { path: "/services", name: "servicos", component: () => import("@/components/views/ServiceView.vue") },
+  { path: "/portfolio", name: "portfolio", component: () => import("@/components/views/PortfolioView.vue") },
+  { path: "/Planos/precos", name: "precos", component: () => import("@/components/views/PricinglogView.vue") },
+  { path: "/clientes", name: "clientes", component: () => import("@/components/views/ClientesView.vue") },
+  { path: "/contato", name: "contato", component: () => import("@/components/views/ContatoView.vue") },
 
-  { path: "/sobre", name: "sobre", component: SobreView }, //✅ok
-  { path: "/termos", name: "termos", component: TermosView }, // ✅ok
-  { path: "/eventos", name: "eventos", component: EventosView }, // ✅ok
-  { path: "/privacidade", name: "privacidade", component: PoliticasView }, //✅ok
-  { path: "/missao", name: "missao", component: MissionView }, //✅ok
-  { path: "/services", name: "servicos", component: ServiceView }, // finalizado
-  { path: "/portfolio", name: "portfolio", component: PortfolioView },
-  { path: "/Planos/precos", name: "precos", component: PricinglogView }, //💛 falta so muda a hero do site
-  { path: "/clientes", name: "clientes", component: ClientesView }, // ✅ok
-  { path: "/contato", name: "contato", component: ContatoView },
-
-  { path: "/Loja", component: LojaView }, //finalizado
+  { path: "/Loja", name: "loja", component: () => import("@/components/views/LojaView.vue") },
   {
     path: "/produtos/:id",
     name: "ProdutoPage",
     component: () => import("@/components/views/ProdutoView.vue"),
     props: true,
-  }, // Rota para a página de produtos
+  },
 
-  // ✨ BLOG - VERSÃO ANTERIOR
-  { path: "/blog", component: BlogView },
+  // ✨ BLOG
+  { path: "/blog", name: "blog", component: () => import("@/components/views/BlogView.vue") },
+  {
+    path: "/blog/post/:id",
+    name: "htmlpost",
+    component: () => import("@/components/views/HtmlPostView.vue"),
+    props: true,
+    meta: { hideHeader: true, hideFooter: true, hideWhatsApp: true },
+  },
   {
     path: "/blog/:id",
-    component: BlogpostView,
+    name: "blogpost",
+    component: () => import("@/components/views/BlogpostView.vue"),
     props: true,
   },
 
   // 🛠️ SERVIÇOS (DETALHES)
-  { path: "/servicos/desenvolvimento-mobile", component: DesevolvimentoMobile },
-  { path: "/servicos/consultoria", component: PageConsultoria },
-  { path: "/servicos/doacoes", component: PageDoacoes },
-  { path: "/servicos/ecommerce", component: PageEcommerce },
-  { path: "/servicos/interface-ux-ui", component: PageInterface },
-  { path: "/servicos/desenvolvimento-websites", component: PageWebsite },
-  { path: "/servicos/edicao-de-imagem", component: EditorImagem },
+  { path: "/servicos/desenvolvimento-mobile", name: "servico-mobile", component: () => import("@/components/servicepage/DesenvolvimentoMobile.vue") },
+  { path: "/servicos/consultoria", name: "servico-consultoria", component: () => import("@/components/servicepage/PageConsultoria.vue") },
+  { path: "/servicos/doacoes", name: "servico-doacoes", component: () => import("@/components/servicepage/PageDoacoes.vue") },
+  { path: "/servicos/ecommerce", name: "servico-ecommerce", component: () => import("@/components/servicepage/PageEcommerce.vue") },
+  { path: "/servicos/interface-ux-ui", name: "servico-interface", component: () => import("@/components/servicepage/PageInterface.vue") },
+  { path: "/servicos/desenvolvimento-websites", name: "servico-websites", component: () => import("@/components/servicepage/PageWebsite.vue") },
+  { path: "/servicos/edicao-de-imagem", name: "servico-edicao-imagem", component: () => import("@/components/servicepage/Portifolio/EditorImagem.vue") },
 
   // 🎨 PORTFÓLIO
-  { path: "/portfolio/site-institucional", component: SiteInstucional },
-  { path: "/portfolio/lojas-virtuais", component: LojasVirtuais },
-  { path: "/portfolio/blogs-personalizados", component: BlogsPesonalizado },
-  {
-    path: "/service/mascotes-personalizados",
-    component: MascotePesonalizados,
-  },
+  { path: "/portfolio/site-institucional", name: "portfolio-institucional", component: () => import("@/components/servicepage/Portifolio/SiteInstucional.vue") },
+  { path: "/portfolio/lojas-virtuais", name: "portfolio-lojas", component: () => import("@/components/servicepage/Portifolio/lojasVirtuais.vue") },
+  { path: "/portfolio/blogs-personalizados", name: "portfolio-blogs", component: () => import("@/components/servicepage/Portifolio/BlogsPesonalizado.vue") },
+  { path: "/service/mascotes-personalizados", name: "portfolio-mascotes", component: () => import("@/components/servicepage/Portifolio/MascotePesonalizados.vue") },
+  { path: "/portfolio/sistemas-web", name: "portfolio-sistemas", component: () => import("@/components/servicepage/Portifolio/SistemasWeb.vue") },
+  { path: "/portfolio/landing-pages", name: "portfolio-landing", component: () => import("@/components/servicepage/Portifolio/LandingPages.vue") },
 
-  { path: "/portfolio/sistemas-web", component: SistemasWeb },
-  { path: "/portfolio/landing-pages", component: LandingPages },
-
-  // 🎈Outros componente
+  // 🎈 Outros componentes
   {
     path: "/projectsection",
     name: "projectsection",
-    component: ProjectSection,
+    component: () => import("@/components/molecules/ProjectSection.vue"),
   },
-  { path: "/feedback", name: "testimonials", component: Testimonials },
+  {
+    path: "/feedback",
+    name: "testimonials",
+    component: () => import("@/components/views/ClientesView.vue"),
+  },
 
   {
     path: "/admin/hero",
     name: "heroconfig",
-    component: Heroconfig,
+    component: () => import("@/components/Dashboad/HeroConfig.vue"),
     meta: { requiresAuth: true },
   },
-  //=========================================================================================================
-  //📗Dashboard
+
+  // 📗 Dashboard
   {
     path: "/dashboard",
-    component: Dashboad,
+    name: "dashboard",
+    component: () => import("@/views/DashboadView.vue"),
     meta: {
       hideHeader: true,
-      hideFooter: true, // ✅ NÃO MOSTRA O FOOTER
-      requiresAuth: true, // Require authentication
-      requiresAdmin: true, // Require admin role
+      hideFooter: true,
+      requiresAuth: true,
+      requiresAdmin: true,
     },
   },
   {
     path: "/login",
     name: "login",
-    component: Login,
+    component: () => import("@/components/Login/PageLogin.vue"),
     meta: {
-      noLayout: true, // Don't use the main layout for login page
+      hideHeader: true,
+      hideFooter: true,
     },
   },
-
-  //=========================================================================================================
 
   // 🛑 PÁGINA 404 (SEM HEADER/FOOTER)
   {
     path: "/:pathMatch(.*)*",
     name: "notfound",
-    component: PageNotFound,
+    component: () => import("@/components/views/PageNotFound.vue"),
     meta: { noLayout: true },
   },
 ];
 
 // ========== ⚙️ CRIAÇÃO DO ROUTER ========== //
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL), // Remove o # da URL
+  history: createWebHistory(import.meta.env.BASE_URL), // Remove o # da URL
   routes,
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) return savedPosition;

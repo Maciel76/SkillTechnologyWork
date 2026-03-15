@@ -551,6 +551,9 @@
 
 <script>
 import serviceRequestService from "@/services/serviceRequestService";
+import appProject2 from "@/assets/images/banners/appProject2.jpg";
+import appProject3 from "@/assets/images/banners/appProject3.jpg";
+import appProject1 from "@/assets/images/banners/appProject1.jpg";
 
 export default {
   name: "DesevolvimentoMobile",
@@ -594,15 +597,15 @@ export default {
       featuredApps: [
         {
           name: "Mucic",
-          image: require("@/assets/images/banners/appProject2.jpg"),
+          image: appProject2,
         },
         {
           name: "food",
-          image: require("@/assets/images/banners/appProject3.jpg"),
+          image: appProject3,
         },
         {
           name: "Analitycs",
-          image: require("@/assets/images/banners/appProject1.jpg"),
+          image: appProject1,
         },
       ],
       stats: [

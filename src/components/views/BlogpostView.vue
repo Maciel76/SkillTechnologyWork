@@ -1,5 +1,8 @@
 <template>
   <div class="blog-post-page">
+    <!-- Reading Progress Bar -->
+    <div class="reading-progress" :style="{ width: readingProgress + '%' }"></div>
+
     <!-- Loading State -->
     <div v-if="loading" class="loading-container">
       <div class="spinner"></div>
@@ -66,8 +69,24 @@
           {{ post.summary }}
         </div>
 
+        <!-- Table of Contents -->
+        <nav v-if="tableOfContents.length > 0" class="table-of-contents">
+          <h3><i class="fas fa-list"></i> Índice</h3>
+          <ul>
+            <li
+              v-for="(heading, index) in tableOfContents"
+              :key="index"
+              :class="'toc-level-' + heading.level"
+            >
+              <a :href="'#' + heading.id" @click.prevent="scrollToHeading(heading.id)">
+                {{ heading.text }}
+              </a>
+            </li>
+          </ul>
+        </nav>
+
         <!-- Post Content (HTML dinâmico da API) -->
-        <div class="post-content" v-html="post.content"></div>
+        <div class="post-content" ref="postContentRef" v-html="processedContent"></div>
 
         <!-- Share Buttons -->
         <div class="share-buttons">
@@ -104,15 +123,28 @@
           <div class="comment-form">
             <h3>Deixe seu comentário</h3>
             <form @submit.prevent="submitComment">
-              <div class="form-group">
-                <label for="author">Nome *</label>
-                <input
-                  id="author"
-                  type="text"
-                  v-model="newComment.author"
-                  placeholder="Seu nome"
-                  required
-                />
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="author">Nome *</label>
+                  <input
+                    id="author"
+                    type="text"
+                    v-model="newComment.author"
+                    placeholder="Seu nome"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="email">E-mail *</label>
+                  <input
+                    id="email"
+                    type="email"
+                    v-model="newComment.email"
+                    placeholder="Seu e-mail"
+                    required
+                  />
+                </div>
               </div>
 
               <div class="form-group">
@@ -196,6 +228,18 @@
       </article>
     </main>
 
+    <!-- Back to Top -->
+    <transition name="fade">
+      <button
+        v-if="showBackToTop"
+        class="back-to-top"
+        @click="scrollToTop"
+        title="Voltar ao topo"
+      >
+        <i class="fas fa-arrow-up"></i>
+      </button>
+    </transition>
+
     <!-- Toast Notification -->
     <transition name="toast">
       <div v-if="toast.show" class="toast" :class="toast.type">
@@ -214,10 +258,9 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, computed, onMounted, onUnmounted, nextTick } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useBlog } from "@/components/composables/useBlog.js";
-import { useStats } from "@/components/composables/useStats.js"; // ← Adicione esta linha
 
 export default {
   name: "BlogpostView",
@@ -231,9 +274,14 @@ export default {
     const loading = ref(true);
     const error = ref(null);
     const isSubmitting = ref(false);
+    const readingProgress = ref(0);
+    const showBackToTop = ref(false);
+    const tableOfContents = ref([]);
+    const postContentRef = ref(null);
 
     const newComment = ref({
       author: "",
+      email: "",
       content: "",
     });
 
@@ -243,8 +291,177 @@ export default {
       type: "success",
     });
 
+    // SEO: JSON-LD script reference
+    let jsonLdScript = null;
+
+    // Process content to add IDs to headings for ToC
+    const processedContent = computed(() => {
+      if (!post.value?.content) return "";
+      let content = post.value.content;
+      // Add IDs to h2 and h3 elements for anchor linking
+      let headingIndex = 0;
+      content = content.replace(/<(h[23])[^>]*>(.*?)<\/\1>/gi, (match, tag, text) => {
+        const id = `heading-${headingIndex++}`;
+        const cleanText = text.replace(/<[^>]*>/g, "").trim();
+        return `<${tag} id="${id}">${cleanText}</${tag}>`;
+      });
+      return content;
+    });
+
+    // Extract ToC from content
+    const extractTableOfContents = () => {
+      if (!post.value?.content) return;
+      const toc = [];
+      const regex = /<(h[23])[^>]*>(.*?)<\/\1>/gi;
+      let match;
+      let index = 0;
+      while ((match = regex.exec(post.value.content)) !== null) {
+        const tag = match[1].toLowerCase();
+        const text = match[2].replace(/<[^>]*>/g, "").trim();
+        if (text) {
+          toc.push({
+            id: `heading-${index++}`,
+            level: tag === "h2" ? 2 : 3,
+            text,
+          });
+        }
+      }
+      tableOfContents.value = toc;
+    };
+
+    // SEO: Update meta tags
+    const updateSeoMeta = () => {
+      if (!post.value) return;
+
+      document.title = `${post.value.title} | Blog`;
+
+      const metaTags = {
+        description: post.value.summary || post.value.title,
+      };
+      Object.entries(metaTags).forEach(([name, content]) => {
+        let tag = document.querySelector(`meta[name="${name}"]`);
+        if (!tag) {
+          tag = document.createElement("meta");
+          tag.setAttribute("name", name);
+          document.head.appendChild(tag);
+        }
+        tag.setAttribute("content", content);
+      });
+
+      // Open Graph
+      const ogTags = {
+        "og:title": post.value.title,
+        "og:description": post.value.summary || "",
+        "og:type": "article",
+        "og:url": window.location.href,
+        "og:image": post.value.image || "",
+        "article:published_time": post.value.date,
+        "article:author": post.value.author,
+      };
+      Object.entries(ogTags).forEach(([property, content]) => {
+        let tag = document.querySelector(`meta[property="${property}"]`);
+        if (!tag) {
+          tag = document.createElement("meta");
+          tag.setAttribute("property", property);
+          document.head.appendChild(tag);
+        }
+        tag.setAttribute("content", content);
+      });
+
+      // Twitter Card
+      const twitterTags = {
+        "twitter:card": "summary_large_image",
+        "twitter:title": post.value.title,
+        "twitter:description": post.value.summary || "",
+        "twitter:image": post.value.image || "",
+      };
+      Object.entries(twitterTags).forEach(([name, content]) => {
+        let tag = document.querySelector(`meta[name="${name}"]`);
+        if (!tag) {
+          tag = document.createElement("meta");
+          tag.setAttribute("name", name);
+          document.head.appendChild(tag);
+        }
+        tag.setAttribute("content", content);
+      });
+    };
+
+    // SEO: JSON-LD Structured Data
+    const injectJsonLd = () => {
+      if (!post.value) return;
+
+      const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": post.value.title,
+        "description": post.value.summary || "",
+        "image": post.value.image || "",
+        "author": {
+          "@type": "Person",
+          "name": post.value.author,
+        },
+        "datePublished": post.value.date,
+        "wordCount": post.value.content?.replace(/<[^>]*>/g, "").split(/\s+/).length || 0,
+        "articleBody": post.value.content?.replace(/<[^>]*>/g, "").substring(0, 500),
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": window.location.href,
+        },
+        "interactionStatistic": {
+          "@type": "InteractionCounter",
+          "interactionType": "https://schema.org/ReadAction",
+          "userInteractionCount": post.value.views,
+        },
+        "comment": (post.value.comments || []).map(c => ({
+          "@type": "Comment",
+          "author": { "@type": "Person", "name": c.author || c.nome || "Anônimo" },
+          "text": c.content || c.comentario || "",
+          "dateCreated": c.date || c.data,
+        })),
+      };
+
+      if (post.value.tags?.length) {
+        jsonLd.keywords = post.value.tags.join(", ");
+      }
+
+      jsonLdScript = document.createElement("script");
+      jsonLdScript.type = "application/ld+json";
+      jsonLdScript.textContent = JSON.stringify(jsonLd);
+      document.head.appendChild(jsonLdScript);
+    };
+
+    // Scroll handlers
+    const handleScroll = () => {
+      // Reading progress
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      readingProgress.value = docHeight > 0 ? Math.min((scrollTop / docHeight) * 100, 100) : 0;
+
+      // Back to top visibility
+      showBackToTop.value = scrollTop > 400;
+    };
+
+    const scrollToTop = () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    const scrollToHeading = (id) => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    };
+
     onMounted(async () => {
+      window.addEventListener("scroll", handleScroll, { passive: true });
       await loadPost();
+    });
+
+    onUnmounted(() => {
+      window.removeEventListener("scroll", handleScroll);
+      if (jsonLdScript && jsonLdScript.parentNode) {
+        jsonLdScript.parentNode.removeChild(jsonLdScript);
+      }
     });
 
     const loadPost = async () => {
@@ -260,7 +477,19 @@ export default {
           return;
         }
 
+        // Redirecionar posts HTML para a página dedicada (sem header/footer)
+        if (postData.tipoConteudo === 'html') {
+          router.replace({ name: 'htmlpost', params: { id: postId } });
+          return;
+        }
+
         post.value = postData;
+
+        // Extract ToC and inject SEO
+        await nextTick();
+        extractTableOfContents();
+        updateSeoMeta();
+        injectJsonLd();
 
         // Carregar artigos relacionados
         const related = await getRelatedPosts(postData);
@@ -274,7 +503,7 @@ export default {
     };
 
     const submitComment = async () => {
-      if (!newComment.value.author.trim() || !newComment.value.content.trim()) {
+      if (!newComment.value.author.trim() || !newComment.value.content.trim() || !newComment.value.email.trim()) {
         showToast("Preencha todos os campos", "error");
         return;
       }
@@ -285,6 +514,7 @@ export default {
         const response = await addComment(post.value.id, {
           text: newComment.value.content,
           author: newComment.value.author,
+          email: newComment.value.email,
         });
 
         // Atualizar lista de comentários
@@ -295,6 +525,7 @@ export default {
         // Reset form
         newComment.value = {
           author: "",
+          email: "",
           content: "",
         };
 
@@ -376,6 +607,11 @@ export default {
       newComment,
       isSubmitting,
       toast,
+      readingProgress,
+      showBackToTop,
+      tableOfContents,
+      processedContent,
+      postContentRef,
       submitComment,
       formatDate,
       shareOnFacebook,
@@ -383,6 +619,8 @@ export default {
       shareOnLinkedIn,
       shareOnWhatsApp,
       copyLink,
+      scrollToTop,
+      scrollToHeading,
     };
   },
 };
@@ -393,6 +631,135 @@ export default {
   min-height: 100vh;
   background: #f8f9fa;
   padding: 2rem 1rem;
+}
+
+/* Reading Progress Bar */
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #6366f1, #8b5cf6);
+  z-index: 9999;
+  transition: width 0.1s linear;
+}
+
+/* Back to Top */
+.back-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+  z-index: 1000;
+  transition: all 0.3s;
+}
+
+.back-to-top:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.5);
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+
+/* Table of Contents */
+.table-of-contents {
+  background: linear-gradient(135deg, #f0f4ff, #e8ecf8);
+  border: 1px solid #d4d9f0;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 2rem;
+}
+
+.table-of-contents h3 {
+  margin: 0 0 16px 0;
+  color: #1f2937;
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.table-of-contents h3 i {
+  color: #6366f1;
+}
+
+.table-of-contents ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.table-of-contents li {
+  margin-bottom: 8px;
+}
+
+.table-of-contents li a {
+  color: #4b5563;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+  display: block;
+  padding: 4px 0;
+}
+
+.table-of-contents li a:hover {
+  color: #6366f1;
+}
+
+.toc-level-2 {
+  padding-left: 0;
+  font-weight: 600;
+}
+
+.toc-level-3 {
+  padding-left: 20px;
+  font-weight: 400;
+}
+
+/* Comment form row */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 600px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+input[type="email"] {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.3s;
+}
+
+input[type="email"]:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
 }
 
 /* Loading */
@@ -588,7 +955,7 @@ export default {
     "Helvetica Neue", Arial, sans-serif;
 }
 
-.post-content >>> h2 {
+.post-content :deep(h2) {
   margin: 48px 0 24px 0;
   color: #111827;
   font-size: 2rem;
@@ -598,7 +965,7 @@ export default {
   padding-left: 16px;
 }
 
-.post-content >>> h3 {
+.post-content :deep(h3) {
   margin: 36px 0 16px 0;
   color: #1f2937;
   font-size: 1.5rem;
@@ -606,22 +973,22 @@ export default {
   letter-spacing: -0.015em;
 }
 
-.post-content >>> p {
+.post-content :deep(p) {
   margin-bottom: 24px;
   text-align: justify;
 }
 
-.post-content >>> ul,
-.post-content >>> ol {
+.post-content :deep(ul),
+.post-content :deep(ol) {
   margin-bottom: 20px;
   padding-left: 32px;
 }
 
-.post-content >>> li {
+.post-content :deep(li) {
   margin-bottom: 10px;
 }
 
-.post-content >>> blockquote {
+.post-content :deep(blockquote) {
   border-left: 4px solid #6366f1;
   padding-left: 20px;
   margin: 24px 0;
@@ -632,7 +999,7 @@ export default {
   border-radius: 4px;
 }
 
-.post-content >>> code {
+.post-content :deep(code) {
   background: #f3f4f6;
   padding: 2px 8px;
   border-radius: 4px;
@@ -641,7 +1008,7 @@ export default {
   color: #dc2626;
 }
 
-.post-content >>> pre {
+.post-content :deep(pre) {
   background: #1f2937;
   color: #f9fafb;
   padding: 16px;
@@ -650,21 +1017,21 @@ export default {
   margin: 20px 0;
 }
 
-.post-content >>> img {
+.post-content :deep(img) {
   max-width: 100%;
   height: auto;
   border-radius: 8px;
   margin: 20px 0;
 }
 
-.post-content >>> a {
+.post-content :deep(a) {
   color: #6366f1;
   text-decoration: none;
   border-bottom: 1px solid transparent;
   transition: border-color 0.2s;
 }
 
-.post-content >>> a:hover {
+.post-content :deep(a:hover) {
   border-bottom-color: #6366f1;
 }
 

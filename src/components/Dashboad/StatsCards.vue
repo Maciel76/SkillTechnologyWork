@@ -5,7 +5,7 @@
         <i class="fas fa-users"></i>
       </div>
       <div class="stat-info">
-        <h3>{{ stats.totalVisitors }}</h3>
+        <h3>{{ originalStats.totalVisitors || 0 }}</h3>
         <p>Visitantes Totais</p>
       </div>
     </div>
@@ -14,8 +14,8 @@
         <i class="fas fa-user-check"></i>
       </div>
       <div class="stat-info">
-        <h3>{{ stats.uniqueVisitors }}</h3>
-        <p>Visitantes Únicos</p>
+        <h3>{{ proposalsStore.proposalsCount }}</h3>
+        <p>Propostas</p>
       </div>
     </div>
     <div class="stat-card">
@@ -23,8 +23,8 @@
         <i class="fas fa-eye"></i>
       </div>
       <div class="stat-info">
-        <h3>{{ stats.pageViews }}</h3>
-        <p>Visualizações</p>
+        <h3>{{ proposalsStore.leadsCount }}</h3>
+        <p>Leads</p>
       </div>
     </div>
     <div class="stat-card">
@@ -32,34 +32,37 @@
         <i class="fas fa-chart-line"></i>
       </div>
       <div class="stat-info">
-        <h3>{{ engagementRate }}%</h3>
-        <p>Taxa de Engajamento</p>
+        <h3>{{ proposalsStore.engagementRate }}%</h3>
+        <p>Contatos</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { computed } from "vue";
+import { onMounted } from "vue";
 import { useStats } from "../composables/useStats";
+import { useProposalsStore } from "@/stores/proposalsStore";
 
 export default {
   name: "StatsCards",
   setup() {
-    const { stats, loading } = useStats();
+    // Original stats (for visitor data)
+    const { stats: originalStats } = useStats();
 
-    const engagementRate = computed(() => {
-      if (stats.value.uniqueVisitors === 0) return 0;
-      return (
-        (stats.value.pageViews / stats.value.uniqueVisitors) *
-        100
-      ).toFixed(1);
+    // Proposal stats from shared store
+    const proposalsStore = useProposalsStore();
+
+    onMounted(async () => {
+      // Fetch proposal stats if not already loaded
+      if (proposalsStore.stats.total === 0) {
+        await proposalsStore.fetchStats();
+      }
     });
 
     return {
-      stats,
-      loading,
-      engagementRate,
+      originalStats,
+      proposalsStore,
     };
   },
 };

@@ -24,9 +24,10 @@ const articleService = {
   },
 
   // Buscar artigo por ID
-  async getArticle(id) {
+  async getArticle(id, incrementView = false) {
     try {
-      const response = await api.get(`/blog/posts/${id}`);
+      const params = incrementView ? { incrementView: true } : {};
+      const response = await api.get(`/blog/posts/${id}`, { params });
       return response.data;
     } catch (error) {
       throw new Error(error.response?.data?.error || "Erro ao buscar artigo");
@@ -88,6 +89,34 @@ const articleService = {
     } catch (error) {
       throw new Error(
         error.response?.data?.error || "Erro ao marcar como destaque"
+      );
+    }
+  },
+
+  // Adicionar comentário a um post
+  async addComment(postId, { author, email, content }) {
+    try {
+      const response = await api.post(`/blog/posts/${postId}/comments`, {
+        author,
+        email,
+        content,
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        error.response?.data?.error || "Erro ao adicionar comentário"
+      );
+    }
+  },
+
+  // Buscar artigo em destaque
+  async getFeaturedArticle() {
+    try {
+      const response = await api.get("/blog/featured");
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        error.response?.data?.error || "Erro ao buscar artigo em destaque"
       );
     }
   },

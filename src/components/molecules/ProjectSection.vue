@@ -199,6 +199,11 @@
 <script>
 import { onMounted, onBeforeUpdate, ref } from "vue";
 import { useRecentProjectStore } from "@/stores/recentProjectStore";
+import imgSistemaControle from "@/assets/images/banners/sistemaControle.jpg";
+import imgInstitutoEducar from "@/assets/images/banners/institutoEducar.png";
+import imgBoutiqueElegance from "@/assets/images/banners/BoutiqueElegance.png";
+import imgNeoblog from "@/assets/images/banners/neoblog.jpg";
+import imgNeoblog2 from "@/assets/images/banners/neoblog2.jpg";
 
 export default {
   name: "FeaturedProjects",
@@ -270,10 +275,10 @@ export default {
           category: "Website & Sistema",
           client: "TechCorp Inc.",
           year: "2023",
-          thumbnail: require("@/assets/images/banners/sistemaControle.jpg"),
+          thumbnail: imgSistemaControle,
           images: [
-            require("@/assets/images/banners/sistemaControle.jpg"),
-            require("@/assets/images/banners/sistemaControle.jpg"),
+            imgSistemaControle,
+            imgSistemaControle,
           ],
           technologies: ["Vue.js", "Node.js", "TensorFlow.js", "MongoDB"],
           challenge:
@@ -301,10 +306,10 @@ export default {
           category: "Plataforma Educacional",
           client: "EduTech Solutions",
           year: "2024",
-          thumbnail: require("@/assets/images/banners/institutoEducar.png"),
+          thumbnail: imgInstitutoEducar,
           images: [
-            require("@/assets/images/banners/institutoEducar.png"),
-            require("@/assets/images/banners/institutoEducar.png"),
+            imgInstitutoEducar,
+            imgInstitutoEducar,
           ],
           technologies: ["React", "Firebase", "Stripe", "WebRTC"],
           challenge:
@@ -326,10 +331,10 @@ export default {
           category: "E-commerce",
           client: "Boutique Elegance",
           year: "2023",
-          thumbnail: require("@/assets/images/banners/BoutiqueElegance.png"),
+          thumbnail: imgBoutiqueElegance,
           images: [
-            require("@/assets/images/banners/BoutiqueElegance.png"),
-            require("@/assets/images/banners/BoutiqueElegance.png"),
+            imgBoutiqueElegance,
+            imgBoutiqueElegance,
           ],
           technologies: ["Vue.js", "Shopify", "Tailwind CSS", "Algolia"],
           challenge:
@@ -350,10 +355,10 @@ export default {
           category: "Identidade Visual / Ilustração",
           client: "Neoblog",
           year: "2025",
-          thumbnail: require("@/assets/images/banners/neoblog.jpg"),
+          thumbnail: imgNeoblog,
           images: [
-            require("@/assets/images/banners/neoblog2.jpg"),
-            require("@/assets/images/banners/neoblog.jpg"),
+            imgNeoblog2,
+            imgNeoblog,
           ],
           technologies: ["Adobe Photoshop"],
           challenge:

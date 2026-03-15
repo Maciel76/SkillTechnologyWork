@@ -7,18 +7,20 @@
           <i class="fas fa-concierge-bell"></i>
           Gerenciamento de Serviços
         </h2>
-        <p class="section-subtitle">Gerencie e organize os serviços oferecidos pela sua agência</p>
+        <p class="section-subtitle">
+          Gerencie e organize os serviços oferecidos pela sua agência
+        </p>
       </div>
       <button class="btn-primary btn-add" @click="openAddServiceModal">
-        <i class="fas fa-plus"></i> 
+        <i class="fas fa-plus"></i>
         <span>Novo Serviço</span>
       </button>
     </div>
 
     <!-- Service filters by category -->
     <div class="services-filters">
-      <button 
-        v-for="filter in filters" 
+      <button
+        v-for="filter in filters"
         :key="filter.id"
         :class="['filter-btn', { active: activeFilter === filter.id }]"
         @click="setActiveFilter(filter.id)"
@@ -30,8 +32,8 @@
 
     <!-- Services grid with category tags -->
     <div class="services-grid">
-      <div 
-        v-for="service in filteredServices" 
+      <div
+        v-for="service in filteredServices"
         :key="service.id"
         class="service-card"
       >
@@ -40,46 +42,47 @@
             <i :class="getCategoryIcon(service.category)"></i>
             {{ service.category }}
           </div>
-          <div class="service-actions-menu">
-            <button class="action-btn" @click="editService(service)">
-              <i class="fas fa-edit"></i>
-            </button>
-            <button class="action-btn danger" @click="deleteService(service.id)">
-              <i class="fas fa-trash"></i>
-            </button>
-          </div>
         </div>
-        
+
         <div class="service-icon">
           <i :class="service.icon"></i>
         </div>
-        
+
         <h3 class="service-title">{{ service.name }}</h3>
         <p class="service-description">{{ service.description }}</p>
-        
-        <div class="service-features" v-if="service.features && service.features.length > 0">
-          <div class="feature" v-for="(feature, index) in service.features" :key="index">
+
+        <div
+          class="service-features"
+          v-if="service.features && service.features.length > 0"
+        >
+          <div
+            class="feature"
+            v-for="(feature, index) in service.features"
+            :key="index"
+          >
             <i class="fas fa-check-circle"></i>
             <span>{{ feature }}</span>
           </div>
         </div>
-        
+
         <div class="service-price">
           <div class="price-amount">
             <span class="price">{{ service.price }}</span>
-            <span class="period" v-if="service.period">{{ service.period }}</span>
+            <span class="period" v-if="service.period">{{
+              service.period
+            }}</span>
           </div>
           <div class="service-duration" v-if="service.duration">
             <i class="fas fa-clock"></i>
             <span>{{ service.duration }}</span>
           </div>
         </div>
-        
+
         <div class="service-meta">
           <div class="service-stats">
             <div class="stat">
               <i class="fas fa-chart-line"></i>
-              <span>{{ service.popularity || '0' }} vendas</span>
+              <span>{{ service.popularity || "0" }} vendas</span>
             </div>
             <div class="stat" v-if="service.rating">
               <i class="fas fa-star"></i>
@@ -87,10 +90,28 @@
             </div>
           </div>
         </div>
-        
+
         <div class="service-footer">
-          <button class="btn-outline btn-full" @click="viewServiceDetails(service)">
-            Ver Detalhes
+          <button
+            class="btn-publicar"
+            @click="toggleServicePublish(service)"
+          >
+            <i class="fas" :class="service.published ? 'fa-eye-slash' : 'fa-eye'"></i>
+            {{ service.published ? 'Despublicar' : 'Publicar' }}
+          </button>
+          <button
+            class="btn-editar"
+            @click="editService(service)"
+          >
+            <i class="fas fa-edit"></i>
+            Editar
+          </button>
+          <button
+            class="btn-excluir"
+            @click="deleteService(service.id)"
+          >
+            <i class="fas fa-trash"></i>
+            Excluir
           </button>
         </div>
       </div>
@@ -100,29 +121,29 @@
     <div v-if="showModal" class="modal-overlay" @click="closeModal">
       <div class="modal-content" @click.stop>
         <div class="modal-header">
-          <h3>{{ isEditing ? 'Editar Serviço' : 'Adicionar Novo Serviço' }}</h3>
+          <h3>{{ isEditing ? "Editar Serviço" : "Adicionar Novo Serviço" }}</h3>
           <button class="modal-close" @click="closeModal">
             <i class="fas fa-times"></i>
           </button>
         </div>
-        
+
         <form @submit.prevent="saveService" class="modal-form">
           <div class="form-group">
             <label for="serviceName">Nome do Serviço *</label>
-            <input 
-              type="text" 
-              id="serviceName" 
-              v-model="currentService.name" 
+            <input
+              type="text"
+              id="serviceName"
+              v-model="currentService.name"
               placeholder="Ex: Criação de Website"
               required
             />
           </div>
-          
+
           <div class="form-group">
             <label for="serviceCategory">Categoria *</label>
-            <select 
-              id="serviceCategory" 
-              v-model="currentService.category" 
+            <select
+              id="serviceCategory"
+              v-model="currentService.category"
               required
             >
               <option value="" disabled>Selecione uma categoria</option>
@@ -131,39 +152,43 @@
               </option>
             </select>
           </div>
-          
+
           <div class="form-group">
             <label for="serviceIcon">Ícone</label>
             <select v-model="currentService.icon">
-              <option v-for="icon in availableIcons" :key="icon.value" :value="icon.value">
+              <option
+                v-for="icon in availableIcons"
+                :key="icon.value"
+                :value="icon.value"
+              >
                 {{ icon.label }}
               </option>
             </select>
           </div>
-          
+
           <div class="form-group">
             <label for="serviceDescription">Descrição *</label>
-            <textarea 
-              id="serviceDescription" 
-              v-model="currentService.description" 
+            <textarea
+              id="serviceDescription"
+              v-model="currentService.description"
               placeholder="Descreva o serviço em detalhes"
               rows="3"
               required
             ></textarea>
           </div>
-          
+
           <div class="form-row">
             <div class="form-group">
               <label for="servicePrice">Preço *</label>
-              <input 
-                type="text" 
-                id="servicePrice" 
-                v-model="currentService.price" 
+              <input
+                type="text"
+                id="servicePrice"
+                v-model="currentService.price"
                 placeholder="Ex: R$ 2.500"
                 required
               />
             </div>
-            
+
             <div class="form-group">
               <label for="servicePeriod">Período</label>
               <select v-model="currentService.period">
@@ -174,66 +199,70 @@
               </select>
             </div>
           </div>
-          
+
           <div class="form-row">
             <div class="form-group">
               <label for="serviceDuration">Duração</label>
-              <input 
-                type="text" 
-                id="serviceDuration" 
-                v-model="currentService.duration" 
+              <input
+                type="text"
+                id="serviceDuration"
+                v-model="currentService.duration"
                 placeholder="Ex: 15 dias"
               />
             </div>
-            
+
             <div class="form-group">
               <label for="servicePopularity">Poplaridade (vendas)</label>
-              <input 
-                type="number" 
-                id="servicePopularity" 
-                v-model="currentService.popularity" 
+              <input
+                type="number"
+                id="servicePopularity"
+                v-model="currentService.popularity"
                 min="0"
                 placeholder="0"
               />
             </div>
           </div>
-          
+
           <div class="form-group">
             <label>Recursos Inclusos</label>
             <div class="features-list">
-              <div 
-                v-for="(feature, index) in currentService.features" 
-                :key="index" 
+              <div
+                v-for="(feature, index) in currentService.features"
+                :key="index"
                 class="feature-input"
               >
-                <input 
-                  type="text" 
-                  v-model="currentService.features[index]" 
+                <input
+                  type="text"
+                  v-model="currentService.features[index]"
                   :placeholder="`Recurso ${index + 1}`"
                   @blur="addFeatureIfNotEmpty(index)"
                 />
-                <button 
-                  type="button" 
-                  class="remove-feature" 
+                <button
+                  type="button"
+                  class="remove-feature"
                   @click="removeFeature(index)"
                   v-if="currentService.features.length > 1"
                 >
                   <i class="fas fa-times"></i>
                 </button>
               </div>
-              <button 
-                type="button" 
-                class="btn-secondary btn-add-feature" 
+              <button
+                type="button"
+                class="btn-secondary btn-add-feature"
                 @click="addFeature"
               >
                 <i class="fas fa-plus"></i> Adicionar Recurso
               </button>
             </div>
           </div>
-          
+
           <div class="modal-actions">
-            <button type="button" class="btn-secondary" @click="closeModal">Cancelar</button>
-            <button type="submit" class="btn-primary">{{ isEditing ? 'Atualizar' : 'Adicionar' }}</button>
+            <button type="button" class="btn-secondary" @click="closeModal">
+              Cancelar
+            </button>
+            <button type="submit" class="btn-primary">
+              {{ isEditing ? "Atualizar" : "Adicionar" }}
+            </button>
           </div>
         </form>
       </div>
@@ -248,140 +277,183 @@ export default {
     return {
       isEditing: false,
       showModal: false,
-      activeFilter: 'all',
+      activeFilter: "all",
       filters: [
-        { id: 'all', label: 'Todos', icon: 'fas fa-globe' },
-        { id: 'websites', label: 'Websites', icon: 'fas fa-laptop-code' },
-        { id: 'marketing', label: 'Marketing', icon: 'fas fa-bullhorn' },
-        { id: 'design', label: 'Design', icon: 'fas fa-palette' },
-        { id: 'development', label: 'Desenvolvimento', icon: 'fas fa-code' },
-        { id: 'consulting', label: 'Consultoria', icon: 'fas fa-lightbulb' }
+        { id: "all", label: "Todos", icon: "fas fa-globe" },
+        { id: "websites", label: "Websites", icon: "fas fa-laptop-code" },
+        { id: "marketing", label: "Marketing", icon: "fas fa-bullhorn" },
+        { id: "design", label: "Design", icon: "fas fa-palette" },
+        { id: "development", label: "Desenvolvimento", icon: "fas fa-code" },
+        { id: "consulting", label: "Consultoria", icon: "fas fa-lightbulb" },
       ],
       categories: [
-        { id: 'websites', name: 'Websites' },
-        { id: 'marketing', name: 'Marketing' },
-        { id: 'design', name: 'Design' },
-        { id: 'development', name: 'Desenvolvimento' },
-        { id: 'consulting', name: 'Consultoria' }
+        { id: "websites", name: "Websites" },
+        { id: "marketing", name: "Marketing" },
+        { id: "design", name: "Design" },
+        { id: "development", name: "Desenvolvimento" },
+        { id: "consulting", name: "Consultoria" },
       ],
       availableIcons: [
-        { value: 'fas fa-laptop-code', label: 'Laptop Code' },
-        { value: 'fas fa-shopping-cart', label: 'Shopping Cart' },
-        { value: 'fas fa-search', label: 'Search' },
-        { value: 'fas fa-hashtag', label: 'Hashtag' },
-        { value: 'fas fa-paint-brush', label: 'Paint Brush' },
-        { value: 'fas fa-chart-line', label: 'Chart Line' },
-        { value: 'fas fa-mobile-alt', label: 'Mobile' },
-        { value: 'fas fa-cogs', label: 'Settings' },
-        { value: 'fas fa-bullhorn', label: 'Bullhorn' },
-        { value: 'fas fa-lightbulb', label: 'Lightbulb' },
-        { value: 'fas fa-database', label: 'Database' },
-        { value: 'fas fa-server', label: 'Server' }
+        { value: "fas fa-laptop-code", label: "Laptop Code" },
+        { value: "fas fa-shopping-cart", label: "Shopping Cart" },
+        { value: "fas fa-search", label: "Search" },
+        { value: "fas fa-hashtag", label: "Hashtag" },
+        { value: "fas fa-paint-brush", label: "Paint Brush" },
+        { value: "fas fa-chart-line", label: "Chart Line" },
+        { value: "fas fa-mobile-alt", label: "Mobile" },
+        { value: "fas fa-cogs", label: "Settings" },
+        { value: "fas fa-bullhorn", label: "Bullhorn" },
+        { value: "fas fa-lightbulb", label: "Lightbulb" },
+        { value: "fas fa-database", label: "Database" },
+        { value: "fas fa-server", label: "Server" },
       ],
       services: [
         {
           id: 1,
           name: "Website Corporativo",
-          description: "Desenvolvimento de sites institucionais responsivos, com design moderno e otimizado para conversão.",
+          description:
+            "Desenvolvimento de sites institucionais responsivos, com design moderno e otimizado para conversão.",
           icon: "fas fa-laptop-code",
           price: "R$ 2.500",
           period: "/projeto",
           category: "websites",
           duration: "15 dias",
           popularity: 24,
-          features: ["Design responsivo", "Integração com redes sociais", "SEO básico", "Suporte 30 dias"],
-          rating: 4.8
+          features: [
+            "Design responsivo",
+            "Integração com redes sociais",
+            "SEO básico",
+            "Suporte 30 dias",
+          ],
+          rating: 4.8,
+          published: true,
         },
         {
           id: 2,
           name: "Loja Virtual",
-          description: "E-commerce completo com painel administrativo, integração de pagamentos e gerenciamento de estoque.",
+          description:
+            "E-commerce completo com painel administrativo, integração de pagamentos e gerenciamento de estoque.",
           icon: "fas fa-shopping-cart",
           price: "R$ 4.500",
           period: "/único",
           category: "websites",
           duration: "30 dias",
           popularity: 42,
-          features: ["Integração com pagamentos", "Gestão de estoque", "Relatórios avançados", "Suporte 60 dias"],
-          rating: 4.9
+          features: [
+            "Integração com pagamentos",
+            "Gestão de estoque",
+            "Relatórios avançados",
+            "Suporte 60 dias",
+          ],
+          rating: 4.9,
+          published: true,
         },
         {
           id: 3,
           name: "SEO",
-          description: "Otimização completa para mecanismos de busca para melhorar a visibilidade orgânica do seu site.",
+          description:
+            "Otimização completa para mecanismos de busca para melhorar a visibilidade orgânica do seu site.",
           icon: "fas fa-search",
           price: "R$ 800",
           period: "/mês",
           category: "marketing",
           duration: "mês contínuo",
           popularity: 18,
-          features: ["Análise de palavras-chave", "Otimização on-page", "Relatório mensal", "Suporte contínuo"],
-          rating: 4.7
+          features: [
+            "Análise de palavras-chave",
+            "Otimização on-page",
+            "Relatório mensal",
+            "Suporte contínuo",
+          ],
+          rating: 4.7,
+          published: false,
         },
         {
           id: 4,
           name: "Social Media",
-          description: "Gestão completa de redes sociais com criação de conteúdo e campanhas segmentadas.",
+          description:
+            "Gestão completa de redes sociais com criação de conteúdo e campanhas segmentadas.",
           icon: "fas fa-hashtag",
           price: "R$ 1.200",
           period: "/mês",
           category: "marketing",
           duration: "mês contínuo",
           popularity: 35,
-          features: ["Criação de conteúdo", "Agendamento de posts", "Análise de métricas", "Gestão de anúncios"],
-          rating: 4.6
+          features: [
+            "Criação de conteúdo",
+            "Agendamento de posts",
+            "Análise de métricas",
+            "Gestão de anúncios",
+          ],
+          rating: 4.6,
+          published: true,
         },
         {
           id: 5,
           name: "Identidade Visual",
-          description: "Criação de marca completa com logotipo, manual da marca e materiais de apoio.",
+          description:
+            "Criação de marca completa com logotipo, manual da marca e materiais de apoio.",
           icon: "fas fa-paint-brush",
           price: "R$ 1.800",
           period: "/projeto",
           category: "design",
           duration: "20 dias",
           popularity: 29,
-          features: ["Logotipo", "Paleta de cores", "Manual da marca", "Materiais impressos"],
-          rating: 4.9
+          features: [
+            "Logotipo",
+            "Paleta de cores",
+            "Manual da marca",
+            "Materiais impressos",
+          ],
+          rating: 4.9,
+          published: true,
         },
         {
           id: 6,
           name: "Consultoria Digital",
-          description: "Avaliação completa da presença digital e plano de ação personalizado.",
+          description:
+            "Avaliação completa da presença digital e plano de ação personalizado.",
           icon: "fas fa-lightbulb",
           price: "R$ 1.500",
           period: "/sessão",
           category: "consulting",
           duration: "3 horas",
           popularity: 15,
-          features: ["Análise completa", "Relatório detalhado", "Recomendações", "Plano de ação"],
-          rating: 4.8
-        }
+          features: [
+            "Análise completa",
+            "Relatório detalhado",
+            "Recomendações",
+            "Plano de ação",
+          ],
+          rating: 4.8,
+          published: false,
+        },
       ],
       currentService: {
         id: null,
-        name: '',
-        description: '',
-        icon: 'fas fa-concierge-bell',
-        price: '',
-        period: '',
-        category: '',
-        duration: '',
+        name: "",
+        description: "",
+        icon: "fas fa-concierge-bell",
+        price: "",
+        period: "",
+        category: "",
+        duration: "",
         popularity: 0,
-        features: [''],
-        rating: null
-      }
+        features: [""],
+        rating: null,
+        published: true,
+      },
     };
   },
   computed: {
     filteredServices() {
-      if (this.activeFilter === 'all') {
+      if (this.activeFilter === "all") {
         return this.services;
       }
-      return this.services.filter(service => 
-        service.category === this.activeFilter
+      return this.services.filter(
+        (service) => service.category === this.activeFilter
       );
-    }
+    },
   },
   methods: {
     setActiveFilter(filterId) {
@@ -389,28 +461,28 @@ export default {
     },
     getCategoryIcon(category) {
       const categoryMap = {
-        'websites': 'fas fa-laptop-code',
-        'marketing': 'fas fa-bullhorn',
-        'design': 'fas fa-paint-brush',
-        'development': 'fas fa-code',
-        'consulting': 'fas fa-lightbulb'
+        websites: "fas fa-laptop-code",
+        marketing: "fas fa-bullhorn",
+        design: "fas fa-paint-brush",
+        development: "fas fa-code",
+        consulting: "fas fa-lightbulb",
       };
-      return categoryMap[category] || 'fas fa-concierge-bell';
+      return categoryMap[category] || "fas fa-concierge-bell";
     },
     openAddServiceModal() {
       this.isEditing = false;
       this.currentService = {
         id: null,
-        name: '',
-        description: '',
-        icon: 'fas fa-concierge-bell',
-        price: '',
-        period: '',
-        category: '',
-        duration: '',
+        name: "",
+        description: "",
+        icon: "fas fa-concierge-bell",
+        price: "",
+        period: "",
+        category: "",
+        duration: "",
         popularity: 0,
-        features: [''],
-        rating: null
+        features: [""],
+        rating: null,
       };
       this.showModal = true;
     },
@@ -420,13 +492,15 @@ export default {
     saveService() {
       if (this.isEditing) {
         // Update existing service
-        const index = this.services.findIndex(s => s.id === this.currentService.id);
+        const index = this.services.findIndex(
+          (s) => s.id === this.currentService.id
+        );
         if (index !== -1) {
           this.services[index] = { ...this.currentService };
         }
       } else {
         // Add new service
-        const newId = Math.max(...this.services.map(s => s.id), 0) + 1;
+        const newId = Math.max(...this.services.map((s) => s.id), 0) + 1;
         this.currentService.id = newId;
         this.services.push({ ...this.currentService });
       }
@@ -437,16 +511,19 @@ export default {
       this.currentService = { ...service };
       this.showModal = true;
     },
+    toggleServicePublish(service) {
+      service.published = !service.published;
+      const action = service.published ? 'publicado' : 'despublicado';
+      // In a real app, you would make an API call to update the service status
+      console.log(`Serviço "${service.name}" foi ${action}`);
+    },
     deleteService(serviceId) {
-      if (confirm('Tem certeza que deseja excluir este serviço?')) {
-        this.services = this.services.filter(s => s.id !== serviceId);
+      if (confirm("Tem certeza que deseja excluir este serviço?")) {
+        this.services = this.services.filter((s) => s.id !== serviceId);
       }
     },
-    viewServiceDetails(service) {
-      alert(`Detalhes do serviço:\n\nNome: ${service.name}\nCategoria: ${service.category}\nDescrição: ${service.description}\nPreço: ${service.price} ${service.period || ''}`);
-    },
     addFeature() {
-      this.currentService.features.push('');
+      this.currentService.features.push("");
     },
     removeFeature(index) {
       if (this.currentService.features.length > 1) {
@@ -455,12 +532,14 @@ export default {
     },
     addFeatureIfNotEmpty(index) {
       // Add a new feature input if the current one is filled and it's the last one
-      if (index === this.currentService.features.length - 1 && 
-          this.currentService.features[index].trim() !== '') {
+      if (
+        index === this.currentService.features.length - 1 &&
+        this.currentService.features[index].trim() !== ""
+      ) {
         this.addFeature();
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -774,10 +853,201 @@ export default {
 
 .service-footer {
   padding: 0 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: row;
+  gap: 0.75rem;
 }
 
-.btn-full {
+.service-footer button {
+  flex: 1;
+  padding: 0.75rem;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: none;
+}
+
+.btn-publicar {
+  background: linear-gradient(135deg, #27ae60, #2ecc71);
+  color: white;
+}
+
+.btn-publicar:hover {
+  background: linear-gradient(135deg, #219653, #27ae60);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+}
+
+.btn-editar {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: white;
+}
+
+.btn-editar:hover {
+  background: linear-gradient(135deg, #2980b9, #2573a7);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+.btn-excluir {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: white;
+}
+
+.btn-excluir:hover {
+  background: linear-gradient(135deg, #c0392b, #a93226);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+}
+
+/* Service Details Modal Styles */
+.service-details-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.service-details-modal-content {
+  background: white;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-xl);
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.service-details-modal-content .modal-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.service-details-modal-content .modal-header h3 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  color: var(--gray-900);
+}
+
+.service-category-badge-modal {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--gray-100);
+  color: var(--gray-700);
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.modal-service-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1.5rem auto;
+  color: white;
+  font-size: 3rem;
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+}
+
+.modal-service-description {
+  color: var(--gray-700);
+  text-align: center;
+  margin-bottom: 2rem;
+  line-height: 1.7;
+}
+
+.modal-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.modal-details-grid .detail-item {
+  background: var(--gray-50);
+  border-radius: var(--border-radius-sm);
+  padding: 1rem;
+  text-align: center;
+}
+
+.modal-details-grid .detail-item label {
+  font-weight: 600;
+  color: var(--gray-600);
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.modal-details-grid .detail-item p {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--gray-900);
+}
+
+.modal-features {
+  margin-bottom: 2rem;
+}
+
+.modal-features h4 {
+  font-size: 1.2rem;
+  color: var(--gray-800);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.modal-features ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+}
+
+.modal-features li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--gray-700);
+  font-size: 0.95rem;
+  background: var(--gray-50);
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius-sm);
+}
+
+.modal-features li i {
+  color: var(--success);
+}
+
+.modal-footer {
+  padding: 1.5rem;
+  border-top: 1px solid var(--gray-200);
+  text-align: right;
 }
 
 /* Modal Styles */
@@ -945,7 +1215,7 @@ export default {
     flex-direction: column;
     gap: 0;
   }
-  
+
   .services-grid {
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   }
@@ -955,30 +1225,30 @@ export default {
   .services-management {
     padding: 1.5rem;
   }
-  
+
   .section-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
   }
-  
+
   .header-content {
     min-width: 100%;
   }
-  
+
   .services-filters {
     gap: 0.5rem;
   }
-  
+
   .filter-btn {
     padding: 0.6rem 1rem;
     font-size: 0.85rem;
   }
-  
+
   .services-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .service-price {
     flex-direction: column;
     align-items: flex-start;
@@ -992,11 +1262,11 @@ export default {
     align-items: flex-start;
     gap: 1rem;
   }
-  
+
   .service-actions-menu {
     align-self: flex-end;
   }
-  
+
   .modal-content {
     margin: 0.5rem;
   }
