@@ -8,7 +8,7 @@
           alt="Skill Technology Work"
           class="logo-icon"
         />
-        <span><router-link to="/">Skill Technology work</router-link></span>
+        <span><router-link to="/">Skill Technology Work</router-link></span>
       </div>
       <div class="menu-toggle" @click="toggleMenu">
         <img src="https://api.iconify.design/heroicons:bars-3.svg" alt="Menu" />
@@ -56,55 +56,58 @@ export default {
       ],
       textIndex: 0,
       isMenuOpen: false,
-      displayedText: "", // Adicionado para abordagem reativa
-      typingInterval: null, // Para controle do intervalo
+      displayedText: "",
+      typingTimer: null,
+      pauseTimer: null,
     };
   },
   mounted() {
-    // Verifica se a rota permite mostrar o header antes de iniciar animação
     if (!this.$route.meta?.hideHeader) {
       this.startTyping();
     }
   },
   beforeUnmount() {
-    // Limpa o intervalo quando o componente é destruído
-    if (this.typingInterval) {
-      clearInterval(this.typingInterval);
-    }
+    this.clearAllTimers();
   },
   watch: {
-    // Observa mudanças na rota para reiniciar animação quando necessário
     "$route.meta.hideHeader": {
-      immediate: true,
+      immediate: false,
       handler(hide) {
-        if (this.typingInterval) {
-          clearInterval(this.typingInterval);
-        }
+        this.clearAllTimers();
         if (!hide) {
+          this.textIndex = 0;
           this.startTyping();
         }
       },
     },
   },
   methods: {
+    clearAllTimers() {
+      if (this.typingTimer) {
+        clearInterval(this.typingTimer);
+        this.typingTimer = null;
+      }
+      if (this.pauseTimer) {
+        clearTimeout(this.pauseTimer);
+        this.pauseTimer = null;
+      }
+    },
     typeText(text, callback) {
+      this.clearAllTimers();
       let charIndex = 0;
-      this.typingInterval = setInterval(() => {
-        // Abordagem reativa - mais segura que manipulação direta do DOM
+      this.typingTimer = setInterval(() => {
         this.displayedText = text.slice(0, charIndex++);
-
         if (charIndex > text.length) {
-          clearInterval(this.typingInterval);
-          setTimeout(callback, 5000);
+          clearInterval(this.typingTimer);
+          this.typingTimer = null;
+          this.pauseTimer = setTimeout(callback, 5000);
         }
       }, 100);
     },
     startTyping() {
-      // Reinicia o índice se chegou ao final
       if (this.textIndex >= this.texts.length) {
         this.textIndex = 0;
       }
-
       this.typeText(this.texts[this.textIndex], () => {
         this.textIndex++;
         this.startTyping();
@@ -145,8 +148,9 @@ nav a {
 }
 
 .logo-icon {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
 }
 
 .menu-toggle {

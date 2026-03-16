@@ -123,8 +123,9 @@ footer {
 }
 
 .logo-icon {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
 }
 
 .footer-brand p {
