@@ -740,7 +740,8 @@ export default {
         };
 
         // Envia para o backend
-        const response = await fetch("http://localhost:3000/api/avaliacoes", {
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5006/api';
+        const response = await fetch(`${apiUrl}/avaliacoes`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

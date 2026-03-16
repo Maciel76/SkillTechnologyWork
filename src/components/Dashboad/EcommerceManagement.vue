@@ -309,11 +309,15 @@
 
             <div class="form-group">
               <label>Idioma</label>
-              <input
-                type="text"
-                v-model="productForm.language"
-                placeholder="Português"
-              />
+              <select v-model="productForm.language">
+                <option value="Português">Português</option>
+                <option value="English">English</option>
+                <option value="Español">Español</option>
+                <option value="Français">Français</option>
+                <option value="Deutsch">Deutsch</option>
+                <option value="Italiano">Italiano</option>
+                <option value="Multi-idioma">Multi-idioma</option>
+              </select>
             </div>
 
             <div class="form-group full-width">

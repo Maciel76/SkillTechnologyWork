@@ -24,4 +24,16 @@ export default defineConfig({
   server: {
     port: 8080,
   },
+  build: {
+    outDir: 'dist',
+    sourcemap: false,
+    chunkSizeWarningLimit: 1500,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['vue', 'vue-router', 'pinia', 'axios'],
+        },
+      },
+    },
+  },
 })

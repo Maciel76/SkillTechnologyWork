@@ -682,7 +682,8 @@ export default {
           this.eventStats = this.eventStore.stats || {};
         } else {
           // Fallback to direct API call if store is not properly loaded
-          const response = await fetch('http://localhost:3000/api/admin/events/stats');
+          const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5006/api';
+          const response = await fetch(`${apiUrl}/admin/events/stats`);
           if (response.ok) {
             const data = await response.json();
             this.eventStats = data || {};
@@ -707,7 +708,8 @@ export default {
           this.activeProjects = this.projectStore.stats?.total || 0;
         } else {
           // Fallback to direct API call if store is not properly loaded
-          const response = await fetch('http://localhost:3000/api/admin/recent-projects/stats');
+          const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5006/api';
+          const response = await fetch(`${apiUrl}/admin/recent-projects/stats`);
           if (response.ok) {
             const data = await response.json();
             this.activeProjects = data.total || 0;

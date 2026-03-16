@@ -509,8 +509,9 @@ export default {
           serviceName: "E-commerce IA",
         };
 
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5006/api';
         const response = await fetch(
-          "http://localhost:3000/api/service-requests",
+          `${apiUrl}/service-requests`,
           {
             method: "POST",
             headers: {
