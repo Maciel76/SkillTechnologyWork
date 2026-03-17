@@ -9,8 +9,8 @@
       <section class="institutional-hero">
         <h1>Nossa <span class="highlight">Missão</span></h1>
         <p>
-          Transformando ideias em realidade digital, impulsionando o sucesso dos
-          nossos clientes através da inovação e excelência.
+          Transformar ideias em soluções digitais completas usando IA e as
+          melhores ferramentas do mercado.
         </p>
       </section>
 
@@ -24,8 +24,12 @@
               </div>
               <h2>Missão</h2>
               <p>
-                Desenvolver soluções tecnológicas inovadoras que transformam
-                negócios e melhoram a vida das pessoas.
+                Transformar ideias em soluções digitais completas e funcionais,
+                utilizando inteligência artificial e as melhores ferramentas do
+                mercado para acelerar o crescimento dos nossos clientes. Nosso
+                compromisso é entregar tecnologia de ponta com rapidez,
+                qualidade e custo acessível — para que qualquer empresa possa
+                competir no mercado digital.
               </p>
             </div>
             <div class="statement-card animate-card">
@@ -34,8 +38,10 @@
               </div>
               <h2>Visão</h2>
               <p>
-                Ser referência global em transformação digital, reconhecida pela
-                excelência e inovação em nossas soluções.
+                Ser referência nacional em desenvolvimento de soluções digitais
+                com IA, reconhecida por transformar negócios através da
+                tecnologia e por democratizar o acesso a sistemas inteligentes
+                para empresas de todos os portes.
               </p>
             </div>
             <div class="statement-card animate-card">
@@ -44,10 +50,11 @@
               </div>
               <h2>Valores</h2>
               <ul>
-                <li>Inovação constante</li>
-                <li>Excelência em tudo que fazemos</li>
-                <li>Compromisso com resultados</li>
-                <li>Ética e transparência</li>
+                <li>Velocidade com Qualidade — IA para entregar rápido sem comprometer a excelência</li>
+                <li>Transparência Total — Comunicação clara, sem surpresas nem custos ocultos</li>
+                <li>Inovação Constante — Sempre na vanguarda das tecnologias mais avançadas</li>
+                <li>Compromisso com Resultados — Nosso sucesso é medido pelo sucesso do cliente</li>
+                <li>Acessibilidade — Tecnologia de ponta não precisa ser cara</li>
               </ul>
             </div>
           </div>
@@ -61,13 +68,13 @@
               <i class="fas fa-lightbulb value-icon"></i>
               <h3>Inovação</h3>
               <p>
-                Buscamos constantemente novas soluções e tecnologias para
-                oferecer o melhor aos nossos clientes.
+                Aplicamos IA de última geração em cada projeto. Não seguimos
+                tendências, criamos soluções.
               </p>
               <div class="value-quote">
                 <p>
-                  "A inovação está no DNA da nossa empresa. Cada projeto é uma
-                  oportunidade de criar algo extraordinário."
+                  "Utilizamos inteligência artificial como parceira para
+                  entregar mais rápido, com mais qualidade e menor custo."
                 </p>
               </div>
             </div>
@@ -75,27 +82,27 @@
               <i class="fas fa-star value-icon"></i>
               <h3>Excelência</h3>
               <p>
-                Comprometimento com a qualidade em cada projeto que
-                desenvolvemos.
+                Cada linha de código é testada, cada design é pensado para
+                converter, cada sistema é feito para durar.
               </p>
               <div class="value-quote">
                 <p>
-                  "Buscamos a excelência em cada detalhe, garantindo resultados
-                  excepcionais para nossos clientes."
+                  "Qualidade não é negociável. Entregamos sistemas robustos,
+                  seguros e com performance excepcional."
                 </p>
               </div>
             </div>
             <div class="value-card animate-card">
               <i class="fas fa-users value-icon"></i>
-              <h3>Colaboração</h3>
+              <h3>Parceria</h3>
               <p>
-                Trabalhamos em parceria com nossos clientes para alcançar
-                resultados extraordinários.
+                Não somos apenas fornecedores. Somos parceiros estratégicos
+                comprometidos com o crescimento do seu negócio.
               </p>
               <div class="value-quote">
                 <p>
-                  "O sucesso dos nossos clientes é o nosso sucesso. Construímos
-                  parcerias duradouras baseadas em confiança."
+                  "Cada projeto que assumimos é tratado como se fosse nosso
+                  próprio negócio, com dedicação total."
                 </p>
               </div>
             </div>
@@ -123,13 +130,13 @@
 
         <!-- CTA Section  -->
         <section class="content-section cta-section">
-          <h2>Vamos transformar seu projeto em realidade!</h2>
+          <h2>Pronto para Transformar Seu Negócio?</h2>
           <p>
-            Entre em contato conosco e descubra como podemos ajudar sua empresa
-            a alcançar novos patamares.
+            Entre em contato e vamos criar juntos a solução digital que seu
+            negócio precisa.
           </p>
           <router-link to="/contato" class="cta-button"
-            >Fale Conosco</router-link
+            >Solicitar Orçamento</router-link
           >
         </section>
       </div>

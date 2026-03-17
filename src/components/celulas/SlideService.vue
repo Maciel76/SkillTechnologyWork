@@ -180,93 +180,123 @@ export default {
       services: [
         {
           icon: "https://api.iconify.design/heroicons:globe-alt.svg",
-          title: "Websites Inteligentes",
+          title: "Sistemas Web",
           description:
-            "Sites que se adaptam em tempo real ao comportamento do usuário",
+            "Criamos sistemas web completos e personalizados — ERPs, CRMs, dashboards e plataformas de gestão sob medida.",
           features: [
-            "Personalização em tempo real",
-            "Integração com IA (recomendações, dados)",
-            "SEO técnico e estratégico",
-            "A/B Testing automático",
-            "Páginas dinâmicas e responsivas",
+            "Dashboards personalizados",
+            "Integração com IA",
+            "Relatórios em tempo real",
+            "Multi-usuário com permissões",
+            "APIs RESTful",
           ],
           color: "#3B82F6",
-          path: "/servicos/desenvolvimento-websites",
+          path: "/contato",
+        },
+        {
+          icon: "https://api.iconify.design/heroicons:computer-desktop.svg",
+          title: "Sites & Landing Pages",
+          description:
+            "Sites responsivos, otimizados para SEO e com design que converte visitantes em clientes.",
+          features: [
+            "Design responsivo",
+            "SEO otimizado",
+            "Carregamento ultrarrápido",
+            "CMS integrado",
+            "Analytics avançado",
+          ],
+          color: "#0099DD",
+          path: "/contato",
         },
         {
           icon: "https://api.iconify.design/heroicons:device-phone-mobile.svg",
-          title: "Desenvolvimento Mobile",
+          title: "Aplicativos Mobile",
           description:
-            "Aplicativos que aprendem com o usuário e evoluem a cada uso",
+            "Apps nativos e multiplataforma para iOS e Android com design premium e funcionalidades avançadas.",
           features: [
-            "Apps Android e iOS sob medida",
-            "Recomendação automática com IA",
-            "Reconhecimento de padrões de uso",
-            "Notificações inteligentes",
-            "Performance otimizada para mobile",
+            "iOS e Android",
+            "Notificações push",
+            "Offline first",
+            "Integração com APIs",
+            "UX premium",
           ],
           color: "#10B981",
-          path: "/servicos/desenvolvimento-mobile",
-        },
-        {
-          icon: "https://api.iconify.design/heroicons:photo.svg",
-          title: "Edição Profissional",
-          description:
-            "Produção de conteúdo visual e textual de alta qualidade para fortalecer sua marca e engajar seu público.",
-          features: [
-            "Edição e manipulação de imagens",
-            "Criação e aprimoramento de imagens",
-            "Identidade visual consistente",
-            "Produção de materiais institucionais",
-            "Conteúdo personalizado para redes sociais",
-          ],
-          color: "#EC4899",
-          path: "/servicos/edicao-de-imagem",
+          path: "/contato",
         },
         {
           icon: "https://api.iconify.design/heroicons:shopping-cart-16-solid.svg",
-          title: "Lojas Virtuais",
+          title: "E-commerce",
           description:
-            "Criação completa de e-commerces para impulsionar suas vendas online com segurança e estilo.",
+            "Lojas virtuais completas com catálogo inteligente, checkout otimizado e gestão de pedidos.",
           features: [
-            "Catálogo de produtos e variações",
-            "Carrinho de compras + Checkout otimizado",
-            "Integração com gateways de pagamento",
-            "Painel de gestão de pedidos",
-            "Relatórios de desempenho e estoque",
+            "Catálogo inteligente",
+            "Checkout otimizado",
+            "Múltiplos pagamentos",
+            "Gestão de pedidos",
+            "Relatórios de vendas",
           ],
           color: "#8B5CF6",
-          path: "/servicos/ecommerce",
+          path: "/contato",
         },
         {
-          icon: "https://api.iconify.design/heroicons:chart-bar.svg",
-          title: "Sistema Web Completo",
+          icon: "https://api.iconify.design/heroicons:cpu-chip.svg",
+          title: "Automação de Processos",
           description:
-            "Sistemas inteligentes e personalizados para automatizar operações e decisões com base em dados.",
+            "Automatizamos qualquer processo repetitivo — chatbots, relatórios automáticos, workflows inteligentes.",
           features: [
-            "Dashboards e relatórios interativos",
-            "Integração com as Melhores AIs do mercado",
-            "Previsões baseadas em IA",
-            "Integração com APIs externas",
-            "Acesso por níveis de usuário",
+            "Chatbots com IA",
+            "Relatórios automáticos",
+            "Workflows personalizados",
+            "Integração com WhatsApp",
+            "Eliminação de tarefas manuais",
           ],
           color: "#F59E0B",
-          path: "/servicos/desenvolvimento-sistemas-web",
+          path: "/contato",
         },
         {
-          icon: "https://api.iconify.design/heroicons:chart-pie-solid.svg",
-          title: "Identidade Visual & Interfaces",
+          icon: "https://api.iconify.design/heroicons:arrows-right-left.svg",
+          title: "Integração de APIs",
           description:
-            "Design estratégico que conecta sua marca com seu público por meio de identidade forte e navegação fluida.",
+            "Conectamos seus sistemas existentes — ERPs, CRMs, gateways de pagamento e ferramentas externas.",
           features: [
-            "Criação de logo e identidade visual",
-            "Interfaces responsivas (UI/UX)",
-            "Ícones e ilustrações personalizadas",
-            "Tratamento de imagem profissional",
-            "Efeitos visuais e animações",
+            "Conexão com qualquer API",
+            "Webhooks e eventos",
+            "Sincronização de dados",
+            "Migração de sistemas",
+            "Documentação técnica",
+          ],
+          color: "#EC4899",
+          path: "/contato",
+        },
+        {
+          icon: "https://api.iconify.design/heroicons:sparkles.svg",
+          title: "IA Aplicada",
+          description:
+            "Implementamos inteligência artificial no seu negócio: chatbots, análise de dados, recomendações e mais.",
+          features: [
+            "Chatbots inteligentes",
+            "Análise preditiva",
+            "Processamento de linguagem natural",
+            "Visão computacional",
+            "Automação com ML",
           ],
           color: "#EF4444",
-          path: "/servicos/interface-ux-ui",
+          path: "/contato",
+        },
+        {
+          icon: "https://api.iconify.design/heroicons:academic-cap.svg",
+          title: "Consultoria & Suporte",
+          description:
+            "Diagnóstico completo, planejamento estratégico, manutenção contínua e suporte técnico dedicado.",
+          features: [
+            "Diagnóstico completo",
+            "Planejamento estratégico",
+            "Suporte 24/7",
+            "Manutenção preventiva",
+            "Treinamento de equipe",
+          ],
+          color: "#6366F1",
+          path: "/contato",
         },
       ],
     };
@@ -317,20 +347,23 @@ export default {
       });
     },
     getServiceImage(title) {
-      // Imagens ilustrativas baseadas no serviço
       const images = {
-        "Websites Inteligentes":
+        "Sistemas Web":
+          "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop",
+        "Sites & Landing Pages":
           "https://images.unsplash.com/photo-1604872412583-53667c1a6fcf?q=80&w=2070&auto=format&fit=crop",
-        "Desenvolvimento Mobile":
+        "Aplicativos Mobile":
           "https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?q=80&w=2070&auto=format&fit=crop",
-        "Edição Profissional":
-          "https://images.unsplash.com/photo-1655266427244-db84a8ae2de1?q=80&w=1973&auto=format&fit=crop",
-        "Lojas Virtuais":
+        "E-commerce":
           "https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?q=80&w=1974&auto=format&fit=crop",
-        "Sistema Web Completo":
-          "https://plus.unsplash.com/premium_photo-1677094310919-d0361465d3be?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "Identidade Visual & Interfaces":
-          "https://images.unsplash.com/photo-1614036634955-ae5e90f9b9eb?q=80&w=2071&auto=format&fit=crop",
+        "Automação de Processos":
+          "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1965&auto=format&fit=crop",
+        "Integração de APIs":
+          "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2070&auto=format&fit=crop",
+        "IA Aplicada":
+          "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2070&auto=format&fit=crop",
+        "Consultoria & Suporte":
+          "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop",
       };
       return (
         images[title] ||

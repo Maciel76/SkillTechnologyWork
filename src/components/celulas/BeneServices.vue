@@ -77,33 +77,33 @@ export default {
           icon: "fas fa-money-bill-wave",
           title: "Redução de Custos e Ganhos Reais",
           description:
-            "Elimine retrabalhos e reduza gastos com soluções inteligentes, planejadas para gerar retorno desde o primeiro dia.",
+            "Nossos clientes economizam em média 40% nos custos operacionais ao automatizar processos manuais com nossas soluções inteligentes.",
           color: "#10B981",
           proofs: [
             { value: "Até 98%", label: "Índice de satisfação" },
-            { value: "-70%", label: "Redução nos custos de desenvolvimento" },
+            { value: "-40%", label: "Custos operacionais" },
           ],
         },
         {
           icon: "fas fa-clock",
-          title: "Entrega Rápida com Qualidade",
+          title: "Entrega até 3x Mais Rápida",
           description:
-            "Projetos entregues em tempo recorde, com foco em performance e sem abrir mão do resultado final.",
+            "Entregamos projetos até 3x mais rápido usando IA como parceira no desenvolvimento. Cada semana economizada é dinheiro no seu bolso.",
           color: "#3B82F6",
           proofs: [
-            { value: "10x", label: "Mais agilidade na entrega" },
+            { value: "3x", label: "Mais rápido com IA" },
             { value: "Semanas", label: "Economizadas por projeto" },
           ],
         },
         {
           icon: "fas fa-arrow-trend-up",
-          title: "Escalabilidade e Crescimento",
+          title: "Escalabilidade Garantida",
           description:
-            "Criamos sistemas e sites prontos para crescer com o seu negócio — do primeiro cliente ao grande volume.",
+            "Sistemas construídos para crescer: do primeiro usuário a milhões. Arquitetura moderna que acompanha seu negócio.",
           color: "#EC4899",
           proofs: [
             { value: "+30%", label: "Aumento de conversões" },
-            { value: "3x", label: "Mais capacidade de atendimento" },
+            { value: "200+", label: "Projetos entregues" },
           ],
         },
       ],

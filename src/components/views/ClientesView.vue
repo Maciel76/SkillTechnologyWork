@@ -7,7 +7,7 @@
           O Que Nossos <span class="highlight">Clientes </span>dizem
         </h1>
         <p class="hero-subtitle">
-          Descubra por que empresas confiam em nossas soluções digitais
+          Descubra por que empresas confiam na SkillTechnology para desenvolvimento, automação e soluções com IA
         </p>
         <div class="rating-overview">
           <div class="stars">
@@ -459,10 +459,10 @@ export default {
       },
       {
         name: "Carlos Oliveira",
-        position: "Diretor",
-        company: "Global Corp",
-        rating: 4,
-        text: "O portal corporativo reflete perfeitamente nossa marca. A equipe captou nossa essência e transformou em um site moderno que recebe elogios constantemente.",
+        position: "Diretor de Operações",
+        company: "TechCorp Inc",
+        rating: 5,
+        text: "O dashboard com IA para controle de estoque transformou nossa operação. Reduzimos 40% dos custos com previsão inteligente de demanda. A equipe da SkillTechnology entregou além do esperado!",
         photo: "https://randomuser.me/api/portraits/men/75.jpg",
         project: 2,
       },
@@ -489,7 +489,7 @@ export default {
         position: "CEO",
         company: "IndustryConnect",
         rating: 5,
-        text: "Revolucionamos nosso modelo de negócio com este marketplace. Conectamos centenas de fornecedores e compradores. ROI positivo já no terceiro mês!",
+        text: "A automação de processos com IA eliminou 80% do trabalho manual de nossa equipe. Integrações inteligentes entre sistemas nos deram agilidade que nem imaginávamos. Recomendo a SkillTechnology!",
         photo: "https://randomuser.me/api/portraits/women/68.jpg",
         project: 5,
       },
@@ -555,25 +555,25 @@ export default {
 
       {
         id: 2,
-        title: "Portal Corporativo",
-        shortDescription: "Website institucional moderno",
+        title: "Dashboard com IA para Estoque",
+        shortDescription: "Controle inteligente de estoque e previsão de demanda",
         description:
-          "Desenvolvimento de portal corporativo com gestão de conteúdo, blog integrado e área restrita para clientes com documentos e relatórios personalizados.",
+          "Desenvolvimento de dashboard analítico com inteligência artificial para gestão de estoque, previsão de demanda, alertas automáticos e relatórios em tempo real integrados ao ERP da empresa.",
         image:
-          "https://img.freepik.com/free-photo/online-message-blog-chat-communication-envelop-graphic-icon-concept_53876-139717.jpg?w=1060",
+          "https://img.freepik.com/free-photo/business-people-analyzing-statistics-financial-concept_53876-14081.jpg?w=996",
         images: [
-          "https://img.freepik.com/free-photo/online-message-blog-chat-communication-envelop-graphic-icon-concept_53876-139717.jpg?w=1060",
           "https://img.freepik.com/free-photo/business-people-analyzing-statistics-financial-concept_53876-14081.jpg?w=996",
           "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041859.jpg?w=996",
+          "https://img.freepik.com/free-photo/online-message-blog-chat-communication-envelop-graphic-icon-concept_53876-139717.jpg?w=1060",
         ],
-        rating: 4,
+        rating: 5,
         testimonial:
-          "O portal reflete perfeitamente nossa marca e valores. A equipe captou nossa essência e transformou em um site moderno e funcional que recebe elogios constantemente.",
+          "O dashboard com IA transformou completamente nosso controle de estoque. Reduzimos 40% dos custos e agora prevemos a demanda com precisão incrível.",
         clientName: "Carlos Oliveira",
-        clientPosition: "Diretor",
-        clientCompany: "Global Corp",
+        clientPosition: "Diretor de Operações",
+        clientCompany: "TechCorp Inc",
         clientPhoto: "https://randomuser.me/api/portraits/men/75.jpg",
-        technologies: ["Nuxt.js", "WordPress API", "Tailwind CSS", "GraphQL"],
+        technologies: ["Vue.js", "Python", "TensorFlow", "PostgreSQL", "AWS"],
         link: "#",
       },
       {
@@ -631,10 +631,10 @@ export default {
       },
       {
         id: 5,
-        title: "Marketplace B2B",
-        shortDescription: "Plataforma de vendas entre empresas",
+        title: "Automação de Processos com IA",
+        shortDescription: "Integração inteligente entre sistemas empresariais",
         description:
-          "Marketplace B2B completo conectando fornecedores e compradores com sistema de cotações, negociação, pagamentos seguros, logística integrada e dashboard analítico.",
+          "Desenvolvimento de plataforma de automação com IA para integrar ERPs, CRMs e sistemas legados, eliminando processos manuais e gerando relatórios analíticos automatizados.",
         image:
           "https://images.unsplash.com/photo-1664455340023-214c33a9d0bd?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1632",
         images: [
@@ -644,18 +644,18 @@ export default {
         ],
         rating: 5,
         testimonial:
-          "Revolucionamos nosso modelo de negócio com este marketplace. Conectamos centenas de fornecedores e compradores. O ROI foi positivo já no terceiro mês!",
+          "A automação com IA eliminou 80% do trabalho manual. Nossas integrações entre sistemas ficaram inteligentes e ágeis. ROI positivo já no segundo mês!",
         clientName: "Luciana Martins",
         clientPosition: "CEO",
         clientCompany: "IndustryConnect",
         clientPhoto: "https://randomuser.me/api/portraits/women/68.jpg",
         technologies: [
-          "Vue.js",
-          "Vuex",
-          "Node.js",
+          "Python",
+          "FastAPI",
+          "OpenAI API",
           "MongoDB",
           "Docker",
-          "Stripe",
+          "n8n",
         ],
         link: "#",
       },

@@ -17,15 +17,14 @@
           <div class="feature-content">
             <h3>Implementação Completa</h3>
             <p>
-              Desenvolvimento, configuração e integração dos sistemas de IA.
+              Setup completo do sistema, integração com IA e treinamento da equipe.
             </p>
             <ul>
               <li>
-                <span class="check-icon">✓</span> Setup inicial do sistema
+                <span class="check-icon">✓</span> Setup e configuração do sistema
               </li>
               <li>
-                <span class="check-icon">✓</span> Integração com suas
-                ferramentas
+                <span class="check-icon">✓</span> Integração com IA e APIs
               </li>
               <li><span class="check-icon">✓</span> Treinamento da equipe</li>
               <li>
@@ -41,12 +40,12 @@
           </div>
           <div class="feature-content">
             <h3>Suporte Contínuo</h3>
-            <p>Atendimento pós-implantação para ajustes e melhorias.</p>
+            <p>Suporte técnico dedicado, atualizações regulares e monitoramento 24/7.</p>
             <ul>
               <li><span class="check-icon">✓</span> Suporte técnico 24/7</li>
-              <li><span class="check-icon">✓</span> Atualizações regulares</li>
+              <li><span class="check-icon">✓</span> Atualizações de segurança</li>
               <li>
-                <span class="check-icon">✓</span> Consultoria especializada
+                <span class="check-icon">✓</span> Monitoramento de performance
               </li>
               <li><span class="check-icon">✓</span> SLA de resposta rápida</li>
             </ul>
@@ -58,13 +57,13 @@
             <i class="fas fa-chart-bar"></i>
           </div>
           <div class="feature-content">
-            <h3>Relatórios Detalhados</h3>
-            <p>Métricas de desempenho e análises para otimização.</p>
+            <h3>Resultados & Métricas</h3>
+            <p>Dashboard de métricas, relatórios de desempenho e otimização contínua.</p>
             <ul>
               <li><span class="check-icon">✓</span> Dashboard personalizado</li>
-              <li><span class="check-icon">✓</span> Análise de performance</li>
+              <li><span class="check-icon">✓</span> Relatórios de desempenho</li>
               <li>
-                <span class="check-icon">✓</span> Recomendações de melhoria
+                <span class="check-icon">✓</span> Otimização contínua
               </li>
               <li>
                 <span class="check-icon">✓</span> Relatórios executivos mensais

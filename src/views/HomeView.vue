@@ -2,11 +2,16 @@
   <main>
     <HeroSection />
     <SobreNosResumo />
-    <ProjectSection />
+    <ComoFunciona />
     <ServicesLink />
+    <ParaQuemE />
+    <ProjectSection />
     <PortfolioSection />
-    <RecentPosts />
+    <BeneficSection title="Por que Escolher a SkillTechnology" />
+    <FreedbackView />
     <PricingSection />
+    <Perguntasfrequente />
+    <ContatoService />
   </main>
 </template>
 
@@ -18,17 +23,29 @@ import PortfolioSection from "@/components/servicepage/Portifolio/PortfolioSecti
 import ServicesLink from "@/components/celulas/ServicesLink.vue";
 import SobreNosResumo from "@/components/molecules/SobreNosResumo.vue";
 import PricingSection from "@/components/molecules/PricingSection.vue";
+import ComoFunciona from "@/components/molecules/ComoFunciona.vue";
+import ParaQuemE from "@/components/molecules/ParaQuemE.vue";
+import BeneficSection from "@/components/molecules/BeneficSection.vue";
+import FreedbackView from "@/components/molecules/FreedbackView.vue";
+import Perguntasfrequente from "@/components/molecules/Perguntasfrequente.vue";
+import ContatoService from "@/components/celulas/ContatoService.vue";
 
 export default {
   name: "HomeView",
   components: {
     HeroSection,
+    SobreNosResumo,
+    ComoFunciona,
+    ServicesLink,
+    ParaQuemE,
     ProjectSection,
     PortfolioSection,
-    ServicesLink,
-    RecentPosts,
-    SobreNosResumo,
+    BeneficSection,
+    FreedbackView,
     PricingSection,
+    Perguntasfrequente,
+    ContatoService,
+    RecentPosts,
   },
 };
 </script>

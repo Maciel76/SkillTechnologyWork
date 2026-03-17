@@ -126,14 +126,14 @@
             </div>
 
             <div class="form-group" v-if="paymentMethod === 'credit'">
-              <label>Dados do cartão</label>
-              <div class="card-form">
-                <input type="text" placeholder="Número do cartão" required>
-                <input type="text" placeholder="Nome no cartão" required>
-                <div class="card-details">
-                  <input type="text" placeholder="MM/AA" required>
-                  <input type="text" placeholder="CVV" required>
-                </div>
+              <div class="secure-payment-notice">
+                <p>🔒 Ao confirmar, você será redirecionado para um ambiente seguro de pagamento.</p>
+              </div>
+            </div>
+
+            <div class="form-group" v-if="paymentMethod === 'pix'">
+              <div class="secure-payment-notice">
+                <p>📱 Ao confirmar, será gerado um QR Code PIX para pagamento.</p>
               </div>
             </div>
 

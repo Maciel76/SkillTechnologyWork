@@ -46,13 +46,11 @@ export default {
   data() {
     return {
       texts: [
-        "Entre em Contato",
         "Solicite Orçamento",
         "100% Gratuito",
-        "Entre em Contato",
+        "Fale Conosco",
         "Tire suas Dúvidas",
         "Estamos Online",
-        "Entrar em Contato",
       ],
       textIndex: 0,
       isMenuOpen: false,

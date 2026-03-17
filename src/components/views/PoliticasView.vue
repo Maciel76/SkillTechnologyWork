@@ -14,9 +14,11 @@
           <i class="fas fa-shield-alt"></i>
           <p>
             Seus dados estão seguros conosco. Utilizamos criptografia de ponta a
-            ponta e seguimos as melhores práticas de segurança.
+            ponta e seguimos as melhores práticas de segurança. Em conformidade
+            com a LGPD.
           </p>
         </div>
+        <p class="update-date">Última atualização: Março de 2026</p>
       </section>
 
       <div class="institutional-content">
@@ -28,7 +30,10 @@
               <li><a href="#coleta">Coleta de Dados</a></li>
               <li><a href="#uso">Uso das Informações</a></li>
               <li><a href="#cookies">Política de Cookies</a></li>
-              <li><a href="#direitos">Seus Direitos</a></li>
+              <li><a href="#lgpd">LGPD e Seus Direitos</a></li>
+              <li><a href="#retencao">Retenção de Dados</a></li>
+              <li><a href="#ia">Uso de Inteligência Artificial</a></li>
+              <li><a href="#projetos">Dados de Projetos</a></li>
               <li><a href="#seguranca">Segurança</a></li>
               <li><a href="#contato">Contato</a></li>
             </ul>
@@ -92,6 +97,71 @@
               </ul>
             </section>
 
+            <section id="lgpd" class="content-section animate-on-scroll">
+              <div class="section-header">
+                <i class="fas fa-balance-scale icon-lgpd"></i>
+                <h2>LGPD — Lei Geral de Proteção de Dados</h2>
+              </div>
+              <p>
+                A SkillTechnology está em total conformidade com a Lei Geral de
+                Proteção de Dados (Lei nº 13.709/2018). Garantimos:
+              </p>
+              <ul>
+                <li>Tratamento de dados apenas com base legal adequada</li>
+                <li>Coleta mínima de dados pessoais necessários</li>
+                <li>Direito de acesso, correção, exclusão e portabilidade</li>
+                <li>Encarregado de dados (DPO) disponível para contato</li>
+                <li>Notificação em caso de incidentes de segurança</li>
+              </ul>
+            </section>
+
+            <section id="retencao" class="content-section animate-on-scroll">
+              <div class="section-header">
+                <i class="fas fa-clock icon-retencao"></i>
+                <h2>Retenção de Dados</h2>
+              </div>
+              <p>Mantemos seus dados pelo tempo necessário:</p>
+              <ul>
+                <li>Dados de cadastro: enquanto a conta estiver ativa</li>
+                <li>Dados de projetos: 5 anos após a conclusão do projeto</li>
+                <li>Dados de navegação: até 12 meses</li>
+                <li>Dados fiscais: conforme obrigação legal (5 anos)</li>
+                <li>Após o período, os dados são anonimizados ou excluídos</li>
+              </ul>
+            </section>
+
+            <section id="ia" class="content-section animate-on-scroll">
+              <div class="section-header">
+                <i class="fas fa-robot icon-ia"></i>
+                <h2>Uso de Inteligência Artificial</h2>
+              </div>
+              <p>
+                Utilizamos ferramentas de IA no desenvolvimento dos projetos.
+                Sobre os dados dos clientes:
+              </p>
+              <ul>
+                <li>Dados confidenciais do cliente não são compartilhados com ferramentas de IA</li>
+                <li>Códigos-fonte são protegidos e não enviados a serviços externos sem autorização</li>
+                <li>IA é utilizada como ferramenta de auxílio, não para tomada de decisões sobre dados pessoais</li>
+                <li>Todas as ferramentas de IA utilizadas seguem políticas de privacidade compatíveis</li>
+              </ul>
+            </section>
+
+            <section id="projetos" class="content-section animate-on-scroll">
+              <div class="section-header">
+                <i class="fas fa-folder-open icon-projetos"></i>
+                <h2>Tratamento de Dados de Projetos</h2>
+              </div>
+              <p>Para projetos desenvolvidos para clientes:</p>
+              <ul>
+                <li>Acesso restrito apenas à equipe designada ao projeto</li>
+                <li>Dados sensíveis armazenados com criptografia</li>
+                <li>NDA (Acordo de Confidencialidade) disponível quando necessário</li>
+                <li>Dados do projeto entregues integralmente ao cliente ao final</li>
+                <li>Backups seguros durante o período de desenvolvimento</li>
+              </ul>
+            </section>
+
             <section id="seguranca" class="content-section animate-on-scroll">
               <div class="section-header">
                 <i class="fas fa-lock icon-seguranca"></i>
@@ -110,7 +180,7 @@
               <div class="section-header"></div>
 
               <div class="contact-info">
-                <p>contato@skilltechnologywork</p>
+                <p>contato@skilltechnologywork.com</p>
                 <p>Telefone: (62) 98280-9010</p>
                 <router-link to="/contato" class="contact-button"
                   >Fale Conosco</router-link
@@ -354,6 +424,13 @@ export default {
 
 .contact-button:hover {
   background: #1a4f96;
+}
+
+.update-date {
+  text-align: center;
+  color: #888;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
 }
 
 @media (max-width: 768px) {

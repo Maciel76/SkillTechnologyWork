@@ -1,4 +1,4 @@
-<!-- src/components/Footer.vue -->
+<!-- src/components/Footer.vue 💚 -->
 <template>
   <footer>
     <!-- Adicionando Font Awesome via CDN -->
@@ -12,7 +12,7 @@
           <img src="@/assets/svg/icons/logo.svg" alt="Logo" class="logo-icon" />
           <span>Skill Technology Work</span>
         </router-link>
-        <p>Transformamos ideias em soluções digitais inovadoras.</p>
+        <p>Transformamos sua ideia em soluções digitais completas com IA.</p>
         <RedesSocias />
         <!-- Usando o componente SigaNos importando as redes sociais -->
       </div>
@@ -66,8 +66,8 @@
             </li>
             <li class="contact-item">
               <i class="fas fa-envelope"></i>
-              <a href="mailto:Contato@skilltchnologywork.com"
-                >Contato@skilltchnologywork.com</a
+              <a href="mailto:contato@skilltechnologywork.com"
+                >contato@skilltechnologywork.com</a
               >
             </li>
           </ul>
@@ -75,7 +75,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2024 Skill Technology Work</p>
+      <p>© 2025 Skill Technology Work. Todos os direitos reservados.</p>
     </div>
   </footer>
 </template>

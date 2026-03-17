@@ -1,15 +1,15 @@
 <!-- src/components/Footer.vue  -->
 <template>
-  <p><br />Siga Nosso Trabalho nas redes sócias1</p>
+  <p style="text-align: center;"><br />Siga Nosso Trabalho </p>
   <br />
   <div class="social-links">
-    <a href="#"><img src="@/assets/svg/icons/facbook.svg" alt="Facebook" /></a>
-    <a href="#"
+    <a href="https://facebook.com/skilltechnologywork" target="_blank" rel="noopener noreferrer"><img src="@/assets/svg/icons/facbook.svg" alt="Facebook" /></a>
+    <a href="https://instagram.com/skilltechnologywork" target="_blank" rel="noopener noreferrer"
       ><img src="@/assets/svg/icons/instagram.svg" alt="Instagram"
     /></a>
-    <a href="#"><img src="@/assets/svg/icons/youtube.svg" alt="YouTube" /></a>
-    <a href="#"><img src="@/assets/svg/icons/linkdin.svg" alt="LinkedIn" /></a>
-    <a href="#"><img src="@/assets/svg/icons/whatsapp.svg" alt="Whatsapp" /></a>
+    <a href="https://youtube.com/@skilltechnologywork" target="_blank" rel="noopener noreferrer"><img src="@/assets/svg/icons/youtube.svg" alt="YouTube" /></a>
+    <a href="https://linkedin.com/company/skilltechnologywork" target="_blank" rel="noopener noreferrer"><img src="@/assets/svg/icons/linkdin.svg" alt="LinkedIn" /></a>
+    <a href="https://wa.me/5562982809010" target="_blank" rel="noopener noreferrer"><img src="@/assets/svg/icons/whatsapp.svg" alt="Whatsapp" /></a>
   </div>
 </template>
 

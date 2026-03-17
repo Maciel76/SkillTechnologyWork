@@ -7,6 +7,7 @@
           Leia atentamente os termos e condições para utilização dos nossos
           serviços.
         </p>
+        <p class="update-date">Última atualização: Março de 2026</p>
       </section>
 
       <div class="institutional-content">
@@ -15,11 +16,17 @@
           <nav class="terms-nav">
             <ul>
               <li><a href="#aceitacao">1. Aceitação dos Termos</a></li>
-              <li><a href="#direitos">2. Direitos Autorais</a></li>
-              <li><a href="#uso">3. Uso do Site</a></li>
-              <li><a href="#privacidade">4. Privacidade</a></li>
-              <li><a href="#responsabilidades">5. Responsabilidades</a></li>
-              <li><a href="#modificacoes">6. Modificações</a></li>
+              <li><a href="#escopo">2. Escopo de Serviços</a></li>
+              <li><a href="#direitos">3. Direitos Autorais</a></li>
+              <li><a href="#propriedade">4. Propriedade Intelectual</a></li>
+              <li><a href="#prazos">5. Prazos e Entregas</a></li>
+              <li><a href="#pagamento">6. Pagamento e Cancelamento</a></li>
+              <li><a href="#garantia">7. Garantia e Suporte</a></li>
+              <li><a href="#ia">8. Uso de Inteligência Artificial</a></li>
+              <li><a href="#uso">9. Uso do Site</a></li>
+              <li><a href="#privacidade">10. Privacidade</a></li>
+              <li><a href="#responsabilidades">11. Responsabilidades</a></li>
+              <li><a href="#modificacoes">12. Modificações</a></li>
             </ul>
           </nav>
 
@@ -35,8 +42,27 @@
               </p>
             </section>
 
+            <section id="escopo" class="content-section">
+              <h2>2. Escopo de Serviços</h2>
+              <p>
+                A SkillTechnology oferece serviços de desenvolvimento de
+                software, incluindo mas não se limitando a:
+              </p>
+              <ul>
+                <li>Desenvolvimento de sistemas web e aplicativos mobile</li>
+                <li>Criação de sites, landing pages e lojas virtuais</li>
+                <li>Automação de processos e integração de APIs</li>
+                <li>Implementação de soluções com inteligência artificial</li>
+                <li>Consultoria técnica e suporte contínuo</li>
+              </ul>
+              <p>
+                O escopo específico de cada projeto é definido em proposta
+                comercial ou contrato individual.
+              </p>
+            </section>
+
             <section id="direitos" class="content-section">
-              <h2>2. Direitos Autorais</h2>
+              <h2>3. Direitos Autorais</h2>
               <p>
                 Todo o conteúdo disponível neste site, incluindo mas não se
                 limitando a textos, gráficos, logos, imagens, é de propriedade
@@ -50,8 +76,66 @@
               </ul>
             </section>
 
+            <section id="propriedade" class="content-section">
+              <h2>4. Propriedade Intelectual dos Projetos</h2>
+              <p>
+                Após a conclusão e pagamento integral do projeto:
+              </p>
+              <ul>
+                <li>O código-fonte desenvolvido é transferido integralmente ao cliente</li>
+                <li>Designs e interfaces criados são de propriedade do cliente</li>
+                <li>Bibliotecas e frameworks de terceiros mantêm suas licenças originais</li>
+                <li>A SkillTechnology pode referenciar o projeto em seu portfólio, salvo acordo contrário</li>
+              </ul>
+            </section>
+
+            <section id="prazos" class="content-section">
+              <h2>5. Prazos e Entregas</h2>
+              <ul>
+                <li>Os prazos são definidos na proposta comercial de cada projeto</li>
+                <li>Entregas são feitas em marcos (milestones) com aprovação do cliente</li>
+                <li>Alterações de escopo podem impactar os prazos acordados</li>
+                <li>Atrasos por dependência do cliente (conteúdo, aprovações) não são de responsabilidade da SkillTechnology</li>
+              </ul>
+            </section>
+
+            <section id="pagamento" class="content-section">
+              <h2>6. Pagamento e Cancelamento</h2>
+              <ul>
+                <li>Condições de pagamento são definidas em cada proposta comercial</li>
+                <li>O trabalho inicia após a confirmação do sinal/entrada quando aplicável</li>
+                <li>Cancelamentos antes do início: reembolso integral</li>
+                <li>Cancelamentos após início: cobrança proporcional ao trabalho realizado</li>
+                <li>O cliente recebe todo o material produzido até a data de cancelamento</li>
+              </ul>
+            </section>
+
+            <section id="garantia" class="content-section">
+              <h2>7. Garantia e Suporte Pós-Entrega</h2>
+              <ul>
+                <li>Garantia de 30 dias para correção de bugs após a entrega final</li>
+                <li>Suporte técnico contínuo disponível via planos de manutenção</li>
+                <li>Atualizações de segurança críticas incluídas no período de garantia</li>
+                <li>Novas funcionalidades ou alterações de escopo são orçadas separadamente</li>
+              </ul>
+            </section>
+
+            <section id="ia" class="content-section">
+              <h2>8. Uso de Inteligência Artificial</h2>
+              <p>
+                A SkillTechnology utiliza ferramentas de IA como parceiras no
+                processo de desenvolvimento. Sobre isso:
+              </p>
+              <ul>
+                <li>IA é usada para acelerar o desenvolvimento e melhorar a qualidade</li>
+                <li>Todo código gerado com auxílio de IA é revisado por desenvolvedores humanos</li>
+                <li>Dados confidenciais do cliente não são compartilhados com ferramentas de IA sem autorização</li>
+                <li>O uso de IA não altera a responsabilidade da SkillTechnology sobre a qualidade da entrega</li>
+              </ul>
+            </section>
+
             <section id="uso" class="content-section">
-              <h2>3. Uso do Site</h2>
+              <h2>9. Uso do Site</h2>
               <p>
                 Você concorda em utilizar este site apenas para propósitos
                 legais e de forma que não viole os direitos de terceiros.
@@ -64,7 +148,7 @@
             </section>
 
             <section id="privacidade" class="content-section">
-              <h2>4. Privacidade</h2>
+              <h2>10. Privacidade</h2>
               <p>
                 Nossa política de privacidade descreve como coletamos e
                 utilizamos suas informações pessoais. Ao utilizar nosso site,
@@ -73,7 +157,7 @@
             </section>
 
             <section id="responsabilidades" class="content-section">
-              <h2>5. Responsabilidades</h2>
+              <h2>11. Responsabilidades</h2>
               <p>
                 A Skill Technology não se responsabiliza por danos indiretos,
                 incidentais ou consequentes decorrentes do uso ou
@@ -82,7 +166,7 @@
             </section>
 
             <section id="modificacoes" class="content-section">
-              <h2>6. Modificações</h2>
+              <h2>12. Modificações</h2>
               <p>
                 Reservamo-nos o direito de modificar estes termos a qualquer
                 momento. As modificações entram em vigor imediatamente após sua
@@ -211,6 +295,12 @@ export default {
   max-width: 800px;
   margin: 0 auto;
   opacity: 0.9;
+}
+
+.update-date {
+  font-size: 0.85rem;
+  color: #888;
+  margin-top: 0.5rem;
 }
 
 .institutional-content {

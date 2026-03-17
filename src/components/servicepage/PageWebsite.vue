@@ -6,16 +6,16 @@
       <div class="hero-content">
         <div class="hero-text">
           <h1 class="hero-title">
-            <span class="title-line">Desenvolvemos </span>
+            <span class="title-line">Sites & Landing Pages </span>
             <span class="title-line highlight">
-              <span class="tech-text">Seu Website</span>
+              <span class="tech-text">Profissionais</span>
               <span class="pulse-dot"></span>
             </span>
           </h1>
           <p class="hero-subtitle">
             Transforme sua ideia em um site incrível com nossa equipe de
-            especialistas. Criamos soluções personalizadas para atender às suas
-            necessidades.
+            especialistas. Criamos sites institucionais, landing pages de alta
+            conversão e portais corporativos com design moderno e SEO otimizado.
           </p>
           <div class="cta-container">
             <button class="cta-button">

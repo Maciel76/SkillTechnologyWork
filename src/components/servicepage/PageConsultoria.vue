@@ -5,13 +5,13 @@
       <div class="hero-content">
         <div class="hero-text">
           <h1 class="hero-title">
-            <span class="title-line">Assistência Técnica em TI</span>
+            <span class="title-line">Consultoria em Tecnologia</span>
             <span class="title-line highlight">
-              <span class="tech-text">No Seu Domicílio</span>
+              <span class="tech-text">Para Seu Negócio</span>
               <span class="pulse-dot"></span>
             </span>
           </h1>
-          <p class="hero-subtitle">Soluções rápidas e personalizadas sem você precisar sair de casa. Atendimento profissional no conforto do seu lar.</p>
+          <p class="hero-subtitle">Diagnóstico completo, planejamento estratégico digital e acompanhamento contínuo para acelerar o crescimento do seu negócio com tecnologia.</p>
           <div class="cta-container">
             <button class="cta-button" @click="scrollToServices">Agendar Visita</button>
             <div class="trust-badges">

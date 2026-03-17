@@ -22,8 +22,8 @@
               <div class="stat-label">Clientes satisfeitos</div>
             </div>
             <div class="stat-item">
-              <div class="stat-number">5+</div>
-              <div class="stat-label">Anos de experiência</div>
+              <div class="stat-number">3x</div>
+              <div class="stat-label">Mais rápido com IA</div>
             </div>
           </div>
         </div>
@@ -259,14 +259,14 @@
     <section class="cta-section">
       <div class="cta-container">
         <div class="cta-content">
-          <h2>Pronto para transformar sua visão em realidade?</h2>
+          <h2>Tem uma ideia? Vamos transformá-la em realidade!</h2>
           <p>
-            Vamos criar algo extraordinário juntos. Nossa equipe está pronta
-            para levar seu projeto ao próximo nível.
+            Entre em contato e receba uma proposta personalizada para o seu
+            projeto.
           </p>
           <router-link to="/contato" class="router-link">
             <button class="cta-button" @click="openContact">
-              Inicie seu projeto agora
+              Solicitar Orçamento
               <svg
                 width="24"
                 height="24"
@@ -300,40 +300,92 @@ export default {
       currentTestimonial: 0,
       currentHeroSlide: 0,
       selectedCategory: 'Todos',
-      categories: ['Todos', 'Web App', 'E-commerce', 'Mobile App', 'Website', 'Sistema Web'],
+      categories: ['Todos', 'Sistemas Web', 'Sites & Landing Pages', 'E-commerce', 'Aplicativos Mobile', 'Automação & IA', 'Identidade Visual'],
       processSteps: [
         {
           title: 'Descoberta',
-          description: 'Entendemos profundamente seu negócio, objetivos e público-alvo através de workshops e pesquisas.',
+          description: 'Entendemos seu negócio, suas dores e seus objetivos. Analisamos o cenário e identificamos as melhores oportunidades.',
           icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>'
         },
         {
-          title: 'Estratégia',
-          description: 'Definimos a arquitetura, tecnologias e abordagem ideal para alcançar seus objetivos.',
+          title: 'Planejamento',
+          description: 'Projetamos a solução ideal com protótipos visuais, arquitetura técnica e plano de desenvolvimento detalhado.',
           icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>'
         },
         {
-          title: 'Desenvolvimento',
-          description: 'Construímos sua solução com código limpo, testes rigorosos e entregas incrementais.',
+          title: 'Desenvolvimento com IA',
+          description: 'Construímos seu projeto utilizando inteligência artificial e as tecnologias mais modernas para entregar com velocidade e qualidade.',
           icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>'
         },
         {
-          title: 'Lançamento',
-          description: 'Deploy profissional, treinamento da equipe e suporte contínuo para garantir o sucesso.',
+          title: 'Lançamento & Suporte',
+          description: 'Implantamos, testamos e lançamos seu sistema. Continuamos ao seu lado com suporte contínuo e melhorias.',
           icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>'
         }
       ],
       featuredProjects: [
         {
           id: 1,
-          name: "Plataforma de Educação Digital",
+          name: "Dashboard com IA para Controle de Estoque",
           description:
-            "Uma solução completa de e-learning com aulas ao vivo, conteúdo interativo e acompanhamento de progresso.",
+            "Sistema web completo com dashboards inteligentes, alertas preditivos e integração com APIs de fornecedores.",
           excerpt:
-            "Revolucionando a educação online com tecnologia de ponta e experiência do usuário excepcional.",
-          category: "Web App",
-          year: "2023",
+            "Gestão de estoque automatizada com inteligência artificial e relatórios em tempo real.",
+          category: "Sistemas Web",
+          year: "2024",
           accentColor: "#6C5CE7",
+          images: [
+            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+          ],
+          client: {
+            name: "TechCorp Inc.",
+            logo: "https://via.placeholder.com/80",
+          },
+          challenge:
+            "Automatizar o controle de estoque que era gerido manualmente em planilhas.",
+          solution:
+            "Desenvolvemos um sistema com IA preditiva que alerta sobre rupturas de estoque e sugere reabastecimento automático.",
+          results:
+            "Redução de 60% no tempo de gestão de estoque e 45% menos rupturas.",
+        },
+        {
+          id: 2,
+          name: "Loja Virtual Boutique Elegance",
+          description:
+            "E-commerce completo com catálogo dinâmico, checkout otimizado e painel de gestão integrado.",
+          excerpt:
+            "Loja virtual de alta conversão com integração de pagamentos e logística automatizada.",
+          category: "E-commerce",
+          year: "2024",
+          accentColor: "#00B894",
+          images: [
+            "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&auto=format&fit=crop",
+          ],
+          client: {
+            name: "Boutique Elegance",
+            logo: "https://via.placeholder.com/80",
+          },
+          challenge:
+            "Criar uma loja virtual premium com experiência mobile impecável.",
+          solution:
+            "E-commerce responsivo com checkout em 2 cliques, integração Stripe/Pix e gestão completa de pedidos.",
+          results:
+            "Aumento de 180% nas vendas online nos primeiros 3 meses.",
+        },
+        {
+          id: 3,
+          name: "Instituto Educar: Educação Digital",
+          description:
+            "Plataforma educacional com aulas ao vivo, conteúdo interativo e acompanhamento de progresso.",
+          excerpt:
+            "Transformando a educação com tecnologia e experiência de usuário excepcional.",
+          category: "Sistemas Web",
+          year: "2025",
+          accentColor: "#FD79A8",
           images: [
             "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
             "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
@@ -346,68 +398,16 @@ export default {
           challenge:
             "Criar uma plataforma que superasse as limitações dos sistemas de e-learning tradicionais.",
           solution:
-            "Desenvolvemos uma solução personalizada com vídeos interativos, quizzes em tempo real e relatórios detalhados.",
+            "Plataforma com vídeos interativos, quizzes em tempo real e relatórios detalhados de progresso.",
           results:
             "Aumento de 300% no engajamento dos alunos e redução de 40% na taxa de desistência.",
-        },
-        {
-          id: 2,
-          name: "Marketplace de Arte Digital",
-          description:
-            "Plataforma para artistas venderem suas criações digitais com segurança e facilidade.",
-          excerpt:
-            "Conectando artistas digitais com colecionadores em um mercado global.",
-          category: "E-commerce",
-          year: "2022",
-          accentColor: "#00B894",
-          images: [
-            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-          ],
-          client: {
-            name: "ArtChain",
-            logo: "https://via.placeholder.com/80",
-          },
-          challenge:
-            "Criar um mercado justo para arte digital com proteção contra cópias não autorizadas.",
-          solution:
-            "Implementamos um sistema de certificação blockchain para autenticar obras originais.",
-          results:
-            "Mais de 10.000 artistas cadastrados e $2M em vendas no primeiro ano.",
-        },
-        {
-          id: 3,
-          name: "App de Bem-Estar Corporativo",
-          description:
-            "Aplicativo móvel para promover saúde mental e física no ambiente de trabalho.",
-          excerpt:
-            "Transformando a cultura corporativa através do bem-estar digital.",
-          category: "Mobile App",
-          year: "2023",
-          accentColor: "#FD79A8",
-          images: [
-            "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-            "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-            "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-          ],
-          client: {
-            name: "WellCorp",
-            logo: "https://via.placeholder.com/80",
-          },
-          challenge:
-            "Reduzir o estresse e aumentar a produtividade em grandes corporações.",
-          solution:
-            "Criamos um app com meditações guiadas, desafios de saúde e métricas personalizadas.",
-          results:
-            "Aumento de 25% na satisfação dos funcionários nas empresas que adotaram a solução.",
         },
       ],
       allProjects: [
         {
           id: 4,
           name: "Sistema de Gestão Hospitalar",
-          category: "Sistema Web",
+          category: "Sistemas Web",
           thumbnail:
             "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&auto=format&fit=crop",
           images: [
@@ -459,7 +459,7 @@ export default {
         {
           id: 6,
           name: "Portal de Notícias",
-          category: "Website",
+          category: "Sites & Landing Pages",
           thumbnail:
             "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&auto=format&fit=crop",
           images: [
@@ -485,7 +485,7 @@ export default {
         {
           id: 7,
           name: "App de Delivery Gourmet",
-          category: "Mobile App",
+          category: "Aplicativos Mobile",
           thumbnail:
             "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&auto=format&fit=crop",
           images: [
@@ -511,7 +511,7 @@ export default {
         {
           id: 8,
           name: "Plataforma de Streaming",
-          category: "Web App",
+          category: "Sistemas Web",
           thumbnail:
             "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&auto=format&fit=crop",
           images: [
@@ -537,7 +537,7 @@ export default {
         {
           id: 9,
           name: "Dashboard Analytics",
-          category: "Sistema Web",
+          category: "Automação & IA",
           thumbnail:
             "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop",
           images: [
@@ -563,7 +563,7 @@ export default {
         {
           id: 10,
           name: "Site Institucional Tech",
-          category: "Website",
+          category: "Sites & Landing Pages",
           thumbnail:
             "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&auto=format&fit=crop",
           images: [
@@ -589,7 +589,7 @@ export default {
         {
           id: 11,
           name: "App de Finanças Pessoais",
-          category: "Mobile App",
+          category: "Aplicativos Mobile",
           thumbnail:
             "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&auto=format&fit=crop",
           images: [
@@ -615,7 +615,7 @@ export default {
         {
           id: 12,
           name: "Landing Page SaaS",
-          category: "Website",
+          category: "Sites & Landing Pages",
           thumbnail:
             "https://images.unsplash.com/photo-1559028012-481c04fa702d?w=800&auto=format&fit=crop",
           images: [
@@ -667,35 +667,35 @@ export default {
       ],
       testimonials: [
         {
-          name: "Carlos Mendes",
+          name: "Rafael Mendes",
           position: "CEO",
-          company: "InovaTech",
+          company: "TechCorp Inc.",
           content:
-            "A CreativeDevStudio superou todas as nossas expectativas. Eles não apenas entregaram um produto excepcional, mas também nos guiaram através de todo o processo com profissionalismo e expertise.",
+            "A SkillTechnology entregou nosso dashboard com IA em tempo recorde. O sistema reduziu nosso tempo de gestão de estoque em 60%. Recomendo fortemente.",
           avatar: "https://randomuser.me/api/portraits/men/32.jpg",
         },
         {
-          name: "Ana Beatriz",
-          position: "Diretora de Marketing",
-          company: "Global Brands",
+          name: "Camila Rocha",
+          position: "Diretora Comercial",
+          company: "Boutique Elegance",
           content:
-            "Trabalhar com a CreativeDevStudio foi uma experiência transformadora para nossa empresa. Eles entenderam nossa visão e a levaram a um nível que nem imaginávamos ser possível.",
+            "Nossa loja virtual ficou incrível! As vendas aumentaram 180% nos primeiros 3 meses. A equipe entendeu perfeitamente o que precisávamos.",
           avatar: "https://randomuser.me/api/portraits/women/44.jpg",
         },
         {
-          name: "Ricardo Oliveira",
-          position: "Fundador",
-          company: "StartUp Ventures",
+          name: "Dr. Paulo Eduardo",
+          position: "Diretor Acadêmico",
+          company: "Instituto Educar",
           content:
-            "Como startup, precisávamos de um parceiro que pudesse crescer conosco. A CreativeDevStudio não apenas desenvolveu nossa plataforma, mas se tornou um verdadeiro parceiro estratégico.",
+            "A plataforma educacional transformou como nossos alunos aprendem. O engajamento aumentou 300% e a taxa de desistência caiu drasticamente.",
           avatar: "https://randomuser.me/api/portraits/men/75.jpg",
         },
         {
           name: "Fernanda Costa",
-          position: "Gerente de Produto",
-          company: "Digital Solutions",
+          position: "Gerente de Operações",
+          company: "LogiExpress",
           content:
-            "O nível de detalhe e cuidado que a CreativeDevStudio coloca em cada projeto é impressionante. Eles entregam não apenas código, mas soluções que realmente resolvem problemas.",
+            "A automação de processos que a SkillTechnology implementou eliminouoras de trabalho manual por dia. A integração com nossas APIs existentes foi perfeita.",
           avatar: "https://randomuser.me/api/portraits/women/63.jpg",
         },
       ],

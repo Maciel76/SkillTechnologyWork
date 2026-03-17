@@ -4,12 +4,12 @@
     <div class="about-content">
       <h2>Sobre <span>Nós</span></h2>
       <p class="about-description">
-        "Somos uma agência especializada em desenvolvimento web, criação de
-        sistemas personalizados, lojas virtuais e sites institucionais.
-        Utilizamos as tecnologias mais modernas para garantir alta performance e
-        integramos as inteligências artificiais mais avançadas ao seu site para
-        elevar a experiência do usuário, automatizar processos e impulsionar
-        resultados."
+        Somos uma agência de tecnologia especializada em transformar ideias em
+        soluções digitais completas. Desenvolvemos sistemas web, aplicativos,
+        lojas virtuais e automações inteligentes utilizando inteligência
+        artificial de ponta. Nosso objetivo é acelerar o crescimento do seu
+        negócio, eliminando processos manuais e entregando resultados reais em
+        tempo recorde.
       </p>
       <div class="stats">
         <div
@@ -35,9 +35,10 @@ export default {
   name: "AboutSection",
   setup() {
     const stats = ref([
-      { value: 150, label: "Projetos Entregues" },
+      { value: 200, label: "Projetos Entregues" },
       { value: 98, label: "Satisfação do Cliente" },
       { value: 5, label: "Anos de Experiência" },
+      { value: 30, label: "Tecnologias & IAs" },
     ]);
 
     const statRefs = ref([]);

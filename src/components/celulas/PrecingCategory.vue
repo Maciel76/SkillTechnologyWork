@@ -24,35 +24,15 @@
           </div>
         </div>
         <div class="hero-visual">
-          <div class="devices-mockup">
-            <div
-              class="device laptop"
-              :style="{
-                'background-image': `url(${currentService.screens[0]})`,
-              }"
-            ></div>
-            <div
-              class="device tablet"
-              :style="{
-                'background-image': `url(${currentService.screens[1]})`,
-              }"
-            ></div>
-            <div
-              class="device phone"
-              :style="{
-                'background-image': `url(${currentService.screens[2]})`,
-              }"
-            ></div>
-          </div>
-          <div class="services-selector">
-            <button
-              v-for="(service, index) in services"
-              :key="index"
-              @click="selectService(index)"
-              :class="{ active: currentServiceIndex === index }"
-            >
-              {{ service.name }}
-            </button>
+          <div class="hero-abstract">
+            <div class="abstract-grid">
+              <div class="grid-item" v-for="(service, index) in services" :key="index"
+                :class="{ active: currentServiceIndex === index }"
+                @click="selectService(index)">
+                <img :src="service.icon" :alt="service.name" class="grid-icon" />
+                <span>{{ service.name }}</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -439,22 +419,75 @@ export default {
       },
       services: [
         {
-          name: "Desenvolvimento Web",
+          name: "Sistemas Web & Automações",
           shortDescription:
-            "Sites e sistemas web personalizados com tecnologia de ponta",
+            "Sistemas personalizados, dashboards, ERPs e automações inteligentes",
           icon: "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
-          screens: [
-            "https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-            "https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-            "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+          screens: [],
+          plans: [
+            {
+              name: "Sistema Básico",
+              description: "Sistema web sob medida para pequenos negócios",
+              monthlyPrice: "R$ 1.500",
+              annualPrice: "R$ 14.400",
+              annualSavings: "R$ 3.600",
+              features: [
+                "Até 5 módulos",
+                "Painel administrativo",
+                "Banco de dados",
+                "Integração com 1 API",
+                "Suporte por 3 meses",
+                "Hospedagem por 1 ano",
+              ],
+              featured: false,
+            },
+            {
+              name: "Sistema Profissional",
+              description: "Solução completa com IA integrada",
+              monthlyPrice: "R$ 3.000",
+              annualPrice: "R$ 28.800",
+              annualSavings: "R$ 7.200",
+              features: [
+                "Módulos ilimitados",
+                "Integração com IA (ChatGPT/Claude)",
+                "Dashboard com relatórios",
+                "Até 5 integrações API",
+                "Automação de processos",
+                "Suporte prioritário 6 meses",
+              ],
+              featured: true,
+            },
+            {
+              name: "Sistema Enterprise",
+              description: "Solução corporativa escalável e robusta",
+              monthlyPrice: "R$ 5.500",
+              annualPrice: "R$ 52.800",
+              annualSavings: "R$ 13.200",
+              features: [
+                "Arquitetura escalável",
+                "Múltiplas integrações IA",
+                "Multi-tenant / Multi-usuário",
+                "Suporte 24/7",
+                "Treinamento da equipe",
+                "SLA garantido",
+              ],
+              featured: false,
+            },
           ],
+        },
+        {
+          name: "Sites & Landing Pages",
+          shortDescription:
+            "Sites institucionais, landing pages e portais corporativos",
+          icon: "https://cdn-icons-png.flaticon.com/512/2933/2933245.png",
+          screens: [],
           plans: [
             {
               name: "Site Institucional",
-              description: "Presença online profissional para seu negócio",
-              monthlyPrice: "R$ 1.200",
-              annualPrice: "R$ 11.500",
-              annualSavings: "R$ 1.700",
+              description: "Presença online profissional",
+              monthlyPrice: "R$ 800",
+              annualPrice: "R$ 7.680",
+              annualSavings: "R$ 1.920",
               features: [
                 "Design responsivo",
                 "Até 5 páginas",
@@ -466,61 +499,58 @@ export default {
               featured: false,
             },
             {
-              name: "Sistema Web",
-              description: "Soluções personalizadas para seu negócio",
-              monthlyPrice: "R$ 2.500",
-              annualPrice: "R$ 24.000",
-              annualSavings: "R$ 3.000",
+              name: "Site Profissional",
+              description: "Site completo com CMS e analytics",
+              monthlyPrice: "R$ 1.500",
+              annualPrice: "R$ 14.400",
+              annualSavings: "R$ 3.600",
               features: [
-                "Desenvolvimento personalizado",
-                "Painel administrativo",
-                "Banco de dados",
-                "Integrações API",
-                "Relatórios",
-                "Suporte prioritário",
+                "Design exclusivo",
+                "Páginas ilimitadas",
+                "CMS para edição",
+                "SEO avançado",
+                "Analytics integrado",
+                "Suporte por 6 meses",
               ],
               featured: true,
             },
             {
-              name: "Loja Virtual",
-              description: "E-commerce completo para vender online",
-              monthlyPrice: "R$ 3.200",
-              annualPrice: "R$ 30.000",
-              annualSavings: "R$ 4.400",
+              name: "Landing Premium",
+              description: "Página de alta conversão para campanhas",
+              monthlyPrice: "R$ 1.200",
+              annualPrice: "R$ 11.520",
+              annualSavings: "R$ 2.880",
               features: [
-                "Catálogo de produtos",
-                "Pagamentos online",
-                "Gestão de pedidos",
-                "Relatórios de vendas",
-                "Marketing integrado",
-                "Suporte 24/7",
+                "Design focado em conversão",
+                "Testes A/B",
+                "Integração com CRM",
+                "CTAs estratégicos",
+                "Analytics avançado",
+                "Otimização contínua",
               ],
               featured: false,
             },
           ],
         },
         {
-          name: "Desenvolvimento Mobile",
-          shortDescription: "Aplicativos nativos e híbridos para iOS e Android",
+          name: "Aplicativos Mobile",
+          shortDescription: "Apps nativos e híbridos para iOS e Android",
           icon: "https://cdn-icons-png.flaticon.com/512/888/888857.png",
-          screens: [
-            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-            "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-            "https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-          ],
+          screens: [],
           plans: [
             {
-              name: "App Básico",
-              description: "MVP para validar sua ideia",
+              name: "App MVP",
+              description: "MVP para validar sua ideia rapidamente",
               monthlyPrice: "R$ 2.800",
-              annualPrice: "R$ 26.000",
-              annualSavings: "R$ 3.600",
+              annualPrice: "R$ 26.880",
+              annualSavings: "R$ 6.720",
               features: [
                 "Design UI/UX",
-                "Desenvolvimento nativo",
-                "Publicação nas lojas",
-                "Suporte por 3 meses",
                 "Até 5 funcionalidades",
+                "Publicação nas lojas",
+                "Backend básico",
+                "Notificações push",
+                "Suporte por 3 meses",
               ],
               featured: false,
             },
@@ -528,30 +558,30 @@ export default {
               name: "App Completo",
               description: "Solução robusta para seu negócio",
               monthlyPrice: "R$ 4.500",
-              annualPrice: "R$ 42.000",
-              annualSavings: "R$ 6.000",
+              annualPrice: "R$ 43.200",
+              annualSavings: "R$ 10.800",
               features: [
                 "Design premium",
-                "Backend integrado",
-                "Notificações push",
-                "Analytics",
-                "Suporte prioritário",
+                "Backend completo",
+                "Integração com APIs",
+                "Analytics integrado",
                 "Atualizações mensais",
+                "Suporte prioritário 6 meses",
               ],
               featured: true,
             },
             {
-              name: "App Empresarial",
+              name: "App Enterprise",
               description: "Solução corporativa personalizada",
-              monthlyPrice: "R$ 6.800",
-              annualPrice: "R$ 65.000",
-              annualSavings: "R$ 7.600",
+              monthlyPrice: "R$ 7.000",
+              annualPrice: "R$ 67.200",
+              annualSavings: "R$ 16.800",
               features: [
                 "Sistema completo",
-                "Integração com ERP",
+                "Integração com ERP/CRM",
                 "Autenticação avançada",
+                "Multi-plataforma",
                 "Suporte 24/7",
-                "Atualizações semanais",
                 "Treinamento da equipe",
               ],
               featured: false,
@@ -559,101 +589,111 @@ export default {
           ],
         },
         {
-          name: "Landing Page",
-          shortDescription: "Páginas de conversão para campanhas e lançamentos",
-          icon: "https://cdn-icons-png.flaticon.com/512/2933/2933245.png",
-          screens: [
-            "https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-            "https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-          ],
+          name: "Lojas Virtuais",
+          shortDescription: "E-commerce completo para vender online",
+          icon: "https://cdn-icons-png.flaticon.com/512/3144/3144456.png",
+          screens: [],
           plans: [
             {
-              name: "Landing Básica",
-              description: "Página simples para captação de leads",
-              monthlyPrice: "R$ 800",
-              annualPrice: "R$ 7.500",
-              annualSavings: "R$ 1.100",
+              name: "Loja Starter",
+              description: "E-commerce para começar a vender",
+              monthlyPrice: "R$ 1.800",
+              annualPrice: "R$ 17.280",
+              annualSavings: "R$ 4.320",
               features: [
+                "Até 100 produtos",
+                "Checkout otimizado",
+                "1 gateway de pagamento",
+                "Gestão de pedidos",
                 "Design responsivo",
-                "Formulário de contato",
-                "Otimização SEO",
-                "Integração com redes sociais",
-                "Hospedagem por 1 ano",
+                "Suporte por 3 meses",
               ],
               featured: false,
             },
             {
-              name: "Landing Premium",
-              description: "Página de alta conversão para lançamentos",
-              monthlyPrice: "R$ 1.500",
-              annualPrice: "R$ 14.000",
-              annualSavings: "R$ 2.000",
+              name: "Loja Profissional",
+              description: "E-commerce completo para crescer",
+              monthlyPrice: "R$ 3.200",
+              annualPrice: "R$ 30.720",
+              annualSavings: "R$ 7.680",
               features: [
-                "Design exclusivo",
-                "Elementos de conversão",
-                "Testes A/B",
-                "Analytics integrado",
-                "CTA estratégicos",
-                "Suporte por 6 meses",
+                "Produtos ilimitados",
+                "Múltiplos pagamentos",
+                "Gestão de estoque",
+                "Cupons e promoções",
+                "Relatórios de vendas",
+                "Suporte 6 meses",
               ],
               featured: true,
+            },
+            {
+              name: "Loja Enterprise",
+              description: "Marketplace ou e-commerce corporativo",
+              monthlyPrice: "R$ 5.500",
+              annualPrice: "R$ 52.800",
+              annualSavings: "R$ 13.200",
+              features: [
+                "Multi-vendedor / Marketplace",
+                "Integração com ERPs",
+                "Logística integrada",
+                "IA para recomendações",
+                "Suporte 24/7",
+                "SLA garantido",
+              ],
+              featured: false,
             },
           ],
         },
         {
-          name: "Design & Interface",
-          shortDescription:
-            "Experiências digitais intuitivas e visualmente impressionantes",
+          name: "Integrações & IA",
+          shortDescription: "Automação com IA, integrações de APIs e chatbots",
           icon: "https://cdn-icons-png.flaticon.com/512/3242/3242257.png",
-          screens: [
-            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-            "https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-            "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-          ],
+          screens: [],
           plans: [
             {
-              name: "UI Design",
-              description: "Interfaces modernas e funcionais",
+              name: "IA Básico",
+              description: "Automações simples com inteligência artificial",
               monthlyPrice: "R$ 1.200",
-              annualPrice: "R$ 11.000",
-              annualSavings: "R$ 1.600",
+              annualPrice: "R$ 11.520",
+              annualSavings: "R$ 2.880",
               features: [
-                "Wireframes",
-                "Protótipo interativo",
-                "Design System",
-                "Até 3 revisões",
-                "Arquivos fonte",
+                "Chatbot com IA (1 canal)",
+                "Integração com 1 API",
+                "Automação de 3 processos",
+                "Relatórios básicos",
+                "Suporte por 3 meses",
               ],
               featured: false,
             },
             {
-              name: "UX Research",
-              description: "Experiência do usuário baseada em dados",
-              monthlyPrice: "R$ 2.500",
-              annualPrice: "R$ 23.000",
-              annualSavings: "R$ 3.400",
+              name: "IA Avançado",
+              description: "Automação completa com múltiplas integrações",
+              monthlyPrice: "R$ 2.800",
+              annualPrice: "R$ 26.880",
+              annualSavings: "R$ 6.720",
               features: [
-                "Pesquisa de usuários",
-                "Personas",
-                "Jornada do cliente",
-                "Testes de usabilidade",
-                "Relatório completo",
+                "Chatbot multicanal",
+                "Até 5 integrações API",
+                "Automação de workflows",
+                "Análise preditiva",
+                "Integração WhatsApp",
+                "Suporte prioritário",
               ],
               featured: true,
             },
             {
-              name: "Pacote Completo",
-              description: "UI/UX Design de ponta a ponta",
-              monthlyPrice: "R$ 3.500",
-              annualPrice: "R$ 33.000",
-              annualSavings: "R$ 5.000",
+              name: "IA Enterprise",
+              description: "Solução completa de IA para sua empresa",
+              monthlyPrice: "R$ 5.000",
+              annualPrice: "R$ 48.000",
+              annualSavings: "R$ 12.000",
               features: [
-                "UX Research completo",
-                "UI Design premium",
-                "Design System",
-                "Documentação",
-                "Suporte para desenvolvimento",
+                "IA personalizada",
+                "Integrações ilimitadas",
+                "Machine Learning aplicado",
+                "Processamento de dados",
+                "Treinamento da equipe",
+                "Suporte 24/7 + SLA",
               ],
               featured: false,
             },
@@ -664,61 +704,58 @@ export default {
         {
           name: "Carlos Mendes",
           company: "Startup Tech",
-          text: "O aplicativo que desenvolveram superou todas nossas expectativas. Em 6 meses já tínhamos 500 mil usuários ativos e uma taxa de retenção impressionante.",
+          text: "Automatizamos todo o atendimento com o chatbot de IA que eles criaram. Em 3 meses, reduzimos 60% dos chamados manuais e triplicamos a velocidade de resposta.",
           avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-          projectType: "App Completo",
-          projectIcon: "https://cdn-icons-png.flaticon.com/512/888/888857.png",
+          projectType: "Automação com IA",
+          projectIcon: "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
         },
         {
           name: "Ana Lúcia Silva",
           company: "E-commerce Fashion",
-          text: "Nosso novo site aumentou as conversões em 180% e reduziu a taxa de rejeição. O cuidado com a experiência do usuário foi excepcional.",
+          text: "O sistema web que desenvolveram transformou nossa operação. Os dashboards com IA nos mostram padrões que não víamos antes. As vendas cresceram 180%.",
           avatar: "https://randomuser.me/api/portraits/women/44.jpg",
-          projectType: "Loja Virtual",
-          projectIcon:
-            "https://cdn-icons-png.flaticon.com/512/3144/3144456.png",
+          projectType: "Sistema Web + E-commerce",
+          projectIcon: "https://cdn-icons-png.flaticon.com/512/3144/3144456.png",
         },
         {
           name: "Roberto Almeida",
-          company: "Consultoria Financeira",
-          text: "A landing page que criaram para nossa campanha teve uma taxa de conversão de 12%, muito acima da média do setor. Resultados impressionantes!",
+          company: "Clínica Saúde Total",
+          text: "Entregaram nosso sistema de agendamento online em tempo recorde. A integração com WhatsApp e lembretes automáticos reduziu faltas em 45%.",
           avatar: "https://randomuser.me/api/portraits/men/75.jpg",
-          projectType: "Landing Premium",
-          projectIcon:
-            "https://cdn-icons-png.flaticon.com/512/2933/2933245.png",
+          projectType: "Sistema de Gestão",
+          projectIcon: "https://cdn-icons-png.flaticon.com/512/2933/2933245.png",
         },
       ],
       faqs: [
         {
-          question: "Qual é o prazo médio para desenvolvimento?",
+          question: "Vocês podem criar qualquer tipo de sistema?",
           answer:
-            "O prazo varia conforme a complexidade do projeto. Sites institucionais levam em média 4-6 semanas, enquanto aplicativos complexos podem levar de 3-6 meses. Entregamos em fases para que você possa acompanhar o progresso.",
+            "Sim! Desenvolvemos qualquer tipo de sistema web, aplicativo mobile, loja virtual, sistema de gestão, integração com APIs e automações. Se o seu negócio precisa, nós construímos.",
         },
         {
-          question: "Oferecem manutenção após o lançamento?",
+          question: "Como a inteligência artificial é usada nos projetos?",
           answer:
-            "Sim, todos nossos planos incluem um período de suporte pós-lançamento. Também oferecemos planos de manutenção contínua com atualizações, backups e monitoramento de performance.",
+            "Utilizamos IA de ponta (GPT, Claude, ferramentas de automação) para acelerar o desenvolvimento, criar designs, gerar código otimizado e implementar funcionalidades inteligentes como chatbots, análise de dados e automações.",
         },
         {
-          question:
-            "Posso fazer alterações no projeto durante o desenvolvimento?",
+          question: "Qual é o prazo médio de entrega?",
           answer:
-            "Claro! Utilizamos metodologias ágeis que permitem ajustes durante o processo. Alterações significativas podem impactar no prazo e custo, mas sempre comunicamos isso de forma transparente.",
+            "Depende da complexidade. Sites institucionais: 2-4 semanas. Sistemas web: 4-8 semanas. Aplicativos: 6-12 semanas. Usamos IA para acelerar significativamente esses prazos.",
+        },
+        {
+          question: "Vocês integram com sistemas que já existem?",
+          answer:
+            "Sim! Integramos com qualquer API, sistema ERP, CRM, gateway de pagamento ou ferramenta que seu negócio já utilize.",
         },
         {
           question: "Como funciona o pagamento?",
           answer:
-            "Trabalhamos com parcelamento em até 12x sem juros. Para projetos maiores, dividimos em etapas com pagamentos vinculados a marcos de entrega. Aceitamos cartão, transferência e PIX.",
+            "Trabalhamos com parcelamento em até 12x. Para projetos maiores, dividimos em etapas com pagamentos vinculados a marcos de entrega. Aceitamos cartão, PIX e transferência.",
         },
         {
-          question: "Vocês trabalham com tecnologias específicas?",
+          question: "Oferecem suporte após a entrega?",
           answer:
-            "Utilizamos as melhores tecnologias para cada tipo de projeto: React e Vue.js para frontend, Node.js e Laravel para backend, Flutter e React Native para mobile. Sempre escolhemos a stack mais adequada para suas necessidades.",
-        },
-        {
-          question: "Há desconto para projetos de longo prazo?",
-          answer:
-            "Sim, oferecemos descontos progressivos para projetos com duração superior a 6 meses. Planos anuais também têm desconto de até 20% em relação aos mensais.",
+            "Sim! Todos os projetos incluem período de suporte pós-entrega. Também oferecemos planos de manutenção contínua com atualizações e monitoramento.",
         },
       ],
     };
@@ -970,75 +1007,52 @@ export default {
   min-height: 400px;
 }
 
-.devices-mockup {
-  position: relative;
-  width: 100%;
-  height: 350px;
-  margin: 0 auto;
-}
-
-.device {
-  position: absolute;
-  background-size: cover;
-  background-position: center;
-  border-radius: 12px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-  transition: all 0.5s ease;
-}
-
-.device.laptop {
-  width: 400px;
-  height: 250px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 3;
-  border-radius: 10px 10px 0 0;
-}
-
-.device.tablet {
-  width: 180px;
-  height: 250px;
-  left: 20%;
-  bottom: 0;
-  z-index: 2;
-  border-radius: 12px;
-}
-
-.device.phone {
-  width: 120px;
-  height: 200px;
-  right: 20%;
-  bottom: 0;
-  z-index: 4;
-  border-radius: 20px;
-}
-
-.services-selector {
+.hero-abstract {
   display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 1rem;
-  margin-top: 2rem;
-  flex-wrap: wrap;
+  height: 100%;
 }
 
-.services-selector button {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: white;
-  padding: 0.5rem 1.5rem;
-  border-radius: 20px;
+.abstract-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  max-width: 400px;
+}
+
+.abstract-grid .grid-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.25rem 0.75rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-size: 0.9rem;
+  text-align: center;
 }
 
-.services-selector button.active {
-  background: #6366f1;
+.abstract-grid .grid-item:hover,
+.abstract-grid .grid-item.active {
+  background: rgba(99, 102, 241, 0.2);
   border-color: #6366f1;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.25);
 }
 
-.services-selector button:hover {
-  background: rgba(255, 255, 255, 0.2);
+.abstract-grid .grid-icon {
+  width: 32px;
+  height: 32px;
+  filter: brightness(0) invert(1);
+}
+
+.abstract-grid .grid-item span {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
 }
 
 .scroll-indicator {

@@ -71,9 +71,15 @@
               :class="{ error: errors.subject }"
             >
               <option value="" disabled selected>Selecione um assunto</option>
-              <option value="orcamento">Orçamento</option>
-              <option value="duvida">Dúvida</option>
-              <option value="parceria">Parceria</option>
+              <option value="sistema-web">Desenvolvimento de Sistema Web</option>
+              <option value="site-landing">Criação de Site / Landing Page</option>
+              <option value="aplicativo">Desenvolvimento de Aplicativo</option>
+              <option value="ecommerce">Loja Virtual / E-commerce</option>
+              <option value="automacao">Automação de Processos</option>
+              <option value="integracao">Integração de APIs</option>
+              <option value="ia">Inteligência Artificial</option>
+              <option value="consultoria">Consultoria Técnica</option>
+              <option value="suporte">Suporte / Manutenção</option>
               <option value="outro">Outro</option>
             </select>
             <span class="error-text" v-if="errors.subject">{{
@@ -142,8 +148,8 @@
             </div>
             <div class="method-content">
               <h3>E-mail</h3>
-              <p>Contato@skilltchnologywork.com</p>
-              <a href="mailto:stwprogect@gmail.com" class="method-link"
+              <p>contato@skilltechnologywork.com</p>
+              <a href="mailto:contato@skilltechnologywork.com" class="method-link"
                 >Enviar e-mail</a
               >
             </div>

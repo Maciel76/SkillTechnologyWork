@@ -3,10 +3,10 @@
     <main>
       <!-- Hero Section -->
       <section class="institutional-hero">
-        <h1>Sobre <span class="highlight">Nós</span></h1>
+        <h1>Sobre a <span class="highlight">SkillTechnology</span></h1>
         <p>
-          Na Skill Technology, transformamos ideias em realidades digitais desde
-          2014.
+          Transformamos ideias em soluções digitais completas e funcionais usando
+          IA e as melhores ferramentas do mercado.
         </p>
       </section>
 
@@ -16,23 +16,52 @@
         <section class="content-section animate-on-scroll">
           <div class="company-intro">
             <div class="intro-text">
-              <h2>O que nos torna únicos</h2>
+              <h2>Quem Somos</h2>
               <p>
-                Nascemos com o propósito de ajudar empresas a se destacarem no
-                ambiente online por meio de soluções sob medida: sites, lojas
-                virtuais, sistemas corporativos e integrações de ponta. Ao longo
-                dessa jornada, superamos desafios técnicos e estratégicos,
-                sempre com foco em resultados mensuráveis e na satisfação dos
-                nossos clientes.
+                A SkillTechnology é uma agência de tecnologia focada em
+                transformar ideias em soluções digitais completas e funcionais.
+                Nascemos com a missão de democratizar o acesso à tecnologia de
+                ponta, ajudando empresas de todos os portes a automatizar
+                processos, desenvolver sistemas inteligentes e acelerar seu
+                crescimento digital.
               </p>
+
+              <h3 class="intro-subtitle">O Que Fazemos</h3>
+              <p>
+                Desenvolvemos qualquer tipo de sistema web, aplicativo mobile,
+                loja virtual, automação de processos e integração com APIs.
+                Utilizamos as inteligências artificiais mais avançadas do mercado
+                como parceiras no desenvolvimento, o que nos permite entregar
+                projetos com velocidade, qualidade e custo significativamente
+                menores.
+              </p>
+
+              <h3 class="intro-subtitle">Por Que Somos Diferentes</h3>
+              <p>
+                Enquanto outras agências trabalham de forma tradicional, nós
+                combinamos expertise humana com inteligência artificial de última
+                geração. Isso significa que podemos pegar a sua ideia — seja um
+                site simples, um sistema complexo ou uma automação — e
+                transformá-la em realidade digital em tempo recorde. Não importa
+                o tamanho ou a complexidade: se você sonha, nós construímos.
+              </p>
+
+              <h3 class="intro-subtitle">Nossa Promessa</h3>
+              <p>
+                Economizar seu tempo, seu dinheiro e entregar resultados reais.
+                Cada projeto que assumimos é tratado como se fosse nosso próprio
+                negócio, com dedicação total para garantir que funcione
+                perfeitamente.
+              </p>
+
               <router-link to="/contato" class="cta-button"
                 >Fale Conosco</router-link
               >
             </div>
             <div class="intro-image">
               <img
-                src="https://images.unsplash.com/photo-1606857521015-7f9fcf423740?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                alt="Skill Technology Office"
+                src="https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=2070&auto=format&fit=crop"
+                alt="Equipe de tecnologia trabalhando"
               />
             </div>
           </div>
@@ -40,55 +69,54 @@
 
         <!-- Timeline Section -->
         <section class="content-section animate-on-scroll">
-          <h2>Nossa História</h2>
+          <h2>Por Que Nos Escolher</h2>
           <div class="timeline">
             <div class="timeline-item">
               <div class="timeline-content">
-                <h3>Experiência comprovada</h3>
+                <h3>Expertise Técnica</h3>
                 <p>
-                  Mais de 150 projetos entregues para os mais diversos setores,
-                  de startups a grandes organizações.
+                  Domínio completo de tecnologias modernas: Vue.js, Node.js,
+                  React Native, MongoDB, AWS e mais.
                 </p>
               </div>
             </div>
             <div class="timeline-item">
               <div class="timeline-content">
-                <h3>Equipe multidisciplinar:</h3>
+                <h3>IA como Parceira</h3>
                 <p>
-                  Desenvolvedores, designers e analistas dedicados que aprendem
-                  seu negócio antes de escrever a primeira linha de código.
+                  Utilizamos inteligência artificial de ponta para acelerar cada
+                  etapa do desenvolvimento.
                 </p>
               </div>
             </div>
             <div class="timeline-item">
               <div class="timeline-content">
-                <h3>Inovação contínua:</h3>
+                <h3>Entrega Rápida</h3>
                 <p>
-                  Adotamos as tecnologias mais modernas para garantir
-                  performance, segurança e escalabilidade.
+                  Projetos entregues até 3x mais rápido que métodos
+                  tradicionais, sem comprometer a qualidade.
                 </p>
               </div>
             </div>
             <div class="timeline-item">
               <div class="timeline-content">
-                <h3>Metodologia ágil</h3>
+                <h3>Suporte Dedicado</h3>
                 <p>
-                  Transparência em cada etapa, comunicação constante e entregas
-                  incrementais que permitem ajustes rápidos e evitam surpresas.
+                  Acompanhamento contínuo, suporte técnico e manutenção
+                  preventiva para seu projeto.
                 </p>
               </div>
             </div>
             <div class="timeline-item">
               <div class="timeline-content">
-                <h3>Nossa missão</h3>
+                <h3>Resultados Comprovados</h3>
                 <p>
-                  Capacitar empresas a crescerem de forma sustentável,
-                  utilizando o digital como alavanca para eficiência, alcance
-                  global e fidelização de clientes.
+                  Projetos reais entregues para clientes satisfeitos em diversas
+                  áreas do mercado.
                 </p>
-                <router-link to="/missao">
-                  <h4 style="color: #0041cc">saiba mais...</h4></router-link
-                >
+                <router-link to="/Portfolio">
+                  <h4 style="color: #0041cc">ver portfólio...</h4>
+                </router-link>
               </div>
             </div>
           </div>
@@ -177,28 +205,88 @@ Assim que tiver as fotos e mais de 3 profissionais trabalhando na agencia libera
           </div>
         </section> -->
 
-        <!-- Statistics Section
+        <!-- Statistics Section -->
         <section class="content-section animate-on-scroll stats-section">
           <h2>Nossos Números</h2>
           <div class="stats-grid">
             <div class="stat-item">
-              <div class="stat-number">500+</div>
+              <div class="stat-number">150+</div>
               <div class="stat-label">Projetos Entregues</div>
             </div>
             <div class="stat-item">
-              <div class="stat-number">50+</div>
-              <div class="stat-label">Profissionais</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-number">15+</div>
-              <div class="stat-label">Prêmios</div>
-            </div>
-            <div class="stat-item">
               <div class="stat-number">98%</div>
-              <div class="stat-label">Clientes Satisfeitos</div>
+              <div class="stat-label">Taxa de Satisfação</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">200+</div>
+              <div class="stat-label">Empresas Atendidas</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">24/7</div>
+              <div class="stat-label">Suporte Disponível</div>
             </div>
           </div>
-        </section> -->
+        </section>
+
+        <!-- Technologies Section -->
+        <section class="content-section animate-on-scroll tech-section">
+          <h2>Tecnologias que Dominamos</h2>
+          <p class="tech-subtitle">
+            Combinamos as melhores ferramentas do mercado com inteligência
+            artificial de última geração
+          </p>
+          <div class="tech-grid">
+            <div class="tech-category">
+              <h3>Frontend</h3>
+              <div class="tech-items">
+                <span class="tech-badge">Vue.js</span>
+                <span class="tech-badge">React</span>
+                <span class="tech-badge">TypeScript</span>
+                <span class="tech-badge">Nuxt.js</span>
+                <span class="tech-badge">HTML5 / CSS3</span>
+              </div>
+            </div>
+            <div class="tech-category">
+              <h3>Backend</h3>
+              <div class="tech-items">
+                <span class="tech-badge">Node.js</span>
+                <span class="tech-badge">Python</span>
+                <span class="tech-badge">Express</span>
+                <span class="tech-badge">REST APIs</span>
+                <span class="tech-badge">WebSockets</span>
+              </div>
+            </div>
+            <div class="tech-category">
+              <h3>Banco de Dados & Cloud</h3>
+              <div class="tech-items">
+                <span class="tech-badge">MongoDB</span>
+                <span class="tech-badge">PostgreSQL</span>
+                <span class="tech-badge">AWS</span>
+                <span class="tech-badge">Firebase</span>
+                <span class="tech-badge">Docker</span>
+              </div>
+            </div>
+            <div class="tech-category">
+              <h3>Mobile</h3>
+              <div class="tech-items">
+                <span class="tech-badge">React Native</span>
+                <span class="tech-badge">Flutter</span>
+                <span class="tech-badge">iOS</span>
+                <span class="tech-badge">Android</span>
+              </div>
+            </div>
+            <div class="tech-category">
+              <h3>Inteligência Artificial</h3>
+              <div class="tech-items">
+                <span class="tech-badge">GPT-4</span>
+                <span class="tech-badge">Claude</span>
+                <span class="tech-badge">Midjourney</span>
+                <span class="tech-badge">GitHub Copilot</span>
+                <span class="tech-badge">Automações IA</span>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
       <ContatoService />
     </main>
@@ -484,5 +572,146 @@ export default {
     flex-direction: column;
     text-align: left;
   }
+
+  .tech-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .institutional-hero h1 {
+    font-size: 2.2rem;
+  }
+}
+
+/* Intro Subtitles */
+.intro-subtitle {
+  font-size: 1.3rem;
+  color: #0052ff;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Technologies Section */
+.tech-subtitle {
+  text-align: center;
+  color: #666666;
+  font-size: 1.1rem;
+  margin-bottom: 3rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+}
+
+.tech-category {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.tech-category h3 {
+  font-size: 1.1rem;
+  color: #0052ff;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(0, 82, 255, 0.15);
+}
+
+.tech-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tech-badge {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  background: rgba(0, 82, 255, 0.08);
+  color: #1a1d1f;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.tech-badge:hover {
+  background: rgba(0, 82, 255, 0.18);
+  transform: translateY(-2px);
+}
+
+/* Dark Mode */
+[data-theme="dark"] .institutional-hero {
+  background: #1a1d1f;
+}
+
+[data-theme="dark"] .institutional-hero p {
+  color: #adb5bd;
+}
+
+[data-theme="dark"] .content-section h2 {
+  color: #f1f3f5;
+}
+
+[data-theme="dark"] .intro-text p {
+  color: #adb5bd;
+}
+
+[data-theme="dark"] .intro-subtitle {
+  color: #4d8fff;
+}
+
+[data-theme="dark"] .timeline-content {
+  background: #2a2d30;
+}
+
+[data-theme="dark"] .timeline-content h3 {
+  color: #4d8fff;
+}
+
+[data-theme="dark"] .timeline-content p {
+  color: #adb5bd;
+}
+
+[data-theme="dark"] .timeline::before {
+  background: #3a3d40;
+}
+
+[data-theme="dark"] .stat-item {
+  background: #2a2d30;
+}
+
+[data-theme="dark"] .stat-number {
+  color: #4d8fff;
+}
+
+[data-theme="dark"] .stat-label {
+  color: #adb5bd;
+}
+
+[data-theme="dark"] .tech-category {
+  background: #2a2d30;
+}
+
+[data-theme="dark"] .tech-category h3 {
+  color: #4d8fff;
+  border-bottom-color: rgba(77, 143, 255, 0.2);
+}
+
+[data-theme="dark"] .tech-badge {
+  background: rgba(77, 143, 255, 0.12);
+  color: #e1e3e5;
+}
+
+[data-theme="dark"] .tech-badge:hover {
+  background: rgba(77, 143, 255, 0.25);
+}
+
+[data-theme="dark"] .tech-subtitle {
+  color: #adb5bd;
 }
 </style>

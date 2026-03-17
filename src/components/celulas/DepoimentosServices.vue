@@ -17,8 +17,7 @@
             </div>
           </div>
           <p class="testimonial-text">
-            "A implementação da IA revolucionou nossos processos internos,
-            reduzindo custos em 40% e aumentando a produtividade em 60%."
+            "Automatizamos todo o atendimento ao cliente com o chatbot de IA que a SkillTechnology criou. Reduzimos 60% dos chamados manuais em apenas 3 meses."
           </p>
           <router-link to="/Clientes" class="learn-more"
             >Ver mais -></router-link
@@ -33,12 +32,11 @@
             />
             <div>
               <h3>Guilherme Santos</h3>
-              <p>CEO, Tech Solutions</p>
+              <p>Fundador, E-commerce Pro</p>
             </div>
           </div>
           <p class="testimonial-text">
-            "A implementação da IA revolucionou nossos processos internos,
-            reduzindo custos em 40% e aumentando a produtividade em 60%."
+            "O sistema web que desenvolveram transformou nossa operação. Os dashboards com IA nos mostram padrões que não víamos antes. As vendas cresceram 180%."
           </p>
           <router-link to="/Clientes" class="learn-more"
             >Ver mais -></router-link
