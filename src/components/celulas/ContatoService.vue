@@ -15,8 +15,8 @@
           <font-awesome-icon icon="arrow-right" />
         </router-link>
 
-        <router-link to="/Planos/precos" class="cta-secundario">
-          Ver planos e preços
+        <router-link to="/Portfolio" class="cta-secundario">
+          Ver nossos projetos
         </router-link>
       </div>
 

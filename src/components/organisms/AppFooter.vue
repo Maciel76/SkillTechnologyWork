@@ -20,10 +20,8 @@
         <div class="footer-column">
           <h3>Navegação do site</h3>
           <ul>
-            <li>
-              <router-link to="/Planos/precos">Planos e preços</router-link>
-            </li>
             <li><router-link to="/Services">Nossos Serviços</router-link></li>
+            <li><router-link to="/Portfolio">Nossos Projetos</router-link></li>
             <li><router-link to="/loja">Nossa loja</router-link></li>
             <li><router-link to="/blog">Nosso Blog</router-link></li>
           </ul>

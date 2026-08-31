@@ -34,11 +34,6 @@
           <router-link to="/Services" @click="closeMenu">Serviços</router-link>
         </li>
         <li>
-          <router-link to="/Planos/precos" @click="closeMenu"
-            >Planos e preços</router-link
-          >
-        </li>
-        <li>
           <router-link to="/Clientes" @click="closeMenu">Clientes</router-link>
         </li>
         <li><router-link to="/Loja" @click="closeMenu">Loja</router-link></li>

@@ -27,7 +27,9 @@ const routes: Array<RouteRecordRaw> = [
   { path: "/missao", name: "missao", component: () => import("@/components/views/MissionView.vue") },
   { path: "/services", name: "servicos", component: () => import("@/components/views/ServiceView.vue") },
   { path: "/portfolio", name: "portfolio", component: () => import("@/components/views/PortfolioView.vue") },
-  { path: "/Planos/precos", name: "precos", component: () => import("@/components/views/PricinglogView.vue") },
+  // Página de planos e preços desativada: quem chegava nela saía sem falar com a gente.
+  // O link antigo agora leva direto para o contato (o componente segue em PricinglogView.vue).
+  { path: "/Planos/precos", redirect: "/contato" },
   { path: "/clientes", name: "clientes", component: () => import("@/components/views/ClientesView.vue") },
   { path: "/contato", name: "contato", component: () => import("@/components/views/ContatoView.vue") },
 
@@ -56,21 +58,21 @@ const routes: Array<RouteRecordRaw> = [
   },
 
   // 🛠️ SERVIÇOS (DETALHES)
-  { path: "/servicos/desenvolvimento-mobile", name: "servico-mobile", component: () => import("@/components/servicepage/DesenvolvimentoMobile.vue") },
-  { path: "/servicos/consultoria", name: "servico-consultoria", component: () => import("@/components/servicepage/PageConsultoria.vue") },
-  { path: "/servicos/doacoes", name: "servico-doacoes", component: () => import("@/components/servicepage/PageDoacoes.vue") },
-  { path: "/servicos/ecommerce", name: "servico-ecommerce", component: () => import("@/components/servicepage/PageEcommerce.vue") },
-  { path: "/servicos/interface-ux-ui", name: "servico-interface", component: () => import("@/components/servicepage/PageInterface.vue") },
-  { path: "/servicos/desenvolvimento-websites", name: "servico-websites", component: () => import("@/components/servicepage/PageWebsite.vue") },
-  { path: "/servicos/edicao-de-imagem", name: "servico-edicao-imagem", component: () => import("@/components/servicepage/Portifolio/EditorImagem.vue") },
+  { path: "/servicos/desenvolvimento-mobile", redirect: "/services" },
+  { path: "/servicos/consultoria", redirect: "/services" },
+  { path: "/servicos/doacoes", redirect: "/services" },
+  { path: "/servicos/ecommerce", redirect: "/services" },
+  { path: "/servicos/interface-ux-ui", redirect: "/services" },
+  { path: "/servicos/desenvolvimento-websites", redirect: "/services" },
+  { path: "/servicos/edicao-de-imagem", redirect: "/services" },
 
   // 🎨 PORTFÓLIO
-  { path: "/portfolio/site-institucional", name: "portfolio-institucional", component: () => import("@/components/servicepage/Portifolio/SiteInstucional.vue") },
-  { path: "/portfolio/lojas-virtuais", name: "portfolio-lojas", component: () => import("@/components/servicepage/Portifolio/lojasVirtuais.vue") },
-  { path: "/portfolio/blogs-personalizados", name: "portfolio-blogs", component: () => import("@/components/servicepage/Portifolio/BlogsPesonalizado.vue") },
-  { path: "/service/mascotes-personalizados", name: "portfolio-mascotes", component: () => import("@/components/servicepage/Portifolio/MascotePesonalizados.vue") },
-  { path: "/portfolio/sistemas-web", name: "portfolio-sistemas", component: () => import("@/components/servicepage/Portifolio/SistemasWeb.vue") },
-  { path: "/portfolio/landing-pages", name: "portfolio-landing", component: () => import("@/components/servicepage/Portifolio/LandingPages.vue") },
+  { path: "/portfolio/site-institucional", redirect: "/portfolio" },
+  { path: "/portfolio/lojas-virtuais", redirect: "/portfolio" },
+  { path: "/portfolio/blogs-personalizados", redirect: "/portfolio" },
+  { path: "/service/mascotes-personalizados", redirect: "/portfolio" },
+  { path: "/portfolio/sistemas-web", redirect: "/portfolio" },
+  { path: "/portfolio/landing-pages", redirect: "/portfolio" },
 
   // 🎈 Outros componentes
   {

@@ -224,7 +224,7 @@ const PROJETOS_EXEMPLO = [
       { valor: "-70%", rotulo: "Tempo gasto" },
       { valor: "+40%", rotulo: "Satisfação" },
     ],
-    liveUrl: "/portfolio/sistemas-web",
+    liveUrl: "/portfolio",
   },
   {
     id: "exemplo-2",
@@ -250,7 +250,7 @@ const PROJETOS_EXEMPLO = [
       { valor: "85%", rotulo: "Matrículas digitais" },
       { valor: "-60%", rotulo: "Ligações" },
     ],
-    liveUrl: "/portfolio/site-institucional",
+    liveUrl: "/portfolio",
   },
   {
     id: "exemplo-3",
@@ -277,7 +277,7 @@ const PROJETOS_EXEMPLO = [
       { valor: "+70%", rotulo: "Visitas orgânicas" },
       { valor: "-50%", rotulo: "Abandono" },
     ],
-    liveUrl: "/portfolio/lojas-virtuais",
+    liveUrl: "/portfolio",
   },
   {
     id: "exemplo-4",
@@ -302,7 +302,7 @@ const PROJETOS_EXEMPLO = [
       { valor: "2025", rotulo: "Ano de criação" },
       { valor: "100%", rotulo: "Arte original" },
     ],
-    liveUrl: "/service/mascotes-personalizados",
+    liveUrl: "/portfolio",
   },
 ];
 
