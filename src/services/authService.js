@@ -1,39 +1,36 @@
 // src/services/authService.js
-// Simple authentication service using localStorage
+// Autenticação via backend — as credenciais ficam em backend/.env,
+// nunca no bundle do frontend.
 
-const ADMIN_USER = "Maciel76";
-const ADMIN_PASSWORD = "Skill317269@#$"; // In a real app, this would be handled by a backend
+import api from "./api";
 
 export const login = async (username, password) => {
-  // Simulate API call delay
-  await new Promise((resolve) => setTimeout(resolve, 500));
-
   // Basic validation
   if (!username || !password) {
     throw new Error("Por favor, preencha todos os campos");
   }
 
-  // Check credentials (in a real app, this would be an API call)
-  if (username === ADMIN_USER && password === ADMIN_PASSWORD) {
-    // Store user info in localStorage
-    const user = {
-      id: 1,
-      username: username,
-      role: "admin",
-      isAuthenticated: true,
-      createdAt: new Date().toISOString(),
-    };
+  try {
+    const { data } = await api.post("/auth/admin/login", { username, password });
 
-    localStorage.setItem("user", JSON.stringify(user));
-    return user;
-  } else {
-    throw new Error("Credenciais inválidas. Tente novamente.");
+    localStorage.setItem("user", JSON.stringify(data.user));
+    localStorage.setItem("authToken", data.token);
+
+    return data.user;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(
+        error.response.data?.message || "Credenciais inválidas. Tente novamente."
+      );
+    }
+    throw new Error("Não foi possível conectar ao servidor. Tente novamente.");
   }
 };
 
 export const logout = () => {
   localStorage.removeItem("user");
-  localStorage.removeItem("token"); // Clean up any tokens
+  localStorage.removeItem("authToken");
+  localStorage.removeItem("token"); // Clean up any legacy tokens
 };
 
 export const isAuthenticated = () => {

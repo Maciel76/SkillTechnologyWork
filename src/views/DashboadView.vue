@@ -39,6 +39,8 @@
         <HeroSectionEditor v-if="activeMenu === 'hero-slides'" />
         <TechnologiesEditor v-if="activeMenu === 'hero-tecnologias'" />
         <ServicesEditor v-if="activeMenu === 'servicos-pagina'" />
+        <AiIntegration v-if="activeMenu === 'ia'" />
+        <AiLeads v-if="activeMenu === 'ia-leads'" />
         <StatsCards v-if="activeMenu === 'dashboard'" />
       </div>
     </div>
@@ -63,6 +65,8 @@ import StatsCards from "@/components/Dashboad/StatsCards.vue";
 import HeroSectionEditor from "@/components/Dashboad/HeroSectionEditor.vue";
 import TechnologiesEditor from "@/components/Dashboad/TechnologiesEditor.vue";
 import ServicesEditor from "@/components/Dashboad/ServicesEditor.vue";
+import AiIntegration from "@/components/Dashboad/AiIntegration.vue";
+import AiLeads from "@/components/Dashboad/AiLeads.vue";
 import { logout } from "@/services/authService";
 
 export default {
@@ -85,6 +89,8 @@ export default {
     HeroSectionEditor,
     TechnologiesEditor,
     ServicesEditor,
+    AiIntegration,
+    AiLeads,
   },
   data() {
     return {
@@ -138,6 +144,15 @@ export default {
           id: "projects",
           name: "Projetos Recentes",
           icon: "fas fa-folder-open",
+        },
+        {
+          id: "ia-grupo",
+          name: "Inteligência Artificial",
+          icon: "fas fa-robot",
+          submenu: [
+            { id: "ia", name: "Configuração", icon: "fas fa-sliders" },
+            { id: "ia-leads", name: "Leads da IA", icon: "fas fa-user-tie" },
+          ],
         },
       ],
     };
