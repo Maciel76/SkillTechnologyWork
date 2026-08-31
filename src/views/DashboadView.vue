@@ -36,6 +36,9 @@
         <EventsManagement v-if="activeMenu === 'events'" />
         <ProjectsManagement v-if="activeMenu === 'projects'" />
         <ContactManagement v-if="activeMenu === 'contato'" />
+        <HeroSectionEditor v-if="activeMenu === 'hero-slides'" />
+        <TechnologiesEditor v-if="activeMenu === 'hero-tecnologias'" />
+        <ServicesEditor v-if="activeMenu === 'servicos-pagina'" />
         <StatsCards v-if="activeMenu === 'dashboard'" />
       </div>
     </div>
@@ -57,6 +60,9 @@ import EventsManagement from "@/components/Dashboad/EventsManagement.vue";
 import ContactManagement from "@/components/Dashboad/ContactManagement.vue";
 import ProjectsManagement from "@/components/Dashboad/ProjectsManagement.vue";
 import StatsCards from "@/components/Dashboad/StatsCards.vue";
+import HeroSectionEditor from "@/components/Dashboad/HeroSectionEditor.vue";
+import TechnologiesEditor from "@/components/Dashboad/TechnologiesEditor.vue";
+import ServicesEditor from "@/components/Dashboad/ServicesEditor.vue";
 import { logout } from "@/services/authService";
 
 export default {
@@ -76,6 +82,9 @@ export default {
     ContactManagement,
     ProjectsManagement,
     StatsCards,
+    HeroSectionEditor,
+    TechnologiesEditor,
+    ServicesEditor,
   },
   data() {
     return {
@@ -84,6 +93,23 @@ export default {
       activeMenu: "dashboard",
       menuItems: [
         { id: "dashboard1", name: "Dashboard", icon: "fas fa-tachometer-alt" },
+        {
+          id: "pagina-inicial",
+          name: "Página Inicial (Hero)",
+          icon: "fas fa-wand-magic-sparkles",
+          submenu: [
+            {
+              id: "hero-slides",
+              name: "Design do Hero",
+              icon: "fas fa-images",
+            },
+            {
+              id: "hero-tecnologias",
+              name: "Tecnologias",
+              icon: "fas fa-microchip",
+            },
+          ],
+        },
         {
           id: "contatos-mensagem",
           name: "Contatos Mensagem",
@@ -96,7 +122,15 @@ export default {
           ],
         },
         { id: "blog", name: "Blog", icon: "fas fa-blog" },
-        { id: "services", name: "Serviços", icon: "fas fa-concierge-bell" },
+        {
+          id: "servicos-grupo",
+          name: "Serviços",
+          icon: "fas fa-concierge-bell",
+          submenu: [
+            { id: "servicos-pagina", name: "Serviços da Página", icon: "fas fa-images" },
+            { id: "services", name: "Catálogo (preços)", icon: "fas fa-tags" },
+          ],
+        },
         { id: "portfolio", name: "Portfólio", icon: "fas fa-briefcase" },
         { id: "ecommerce", name: "Loja Virtual", icon: "fas fa-shopping-cart" },
         { id: "events", name: "Eventos", icon: "fas fa-calendar" },

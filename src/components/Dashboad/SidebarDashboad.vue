@@ -196,6 +196,7 @@ export default {
 .sidebar-nav ul {
   list-style: none;
   padding: 16px 12px;
+  padding-bottom: 40px;
 }
 
 .menu-item {
@@ -207,7 +208,6 @@ export default {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 12px;
   position: relative;
-  overflow: hidden;
   font-weight: 500;
   font-size: 14.5px;
 }
@@ -260,6 +260,7 @@ export default {
   flex-direction: column;
   padding: 0 !important;
   margin-bottom: 8px;
+  overflow: visible !important;
 }
 
 .menu-item-header {

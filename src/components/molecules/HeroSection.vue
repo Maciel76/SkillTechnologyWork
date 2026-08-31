@@ -57,16 +57,22 @@
           </div>
         </div>
 
-        <!-- Marcas de clientes (opcional) -->
-        <div class="client-logos">
-          <p>Trabalhamos com as mais modernas e inovadoras tecnologias.</p>
-          <div class="logos">
-            <img
-              v-for="(logo, index) in clientLogos"
-              :key="index"
-              :src="logo.src"
-              :alt="logo.alt"
-            />
+        <!-- Faixa de tecnologias (marquee infinito) -->
+        <div class="tech-marquee">
+          <p class="tech-marquee-label">
+            Trabalhamos com as mais modernas e inovadoras tecnologias.
+          </p>
+          <div class="marquee" aria-hidden="false">
+            <div class="marquee-track">
+              <div
+                v-for="(tech, index) in marqueeTechnologies"
+                :key="index"
+                class="tech-chip"
+              >
+                <img :src="tech.icon" :alt="tech.name" class="tech-icon" />
+                <span class="tech-name">{{ tech.name }}</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -157,14 +163,33 @@ import avatarUser3 from "@/assets/images/avatars/user3.png";
 import avatarUser4 from "@/assets/images/avatars/user4.png";
 import iconNode from "@/assets/images/icons/node.png";
 import iconVue from "@/assets/images/icons/vue.png";
+import iconReact from "@/assets/images/icons/react.png";
 import iconMongodb from "@/assets/images/icons/mongodb.png";
 import iconAws from "@/assets/images/icons/aws.png";
 import iconGitrub from "@/assets/images/icons/gitrub.png";
+import iconFigma from "@/assets/images/icons/figma.png";
 import iconPhotoshop from "@/assets/images/icons/photoshop.png";
 import bannerSkillTech from "@/assets/images/banners/skillTech.jpg";
 import bannerRelogio from "@/assets/images/banners/relogio.jpg";
 import bannerEcommerce from "@/assets/images/banners/ecommerce.jpg";
 import bannerSistemasAi from "@/assets/images/banners/sistemasAi.jpg";
+import heroService from "@/services/heroService";
+
+// Mapeamento de paths estáticos para imports reais
+const staticImageMap = {
+  '/assets/images/banners/skillTech.jpg': bannerSkillTech,
+  '/assets/images/banners/relogio.jpg': bannerRelogio,
+  '/assets/images/banners/ecommerce.jpg': bannerEcommerce,
+  '/assets/images/banners/sistemasAi.jpg': bannerSistemasAi,
+  '/assets/images/icons/node.png': iconNode,
+  '/assets/images/icons/vue.png': iconVue,
+  '/assets/images/icons/react.png': iconReact,
+  '/assets/images/icons/mongodb.png': iconMongodb,
+  '/assets/images/icons/aws.png': iconAws,
+  '/assets/images/icons/gitrub.png': iconGitrub,
+  '/assets/images/icons/figma.png': iconFigma,
+  '/assets/images/icons/photoshop.png': iconPhotoshop,
+};
 
 export default {
   name: "AgencyHero",
@@ -176,31 +201,15 @@ export default {
         { src: avatarUser3, alt: "Cliente 3" },
         { src: avatarUser4, alt: "Cliente 4" },
       ],
-      clientLogos: [
-        {
-          src: iconNode,
-          alt: "Logo cliente 1",
-        },
-        {
-          src: iconVue,
-          alt: "Logo cliente 2",
-        },
-        {
-          src: iconMongodb,
-          alt: "Logo cliente 4",
-        },
-        {
-          src: iconAws,
-          alt: "Logo cliente 4",
-        },
-        {
-          src: iconGitrub,
-          alt: "Logo cliente 4",
-        },
-        {
-          src: iconPhotoshop,
-          alt: "Logo cliente 4",
-        },
+      technologies: [
+        { name: "Node.js", icon: iconNode },
+        { name: "Vue.js", icon: iconVue },
+        { name: "React", icon: iconReact },
+        { name: "MongoDB", icon: iconMongodb },
+        { name: "AWS", icon: iconAws },
+        { name: "GitHub", icon: iconGitrub },
+        { name: "Figma", icon: iconFigma },
+        { name: "Photoshop", icon: iconPhotoshop },
       ],
       images: [
         {
@@ -257,6 +266,10 @@ export default {
     };
   },
   computed: {
+    // Duplica a lista para o efeito de rolagem infinita (marquee)
+    marqueeTechnologies() {
+      return [...this.technologies, ...this.technologies];
+    },
     sliderStyle() {
       return {
         transform: `translateX(-${this.currentIndex * 100}%)`,
@@ -267,6 +280,51 @@ export default {
     },
   },
   methods: {
+    async loadHeroConfig() {
+      try {
+        const config = await heroService.getConfig();
+        if (config && config.slides && config.slides.length > 0) {
+          this.images = config.slides.map((slide) => ({
+            src: this.resolveImageUrl(slide.image),
+            alt: slide.alt,
+            link: slide.link,
+          }));
+          this.texts = config.slides.map((slide) => ({
+            h1: slide.h1,
+            p: slide.p,
+            link: slide.link,
+            ctaText: slide.ctaText,
+          }));
+        }
+        if (config && config.technologies && config.technologies.length > 0) {
+          this.technologies = config.technologies
+            .slice()
+            .sort((a, b) => (a.order || 0) - (b.order || 0))
+            .map((tech) => ({
+              name: tech.name,
+              icon: this.resolveImageUrl(tech.icon),
+            }));
+        }
+      } catch (error) {
+        // Em caso de erro na API, mantém os slides estáticos já carregados
+        console.warn("Usando slides estáticos (API indisponível):", error.message);
+      }
+    },
+
+    resolveImageUrl(image) {
+      if (!image) return '';
+      // Se é um path de asset estático conhecido, usa o import
+      if (staticImageMap[image]) return staticImageMap[image];
+      // Se começa com http ou data:, usa direto
+      if (image.startsWith('http') || image.startsWith('data:')) return image;
+      // Se começa com /uploads, monta URL do backend
+      if (image.startsWith('/uploads')) {
+        const baseUrl = (import.meta.env.VITE_API_URL || 'http://localhost:5006').replace(/\/api$/, '');
+        return baseUrl + image;
+      }
+      return image;
+    },
+
     nextSlide() {
       this.currentIndex = (this.currentIndex + 1) % this.images.length;
       this.animateText();
@@ -353,8 +411,10 @@ export default {
     },
   },
   mounted() {
-    this.startAutoplay();
-    this.animateText();
+    this.loadHeroConfig().then(() => {
+      this.startAutoplay();
+      this.animateText();
+    });
     this.initParticles();
   },
   beforeUnmount() {
@@ -373,7 +433,10 @@ export default {
   flex-direction: column;
   justify-content: center;
   overflow: hidden;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+  background:
+    radial-gradient(1200px 600px at 85% -10%, rgba(0, 153, 221, 0.12), transparent 60%),
+    radial-gradient(900px 500px at 0% 110%, rgba(139, 92, 246, 0.1), transparent 55%),
+    linear-gradient(135deg, #f7f9fc 0%, #eef2f7 100%);
   color: #2d3748;
 }
 
@@ -538,7 +601,11 @@ p {
   left: 0;
   width: 100%;
   height: 8px;
-  background: rgba(0, 153, 221, 0.2);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 153, 221, 0.25),
+    rgba(139, 92, 246, 0.22)
+  );
   z-index: -1;
   border-radius: 4px;
 }
@@ -567,9 +634,18 @@ p {
 }
 
 .cta-button.primary {
-  background: #0099dd;
+  background: linear-gradient(135deg, #0099dd 0%, #0077b3 100%);
   color: white;
-  box-shadow: 0 4px 15px rgba(0, 153, 221, 0.3);
+  box-shadow: 0 8px 22px rgba(0, 153, 221, 0.35);
+}
+
+.cta-button.primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(0, 153, 221, 0.45);
+}
+
+.cta-button.secondary:hover {
+  transform: translateY(-3px);
 }
 
 .cta-button.secondary {
@@ -598,34 +674,106 @@ p {
   color: white;
 }
 
-/* Client Logos */
-.client-logos {
+/* Faixa de Tecnologias (Marquee) */
+.tech-marquee {
   margin-top: 4rem;
 }
 
-.client-logos p {
+.tech-marquee-label {
   font-size: 0.9rem;
   color: #718096;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  font-weight: 500;
 }
 
-.logos {
+.marquee {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+}
+
+.marquee-track {
   display: flex;
   align-items: center;
-  gap: 2rem;
-  flex-wrap: wrap;
+  gap: 1rem;
+  width: max-content;
+  animation: marquee-scroll 28s linear infinite;
 }
 
-.logos img {
-  height: 30px;
-  opacity: 0.7;
-  transition: opacity 0.3s ease;
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.tech-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 1.1rem;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(0, 153, 221, 0.12);
+  border-radius: 50px;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+  backdrop-filter: blur(6px);
+  white-space: nowrap;
+  transition: transform 0.3s ease, box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.tech-chip:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 153, 221, 0.18);
+  border-color: rgba(0, 153, 221, 0.35);
+}
+
+.tech-icon {
+  height: 26px;
+  width: 26px;
+  object-fit: contain;
   filter: grayscale(100%);
+  opacity: 0.75;
+  transition: filter 0.3s ease, opacity 0.3s ease;
 }
 
-.logos img:hover {
-  opacity: 1;
+.tech-chip:hover .tech-icon {
   filter: grayscale(0%);
+  opacity: 1;
+}
+
+.tech-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    /* metade da faixa = 1 cópia completa da lista */
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+    flex-wrap: wrap;
+  }
 }
 
 /* Hero Visual */
@@ -639,9 +787,11 @@ p {
   position: relative;
   width: 100%;
   height: 500px;
-  border-radius: 20px;
+  border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 30px 60px -18px rgba(15, 23, 42, 0.35),
+    0 0 0 6px rgba(255, 255, 255, 0.4);
 }
 
 .slider {
@@ -878,13 +1028,9 @@ p {
     order: 3;
   }
 
-  .client-logos {
+  .tech-marquee {
     text-align: center;
     order: 5;
-  }
-
-  .logos {
-    justify-content: center;
   }
 
   .slider-container {
@@ -960,7 +1106,7 @@ p {
     order: 4;
   }
 
-  .client-logos {
+  .tech-marquee {
     order: 5;
   }
 

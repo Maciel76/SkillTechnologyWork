@@ -340,6 +340,13 @@
                       <p>Arraste uma imagem ou clique para selecionar</p>
                     </div>
 
+                    <p v-if="enviandoThumbnail" class="upload-status">
+                      <i class="fas fa-spinner fa-spin"></i> Enviando imagem...
+                    </p>
+                    <p v-if="erroUpload" class="upload-erro">
+                      <i class="fas fa-exclamation-circle"></i> {{ erroUpload }}
+                    </p>
+
                     <div class="upload-options">
                       <div class="upload-option">
                         <label class="file-upload-label">
@@ -378,7 +385,7 @@
                 <div class="form-group-new">
                   <label>
                     <i class="fas fa-images"></i>
-                    Galeria de Imagens (até 3 imagens) - {{ formData.images.length }}/3
+                    Galeria de Imagens (até {{ maxImagens }}) - {{ formData.images.length }}/{{ maxImagens }}
                   </label>
                   <div class="gallery-grid-new">
                     <div
@@ -397,7 +404,7 @@
                     </div>
 
                     <div
-                      v-if="formData.images.length < 3"
+                      v-if="formData.images.length < maxImagens"
                       class="gallery-add-new"
                       @click="openGalleryUpload"
                     >
@@ -433,7 +440,7 @@
                         class="btn-add-url"
                         @click="addGalleryImageFromUrl"
                         :disabled="
-                          !galleryImageUrl || formData.images.length >= 3
+                          !galleryImageUrl || formData.images.length >= maxImagens
                         "
                       >
                         <i class="fas fa-link"></i>
@@ -497,6 +504,55 @@
                     />
                   </div>
 
+                  <div class="form-group-new full-width">
+                    <label>
+                      <i class="fas fa-bullseye"></i>
+                      Números do card (até 2) — aparecem no card do site
+                    </label>
+                    <div class="metricas-lista">
+                      <div
+                        v-for="(metrica, i) in formData.metrics"
+                        :key="i"
+                        class="metrica-item"
+                      >
+                        <strong>{{ metrica.value }}</strong>
+                        <span>{{ metrica.label }}</span>
+                        <button
+                          type="button"
+                          class="remove-result"
+                          @click="removeMetrica(i)"
+                        >
+                          <i class="fas fa-times"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="metrica-campos">
+                      <input
+                        type="text"
+                        v-model="metricaValor"
+                        placeholder="Ex: -70%"
+                        class="result-input"
+                        @keydown.enter.prevent="addMetrica"
+                      />
+                      <input
+                        type="text"
+                        v-model="metricaRotulo"
+                        placeholder="Ex: Tempo gasto"
+                        class="result-input"
+                        @keydown.enter.prevent="addMetrica"
+                      />
+                      <button
+                        type="button"
+                        class="btn-add-url"
+                        :disabled="
+                          !metricaValor || !metricaRotulo || formData.metrics.length >= 2
+                        "
+                        @click="addMetrica"
+                      >
+                        <i class="fas fa-plus"></i>
+                      </button>
+                    </div>
+                  </div>
                   <div class="form-group-new full-width">
                     <label>
                       <i class="fas fa-chart-line"></i>
@@ -719,6 +775,7 @@
 <script>
 import { defineComponent } from "vue";
 import { useRecentProjectStore } from "@/stores/recentProjectStore";
+import recentProjectService from "@/services/recentProjectService";
 
 export default defineComponent({
   name: "ProjectsManagement",
@@ -737,6 +794,12 @@ export default defineComponent({
       thumbnailUrl: "",
       galleryImageUrl: "",
       showGalleryUpload: false,
+      enviandoThumbnail: false,
+      enviandoGaleria: false,
+      erroUpload: "",
+      maxImagens: 6,
+      metricaValor: "",
+      metricaRotulo: "",
       customTechInput: "",
       solutionInput: "",
       resultInput: "",
@@ -829,6 +892,7 @@ export default defineComponent({
         challenge: "",
         solution: [],
         results: [],
+        metrics: [],
         liveUrl: "",
         githubUrl: "",
         published: false,
@@ -921,20 +985,39 @@ export default defineComponent({
       }
     },
 
+    addMetrica() {
+      const valor = this.metricaValor.trim();
+      const rotulo = this.metricaRotulo.trim();
+      if (!valor || !rotulo || this.formData.metrics.length >= 2) return;
+
+      this.formData.metrics.push({ value: valor, label: rotulo });
+      this.metricaValor = "";
+      this.metricaRotulo = "";
+    },
+
+    removeMetrica(index) {
+      this.formData.metrics.splice(index, 1);
+    },
+
     removeResult(index) {
       this.formData.results.splice(index, 1);
     },
 
     // Image Upload Handlers
-    handleThumbnailUpload(event) {
-      const target = event.target;
-      const file = target.files?.[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          this.formData.thumbnail = e.target?.result;
-        };
-        reader.readAsDataURL(file);
+    async handleThumbnailUpload(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+
+      this.erroUpload = "";
+      this.enviandoThumbnail = true;
+      try {
+        const { url } = await recentProjectService.uploadImage(file);
+        this.formData.thumbnail = url;
+      } catch (error) {
+        this.erroUpload = error.message || "Erro ao enviar a imagem";
+      } finally {
+        this.enviandoThumbnail = false;
+        event.target.value = "";
       }
     },
 
@@ -949,16 +1032,21 @@ export default defineComponent({
       this.formData.thumbnail = "";
     },
 
-    handleGalleryImageUpload(event) {
-      const target = event.target;
-      const file = target.files?.[0];
-      if (file && this.formData.images.length < 3) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          this.formData.images.push(e.target?.result);
-          this.showGalleryUpload = false;
-        };
-        reader.readAsDataURL(file);
+    async handleGalleryImageUpload(event) {
+      const file = event.target.files?.[0];
+      if (!file || this.formData.images.length >= this.maxImagens) return;
+
+      this.erroUpload = "";
+      this.enviandoGaleria = true;
+      try {
+        const { url } = await recentProjectService.uploadImage(file);
+        this.formData.images.push(url);
+        this.showGalleryUpload = false;
+      } catch (error) {
+        this.erroUpload = error.message || "Erro ao enviar a imagem";
+      } finally {
+        this.enviandoGaleria = false;
+        event.target.value = "";
       }
     },
 
@@ -967,7 +1055,7 @@ export default defineComponent({
     },
 
     addGalleryImageFromUrl() {
-      if (this.galleryImageUrl && this.formData.images.length < 3) {
+      if (this.galleryImageUrl && this.formData.images.length < this.maxImagens) {
         this.formData.images.push(this.galleryImageUrl);
         this.galleryImageUrl = "";
         this.showGalleryUpload = false;
@@ -992,6 +1080,7 @@ export default defineComponent({
         challenge: "",
         solution: [],
         results: [],
+        metrics: [],
         liveUrl: "",
         githubUrl: "",
         published: false,
@@ -1014,6 +1103,7 @@ export default defineComponent({
         challenge: project.challenge,
         solution: [...project.solution],
         results: [...project.results],
+        metrics: [...(project.metrics || [])],
         liveUrl: project.liveUrl || "",
         githubUrl: project.githubUrl || "",
         published: project.published,
@@ -1111,6 +1201,7 @@ export default defineComponent({
         challenge: "",
         solution: [],
         results: [],
+        metrics: [],
         liveUrl: "",
         githubUrl: "",
         published: false,
@@ -1921,6 +2012,60 @@ export default defineComponent({
 
 /* Solution and Results */
 .solution-list,
+.upload-status,
+.upload-erro {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.upload-status {
+  color: #2563eb;
+}
+
+.upload-erro {
+  color: #dc2626;
+}
+
+.metricas-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.metrica-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.85rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.metrica-item strong {
+  font-size: 1.05rem;
+  color: #0052ff;
+}
+
+.metrica-item span {
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.metrica-campos {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.metrica-campos .result-input {
+  flex: 1;
+}
+
 .results-list {
   margin-bottom: 12px;
   display: flex;

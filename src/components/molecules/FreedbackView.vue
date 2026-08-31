@@ -1,42 +1,43 @@
 <template>
-  <div class="testimonials-page">
-    <!-- Testimonials -->
-    <section class="testimonials-section">
-      <h2 class="section-title">
-        O Que Dizem <span class="highlight">Nossos Clientes</span>
-      </h2>
+  <section class="depoimentos">
+    <div class="depoimentos-inner">
+      <div class="depoimentos-header">
+        <h2>
+          O Que Dizem
+          <span class="highlight">Nossos Clientes</span>
+        </h2>
+      </div>
 
-      <div class="testimonials-slider">
-        <div
-          class="testimonial-card"
+      <div class="depoimentos-grid">
+        <article
+          class="depoimento-card"
           v-for="(testimonial, index) in testimonials"
           :key="index"
         >
-          <div class="client-rating">
-            <span v-for="star in 5" :key="star">★</span>
+          <span class="aspas">
+            <font-awesome-icon icon="quote-left" />
+          </span>
+
+          <div class="estrelas" aria-label="5 de 5 estrelas">
+            <font-awesome-icon v-for="star in 5" :key="star" icon="star" />
           </div>
-          <p class="testimonial-text">"{{ testimonial.text }}"</p>
-          <div class="client-info">
-            <div
-              class="client-avatar"
-              :style="{ 'background-image': `url(${testimonial.avatar})` }"
-            ></div>
-            <div class="client-details">
+
+          <p class="depoimento-texto">{{ testimonial.text }}</p>
+
+          <footer class="depoimento-autor">
+            <span class="avatar" :style="{ background: testimonial.cor }">
+              {{ iniciais(testimonial.name) }}
+            </span>
+            <div class="autor-dados">
               <h3>{{ testimonial.name }}</h3>
-              <span>{{ testimonial.company }}</span>
-              <div class="client-project">
-                <img
-                  :src="testimonial.projectIcon"
-                  :alt="testimonial.projectType"
-                />
-                <span>{{ testimonial.projectType }}</span>
-              </div>
+              <span class="empresa">{{ testimonial.company }}</span>
             </div>
-          </div>
-        </div>
+            <span class="tipo-projeto">{{ testimonial.projectType }}</span>
+          </footer>
+        </article>
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -49,30 +50,37 @@ export default {
           name: "Carlos Mendes",
           company: "Startup Tech",
           text: "O aplicativo que desenvolveram superou todas nossas expectativas. Em 6 meses já tínhamos 500 mil usuários ativos e uma taxa de retenção impressionante.",
-          avatar: "https://randomuser.me/api/portraits/men/32.jpg",
           projectType: "App Completo",
-          projectIcon: "https://cdn-icons-png.flaticon.com/512/888/888857.png",
+          cor: "linear-gradient(135deg, #0052ff, #7c6ef2)",
         },
         {
           name: "Ana Lúcia Silva",
           company: "E-commerce Fashion",
           text: "Nosso novo site aumentou as conversões em 180% e reduziu a taxa de rejeição. O cuidado com a experiência do usuário foi excepcional.",
-          avatar: "https://randomuser.me/api/portraits/women/44.jpg",
           projectType: "Loja Virtual",
-          projectIcon:
-            "https://cdn-icons-png.flaticon.com/512/3144/3144456.png",
+          cor: "linear-gradient(135deg, #f59e0b, #f97316)",
         },
         {
           name: "Roberto Almeida",
-          company: "Construtora Aplha",
+          company: "Construtora Alpha",
           text: "A landing page que criaram para nossa campanha teve uma taxa de conversão de 12%, muito acima da média do setor. Resultados impressionantes!",
-          avatar: "https://randomuser.me/api/portraits/men/75.jpg",
           projectType: "Landing Premium",
-          projectIcon:
-            "https://cdn-icons-png.flaticon.com/512/2933/2933245.png",
+          cor: "linear-gradient(135deg, #10b981, #22c55e)",
         },
       ],
     };
+  },
+  methods: {
+    // Avatar por iniciais evita depender de foto externa
+    iniciais(nome) {
+      return nome
+        .split(" ")
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((parte) => parte[0])
+        .join("")
+        .toUpperCase();
+    },
   },
   mounted() {
     const observer = new IntersectionObserver(
@@ -90,7 +98,7 @@ export default {
     );
 
     // Observa cada card
-    this.$el.querySelectorAll(".testimonial-card").forEach((card) => {
+    this.$el.querySelectorAll(".depoimento-card").forEach((card) => {
       observer.observe(card);
     });
   },
@@ -98,142 +106,179 @@ export default {
 </script>
 
 <style scoped>
-/* Base Styles */
-.testimonials-page {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-  color: #1e293b;
-  line-height: 1.6;
-  overflow-x: hidden;
+.depoimentos {
+  padding: 5.5rem 5%;
+  background: #fff;
 }
 
-/* Testimonials Section */
-.testimonials-section {
-  padding: 6rem 2rem;
-  max-width: 1200px;
+.depoimentos-inner {
+  max-width: 1180px;
   margin: 0 auto;
 }
-.section-title {
+
+.depoimentos-header {
+  margin-bottom: 3rem;
   text-align: center;
+}
+
+.depoimentos-header h2 {
+  margin: 0;
   font-size: 2.5rem;
   font-weight: 800;
-  margin-bottom: 3rem;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: #131a4d;
 }
 
 .highlight {
-  color: #6366f1;
+  background: linear-gradient(90deg, #0052ff, #7c6ef2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-.testimonials-slider {
+.depoimentos-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
-  margin-top: 3rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
 }
 
-.testimonial-card {
-  background: white;
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  /* Estado inicial para a animação */
+.depoimento-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.75rem 1.5rem;
+  border: 1px solid #e6e5df;
+  border-radius: 16px;
+  background: #fbfbf9;
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease,
+    border-color 0.3s ease;
 }
 
-/* Atraso escalonado para cada card */
-.testimonial-card:nth-of-type(1) {
-  transition-delay: 0.1s;
-}
-.testimonial-card:nth-of-type(2) {
-  transition-delay: 0.2s;
-}
-.testimonial-card:nth-of-type(3) {
-  transition-delay: 0.3s;
-}
-
-.testimonial-card.is-visible {
+.depoimento-card.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-.client-rating {
-  color: #fbbf24;
-  margin-bottom: 1rem;
-  font-size: 1.2rem;
+.depoimento-card:nth-child(2) {
+  transition-delay: 0.1s;
 }
 
-.testimonial-text {
-  font-style: italic;
-  color: #475569;
-  margin-bottom: 1.5rem;
-  position: relative;
+.depoimento-card:nth-child(3) {
+  transition-delay: 0.2s;
 }
 
-.testimonial-text::before {
-  content: '"';
-  font-size: 4rem;
+.depoimento-card:hover {
+  border-color: #d5d3f5;
+  box-shadow: 0 18px 40px rgba(19, 26, 77, 0.1);
+}
+
+.aspas {
   position: absolute;
-  top: -20px;
-  left: -15px;
-  color: #e2e8f0;
-  z-index: 0;
+  top: 1.35rem;
+  right: 1.5rem;
+  font-size: 1.6rem;
+  color: #ebeaf7;
 }
 
-.testimonial-text p {
-  position: relative;
-  z-index: 1;
-}
-
-.client-info {
+.estrelas {
   display: flex;
-  align-items: center;
-  gap: 1rem;
+  gap: 0.15rem;
+  margin-bottom: 1rem;
+  color: #f59e0b;
+  font-size: 0.85rem;
 }
 
-.client-avatar {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background-size: cover;
-  background-position: center;
-  flex-shrink: 0;
-}
-
-.client-details {
+.depoimento-texto {
   flex: 1;
+  margin: 0 0 1.75rem;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #4b5280;
 }
 
-.client-details h3 {
-  font-size: 1.1rem;
-  margin-bottom: 0.25rem;
-  color: #1e293b;
-}
-
-.client-details span {
-  font-size: 0.9rem;
-  color: #64748b;
-  display: block;
-  margin-bottom: 0.5rem;
-}
-
-.client-project {
+.depoimento-autor {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.8rem;
-  color: #64748b;
+  gap: 0.85rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #eeede7;
 }
 
-.client-project img {
-  width: 20px;
-  height: 20px;
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #fff;
 }
 
-/* Responsividade */
+.autor-dados {
+  flex: 1;
+  min-width: 0;
+}
+
+.autor-dados h3 {
+  margin: 0;
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #131a4d;
+}
+
+.empresa {
+  font-size: 0.85rem;
+  color: #9aa0b8;
+}
+
+.tipo-projeto {
+  flex: 0 0 auto;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(0, 82, 255, 0.08);
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #0052ff;
+}
+
 @media (max-width: 768px) {
-  .testimonials-slider {
-    grid-template-columns: 1fr;
+  .depoimentos {
+    padding: 3.5rem 1.25rem;
+  }
+
+  .depoimentos-header {
+    margin-bottom: 2.25rem;
+  }
+
+  .depoimentos-header h2 {
+    font-size: 1.95rem;
+  }
+
+  .depoimento-card {
+    padding: 1.6rem 1.35rem 1.35rem;
+  }
+
+  .depoimento-autor {
+    flex-wrap: wrap;
+  }
+
+  .tipo-projeto {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .depoimento-card {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
 </style>

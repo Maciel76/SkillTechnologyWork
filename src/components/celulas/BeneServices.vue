@@ -1,7 +1,11 @@
 <template>
   <section class="client-benefits">
+    <div class="cb-glow cb-glow-1"></div>
+    <div class="cb-glow cb-glow-2"></div>
+
     <div class="benefits-container">
       <div class="benefits-intro">
+        <span class="cb-eyebrow">Por que a SkillTechnology</span>
         <h2 class="benefits-heading">
           Soluções que geram <span class="highlight">resultados reais</span>
         </h2>
@@ -18,8 +22,8 @@
           :key="index"
           :style="{ '--benefit-color': benefit.color }"
         >
+          <span class="benefit-bar"></span>
           <div class="benefit-visual">
-            <div class="visual-circle"></div>
             <i :class="['benefit-icon', benefit.icon]" aria-hidden="true"></i>
           </div>
           <div class="benefit-content">
@@ -39,28 +43,6 @@
           </div>
         </div>
       </div>
-
-      <!-- <div class="benefits-guarantee">
-        <div class="guarantee-card">
-          <h3 class="guarantee-title">Garantia de Resultados</h3>
-          <p class="guarantee-text">
-            Nosso compromisso é com seu sucesso. Se não se nao estiver 100%
-            satisfeito devolvemos seu investimento.
-          </p>
-          <router-link to="/contato" class="guarantee-button">
-            Vamos conversar ?
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M5 12H19M19 12L12 5M19 12L12 19"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </router-link>
-        </div>
-      </div> -->
     </div>
   </section>
 </template>
@@ -89,7 +71,7 @@ export default {
           title: "Entrega até 3x Mais Rápida",
           description:
             "Entregamos projetos até 3x mais rápido usando IA como parceira no desenvolvimento. Cada semana economizada é dinheiro no seu bolso.",
-          color: "#3B82F6",
+          color: "#0099DD",
           proofs: [
             { value: "3x", label: "Mais rápido com IA" },
             { value: "Semanas", label: "Economizadas por projeto" },
@@ -100,7 +82,7 @@ export default {
           title: "Escalabilidade Garantida",
           description:
             "Sistemas construídos para crescer: do primeiro usuário a milhões. Arquitetura moderna que acompanha seu negócio.",
-          color: "#EC4899",
+          color: "#8B5CF6",
           proofs: [
             { value: "+30%", label: "Aumento de conversões" },
             { value: "200+", label: "Projetos entregues" },
@@ -113,17 +95,29 @@ export default {
 </script>
 
 <style scoped>
-/* Estilos Base */
 .client-benefits {
+  position: relative;
   padding: 6rem 1rem;
-  background: linear-gradient(to bottom, #f8fafc 0%, #ffffff 100%);
+  overflow: hidden;
+  background:
+    radial-gradient(900px 500px at 90% -10%, rgba(0, 153, 221, 0.1), transparent 60%),
+    radial-gradient(800px 460px at 0% 110%, rgba(139, 92, 246, 0.09), transparent 55%),
+    linear-gradient(135deg, #f7f9fc 0%, #eef2f7 100%);
 }
 
-[data-theme="dark"] .client-benefits {
-  background: linear-gradient(to bottom, #0f172a 0%, #1e293b 100%);
+.cb-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.45;
+  pointer-events: none;
 }
+.cb-glow-1 { width: 320px; height: 320px; background: rgba(0, 153, 221, 0.22); top: -60px; right: 6%; }
+.cb-glow-2 { width: 300px; height: 300px; background: rgba(139, 92, 246, 0.2); bottom: -80px; left: 4%; }
 
 .benefits-container {
+  position: relative;
+  z-index: 2;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -131,268 +125,145 @@ export default {
 /* Cabeçalho */
 .benefits-intro {
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 3.5rem;
 }
-
+.cb-eyebrow {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #0077b3;
+  background: rgba(0, 153, 221, 0.08);
+  border: 1px solid rgba(0, 153, 221, 0.2);
+  padding: 6px 16px;
+  border-radius: 50px;
+  margin-bottom: 1.2rem;
+}
 .benefits-heading {
-  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-size: clamp(1.9rem, 4vw, 2.6rem);
   font-weight: 800;
-  line-height: 1.2;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
   margin-bottom: 1rem;
-  color: #1e293b;
+  color: #1a202c;
 }
-
-[data-theme="dark"] .benefits-heading {
-  color: #f8fafc;
-}
-
 .highlight {
-  color: #0052ff;
   position: relative;
+  color: #0099dd;
+  display: inline-block;
 }
-
 .highlight::after {
   content: "";
   position: absolute;
-  bottom: 5px;
   left: 0;
+  bottom: 2px;
   width: 100%;
   height: 8px;
-  background: rgba(151, 11, 128, 0.2);
-  z-index: 0;
   border-radius: 4px;
-  transform: skewX(-15deg);
+  background: linear-gradient(90deg, rgba(0, 153, 221, 0.25), rgba(139, 92, 246, 0.22));
+  z-index: -1;
 }
-
 .benefits-subheading {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   color: #64748b;
-  max-width: 700px;
+  max-width: 640px;
   margin: 0 auto;
 }
 
-[data-theme="dark"] .benefits-subheading {
-  color: #94a3b8;
-}
-
-/* Grid de Benefícios */
+/* Grid */
 .benefits-showcase {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  margin-bottom: 4rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.8rem;
 }
 
 .benefit-item {
-  background: white;
-  border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
   position: relative;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 2.2rem 2rem;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
   overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.03);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  display: flex;
+  flex-direction: column;
 }
-
-[data-theme="dark"] .benefit-item {
-  background: #1e293b;
-  border-color: rgba(255, 255, 255, 0.05);
-}
-
 .benefit-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  transform: translateY(-8px);
+  box-shadow: 0 22px 44px rgba(15, 23, 42, 0.12);
+}
+.benefit-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: var(--benefit-color);
 }
 
 .benefit-visual {
-  position: relative;
-  margin-bottom: 1.5rem;
-  height: 80px;
-}
-
-.visual-circle {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background-color: var(--benefit-color);
-  opacity: 0.1;
-  position: absolute;
-  top: 10px;
-}
-
-.benefit-icon {
-  font-size: 40px;
-  position: relative;
-  color: var(--benefit-color);
-  width: 60px;
-  height: 60px;
-  text-align: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 1.4rem;
+  background: color-mix(in srgb, var(--benefit-color) 12%, white);
 }
-
-.benefit-content {
-  display: flex;
-  flex-direction: column;
-  height: calc(100% - 80px);
+.benefit-icon {
+  font-size: 28px;
+  color: var(--benefit-color);
 }
 
 .benefit-title {
-  font-size: 1.5rem;
+  font-size: 1.35rem;
   font-weight: 700;
-  margin-bottom: 0.75rem;
-  color: #1e293b;
+  margin-bottom: 0.6rem;
+  color: #1a202c;
 }
-
-[data-theme="dark"] .benefit-title {
-  color: #f8fafc;
-}
-
 .benefit-description {
   color: #64748b;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.6rem;
   flex-grow: 1;
-}
-
-[data-theme="dark"] .benefit-description {
-  color: #94a3b8;
+  line-height: 1.6;
 }
 
 .benefit-proof {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid #eef2f7;
 }
-
-.proof-item {
-  display: flex;
-  flex-direction: column;
-}
-
+.proof-item { display: flex; flex-direction: column; }
 .proof-value {
   font-size: 1.5rem;
   font-weight: 800;
   line-height: 1;
   color: var(--benefit-color);
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.3rem;
 }
-
 .proof-label {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #64748b;
 }
 
-[data-theme="dark"] .proof-label {
-  color: #94a3b8;
-}
-
-/* Garantia */
-.benefits-guarantee {
-  text-align: center;
-  padding-top: 3rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-[data-theme="dark"] .benefits-guarantee {
-  border-top-color: rgba(255, 255, 255, 0.05);
-}
-
-.guarantee-card {
-  background: linear-gradient(135deg, #0052ff 0%, #3b82f6 100%);
-  border-radius: 16px;
-  padding: 2.5rem;
-  max-width: 800px;
-  margin: 0 auto;
-  color: white;
-}
-
-.guarantee-title {
-  font-size: 1.8rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-}
-
-.guarantee-text {
-  font-size: 1.1rem;
-  opacity: 0.9;
-  margin-bottom: 2rem;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.guarantee-button {
-  background: white;
-  color: #0052ff;
-  border: none;
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.guarantee-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+/* Fallback caso color-mix não seja suportado */
+@supports not (background: color-mix(in srgb, red, white)) {
+  .benefit-visual { background: #f1f5f9; }
 }
 
 /* Responsividade */
-@media (max-width: 1024px) {
-  .benefits-showcase {
-    grid-template-columns: repeat(1, 1fr);
-    align-items: center;
-    justify-items: center;
-  }
-
-  .benefit-item {
-    text-align: center;
-  }
-
-  .benefit-visual {
-    margin-left: auto;
-    margin-right: auto;
-    width: 60px; /* Garante que o container tenha a mesma largura do círculo */
-  }
-}
-
 @media (max-width: 768px) {
-  .client-benefits {
-    padding: 4rem 1rem;
-  }
-
-  .benefits-intro {
-    margin-bottom: 2rem;
-  }
-
-  .benefit-proof {
-    grid-template-columns: 1fr;
-  }
-
-  .guarantee-card {
-    padding: 1.5rem;
-  }
-
-  .guarantee-title {
-    font-size: 1.5rem;
-  }
+  .client-benefits { padding: 4rem 1rem; }
+  .benefits-intro { margin-bottom: 2.5rem; }
+  .benefit-proof { grid-template-columns: 1fr 1fr; }
 }
-
 @media (max-width: 480px) {
-  .benefits-showcase {
-    grid-template-columns: 1fr;
-  }
-
-  .benefits-heading {
-    font-size: 1.8rem;
-  }
-
-  .benefits-subheading {
-    font-size: 1rem;
-  }
+  .benefits-heading { font-size: 1.8rem; }
+  .benefits-subheading { font-size: 1rem; }
 }
 </style>

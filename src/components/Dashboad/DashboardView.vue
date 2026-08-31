@@ -34,6 +34,7 @@
         <EcommerceManagement v-if="activeMenu === 'ecommerce'" />
         <EventsManagement v-if="activeMenu === 'events'" />
         <ProjectsManagement v-if="activeMenu === 'projects'" />
+        <HeroSectionEditor v-if="activeMenu === 'hero-editor'" />
         <StatsCards v-if="activeMenu === 'dashboard'" />
       </div>
     </div>
@@ -53,6 +54,7 @@ import TestimonialsManagement from "@/components/Dashboad/TestimonialsManagement
 import EcommerceManagement from "@/components/Dashboad/EcommerceManagement.vue";
 import EventsManagement from "@/components/Dashboad/EventsManagement.vue";
 import ProjectsManagement from "@/components/Dashboad/ProjectsManagement.vue";
+import HeroSectionEditor from "@/components/Dashboad/HeroSectionEditor.vue";
 import StatsCards from "@/components/Dashboad/StatsCards.vue";
 
 export default {
@@ -70,6 +72,7 @@ export default {
     EcommerceManagement,
     EventsManagement,
     ProjectsManagement,
+    HeroSectionEditor,
     StatsCards,
   },
   data() {
@@ -95,6 +98,14 @@ export default {
         { id: "ecommerce", name: "Loja Virtual", icon: "fas fa-shopping-cart" },
         { id: "events", name: "Eventos", icon: "fas fa-calendar" },
         { id: "projects", name: "Projetos Recentes", icon: "fas fa-folder-open" },
+        {
+          id: "site-config",
+          name: "Configuração do Site",
+          icon: "fas fa-cog",
+          submenu: [
+            { id: "hero-editor", name: "Hero / Banner", icon: "fas fa-images" },
+          ]
+        },
       ],
     };
   },

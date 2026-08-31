@@ -1,168 +1,216 @@
 <template>
-  <main>
-    <section class="contact-cta">
-      <div class="cta-container">
-        <h2 class="cta-title">
-          Ainda com dúvidas sobre como desenvolver seu projeto?
-        </h2>
-        <p class="cta-subtitle">
-          Solicite uma consultoria gratuita e descubra como podemos ajudar!
-        </p>
+  <section class="contato-cta">
+    <div class="cta-container">
+      <h2 class="cta-title">
+        Ainda com dúvidas sobre como desenvolver seu projeto?
+      </h2>
 
+      <p class="cta-subtitle">
+        Solicite uma consultoria gratuita e descubra como podemos ajudar.
+      </p>
+
+      <div class="cta-acoes">
         <router-link to="/contato" class="cta-button">
           Entre em Contato
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M5 12H19M19 12L12 5M19 12L12 19"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
+          <font-awesome-icon icon="arrow-right" />
+        </router-link>
+
+        <router-link to="/Planos/precos" class="cta-secundario">
+          Ver planos e preços
         </router-link>
       </div>
-    </section>
-  </main>
+
+      <ul class="cta-garantias">
+        <li>
+          <font-awesome-icon icon="circle-check" />
+          Diagnóstico sem custo
+        </li>
+        <li>
+          <font-awesome-icon icon="circle-check" />
+          Resposta em até 24h
+        </li>
+        <li>
+          <font-awesome-icon icon="circle-check" />
+          Sem compromisso
+        </li>
+      </ul>
+    </div>
+  </section>
 </template>
 
+<script>
+export default {
+  name: "ContatoService",
+};
+</script>
+
 <style scoped>
-/* Estilos da Seção CTA */
-.contact-cta {
-  padding: 5rem 5%;
-  background: linear-gradient(135deg, #0052ff 0%, #3b82f6 100%);
-  color: white;
-  text-align: center;
+.contato-cta {
   position: relative;
   overflow: hidden;
+  padding: 5.5rem 5%;
+  text-align: center;
+  color: #fff;
+  background-color: #131a4d;
+  background-image: linear-gradient(135deg, #131a4d 0%, #0052ff 55%, #7c6ef2 100%);
 }
 
-/* Animação de fundo */
-.contact-cta::before,
-.contact-cta::after {
+/* Grade sutil, igual à da hero */
+.contato-cta::before {
   content: "";
   position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 120px 120px;
+}
+
+/* Brilho suave no canto */
+.contato-cta::after {
+  content: "";
+  position: absolute;
+  right: -120px;
+  bottom: -160px;
+  width: 420px;
+  height: 420px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  filter: blur(60px);
-  z-index: 0;
-}
-
-.contact-cta::before {
-  width: 300px;
-  height: 300px;
-  top: -100px;
-  left: -100px;
-  animation: moveOrb1 15s infinite alternate ease-in-out;
-}
-
-.contact-cta::after {
-  width: 400px;
-  height: 400px;
-  bottom: -150px;
-  right: -150px;
-  animation: moveOrb2 20s infinite alternate ease-in-out;
+  background: rgba(255, 255, 255, 0.12);
+  filter: blur(80px);
 }
 
 .cta-container {
-  max-width: 800px;
-  margin: 0 auto;
   position: relative;
   z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
 }
 
 .cta-title {
-  font-size: 2.2rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  line-height: 1.3;
-}
-
-/* Dark Mode */
-[data-theme="dark"] .contact-cta {
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-  color: #f8fafc;
+  margin: 0 0 1rem;
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .cta-subtitle {
-  font-size: 1.25rem;
-  margin-bottom: 2.5rem;
-  opacity: 0.9;
-  max-width: 650px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
+  max-width: 520px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.cta-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  margin-top: 2.25rem;
 }
 
 .cta-button {
   display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
-  background: white;
-  color: #0052ff;
-  padding: 1rem 2.5rem;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  font-weight: 600;
+  gap: 0.6rem;
+  padding: 0.95rem 1.75rem;
+  border-radius: 10px;
+  background: #fff;
+  color: #0f1a4d;
+  font-size: 1rem;
+  font-weight: 700;
   text-decoration: none;
-  transition: all 0.3s ease;
-  box-shadow: 0 6px 15px rgba(0, 82, 255, 0.2);
+  box-shadow: 0 12px 30px rgba(6, 10, 40, 0.28);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .cta-button:hover {
-  transform: translateY(-4px);
-  background-color: #ffffff;
-  color: #0041cc; /* Tom mais escuro do azul principal */
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px rgba(6, 10, 40, 0.35);
 }
 
-@keyframes moveOrb1 {
-  from {
-    transform: translate(0, 0);
-  }
-  to {
-    transform: translate(80px, 60px);
-  }
+.cta-secundario {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.95rem 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 0.98rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease;
 }
 
-@keyframes moveOrb2 {
-  from {
-    transform: translate(0, 0);
-  }
-  to {
-    transform: translate(-100px, -50px);
-  }
+.cta-secundario:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.6);
 }
 
-/* Responsividade */
+.cta-garantias {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 2.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cta-garantias li {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.cta-garantias svg {
+  color: #86efac;
+}
+
 @media (max-width: 768px) {
-  .contact-cta {
-    padding: 4rem 2rem;
+  .contato-cta {
+    padding: 3.5rem 1.25rem;
+  }
+
+  .contato-cta::before {
+    background-size: 80px 80px;
+  }
+
+  /* O brilho desfocado pesa e cria faixas no celular */
+  .contato-cta::after {
+    display: none;
   }
 
   .cta-title {
-    font-size: 1.8rem;
+    font-size: 1.85rem;
   }
 
   .cta-subtitle {
-    font-size: 1.1rem;
-  }
-
-  .cta-button {
-    padding: 0.875rem 2rem;
     font-size: 1rem;
   }
-}
 
-@media (max-width: 480px) {
-  .cta-title {
-    font-size: 1.6rem;
+  .cta-acoes {
+    flex-direction: column;
+    align-items: stretch;
+    margin-top: 1.85rem;
+  }
+
+  .cta-button,
+  .cta-secundario {
+    justify-content: center;
+  }
+
+  .cta-garantias {
+    gap: 0.75rem 1.25rem;
+    margin-top: 1.85rem;
+  }
+
+  .cta-garantias li {
+    font-size: 0.85rem;
   }
 }
 </style>

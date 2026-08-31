@@ -1,33 +1,48 @@
 <template>
-  <div class="faq-page">
-    <section class="faq-section">
-      <h2 class="section-title">
-        Perguntas <span class="highlight">Frequentes</span>
-      </h2>
+  <section class="faq">
+    <div class="faq-inner">
+      <div class="faq-header">
+        <h2>
+          Perguntas
+          <span class="highlight">Frequentes</span>
+        </h2>
+        <p>
+          As respostas para o que mais nos perguntam antes de começar um
+          projeto.
+        </p>
+      </div>
 
-      <div class="faq-grid">
+      <div class="faq-lista">
         <div
           class="faq-item"
           v-for="(faq, index) in faqs"
           :key="index"
-          @click="toggleFaq(index)"
+          :class="{ aberto: activeFaq === index }"
         >
-          <div class="faq-question">
-            <h3>{{ faq.question }}</h3>
-            <div
-              class="faq-toggle"
-              :class="{ active: activeFaq === index }"
-            ></div>
-          </div>
-          <div class="faq-answer" :class="{ active: activeFaq === index }">
-            <div class="faq-answer-content">
-              <p>{{ faq.answer }}</p>
-            </div>
+          <button
+            type="button"
+            class="faq-pergunta"
+            :aria-expanded="activeFaq === index"
+            @click="toggleFaq(index)"
+          >
+            <span>{{ faq.question }}</span>
+            <span class="faq-sinal">
+              <font-awesome-icon :icon="activeFaq === index ? 'minus' : 'plus'" />
+            </span>
+          </button>
+
+          <div class="faq-resposta">
+            <p>{{ faq.answer }}</p>
           </div>
         </div>
       </div>
-    </section>
-  </div>
+
+      <p class="faq-rodape">
+        Não achou o que procurava?
+        <router-link to="/contato">Fale com a gente</router-link>
+      </p>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -99,65 +114,57 @@ export default {
 </script>
 
 <style scoped>
-/* Base Styles */
-.faq-page {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-  color: #1e293b;
-  line-height: 1.6;
-  overflow-x: hidden;
+.faq {
+  padding: 5.5rem 5%;
+  background: #f6f5f1;
 }
 
-/* FAQ Section */
-.faq-section {
-  padding: 6rem 2rem;
-  background: #f8fafc;
-  max-width: 1200px;
+.faq-inner {
+  max-width: 820px;
   margin: 0 auto;
 }
-.section-title {
+
+.faq-header {
+  margin-bottom: 2.75rem;
   text-align: center;
+}
+
+.faq-header h2 {
+  margin: 0 0 1rem;
   font-size: 2.5rem;
   font-weight: 800;
-  margin-bottom: 3rem;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: #131a4d;
 }
 
 .highlight {
-  color: #6366f1;
+  background: linear-gradient(90deg, #0052ff, #7c6ef2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-.faq-grid {
-  max-width: 800px;
-  margin: 0 auto;
+.faq-header p {
+  font-size: 1.05rem;
+  color: #6b7194;
+}
+
+/* Lista */
+.faq-lista {
+  display: grid;
+  gap: 0.75rem;
 }
 
 .faq-item {
-  background: white;
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  cursor: pointer;
-  /* Estado inicial para a animação */
+  border: 1px solid #e6e5df;
+  border-radius: 14px;
+  background: #fff;
+  overflow: hidden;
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-}
-
-/* Adiciona um atraso escalonado para cada item */
-.faq-item:nth-child(2) {
-  transition-delay: 0.1s;
-}
-.faq-item:nth-child(3) {
-  transition-delay: 0.2s;
-}
-.faq-item:nth-child(4) {
-  transition-delay: 0.3s;
-}
-.faq-item:nth-child(5) {
-  transition-delay: 0.4s;
-}
-.faq-item:nth-child(6) {
-  transition-delay: 0.5s;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .faq-item.is-visible {
@@ -165,74 +172,130 @@ export default {
   transform: translateY(0);
 }
 
-.faq-question {
+.faq-item:hover {
+  border-color: #d5d3f5;
+}
+
+.faq-item.aberto {
+  border-color: #c3bdf5;
+  box-shadow: 0 14px 34px rgba(19, 26, 77, 0.08);
+}
+
+.faq-pergunta {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-}
-
-.faq-question h3 {
-  font-size: 1.2rem;
-  color: #1e293b;
-  margin: 0;
-}
-
-.faq-toggle {
-  position: relative;
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-  transition: transform 0.3s ease;
-}
-
-.faq-toggle::before,
-.faq-toggle::after {
-  content: "";
-  position: absolute;
-  background-color: #6366f1;
-  transition: transform 0.3s ease;
-}
-
-/* Linha horizontal */
-.faq-toggle::before {
-  top: 50%;
-  left: 0;
+  justify-content: space-between;
+  gap: 1.25rem;
   width: 100%;
-  height: 3px;
-  transform: translateY(-50%);
+  padding: 1.25rem 1.4rem;
+  border: none;
+  background: none;
+  text-align: left;
+  font-family: inherit;
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: #131a4d;
+  cursor: pointer;
 }
 
-/* Linha vertical */
-.faq-toggle::after {
-  top: 0;
-  left: 50%;
-  width: 3px;
-  height: 100%;
-  transform: translateX(-50%);
+.faq-sinal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: #f4f4f0;
+  font-size: 0.8rem;
+  color: #4b5280;
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
-.faq-toggle.active::after {
-  transform: translateX(-50%) rotate(90deg);
+.faq-item.aberto .faq-sinal {
+  background: #0052ff;
+  color: #fff;
 }
 
-.faq-answer {
+.faq-resposta {
   display: grid;
   grid-template-rows: 0fr;
-  overflow: hidden;
-  transition: grid-template-rows 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: grid-template-rows 0.3s ease;
 }
 
-.faq-answer.active {
+.faq-item.aberto .faq-resposta {
   grid-template-rows: 1fr;
 }
 
-.faq-answer-content {
+.faq-resposta p {
   overflow: hidden;
+  margin: 0;
+  padding: 0 1.4rem;
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: #6b7194;
+  transition: padding 0.3s ease;
 }
 
-.faq-answer p {
-  color: #64748b;
-  margin: 0;
-  padding-top: 1rem;
+.faq-item.aberto .faq-resposta p {
+  padding: 0 1.4rem 1.35rem;
+}
+
+.faq-rodape {
+  margin-top: 2.25rem;
+  text-align: center;
+  font-size: 0.98rem;
+  color: #6b7194;
+}
+
+.faq-rodape a {
+  color: #0052ff;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+
+.faq-rodape a:hover {
+  border-bottom-color: #0052ff;
+}
+
+@media (max-width: 768px) {
+  .faq {
+    padding: 3.5rem 1.25rem;
+  }
+
+  .faq-header {
+    margin-bottom: 2rem;
+  }
+
+  .faq-header h2 {
+    font-size: 1.95rem;
+  }
+
+  .faq-header p {
+    font-size: 0.98rem;
+  }
+
+  .faq-pergunta {
+    padding: 1.1rem 1.1rem;
+    font-size: 0.96rem;
+  }
+
+  .faq-resposta p {
+    padding: 0 1.1rem;
+    font-size: 0.94rem;
+  }
+
+  .faq-item.aberto .faq-resposta p {
+    padding: 0 1.1rem 1.2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-item {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 </style>

@@ -1,2013 +1,1082 @@
 <template>
-  <div class="portfolio-premium">
-    <!-- Hero Section com Projeto Destaque -->
-    <section class="hero-showcase">
-      <div class="showcase-container">
-        <div class="showcase-content">
-          <h1 class="showcase-title">
-            Transformamos ideias em
-            <span>experiências digitais</span> memoráveis
-          </h1>
-          <p class="showcase-description">
-            Explore nosso portfólio de projetos criados com paixão e expertise
-            técnica
-          </p>
-          <div class="showcase-stats">
-            <div class="stat-item">
-              <div class="stat-number">150+</div>
-              <div class="stat-label">Projetos entregues</div>
+  <main class="portfolio-pagina">
+    <!-- Abertura -->
+    <section class="portfolio-hero">
+      <div class="hero-inner">
+        <h1>
+          Projetos que resolveram
+          <span class="gradiente">problemas reais</span>
+        </h1>
+        <p>
+          Sistemas, lojas, aplicativos e automações com IA que entregamos para
+          empresas de portes e setores diferentes.
+        </p>
+      </div>
+    </section>
+
+    <!-- Carregando -->
+    <section v-if="carregando" class="estado-carregando">
+      <span class="spinner"></span>
+      Carregando projetos...
+    </section>
+
+    <template v-else>
+      <!-- Todos os projetos -->
+      <section class="secao secao-branca">
+        <header class="secao-header">
+          <h2>Nossos <span class="gradiente">Projetos</span></h2>
+        </header>
+
+        <div v-if="projetos.length" class="galeria-grid">
+          <article
+            v-for="projeto in projetos"
+            :key="projeto.id"
+            class="galeria-card"
+            @click="abrirProjeto(projeto)"
+          >
+            <div class="galeria-media">
+              <img :src="projeto.thumbnail" :alt="projeto.titulo" loading="lazy" />
+              <span class="etiqueta">{{ projeto.categoria }}</span>
             </div>
-            <div class="stat-item">
-              <div class="stat-number">98%</div>
-              <div class="stat-label">Clientes satisfeitos</div>
+
+            <div class="galeria-corpo">
+              <h3>{{ projeto.titulo }}</h3>
+              <p v-if="projeto.resumo">{{ projeto.resumo }}</p>
+
+              <div v-if="projeto.tecnologias.length" class="galeria-techs">
+                <span
+                  v-for="tech in projeto.tecnologias.slice(0, 4)"
+                  :key="tech"
+                  >{{ tech }}</span
+                >
+                <span v-if="projeto.tecnologias.length > 4" class="mais">
+                  +{{ projeto.tecnologias.length - 4 }}
+                </span>
+              </div>
+
+              <div class="galeria-rodape">
+                <span>{{ projeto.cliente || "Projeto autoral" }}</span>
+                <span v-if="projeto.ano">{{ projeto.ano }}</span>
+              </div>
             </div>
-            <div class="stat-item">
-              <div class="stat-number">3x</div>
-              <div class="stat-label">Mais rápido com IA</div>
-            </div>
+          </article>
+        </div>
+
+        <p v-else class="galeria-vazia">
+          Nenhum projeto publicado por enquanto.
+        </p>
+      </section>
+
+      <!-- Metodologia -->
+      <section class="secao secao-clara">
+        <header class="secao-header">
+          <h2>Como um projeto <span class="gradiente">nasce aqui</span></h2>
+          <p>O mesmo processo em todos os trabalhos acima.</p>
+        </header>
+
+        <div class="processo-grid">
+          <div
+            v-for="(etapa, index) in etapas"
+            :key="etapa.titulo"
+            class="processo-card"
+          >
+            <span class="processo-numero">{{ index + 1 }}</span>
+            <span class="processo-icone">
+              <font-awesome-icon :icon="etapa.icone" />
+            </span>
+            <h3>{{ etapa.titulo }}</h3>
+            <p>{{ etapa.texto }}</p>
           </div>
         </div>
-        <div class="showcase-project">
-          <div class="hero-slider">
-            <transition-group name="slide-fade" tag="div" class="slides-container">
-              <div
-                v-for="(project, index) in featuredProjects"
-                :key="project.id"
-                v-show="currentHeroSlide === index"
-                class="project-preview"
-                :style="{
-                  backgroundImage: `url(${project.images[0]})`,
-                }"
-              >
-                <div class="project-overlay">
-                  <span class="project-category">{{ project.category }}</span>
-                  <h3>{{ project.name }}</h3>
-                  <p>{{ project.description }}</p>
-                  <button
-                    class="explore-btn"
-                    @click="openProject(project.id)"
+      </section>
+    </template>
+
+    <!-- Detalhes do projeto -->
+    <transition name="fade">
+      <div
+        v-if="projetoAberto"
+        class="projeto-overlay"
+        @click.self="fecharProjeto"
+      >
+        <div class="projeto-painel">
+          <button class="projeto-fechar" @click="fecharProjeto" aria-label="Fechar">
+            <font-awesome-icon icon="xmark" />
+          </button>
+
+          <header class="projeto-capa">
+            <img :src="imagemAtiva" :alt="projetoAberto.titulo" />
+            <div class="projeto-capa-texto">
+              <span class="etiqueta">{{ projetoAberto.categoria }}</span>
+              <h2>{{ projetoAberto.titulo }}</h2>
+              <p class="projeto-meta">
+                <span>{{ projetoAberto.cliente || "Projeto autoral" }}</span>
+                <span v-if="projetoAberto.ano">{{ projetoAberto.ano }}</span>
+              </p>
+            </div>
+          </header>
+
+          <div v-if="galeria.length > 1" class="projeto-galeria">
+            <button
+              v-for="(imagem, index) in galeria"
+              :key="index"
+              type="button"
+              class="projeto-miniatura"
+              :class="{ ativa: imagem === imagemAtiva }"
+              @click="imagemAtiva = imagem"
+            >
+              <img :src="imagem" :alt="`Imagem ${index + 1}`" />
+            </button>
+          </div>
+
+          <div class="projeto-corpo">
+            <div class="projeto-conteudo">
+              <section v-if="itensDesafio.length">
+                <h3><span class="ponto desafio"></span> O desafio</h3>
+                <ul>
+                  <li v-for="(item, i) in itensDesafio" :key="`d-${i}`">
+                    {{ item }}
+                  </li>
+                </ul>
+              </section>
+
+              <section v-if="projetoAberto.solucao.length">
+                <h3><span class="ponto solucao"></span> Nossa solução</h3>
+                <ul>
+                  <li v-for="(item, i) in projetoAberto.solucao" :key="`s-${i}`">
+                    {{ item }}
+                  </li>
+                </ul>
+              </section>
+
+              <section v-if="projetoAberto.resultados.length">
+                <h3><span class="ponto resultado"></span> Resultados</h3>
+                <ul>
+                  <li
+                    v-for="(item, i) in projetoAberto.resultados"
+                    :key="`r-${i}`"
                   >
-                    Explorar Projeto
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M5 12h14M12 5l7 7-7 7"/>
-                    </svg>
-                  </button>
+                    {{ item }}
+                  </li>
+                </ul>
+              </section>
+
+              <p v-if="!temDetalhes" class="projeto-resumo">
+                {{ projetoAberto.resumo || "Projeto entregue pela SkillTechnology." }}
+              </p>
+            </div>
+
+            <aside class="projeto-lateral">
+              <div v-if="projetoAberto.metricas.length" class="projeto-numeros">
+                <div
+                  v-for="(m, i) in projetoAberto.metricas"
+                  :key="i"
+                  class="projeto-numero"
+                >
+                  <strong>{{ m.valor }}</strong>
+                  <span>{{ m.rotulo }}</span>
                 </div>
               </div>
-            </transition-group>
 
-            <!-- Dots Navigation -->
-            <div class="hero-dots">
-              <span
-                v-for="(project, index) in featuredProjects"
-                :key="'dot-' + index"
-                :class="{ active: currentHeroSlide === index }"
-                @click="goToHeroSlide(index)"
-              ></span>
-            </div>
-
-            <!-- Arrow Navigation -->
-            <button class="hero-nav prev" @click="prevHeroSlide">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M15 18l-6-6 6-6"/>
-              </svg>
-            </button>
-            <button class="hero-nav next" @click="nextHeroSlide">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M9 18l6-6-6-6"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="scroll-indicator">
-        <span>Scroll Down</span>
-        <div class="arrow"></div>
-      </div>
-    </section>
-
-    <!-- Seção de Projetos em Destaque -->
-    <section class="featured-projects">
-      <div class="section-header">
-        <h2>Projetos <span>Destaque</span></h2>
-        <p>
-          Alguns dos nossos trabalhos mais impressionantes que criamos para
-          clientes ao redor do mundo
-        </p>
-      </div>
-
-      <div class="projects-grid">
-        <div
-          class="project-card"
-          v-for="(project, index) in featuredProjects"
-          :key="'project-' + index"
-          :class="`project-${index + 1}`"
-        >
-          <div class="project-media">
-            <img
-              :src="project.images[0]"
-              :alt="project.name"
-              class="project-image"
-            />
-            <div
-              class="project-badge"
-              :style="{ backgroundColor: project.accentColor }"
-            >
-              {{ project.category }}
-            </div>
-          </div>
-          <div class="project-details">
-            <h3>{{ project.name }}</h3>
-            <p class="project-excerpt">{{ project.excerpt }}</p>
-            <div class="project-meta">
-              <div class="client-info">
-                <div
-                  class="client-logo"
-                  :style="{ backgroundImage: `url(${project.client.logo})` }"
-                ></div>
-                <span>{{ project.client.name }}</span>
+              <div v-if="projetoAberto.tecnologias.length" class="projeto-bloco">
+                <h4>Tecnologias</h4>
+                <div class="projeto-techs">
+                  <span v-for="tech in projetoAberto.tecnologias" :key="tech">{{
+                    tech
+                  }}</span>
+                </div>
               </div>
-              <div class="project-year">{{ project.year }}</div>
-            </div>
-            <button class="view-project" @click="openProject(project.id)">
-              Ver Caso de Estudo
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M5 12H19M19 12L12 5M19 12L12 19"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- Seção de Metodologia -->
-    <section class="methodology-section">
-      <div class="section-header">
-        <h2>Nossa <span>Metodologia</span> de Trabalho</h2>
-        <p>Um processo comprovado que transforma ideias em produtos digitais de sucesso</p>
-      </div>
-
-      <div class="process-grid">
-        <div class="process-step" v-for="(step, index) in processSteps" :key="index" data-aos="fade-up" :data-aos-delay="index * 100">
-          <div class="step-number">{{ index + 1 }}</div>
-          <div class="step-icon" v-html="step.icon"></div>
-          <h3>{{ step.title }}</h3>
-          <p>{{ step.description }}</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Seção de Todos os Projetos -->
-    <section class="all-projects">
-      <div class="section-header">
-        <h2>Nosso <span>Portfólio</span> Completo</h2>
-        <p>
-          Explore nossa coleção completa de projetos criados com excelência e
-          atenção aos detalhes
-        </p>
-      </div>
-
-      <!-- Componente de Galeria de Projetos -->
-      <ProjectGallery :projects="allProjects" :categories="categories" />
-    </section>
-
-    <!-- Seção de Reconhecimentos -->
-    <section class="testimonials">
-      <div class="section-header">
-        <h2>O que nossos <span>clientes</span> dizem</h2>
-        <p>Depoimentos de parceiros que confiaram em nosso trabalho</p>
-      </div>
-
-      <div class="testimonials-slider">
-        <div
-          class="slider-track"
-          :style="{ transform: `translateX(-${testimonialPosition}%)` }"
-        >
-          <div
-            class="testimonial-card"
-            v-for="(testimonial, index) in testimonials"
-            :key="'testimonial-' + index"
-          >
-            <div class="testimonial-content">
-              <div class="quote-icon">“</div>
-              <p>{{ testimonial.content }}</p>
-            </div>
-            <div class="testimonial-author">
-              <div
-                class="author-avatar"
-                :style="{ backgroundImage: `url(${testimonial.avatar})` }"
-              ></div>
-              <div class="author-info">
-                <strong>{{ testimonial.name }}</strong>
-                <span
-                  >{{ testimonial.position }}, {{ testimonial.company }}</span
+              <div class="projeto-acoes">
+                <a
+                  v-if="linkExterno"
+                  :href="projetoAberto.liveUrl"
+                  target="_blank"
+                  rel="noopener"
+                  class="botao-principal"
                 >
+                  Ver projeto no ar
+                  <font-awesome-icon icon="arrow-right" />
+                </a>
+                <router-link
+                  v-else-if="projetoAberto.liveUrl"
+                  :to="projetoAberto.liveUrl"
+                  class="botao-principal"
+                  @click="fecharProjeto"
+                >
+                  Ver detalhes
+                  <font-awesome-icon icon="arrow-right" />
+                </router-link>
+                <router-link
+                  to="/contato"
+                  class="botao-secundario"
+                  @click="fecharProjeto"
+                >
+                  Quero um projeto assim
+                </router-link>
               </div>
-            </div>
+            </aside>
           </div>
         </div>
-        <button class="slider-nav prev" @click="prevTestimonial">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M15 18L9 12L15 6"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </button>
-        <button class="slider-nav next" @click="nextTestimonial">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M9 18L15 12L9 6"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </button>
       </div>
-    </section>
+    </transition>
 
-    <!-- Seção de Chamada para Ação -->
-    <section class="cta-section">
-      <div class="cta-container">
-        <div class="cta-content">
-          <h2>Tem uma ideia? Vamos transformá-la em realidade!</h2>
-          <p>
-            Entre em contato e receba uma proposta personalizada para o seu
-            projeto.
-          </p>
-          <router-link to="/contato" class="router-link">
-            <button class="cta-button" @click="openContact">
-              Solicitar Orçamento
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M5 12H19M19 12L12 5M19 12L12 19"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </button>
-          </router-link>
-        </div>
-        <div class="cta-image"></div>
-      </div>
-    </section>
-  </div>
+    <ContatoService />
+  </main>
 </template>
 
 <script>
+import ContatoService from "../celulas/ContatoService.vue";
+import recentProjectService from "@/services/recentProjectService";
+import agencyPortfolioService from "@/services/agencyPortfolioService";
+
 export default {
   name: "PortfolioPremium",
+  components: { ContatoService },
+
   data() {
     return {
-      testimonialPosition: 0,
-      currentTestimonial: 0,
-      currentHeroSlide: 0,
-      selectedCategory: 'Todos',
-      categories: ['Todos', 'Sistemas Web', 'Sites & Landing Pages', 'E-commerce', 'Aplicativos Mobile', 'Automação & IA', 'Identidade Visual'],
-      processSteps: [
+      projetos: [],
+      carregando: true,
+      projetoAberto: null,
+      imagemAtiva: "",
+      etapas: [
         {
-          title: 'Descoberta',
-          description: 'Entendemos seu negócio, suas dores e seus objetivos. Analisamos o cenário e identificamos as melhores oportunidades.',
-          icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>'
+          icone: "magnifying-glass",
+          titulo: "Descoberta",
+          texto:
+            "Entendemos seu negócio, suas dores e onde a tecnologia realmente resolve.",
         },
         {
-          title: 'Planejamento',
-          description: 'Projetamos a solução ideal com protótipos visuais, arquitetura técnica e plano de desenvolvimento detalhado.',
-          icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>'
+          icone: "layer-group",
+          titulo: "Planejamento",
+          texto:
+            "Protótipo visual, arquitetura técnica e um plano de entrega em fases.",
         },
         {
-          title: 'Desenvolvimento com IA',
-          description: 'Construímos seu projeto utilizando inteligência artificial e as tecnologias mais modernas para entregar com velocidade e qualidade.',
-          icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>'
+          icone: "robot",
+          titulo: "Construção com IA",
+          texto:
+            "Desenvolvemos com apoio de inteligência artificial: mais rápido, com a mesma qualidade.",
         },
         {
-          title: 'Lançamento & Suporte',
-          description: 'Implantamos, testamos e lançamos seu sistema. Continuamos ao seu lado com suporte contínuo e melhorias.',
-          icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>'
-        }
-      ],
-      featuredProjects: [
-        {
-          id: 1,
-          name: "Dashboard com IA para Controle de Estoque",
-          description:
-            "Sistema web completo com dashboards inteligentes, alertas preditivos e integração com APIs de fornecedores.",
-          excerpt:
-            "Gestão de estoque automatizada com inteligência artificial e relatórios em tempo real.",
-          category: "Sistemas Web",
-          year: "2024",
-          accentColor: "#6C5CE7",
-          images: [
-            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-          ],
-          client: {
-            name: "TechCorp Inc.",
-            logo: "https://via.placeholder.com/80",
-          },
-          challenge:
-            "Automatizar o controle de estoque que era gerido manualmente em planilhas.",
-          solution:
-            "Desenvolvemos um sistema com IA preditiva que alerta sobre rupturas de estoque e sugere reabastecimento automático.",
-          results:
-            "Redução de 60% no tempo de gestão de estoque e 45% menos rupturas.",
-        },
-        {
-          id: 2,
-          name: "Loja Virtual Boutique Elegance",
-          description:
-            "E-commerce completo com catálogo dinâmico, checkout otimizado e painel de gestão integrado.",
-          excerpt:
-            "Loja virtual de alta conversão com integração de pagamentos e logística automatizada.",
-          category: "E-commerce",
-          year: "2024",
-          accentColor: "#00B894",
-          images: [
-            "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&auto=format&fit=crop",
-          ],
-          client: {
-            name: "Boutique Elegance",
-            logo: "https://via.placeholder.com/80",
-          },
-          challenge:
-            "Criar uma loja virtual premium com experiência mobile impecável.",
-          solution:
-            "E-commerce responsivo com checkout em 2 cliques, integração Stripe/Pix e gestão completa de pedidos.",
-          results:
-            "Aumento de 180% nas vendas online nos primeiros 3 meses.",
-        },
-        {
-          id: 3,
-          name: "Instituto Educar: Educação Digital",
-          description:
-            "Plataforma educacional com aulas ao vivo, conteúdo interativo e acompanhamento de progresso.",
-          excerpt:
-            "Transformando a educação com tecnologia e experiência de usuário excepcional.",
-          category: "Sistemas Web",
-          year: "2025",
-          accentColor: "#FD79A8",
-          images: [
-            "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-            "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-            "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-          ],
-          client: {
-            name: "EduTech Solutions",
-            logo: "https://via.placeholder.com/80",
-          },
-          challenge:
-            "Criar uma plataforma que superasse as limitações dos sistemas de e-learning tradicionais.",
-          solution:
-            "Plataforma com vídeos interativos, quizzes em tempo real e relatórios detalhados de progresso.",
-          results:
-            "Aumento de 300% no engajamento dos alunos e redução de 40% na taxa de desistência.",
-        },
-      ],
-      allProjects: [
-        {
-          id: 4,
-          name: "Sistema de Gestão Hospitalar",
-          category: "Sistemas Web",
-          thumbnail:
-            "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&auto=format&fit=crop",
-          images: [
-            "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1504813184591-01572f98c85f?w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1551076805-e1869033e561?w=800&auto=format&fit=crop"
-          ],
-          size: "large",
-          technologies: ['Vue.js', 'Laravel', 'MySQL', 'Redis'],
-          description: "Plataforma completa de gestão hospitalar com agendamento, prontuário eletrônico, controle de estoque e faturamento integrado.",
-          client: "Hospital São Lucas",
-          year: "2023",
-          duration: "8 meses",
-          accentColor: "#00b894",
-          features: [
-            "Prontuário eletrônico do paciente (PEP)",
-            "Agendamento online de consultas",
-            "Controle de estoque de medicamentos",
-            "Sistema de faturamento TISS",
-            "Dashboard de métricas em tempo real"
-          ]
-        },
-        {
-          id: 5,
-          name: "Loja Virtual de Moda",
-          category: "E-commerce",
-          thumbnail:
-            "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&auto=format&fit=crop",
-          images: [
-            "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&auto=format&fit=crop"
-          ],
-          size: "medium",
-          technologies: ['React', 'Node.js', 'Stripe', 'MongoDB'],
-          description: "E-commerce completo com catálogo dinâmico, carrinho inteligente, pagamento seguro e painel administrativo.",
-          client: "Moda Bella Store",
-          year: "2023",
-          duration: "5 meses",
-          accentColor: "#fd79a8",
-          features: [
-            "Catálogo com filtros avançados",
-            "Carrinho de compras persistente",
-            "Integração Stripe e PayPal",
-            "Sistema de cupons e promoções",
-            "Painel admin completo"
-          ]
-        },
-        {
-          id: 6,
-          name: "Portal de Notícias",
-          category: "Sites & Landing Pages",
-          thumbnail:
-            "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&auto=format&fit=crop",
-          images: [
-            "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1586339949916-3e9457bef6d3?w=800&auto=format&fit=crop"
-          ],
-          size: "medium",
-          technologies: ['WordPress', 'PHP', 'MySQL', 'Redis'],
-          description: "Portal de notícias moderno com sistema de publicação, categorização avançada e SEO otimizado.",
-          client: "Jornal Digital News",
-          year: "2022",
-          duration: "3 meses",
-          accentColor: "#0984e3",
-          features: [
-            "CMS customizado",
-            "Sistema de comentários",
-            "Newsletter integrada",
-            "SEO otimizado",
-            "AMP para mobile"
-          ]
-        },
-        {
-          id: 7,
-          name: "App de Delivery Gourmet",
-          category: "Aplicativos Mobile",
-          thumbnail:
-            "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&auto=format&fit=crop",
-          images: [
-            "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&auto=format&fit=crop"
-          ],
-          size: "small",
-          technologies: ['React Native', 'Firebase', 'Maps API', 'Socket.io'],
-          description: "Aplicativo de delivery com rastreamento em tempo real, pagamento integrado e sistema de avaliações.",
-          client: "Gourmet Express",
-          year: "2023",
-          duration: "6 meses",
-          accentColor: "#ff7675",
-          features: [
-            "Rastreamento em tempo real",
-            "Pagamento in-app",
-            "Sistema de avaliações",
-            "Push notifications",
-            "Chat com entregador"
-          ]
-        },
-        {
-          id: 8,
-          name: "Plataforma de Streaming",
-          category: "Sistemas Web",
-          thumbnail:
-            "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&auto=format&fit=crop",
-          images: [
-            "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=800&auto=format&fit=crop"
-          ],
-          size: "large",
-          technologies: ['Next.js', 'AWS', 'MongoDB', 'FFmpeg'],
-          description: "Plataforma de streaming de vídeo com upload, transcodificação automática e player customizado.",
-          client: "StreamTech Media",
-          year: "2023",
-          duration: "10 meses",
-          accentColor: "#6c5ce7",
-          features: [
-            "Upload de vídeos",
-            "Transcodificação automática",
-            "Player customizado",
-            "Sistema de assinaturas",
-            "Analytics de visualizações"
-          ]
-        },
-        {
-          id: 9,
-          name: "Dashboard Analytics",
-          category: "Automação & IA",
-          thumbnail:
-            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop",
-          images: [
-            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1543286386-713bdd548da4?w=800&auto=format&fit=crop"
-          ],
-          size: "small",
-          technologies: ['Angular', 'Python', 'PostgreSQL', 'D3.js'],
-          description: "Dashboard de analytics com visualização de dados em tempo real, relatórios customizados e IA preditiva.",
-          client: "DataViz Corp",
-          year: "2022",
-          duration: "7 meses",
-          accentColor: "#fdcb6e",
-          features: [
-            "Gráficos interativos",
-            "Relatórios personalizados",
-            "IA preditiva",
-            "Exportação de dados",
-            "API REST completa"
-          ]
-        },
-        {
-          id: 10,
-          name: "Site Institucional Tech",
-          category: "Sites & Landing Pages",
-          thumbnail:
-            "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&auto=format&fit=crop",
-          images: [
-            "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&auto=format&fit=crop"
-          ],
-          size: "small",
-          technologies: ['Nuxt.js', 'Tailwind', 'Vercel', 'Strapi'],
-          description: "Website institucional moderno com animações, SEO otimizado e CMS headless para gestão de conteúdo.",
-          client: "Tech Innovations",
-          year: "2023",
-          duration: "2 meses",
-          accentColor: "#00cec9",
-          features: [
-            "Animações GSAP",
-            "SEO otimizado",
-            "CMS headless",
-            "Multi-idioma",
-            "Performance 100/100"
-          ]
-        },
-        {
-          id: 11,
-          name: "App de Finanças Pessoais",
-          category: "Aplicativos Mobile",
-          thumbnail:
-            "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&auto=format&fit=crop",
-          images: [
-            "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop"
-          ],
-          size: "medium",
-          technologies: ['Flutter', 'Dart', 'Supabase', 'Chart.js'],
-          description: "Aplicativo de controle financeiro com categorização automática, metas e insights personalizados.",
-          client: "FinTech Solutions",
-          year: "2023",
-          duration: "4 meses",
-          accentColor: "#00b894",
-          features: [
-            "Categorização automática",
-            "Metas financeiras",
-            "Insights com IA",
-            "Sincronização multi-device",
-            "Relatórios detalhados"
-          ]
-        },
-        {
-          id: 12,
-          name: "Landing Page SaaS",
-          category: "Sites & Landing Pages",
-          thumbnail:
-            "https://images.unsplash.com/photo-1559028012-481c04fa702d?w=800&auto=format&fit=crop",
-          images: [
-            "https://images.unsplash.com/photo-1559028012-481c04fa702d?w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&auto=format&fit=crop"
-          ],
-          size: "small",
-          technologies: ['HTML', 'CSS', 'JavaScript', 'GSAP'],
-          description: "Landing page de alta conversão com animações, formulários otimizados e integração com ferramentas de marketing.",
-          client: "CloudSaaS Inc",
-          year: "2023",
-          duration: "1 mês",
-          accentColor: "#a29bfe",
-          features: [
-            "Design responsivo",
-            "Animações fluidas",
-            "Formulários otimizados",
-            "A/B Testing",
-            "Analytics integrado"
-          ]
-        },
-        {
-          id: 13,
-          name: "Marketplace B2B",
-          category: "E-commerce",
-          thumbnail:
-            "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=800&auto=format&fit=crop",
-          images: [
-            "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1664575602276-acd073f104c1?w=800&auto=format&fit=crop"
-          ],
-          size: "medium",
-          technologies: ['Vue.js', 'Express', 'MongoDB', 'Stripe'],
-          description: "Marketplace B2B com sistema de cotações, negociação, pagamentos e logística integrada.",
-          client: "B2B Connect",
-          year: "2022",
-          duration: "12 meses",
-          accentColor: "#e17055",
-          features: [
-            "Sistema de cotações",
-            "Chat de negociação",
-            "Pagamentos escrow",
-            "Logística integrada",
-            "Gestão de fornecedores"
-          ]
-        },
-      ],
-      testimonials: [
-        {
-          name: "Rafael Mendes",
-          position: "CEO",
-          company: "TechCorp Inc.",
-          content:
-            "A SkillTechnology entregou nosso dashboard com IA em tempo recorde. O sistema reduziu nosso tempo de gestão de estoque em 60%. Recomendo fortemente.",
-          avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-        },
-        {
-          name: "Camila Rocha",
-          position: "Diretora Comercial",
-          company: "Boutique Elegance",
-          content:
-            "Nossa loja virtual ficou incrível! As vendas aumentaram 180% nos primeiros 3 meses. A equipe entendeu perfeitamente o que precisávamos.",
-          avatar: "https://randomuser.me/api/portraits/women/44.jpg",
-        },
-        {
-          name: "Dr. Paulo Eduardo",
-          position: "Diretor Acadêmico",
-          company: "Instituto Educar",
-          content:
-            "A plataforma educacional transformou como nossos alunos aprendem. O engajamento aumentou 300% e a taxa de desistência caiu drasticamente.",
-          avatar: "https://randomuser.me/api/portraits/men/75.jpg",
-        },
-        {
-          name: "Fernanda Costa",
-          position: "Gerente de Operações",
-          company: "LogiExpress",
-          content:
-            "A automação de processos que a SkillTechnology implementou eliminouoras de trabalho manual por dia. A integração com nossas APIs existentes foi perfeita.",
-          avatar: "https://randomuser.me/api/portraits/women/63.jpg",
+          icone: "rocket",
+          titulo: "Lançamento e suporte",
+          texto:
+            "Testamos, colocamos no ar e seguimos ao seu lado com suporte e melhorias.",
         },
       ],
     };
   },
-  computed: {
-    testimonialStep() {
-      return 100 / this.testimonials.length;
-    },
-    filteredProjects() {
-      if (this.selectedCategory === 'Todos') {
-        return this.allProjects;
-      }
-      return this.allProjects.filter(project => project.category === this.selectedCategory);
-    }
-  },
-  methods: {
-    openProject(id) {
-      console.log("Abrindo projeto:", id);
-      // Navegar para a página de detalhes do projeto
-    },
-    openContact() {
-      console.log("Abrir formulário de contato");
-      // Navegar para a página de contato
-    },
-    nextHeroSlide() {
-      this.currentHeroSlide = (this.currentHeroSlide + 1) % this.featuredProjects.length;
-    },
-    prevHeroSlide() {
-      this.currentHeroSlide = (this.currentHeroSlide - 1 + this.featuredProjects.length) % this.featuredProjects.length;
-    },
-    goToHeroSlide(index) {
-      this.currentHeroSlide = index;
-    },
-    nextTestimonial() {
-      this.currentTestimonial =
-        (this.currentTestimonial + 1) % this.testimonials.length;
-      this.testimonialPosition = this.currentTestimonial * this.testimonialStep;
-    },
-    prevTestimonial() {
-      this.currentTestimonial =
-        (this.currentTestimonial - 1 + this.testimonials.length) %
-        this.testimonials.length;
-      this.testimonialPosition = this.currentTestimonial * this.testimonialStep;
-    },
-  },
-  mounted() {
-    // Auto-rotate hero slider
-    this.heroInterval = setInterval(() => {
-      this.nextHeroSlide();
-    }, 5000);
 
-    // Auto-rotate testimonials
-    this.testimonialInterval = setInterval(() => {
-      this.nextTestimonial();
-    }, 5000);
+  computed: {
+    galeria() {
+      if (!this.projetoAberto) return [];
+      const todas = [
+        this.projetoAberto.thumbnail,
+        ...this.projetoAberto.imagens,
+      ].filter(Boolean);
+      return [...new Set(todas)];
+    },
+
+    itensDesafio() {
+      const texto = this.projetoAberto?.desafio;
+      if (!texto) return [];
+      return texto
+        .split("\n")
+        .map((item) => item.replace(/^[-•\s]+/, "").trim())
+        .filter(Boolean);
+    },
+
+    temDetalhes() {
+      if (!this.projetoAberto) return false;
+      return (
+        this.itensDesafio.length > 0 ||
+        this.projetoAberto.solucao.length > 0 ||
+        this.projetoAberto.resultados.length > 0
+      );
+    },
+
+    linkExterno() {
+      return /^https?:\/\//.test(this.projetoAberto?.liveUrl || "");
+    },
   },
+
+  async mounted() {
+    await this.carregarProjetos();
+    window.addEventListener("keydown", this.aoTeclar);
+  },
+
   beforeUnmount() {
-    clearInterval(this.heroInterval);
-    clearInterval(this.testimonialInterval);
+    window.removeEventListener("keydown", this.aoTeclar);
+    document.body.style.overflow = "auto";
+  },
+
+  methods: {
+    // Junta as duas origens do painel: projetos recentes e portfólio da agência
+    async carregarProjetos() {
+      const [recentes, portfolio] = await Promise.allSettled([
+        recentProjectService.getPublishedProjects({ limit: 60 }),
+        agencyPortfolioService.getPublishedProjects({ limit: 60 }),
+      ]);
+
+      const lista = [];
+
+      if (recentes.status === "fulfilled") {
+        lista.push(...(recentes.value?.data || []).map(this.deProjetoRecente));
+      } else {
+        console.warn("Projetos recentes indisponíveis:", recentes.reason);
+      }
+
+      if (portfolio.status === "fulfilled") {
+        lista.push(...(portfolio.value?.data || []).map(this.doPortfolio));
+      } else {
+        console.warn("Portfólio da agência indisponível:", portfolio.reason);
+      }
+
+      this.projetos = lista.filter((projeto) => projeto.titulo);
+      this.carregando = false;
+    },
+
+    imagemCompleta(caminho) {
+      return recentProjectService.resolveImageUrl(caminho || "");
+    },
+
+    // Vem de "Gerenciamento de Projetos Recentes"
+    deProjetoRecente(projeto) {
+      const resolver = (img) => recentProjectService.resolveImageUrl(img || "");
+      return {
+        id: `recente-${projeto._id}`,
+        titulo: projeto.title || "",
+        categoria: projeto.category || "Outros",
+        cliente: projeto.client || "",
+        ano: projeto.year || "",
+        thumbnail: resolver(projeto.thumbnail),
+        imagens: (projeto.images || []).map(resolver).filter(Boolean),
+        tecnologias: projeto.technologies || [],
+        resumo: (projeto.challenge || "").split("\n")[0] || "",
+        desafio: projeto.challenge || "",
+        solucao: Array.isArray(projeto.solution) ? projeto.solution : [],
+        resultados: projeto.results || [],
+        metricas: (projeto.metrics || [])
+          .filter((m) => m?.value && m?.label)
+          .slice(0, 2)
+          .map((m) => ({ valor: m.value, rotulo: m.label })),
+        liveUrl: projeto.liveUrl || "",
+        destaque: false,
+      };
+    },
+
+    // Vem de "Gerenciamento de Portfólio"
+    doPortfolio(projeto) {
+      const resolver = (img) => recentProjectService.resolveImageUrl(img || "");
+      const cliente =
+        typeof projeto.client === "object" && projeto.client
+          ? projeto.client.name || ""
+          : projeto.client || "";
+
+      return {
+        id: `portfolio-${projeto._id}`,
+        titulo: projeto.name || projeto.title || "",
+        categoria: projeto.category || "Outros",
+        cliente,
+        ano: projeto.year || "",
+        thumbnail: resolver(projeto.thumbnail || (projeto.images || [])[0]),
+        imagens: (projeto.images || []).map(resolver).filter(Boolean),
+        tecnologias: projeto.technologies || [],
+        resumo: projeto.excerpt || projeto.description || "",
+        desafio: projeto.challenge || "",
+        solucao: Array.isArray(projeto.solution) ? projeto.solution : [],
+        resultados: projeto.results || [],
+        metricas: [],
+        liveUrl: projeto.liveUrl || "",
+        destaque: projeto.featured === true,
+      };
+    },
+
+    abrirProjeto(projeto) {
+      this.projetoAberto = projeto;
+      this.imagemAtiva = projeto.thumbnail;
+      document.body.style.overflow = "hidden";
+    },
+
+    fecharProjeto() {
+      this.projetoAberto = null;
+      this.imagemAtiva = "";
+      document.body.style.overflow = "auto";
+    },
+
+    aoTeclar(evento) {
+      if (evento.key === "Escape" && this.projetoAberto) this.fecharProjeto();
+    },
   },
 };
 </script>
 
 <style scoped>
-/* Estilos Globais */
-.portfolio-premium {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-  color: #2d3436;
-  line-height: 1.6;
-  overflow-x: hidden;
+.portfolio-pagina {
+  font-family: "Inter", sans-serif;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-span {
-  color: #6c5ce7;
-}
-
-/* Hero Showcase */
-.hero-showcase {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 0 5%;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-showcase::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image:
-    radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 40% 20%, rgba(108, 92, 231, 0.2) 0%, transparent 50%);
-  animation: pulse 15s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.8;
-  }
-}
-
-.showcase-container {
-  display: flex;
-  align-items: center;
-  flex: 1;
-  padding: 80px 0;
-  gap: 60px;
-  position: relative;
-  z-index: 1;
-}
-
-.showcase-content {
-  flex: 1;
-  max-width: 600px;
-}
-
-.showcase-title {
-  font-size: 3.5rem;
-  margin-bottom: 1.5rem;
-  line-height: 1.1;
-  color: white;
-  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-}
-
-.showcase-title span {
-  color: #ffd93d;
-  background: linear-gradient(135deg, #ffd93d, #ffeaa7);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.showcase-description {
-  font-size: 1.25rem;
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 2.5rem;
-  max-width: 500px;
-}
-
-.showcase-stats {
-  display: flex;
-  gap: 3rem;
-  margin-top: 3rem;
-}
-
-.stat-item {
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
-}
-
-.stat-item:hover {
-  background: rgba(255, 255, 255, 0.15);
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-}
-
-.stat-number {
-  font-size: 2.5rem;
-  font-weight: 800;
-  color: white;
-  line-height: 1;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
-
-.stat-label {
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.8);
-  margin-top: 0.5rem;
-}
-
-.showcase-project {
-  flex: 1;
-  position: relative;
-  height: 600px;
-}
-
-.hero-slider {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  perspective: 1000px;
-}
-
-.slides-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.project-preview {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-size: cover;
-  background-position: center;
-  border-radius: 20px;
-  box-shadow: 0 30px 60px -10px rgba(0, 0, 0, 0.3);
-  transform-style: preserve-3d;
-  transform: rotateY(-5deg) rotateX(5deg);
-  transition: all 0.5s ease;
-}
-
-.project-preview:hover {
-  transform: rotateY(0) rotateX(0) translateY(-10px);
-}
-
-/* Slide Transitions */
-.slide-fade-enter-active,
-.slide-fade-leave-active {
-  transition: all 0.8s ease;
-}
-
-.slide-fade-enter-from {
-  opacity: 0;
-  transform: translateX(100px) rotateY(-10deg);
-}
-
-.slide-fade-leave-to {
-  opacity: 0;
-  transform: translateX(-100px) rotateY(10deg);
-}
-
-.project-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 40px;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
-  color: white;
-  border-radius: 0 0 20px 20px;
-}
-
-.project-category {
-  display: inline-block;
-  padding: 6px 16px;
-  background: rgba(255, 217, 61, 0.2);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 217, 61, 0.4);
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #ffd93d;
-  margin-bottom: 12px;
-}
-
-.project-overlay h3 {
-  font-size: 1.8rem;
-  margin-bottom: 0.5rem;
-}
-
-.project-overlay p {
-  margin-bottom: 1.5rem;
-  opacity: 0.9;
-  font-size: 0.95rem;
-}
-
-.explore-btn {
-  background: rgba(255, 255, 255, 0.95);
-  color: #6c5ce7;
-  border: none;
-  padding: 14px 28px;
-  font-size: 1rem;
-  font-weight: 700;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-}
-
-.explore-btn:hover {
-  background: white;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
-  gap: 12px;
-}
-
-.explore-btn svg {
-  transition: transform 0.3s ease;
-}
-
-.explore-btn:hover svg {
-  transform: translateX(3px);
-}
-
-/* Hero Dots Navigation */
-.hero-dots {
-  position: absolute;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 12px;
-  z-index: 10;
-}
-
-.hero-dots span {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.4);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
-}
-
-.hero-dots span:hover {
-  background: rgba(255, 255, 255, 0.6);
-  transform: scale(1.2);
-}
-
-.hero-dots span.active {
-  background: #ffd93d;
-  width: 36px;
-  border-radius: 10px;
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-/* Hero Arrow Navigation */
-.hero-nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 50px;
-  height: 50px;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  color: white;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  z-index: 10;
-  opacity: 0;
-}
-
-.hero-slider:hover .hero-nav {
-  opacity: 1;
-}
-
-.hero-nav:hover {
-  background: rgba(255, 255, 255, 0.25);
-  transform: translateY(-50%) scale(1.1);
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-}
-
-.hero-nav.prev {
-  left: 20px;
-}
-
-.hero-nav.next {
-  right: 20px;
-}
-
-.hero-nav svg {
-  width: 24px;
-  height: 24px;
-}
-
-.scroll-indicator {
-  position: absolute;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 0.9rem;
-  animation: bounce 2s infinite;
-  z-index: 1;
-}
-
-.arrow {
-  width: 20px;
-  height: 20px;
-  border-right: 2px solid rgba(255, 255, 255, 0.8);
-  border-bottom: 2px solid rgba(255, 255, 255, 0.8);
-  transform: rotate(45deg);
-  margin-top: 8px;
-}
-
-@keyframes bounce {
-  0%,
-  20%,
-  50%,
-  80%,
-  100% {
-    transform: translateY(0) translateX(-50%);
-  }
-  40% {
-    transform: translateY(-10px) translateX(-50%);
-  }
-  60% {
-    transform: translateY(-5px) translateX(-50%);
-  }
-}
-
-/* Section Header */
-.section-header {
+/* Abertura */
+.portfolio-hero {
+  padding: 5.5rem 5% 5rem;
   text-align: center;
-  max-width: 800px;
-  margin: 0 auto 60px;
+  background-color: #f6f5f1;
+  background-image: linear-gradient(rgba(26, 35, 90, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26, 35, 90, 0.05) 1px, transparent 1px);
+  background-size: 120px 120px;
 }
 
-.section-header h2 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-
-.section-header p {
-  font-size: 1.1rem;
-  color: #636e72;
-}
-
-/* Featured Projects */
-.featured-projects {
-  padding: 120px 5%;
-  background: white;
-}
-
-.projects-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 80px;
-  max-width: 1200px;
+.hero-inner {
+  max-width: 780px;
   margin: 0 auto;
 }
 
-.project-card {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
+.portfolio-hero h1 {
+  margin: 0;
+  font-size: 3.1rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: #131a4d;
+}
+
+.gradiente {
+  background: linear-gradient(90deg, #0052ff, #7c6ef2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.portfolio-hero p {
+  margin: 1.25rem auto 0;
+  max-width: 600px;
+  font-size: 1.12rem;
+  line-height: 1.6;
+  color: #3d4570;
+}
+
+.estado-carregando {
+  display: flex;
   align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 4rem 1.25rem;
+  color: #6b7194;
 }
 
-.project-media {
-  position: relative;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  height: 400px;
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #e2e1da;
+  border-top-color: #0052ff;
+  border-radius: 50%;
+  animation: girar 0.8s linear infinite;
 }
 
-.project-image {
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Seções */
+.secao {
+  padding: 5rem 5%;
+}
+
+.secao-branca {
+  background: #fff;
+}
+
+.secao-clara {
+  background: #f6f5f1;
+}
+
+.secao-header {
+  max-width: 640px;
+  margin: 0 auto 2.75rem;
+  text-align: center;
+}
+
+.secao-header h2 {
+  margin: 0;
+  font-size: 2.4rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #131a4d;
+}
+
+.secao-header p {
+  margin: 0.85rem 0 0;
+  font-size: 1.02rem;
+  color: #6b7194;
+}
+
+.etiqueta {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 2;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(12, 16, 45, 0.62);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Destaques */
+.galeria-media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
   transition: transform 0.5s ease;
 }
 
-.project-card:hover .project-image {
-  transform: scale(1.05);
+.galeria-card:hover .galeria-media img {
+  transform: scale(1.06);
 }
 
-.project-badge {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  padding: 8px 16px;
-  border-radius: 20px;
-  color: white;
-  font-size: 0.8rem;
-  font-weight: 600;
+/* Galeria */
+.galeria-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  max-width: 1180px;
+  margin: 0 auto;
 }
 
-.project-details h3 {
-  font-size: 2rem;
+.galeria-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e6e5df;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.galeria-card:hover {
+  transform: translateY(-4px);
+  border-color: #d5d3f5;
+  box-shadow: 0 18px 40px rgba(19, 26, 77, 0.12);
+}
+
+.galeria-media {
+  position: relative;
+  height: 190px;
+  overflow: hidden;
+}
+
+.galeria-corpo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1.35rem;
+}
+
+.galeria-corpo h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.12rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #131a4d;
+}
+
+.galeria-corpo > p {
+  margin: 0 0 1rem;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: #6b7194;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.galeria-techs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
   margin-bottom: 1rem;
 }
 
-.project-excerpt {
-  font-size: 1.1rem;
-  color: #636e72;
-  margin-bottom: 2rem;
+.galeria-techs span {
+  padding: 0.25rem 0.6rem;
+  border: 1px solid #e2e1da;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  color: #4b5280;
 }
 
-.project-meta {
+.galeria-techs .mais {
+  background: #f4f4f0;
+  border-color: #f4f4f0;
+}
+
+.galeria-rodape {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 0.9rem;
+  border-top: 1px solid #f0efe9;
+  font-size: 0.85rem;
+  color: #9aa0b8;
 }
 
-.client-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.galeria-vazia {
+  text-align: center;
+  color: #6b7194;
 }
 
-.client-logo {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-size: cover;
-  background-position: center;
-  border: 1px solid #eee;
-}
-
-.project-year {
-  font-size: 0.9rem;
-  color: #636e72;
-}
-
-.view-project {
-  background: transparent;
-  color: #6c5ce7;
-  border: none;
-  padding: 0;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.view-project:hover {
-  color: #ffffff;
-  gap: 12px;
-  background-color: #2cabca;
-}
-
-.view-project svg {
-  width: 20px;
-  height: 20px;
-}
-
-/* Alternate project layouts */
-.project-2 {
-  direction: rtl;
-}
-
-.project-2 .project-details {
-  direction: ltr;
-}
-
-.project-3 {
-  grid-template-columns: 1.2fr 0.8fr;
-}
-
-/* Methodology Section */
-.methodology-section {
-  padding: 120px 5%;
-  background: white;
-}
-
-.process-grid {
+/* Processo */
+.processo-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 40px;
-  max-width: 1200px;
+  gap: 1.25rem;
+  max-width: 1180px;
   margin: 0 auto;
 }
 
-.process-step {
-  text-align: center;
-  padding: 40px 30px;
-  background: linear-gradient(135deg, #f5f7fa 0%, #fff 100%);
-  border-radius: 16px;
+.processo-card {
   position: relative;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
+  padding: 2rem 1.6rem 1.6rem;
+  border: 1px solid #e6e5df;
+  border-radius: 16px;
+  background: #fbfbf9;
 }
 
-.process-step:hover {
-  transform: translateY(-10px);
-  border-color: #6c5ce7;
-  box-shadow: 0 20px 40px rgba(108, 92, 231, 0.1);
-}
-
-.step-number {
+.processo-numero {
   position: absolute;
-  top: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 50px;
-  height: 50px;
-  background: linear-gradient(135deg, #6c5ce7, #a29bfe);
-  color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
+  top: 1.25rem;
+  right: 1.35rem;
+  font-size: 2.2rem;
   font-weight: 800;
-  box-shadow: 0 10px 20px rgba(108, 92, 231, 0.3);
-}
-
-.step-icon {
-  width: 60px;
-  height: 60px;
-  margin: 20px auto 20px;
-  color: #6c5ce7;
-}
-
-.step-icon svg {
-  width: 100%;
-  height: 100%;
-}
-
-.process-step h3 {
-  font-size: 1.4rem;
-  margin-bottom: 12px;
-  color: #2d3436;
-}
-
-.process-step p {
-  color: #636e72;
-  line-height: 1.6;
-  font-size: 0.95rem;
-}
-
-/* All Projects */
-.all-projects {
-  padding: 120px 5%;
-  background: #f5f7fa;
-}
-
-/* Filter Tabs */
-.filter-tabs {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 60px;
-  flex-wrap: wrap;
-}
-
-.filter-tabs button {
-  padding: 12px 28px;
-  background: white;
-  border: 2px solid #e2e8f0;
-  border-radius: 50px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #636e72;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.filter-tabs button:hover {
-  border-color: #6c5ce7;
-  color: #6c5ce7;
-  transform: translateY(-2px);
-}
-
-.filter-tabs button.active {
-  background: linear-gradient(135deg, #6c5ce7, #a29bfe);
-  border-color: #6c5ce7;
-  color: white;
-  box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
-}
-
-.projects-mosaic {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-auto-rows: 240px;
-  gap: 20px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.mosaic-item {
-  position: relative;
-  border-radius: 12px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.mosaic-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-}
-
-.mosaic-image {
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  transition: transform 0.5s ease;
-}
-
-.mosaic-item:hover .mosaic-image {
-  transform: scale(1.05);
-}
-
-.mosaic-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(108, 92, 231, 0.95), rgba(74, 61, 192, 0.95));
-  color: white;
-  opacity: 0;
-  transition: all 0.4s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.mosaic-item:hover .mosaic-overlay {
-  opacity: 1;
-}
-
-.overlay-content {
-  text-align: center;
-  padding: 24px;
-  transform: translateY(20px);
-  transition: transform 0.4s ease;
-}
-
-.mosaic-item:hover .overlay-content {
-  transform: translateY(0);
-}
-
-.category-tag {
-  display: inline-block;
-  padding: 6px 16px;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.mosaic-overlay h3 {
-  font-size: 1.5rem;
-  margin-bottom: 16px;
-  font-weight: 700;
-}
-
-.tech-stack {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-}
-
-.tech-badge {
-  padding: 4px 12px;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(5px);
-  border-radius: 12px;
-  font-size: 0.7rem;
-  font-weight: 500;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-}
-
-.view-detail-btn {
-  width: 50px;
-  height: 50px;
-  background: white;
-  color: #6c5ce7;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  margin: 0 auto;
-}
-
-.view-detail-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 5px 20px rgba(255, 255, 255, 0.3);
-}
-
-.view-detail-btn svg {
-  transition: transform 0.3s ease;
-}
-
-.view-detail-btn:hover svg {
-  transform: translateX(3px);
-}
-
-.size-large {
-  grid-column: span 6;
-}
-
-.size-medium {
-  grid-column: span 4;
-}
-
-.size-small {
-  grid-column: span 3;
-}
-
-/* Testimonials */
-.testimonials {
-  padding: 120px 5%;
-  background: white;
-}
-
-.testimonials-slider {
-  max-width: 1000px;
-  margin: 0 auto;
-  position: relative;
-  overflow: hidden;
-}
-
-.slider-track {
-  display: flex;
-  transition: transform 0.5s ease;
-  width: 100%;
-}
-
-.testimonial-card {
-  min-width: 100%;
-  padding: 0 20px;
-  box-sizing: border-box;
-}
-
-.testimonial-content {
-  background: #f5f7fa;
-  border-radius: 16px;
-  padding: 40px;
-  position: relative;
-  margin-bottom: 30px;
-}
-
-.quote-icon {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  font-size: 4rem;
-  color: #6c5ce7;
-  opacity: 0.2;
+  color: #eeede7;
   line-height: 1;
 }
 
-.testimonial-content p {
-  font-size: 1.2rem;
-  font-style: italic;
-  color: #2d3436;
-  position: relative;
-  z-index: 1;
-}
-
-.testimonial-author {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.author-avatar {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background-size: cover;
-  background-position: center;
-  border: 3px solid #6c5ce7;
-}
-.router-link {
-  text-decoration: none;
-}
-
-.author-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.author-info strong {
-  font-size: 1.1rem;
-}
-
-.author-info span {
-  font-size: 0.9rem;
-  color: #636e72;
-}
-
-.slider-nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: white;
-  border: none;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
+.processo-icone {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10;
-  transition: all 0.3s ease;
+  width: 46px;
+  height: 46px;
+  margin-bottom: 1.1rem;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #0052ff, #7c6ef2);
+  color: #fff;
+  font-size: 1.05rem;
 }
 
-.slider-nav:hover {
-  background: #6c5ce7;
-  color: white;
-}
-
-.slider-nav.prev {
-  left: 0;
-}
-
-.slider-nav.next {
-  right: 0;
-}
-
-.slider-nav svg {
-  width: 24px;
-  height: 24px;
-}
-
-/* CTA Section */
-.cta-section {
-  padding: 120px 5%;
-  background: linear-gradient(135deg, #6c5ce7 0%, #4a3dc0 100%);
-  color: white;
-}
-
-.cta-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 60px;
-}
-
-.cta-content {
-  flex: 1;
-}
-
-.cta-content h2 {
-  font-size: 2.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.cta-content p {
+.processo-card h3 {
+  margin: 0 0 0.5rem;
   font-size: 1.1rem;
-  opacity: 0.9;
-  margin-bottom: 2rem;
-  max-width: 500px;
+  font-weight: 700;
+  color: #131a4d;
 }
 
-.cta-button {
-  background: white;
-  color: #6c5ce7;
-  border: none;
-  padding: 16px 32px;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+.processo-card p {
+  margin: 0;
+  font-size: 0.93rem;
+  line-height: 1.6;
+  color: #6b7194;
+}
+
+/* Detalhes do projeto */
+.projeto-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgba(10, 14, 40, 0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
-.cta-button:hover {
-  background: #f5f7fa;
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+.projeto-painel {
+  position: relative;
+  width: 100%;
+  max-width: 980px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 30px 80px rgba(10, 14, 40, 0.35);
 }
 
-.cta-button svg {
-  width: 20px;
-  height: 20px;
+.projeto-fechar {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(12, 16, 45, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease;
 }
 
-.cta-image {
-  flex: 1;
-  height: 400px;
-  background-image: url("https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&auto=format&fit=crop&");
-  background-size: cover;
-  background-position: center;
-  border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+.projeto-fechar:hover {
+  background: rgba(12, 16, 45, 0.85);
 }
 
-/* Responsividade */
-@media (max-width: 1200px) {
-  .showcase-container {
-    flex-direction: column;
-    padding: 60px 0;
-  }
+.projeto-capa {
+  position: relative;
+  height: 320px;
+}
 
-  .showcase-content {
-    max-width: 100%;
-    text-align: center;
-  }
+.projeto-capa img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 
-  .showcase-stats {
-    justify-content: center;
-    flex-wrap: wrap;
-  }
+.projeto-capa::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 14, 40, 0.25) 0%,
+    rgba(10, 14, 40, 0) 40%,
+    rgba(10, 14, 40, 0.9) 100%
+  );
+}
 
-  .showcase-project {
-    width: 100%;
-    height: 500px;
-  }
+.projeto-capa .etiqueta {
+  position: static;
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  background: rgba(255, 255, 255, 0.2);
+}
 
-  .hero-slider {
-    height: 500px;
-  }
+.projeto-capa-texto {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: 1.75rem;
+}
 
-  .hero-nav {
-    opacity: 1;
-  }
+.projeto-capa-texto h2 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: #fff;
+}
 
-  .hero-nav.prev {
-    left: 10px;
-  }
+.projeto-meta {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+}
 
-  .hero-nav.next {
-    right: 10px;
-  }
+.projeto-meta span + span::before {
+  content: "•";
+  margin-right: 1rem;
+}
 
-  .process-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.projeto-galeria {
+  display: flex;
+  gap: 0.6rem;
+  padding: 1rem 1.75rem 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
 
-  .project-card {
+.projeto-galeria::-webkit-scrollbar {
+  display: none;
+}
+
+.projeto-miniatura {
+  flex: 0 0 auto;
+  width: 84px;
+  height: 60px;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  overflow: hidden;
+  background: none;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s ease, border-color 0.2s ease;
+}
+
+.projeto-miniatura img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.projeto-miniatura:hover,
+.projeto-miniatura.ativa {
+  opacity: 1;
+  border-color: #0052ff;
+}
+
+.projeto-corpo {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 2.5rem;
+  padding: 1.75rem;
+}
+
+.projeto-conteudo section + section {
+  margin-top: 1.75rem;
+}
+
+.projeto-conteudo h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0 0.9rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #131a4d;
+}
+
+.ponto {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+.ponto.desafio {
+  background: #f59e0b;
+}
+
+.ponto.solucao {
+  background: #0052ff;
+}
+
+.ponto.resultado {
+  background: #22c55e;
+}
+
+.projeto-conteudo ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.projeto-conteudo li {
+  position: relative;
+  padding-left: 1.1rem;
+  font-size: 0.96rem;
+  line-height: 1.6;
+  color: #4b5280;
+}
+
+.projeto-conteudo li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6rem;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #c9c8c0;
+}
+
+.projeto-resumo {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #4b5280;
+}
+
+.projeto-numeros {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1.15rem;
+  border: 1px solid #eeede7;
+  border-radius: 14px;
+  background: #fbfbf9;
+}
+
+.projeto-numero strong {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #0052ff;
+}
+
+.projeto-numero span {
+  font-size: 0.8rem;
+  color: #6b7194;
+}
+
+.projeto-bloco {
+  margin-top: 1.5rem;
+}
+
+.projeto-bloco h4 {
+  margin: 0 0 0.75rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #9aa0b8;
+}
+
+.projeto-techs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.projeto-techs span {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #e2e1da;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  color: #4b5280;
+}
+
+.projeto-acoes {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: 1.75rem;
+}
+
+.botao-principal,
+.botao-secundario {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.25rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.botao-principal {
+  background: #0052ff;
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(0, 82, 255, 0.25);
+}
+
+.botao-principal:hover {
+  background: #0040c9;
+}
+
+.botao-secundario {
+  border: 1px solid #e2e1da;
+  color: #131a4d;
+}
+
+.botao-secundario:hover {
+  border-color: #7c6ef2;
+  color: #0052ff;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.25s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+  .projeto-corpo {
     grid-template-columns: 1fr;
-    gap: 30px;
-  }
-
-  .project-2 {
-    direction: ltr;
-  }
-
-  .projects-mosaic {
-    grid-template-columns: repeat(6, 1fr);
-  }
-
-  .size-large,
-  .size-medium,
-  .size-small {
-    grid-column: span 3;
-  }
-
-  .cta-container {
-    flex-direction: column;
-  }
-
-  .cta-content {
-    text-align: center;
-    margin-bottom: 40px;
-  }
-
-  .cta-content p {
-    max-width: 100%;
-  }
-
-  .cta-image {
-    width: 100%;
+    gap: 1.75rem;
   }
 }
 
 @media (max-width: 768px) {
-  .showcase-title {
-    font-size: 2.5rem;
+  .portfolio-hero {
+    padding: 3.5rem 1.25rem;
+    background-size: 80px 80px;
   }
 
-  .section-header h2 {
-    font-size: 2rem;
+  .portfolio-hero h1 {
+    font-size: 2.05rem;
   }
 
-  .hero-slider {
-    height: 450px;
-  }
-
-  .project-preview {
-    transform: rotateY(0) rotateX(0);
-  }
-
-  .project-overlay {
-    padding: 30px 20px;
-  }
-
-  .project-overlay h3 {
-    font-size: 1.5rem;
-  }
-
-  .project-overlay p {
-    font-size: 0.9rem;
-  }
-
-  .explore-btn {
-    padding: 12px 24px;
-    font-size: 0.9rem;
-  }
-
-  .hero-nav {
-    width: 45px;
-    height: 45px;
-  }
-
-  .hero-nav.prev {
-    left: 5px;
-  }
-
-  .hero-nav.next {
-    right: 5px;
-  }
-
-  .hero-dots {
-    bottom: 20px;
-  }
-
-  .hero-dots span {
-    width: 10px;
-    height: 10px;
-  }
-
-  .hero-dots span.active {
-    width: 28px;
-  }
-
-  .process-grid {
-    grid-template-columns: 1fr;
-    gap: 60px;
-  }
-
-  .filter-tabs {
-    gap: 8px;
-  }
-
-  .filter-tabs button {
-    padding: 10px 20px;
-    font-size: 0.85rem;
-  }
-
-  .projects-mosaic {
-    grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: 200px;
-  }
-
-  .size-large,
-  .size-medium,
-  .size-small {
-    grid-column: span 2;
-  }
-
-  .mosaic-overlay h3 {
-    font-size: 1.2rem;
-  }
-
-  .tech-badge {
-    font-size: 0.65rem;
-    padding: 3px 10px;
-  }
-
-  .testimonial-content p {
-    font-size: 1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .showcase-title {
-    font-size: 1.8rem;
-  }
-
-  .showcase-description {
+  .portfolio-hero p {
     font-size: 1rem;
   }
 
-  .showcase-stats {
-    flex-direction: column;
-    gap: 1rem;
-    width: 100%;
+  .secao {
+    padding: 3.5rem 1.25rem;
   }
 
-  .stat-item {
-    width: 100%;
+  .secao-header {
+    margin-bottom: 2rem;
   }
 
-  .hero-slider {
-    height: 400px;
+  .secao-header h2 {
+    font-size: 1.9rem;
   }
 
-  .project-overlay {
-    padding: 24px 16px;
-  }
-
-  .project-category {
-    font-size: 0.7rem;
-    padding: 5px 12px;
-  }
-
-  .project-overlay h3 {
-    font-size: 1.3rem;
-  }
-
-  .project-overlay p {
-    font-size: 0.85rem;
-    margin-bottom: 1rem;
-  }
-
-  .explore-btn {
-    padding: 10px 20px;
-    font-size: 0.85rem;
-  }
-
-  .hero-nav {
-    width: 40px;
-    height: 40px;
-  }
-
-  .hero-nav svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  .hero-dots {
-    bottom: 15px;
-    gap: 8px;
-  }
-
-  .hero-dots span {
-    width: 8px;
-    height: 8px;
-  }
-
-  .hero-dots span.active {
-    width: 24px;
-  }
-
-  .process-step {
-    padding: 30px 20px;
-  }
-
-  .step-number {
-    width: 45px;
-    height: 45px;
-    font-size: 1.3rem;
-  }
-
-  .process-step h3 {
-    font-size: 1.2rem;
-  }
-
-  .filter-tabs {
-    gap: 6px;
-  }
-
-  .filter-tabs button {
-    padding: 8px 16px;
-    font-size: 0.8rem;
-  }
-
-  .projects-mosaic {
+  .galeria-grid {
     grid-template-columns: 1fr;
-    grid-auto-rows: 250px;
   }
 
-  .size-large,
-  .size-medium,
-  .size-small {
-    grid-column: span 1;
+  .projeto-overlay {
+    padding: 0;
   }
 
-  .mosaic-overlay h3 {
-    font-size: 1.1rem;
+  .projeto-painel {
+    max-height: 100vh;
+    border-radius: 0;
   }
 
-  .category-tag {
-    font-size: 0.7rem;
-    padding: 4px 12px;
+  .projeto-capa {
+    height: 230px;
   }
 
-  .view-detail-btn {
-    width: 45px;
-    height: 45px;
+  .projeto-capa-texto {
+    padding: 1.25rem;
+  }
+
+  .projeto-capa-texto h2 {
+    font-size: 1.4rem;
+  }
+
+  .projeto-galeria {
+    padding: 1rem 1.25rem 0;
+  }
+
+  .projeto-corpo {
+    padding: 1.25rem;
   }
 }
 </style>

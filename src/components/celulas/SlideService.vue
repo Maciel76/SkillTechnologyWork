@@ -1,55 +1,15 @@
 <template>
   <section class="services-hero">
-    <!-- Efeito de fundo moderno -->
     <div class="hero-background">
       <div class="gradient-overlay"></div>
       <div class="grid-pattern"></div>
     </div>
 
     <div class="hero-container">
-      <!-- Controles do slider -->
-      <div class="slider-controls">
-        <button
-          class="control-button prev"
-          @click="previousSlide"
-          aria-label="Slide anterior"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M15 18L9 12L15 6"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </button>
-
-        <div class="indicators">
-          <button
-            v-for="(_, index) in services"
-            :key="index"
-            :class="{ active: currentIndex === index }"
-            @click="goToSlide(index)"
-            :aria-label="`Ir para serviço ${index + 1}`"
-          ></button>
-        </div>
-
-        <button
-          class="control-button next"
-          @click="nextSlide"
-          aria-label="Próximo slide"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M9 18L15 12L9 6"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </button>
+      <!-- Cabeçalho da seção -->
+      <div class="hero-heading">
+        <h2>Nossos <span>Serviços</span></h2>
+        <p>Soluções digitais completas, do sistema ao lançamento.</p>
       </div>
 
       <!-- Slider de serviços -->
@@ -65,109 +25,81 @@
             v-for="(service, index) in services"
             :key="index"
             class="service-slide"
-            :class="{ active: currentIndex === index }"
           >
             <div class="service-content">
-              <!-- Tag de serviço -->
               <div
                 class="service-tag"
-                :style="{
-                  backgroundColor: service.color + '20',
-                  color: service.color,
-                }"
+                :style="{ backgroundColor: service.color + '18', color: service.color }"
               >
-                <img
-                  :src="service.icon"
-                  :alt="service.title"
-                  class="service-icon"
-                />
-                <span>{{ service.title }}</span>
+                <img :src="service.icon" :alt="service.title" class="service-icon" />
+                <span>Serviço</span>
               </div>
 
-              <!-- Título animado -->
-              <h2 class="service-title">
-                <span class="title-text">{{ service.title }}</span>
-                <span
-                  class="highlight-dot"
-                  :style="{ backgroundColor: service.color }"
-                ></span>
-              </h2>
-
-              <!-- Descrição -->
+              <h3 class="service-title">{{ service.title }}</h3>
               <p class="service-description">{{ service.description }}</p>
 
-              <!-- Lista de features -->
               <ul class="service-features">
-                <li v-for="(feature, i) in service.features" :key="i">
-                  <span
-                    class="feature-bullet"
-                    :style="{ backgroundColor: service.color }"
-                  ></span>
+                <li v-for="(feature, i) in service.features.slice(0, 4)" :key="i">
+                  <span class="feature-bullet" :style="{ backgroundColor: service.color }"></span>
                   {{ feature }}
                 </li>
               </ul>
 
-              <!-- CTA -->
               <router-link
                 :to="service.path"
                 class="service-cta"
                 :style="{ backgroundColor: service.color }"
               >
                 <span>Saiba mais</span>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M5 12H19M19 12L12 5M19 12L12 19"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
               </router-link>
             </div>
 
             <div class="service-visual">
-              <div
-                class="visual-container"
-                :style="{ borderColor: service.color + '30' }"
-              >
-                <div class="floating-cards">
-                  <div
-                    v-for="(feature, i) in service.features.slice(0, 3)"
-                    :key="i"
-                    class="feature-card"
-                    :style="{
-                      backgroundColor: service.color + '15',
-                      borderColor: service.color + '30',
-                      animationDelay: `${i * 0.2}s`,
-                    }"
-                  >
-                    <span class="card-emoji">{{ getFeatureEmoji(i) }}</span>
-                    <span class="card-text">{{ feature }}</span>
-                  </div>
-                </div>
-                <img
-                  :src="getServiceImage(service.title)"
-                  :alt="service.title"
-                  class="service-image"
-                  loading="lazy"
-                />
-              </div>
+              <img
+                :src="service.image || getServiceImage(service.title)"
+                :alt="service.title"
+                class="service-image"
+                loading="lazy"
+              />
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Indicador de scroll -->
-    <div class="scroll-indicator" @click="scrollToContent">
-      <span>Explore todos serviços</span>
-      <div class="arrow-down"></div>
+      <!-- Controles compactos -->
+      <div class="slider-controls">
+        <button class="control-button" @click="previousSlide" aria-label="Serviço anterior">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+
+        <div class="indicators">
+          <button
+            v-for="(_, index) in services"
+            :key="index"
+            :class="{ active: currentIndex === index }"
+            @click="goToSlide(index)"
+            :aria-label="`Ir para serviço ${index + 1}`"
+          ></button>
+        </div>
+
+        <button class="control-button" @click="nextSlide" aria-label="Próximo serviço">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
     </div>
   </section>
 </template>
 
 <script>
+import servicesService from "@/services/servicesService";
+
 export default {
   name: "ServicesHero",
   data() {
@@ -312,6 +244,35 @@ export default {
     },
   },
   methods: {
+    async loadServices() {
+      try {
+        const data = await servicesService.getPublished();
+        if (data && data.length) {
+          this.services = data.map((s) => ({
+            icon: s.icon,
+            title: s.title,
+            description: s.description,
+            features: s.features || [],
+            color: s.color || "#0099DD",
+            path: s.link || "/contato",
+            image: this.resolveImg(s.image),
+          }));
+          this.currentIndex = 0;
+        }
+      } catch (error) {
+        // Mantém os serviços estáticos se a API estiver indisponível
+        console.warn("Serviços: usando dados estáticos (API indisponível):", error.message);
+      }
+    },
+    resolveImg(image) {
+      if (!image) return "";
+      if (image.startsWith("http") || image.startsWith("data:")) return image;
+      if (image.startsWith("/uploads")) {
+        const base = (import.meta.env.VITE_API_URL || "http://localhost:5006").replace(/\/api$/, "");
+        return base + image;
+      }
+      return image;
+    },
     nextSlide() {
       this.currentIndex = (this.currentIndex + 1) % this.services.length;
       this.resetAutoplay();
@@ -340,12 +301,6 @@ export default {
     resumeSlider() {
       this.isPaused = false;
     },
-    scrollToContent() {
-      window.scrollBy({
-        top: window.innerHeight * 0.8,
-        behavior: "smooth",
-      });
-    },
     getServiceImage(title) {
       const images = {
         "Sistemas Web":
@@ -370,10 +325,6 @@ export default {
         "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1965&auto=format&fit=crop"
       );
     },
-    getFeatureEmoji(index) {
-      const emojis = ["✨", "🚀", "🎯", "🔍", "📊", "💡"];
-      return emojis[index] || emojis[0];
-    },
     handleTouchStart(e) {
       this.touchStartX = e.changedTouches[0].screenX;
       this.pauseSlider();
@@ -391,8 +342,8 @@ export default {
     },
   },
   mounted() {
+    this.loadServices();
     this.startAutoplay();
-    // Pausar slider quando a janela perde foco
     window.addEventListener("blur", this.pauseSlider);
     window.addEventListener("focus", this.resumeSlider);
   },
@@ -405,15 +356,10 @@ export default {
 </script>
 
 <style scoped>
-/* Estilos base */
 .services-hero {
   position: relative;
-  height: 100vh;
-  min-height: 800px;
-  max-height: 1200px;
+  padding: 4.5rem 1rem 3.5rem;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
   color: #1e293b;
 }
 
@@ -423,12 +369,11 @@ export default {
 
 .hero-background {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   z-index: 0;
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  background:
+    radial-gradient(700px 340px at 88% 0%, rgba(0, 153, 221, 0.08), transparent 60%),
+    linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
 }
 
 [data-theme="dark"] .hero-background {
@@ -437,101 +382,209 @@ export default {
 
 .gradient-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(
-    circle at 20% 50%,
-    rgba(0, 82, 255, 0.05) 0%,
-    transparent 50%
-  );
+  inset: 0;
+  background: radial-gradient(circle at 15% 90%, rgba(139, 92, 246, 0.06) 0%, transparent 45%);
 }
 
 .grid-pattern {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   opacity: 0.03;
   background-image: radial-gradient(#64748b 1px, transparent 1px);
-  background-size: 20px 20px;
-}
-
-[data-theme="dark"] .grid-pattern {
-  background-image: radial-gradient(#94a3b8 1px, transparent 1px);
+  background-size: 22px 22px;
 }
 
 .hero-container {
   position: relative;
-  flex: 1;
-  max-width: 1900px;
+  z-index: 2;
+  max-width: 1200px;
   margin: 0 auto;
   width: 100%;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  z-index: 2;
 }
 
-/* Controles do slider */
+/* Cabeçalho */
+.hero-heading {
+  text-align: center;
+  margin-bottom: 2.2rem;
+}
+.hero-heading h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #1a202c;
+}
+[data-theme="dark"] .hero-heading h2 {
+  color: #f8fafc;
+}
+.hero-heading h2 span {
+  color: #0099dd;
+}
+.hero-heading p {
+  margin-top: 0.5rem;
+  color: #64748b;
+  font-size: 1.05rem;
+}
+
+/* Slider */
+.services-slider {
+  overflow: hidden;
+  position: relative;
+}
+.slider-track {
+  display: flex;
+}
+.service-slide {
+  min-width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  padding: 0.5rem;
+}
+
+.service-content {
+  flex: 1;
+  max-width: 50%;
+}
+
+.service-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 1.2rem;
+}
+.service-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.service-title {
+  font-size: clamp(1.6rem, 3vw, 2.3rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.9rem;
+}
+
+.service-description {
+  font-size: 1.05rem;
+  color: #64748b;
+  margin-bottom: 1.4rem;
+  line-height: 1.6;
+}
+[data-theme="dark"] .service-description {
+  color: #94a3b8;
+}
+
+.service-features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem 1.2rem;
+  margin-bottom: 1.8rem;
+  list-style: none;
+  padding: 0;
+}
+.service-features li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.92rem;
+}
+.feature-bullet {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.service-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: white;
+  padding: 0.8rem 1.6rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 10px;
+  text-decoration: none;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.service-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+}
+.service-cta svg {
+  transition: transform 0.3s ease;
+}
+.service-cta:hover svg {
+  transform: translateX(3px);
+}
+
+/* Visual */
+.service-visual {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+.service-image {
+  width: 100%;
+  max-width: 520px;
+  height: 340px;
+  object-fit: cover;
+  border-radius: 18px;
+  border: 6px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 24px 48px -18px rgba(15, 23, 42, 0.35);
+}
+[data-theme="dark"] .service-image {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Controles */
 .slider-controls {
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2rem;
-  margin-bottom: 2rem;
-  z-index: 3;
+  gap: 1.4rem;
+  margin-top: 2rem;
 }
-
 .control-button {
-  width: 48px;
-  height: 48px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.8);
+  background: #ffffff;
   border: 1px solid #e2e8f0;
   color: #334155;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
-
+.control-button:hover {
+  color: #0099dd;
+  border-color: #0099dd;
+  transform: translateY(-2px);
+}
 [data-theme="dark"] .control-button {
-  background: rgba(30, 41, 59, 0.8);
+  background: #1e293b;
   border-color: #334155;
   color: #f8fafc;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
-
-.control-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-  background: white;
-  color: #0052ff;
-}
-
-[data-theme="dark"] .control-button:hover {
-  background: #1e293b;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-}
-
-.control-button svg {
-  width: 24px;
-  height: 24px;
-}
-
 .indicators {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.55rem;
 }
-
 .indicators button {
-  width: 12px;
-  height: 12px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   background: #cbd5e1;
   border: none;
@@ -539,456 +592,52 @@ export default {
   transition: all 0.3s ease;
   padding: 0;
 }
-
-[data-theme="dark"] .indicators button {
-  background: #475569;
-}
-
 .indicators button.active {
-  background: #0052ff;
-  transform: scale(1.2);
+  background: #0099dd;
+  width: 26px;
+  border-radius: 6px;
 }
 
-[data-theme="dark"] .indicators button.active {
-  background: #3b82f6;
-}
-
-/* Slider de serviços */
-.services-slider {
-  flex: 1;
-  overflow: hidden;
-  position: relative;
-}
-
-.slider-track {
-  display: flex;
-  height: 100%;
-  width: 100%;
-}
-
-.service-slide {
-  min-width: 100%;
-  height: 100%;
-  display: flex;
-  padding: 1rem;
-}
-
-.service-content {
-  flex: 1;
-  max-width: 50%;
-  padding: 2rem 4rem 2rem 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.service-visual {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-/* Conteúdo do serviço */
-.service-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 50px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin-bottom: 2rem;
-  backdrop-filter: blur(5px);
-}
-
-.service-icon {
-  width: 20px;
-  height: 20px;
-}
-
-.service-title {
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 800;
-  line-height: 1.2;
-  margin-bottom: 1.5rem;
-  position: relative;
-  display: inline-block;
-}
-
-.title-text {
-  position: relative;
-  display: inline-block;
-}
-
-.highlight-dot {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  margin-left: 8px;
-  animation: pulse 1.5s infinite;
-}
-
-.service-description {
-  font-size: 1.25rem;
-  opacity: 0.9;
-  margin-bottom: 2rem;
-  color: #64748b;
-  max-width: 90%;
-}
-
-[data-theme="dark"] .service-description {
-  color: #94a3b8;
-}
-
-.service-features {
-  margin-bottom: 3rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.service-features li {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  font-size: 1rem;
-  line-height: 1.5;
-}
-
-.feature-bullet {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  margin-top: 0.5rem;
-  flex-shrink: 0;
-}
-
-.service-cta {
-  align-self: flex-start;
-  color: white;
-  border: none;
-  padding: 1rem 2rem;
-  font-size: 1.1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  text-decoration: none;
-}
-
-.service-cta:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-}
-
-.service-cta svg {
-  transition: transform 0.3s ease;
-}
-
-.service-cta:hover svg {
-  transform: translateX(4px);
-}
-
-/* Visual do serviço */
-.visual-container {
-  width: 100%;
-  max-width: 600px;
-  height: 400px;
-  border-radius: 16px;
-  overflow: hidden;
-  position: relative;
-  border: 1px solid;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-}
-
-[data-theme="dark"] .visual-container {
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-}
-
-.service-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.floating-cards {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-.feature-card {
-  position: absolute;
-  background: white;
-  padding: 0.75rem 1.25rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  animation: float 6s ease-in-out infinite;
-  opacity: 0;
-  animation-fill-mode: forwards;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  border: 1px solid;
-}
-
-[data-theme="dark"] .feature-card {
-  background: #1e293b;
-  color: white;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-.card-emoji {
-  font-size: 1.1rem;
-}
-
-.feature-card:nth-child(1) {
-  top: 10%;
-  left: -5%;
-}
-
-.feature-card:nth-child(2) {
-  top: 50%;
-  right: -5%;
-  transform: translateY(-50%);
-}
-
-.feature-card:nth-child(3) {
-  bottom: 10%;
-  left: 20%;
-}
-
-/* Indicador de scroll */
-.scroll-indicator {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  color: #64748b;
-  font-size: 0.9rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  z-index: 3;
-}
-
-[data-theme="dark"] .scroll-indicator {
-  color: #94a3b8;
-}
-
-.arrow-down {
-  width: 24px;
-  height: 24px;
-  margin-top: 0.5rem;
-  animation: bounce 2s infinite;
-}
-
-.arrow-down::before {
-  content: "";
-  display: block;
-  width: 12px;
-  height: 12px;
-  border-right: 2px solid currentColor;
-  border-bottom: 2px solid currentColor;
-  transform: rotate(45deg);
-  margin-top: 4px;
-}
-
-/* Animações */
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.3);
-    opacity: 0.7;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0);
-    opacity: 0;
-  }
-  20% {
-    opacity: 1;
-  }
-  80% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
-@keyframes bounce {
-  0%,
-  20%,
-  50%,
-  80%,
-  100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-10px);
-  }
-  60% {
-    transform: translateY(-5px);
-  }
-}
-
-/* Responsividade Reorganizada - Mobile First */
-
-/* Telas pequenas (mobile) - até 767px */
-@media (max-width: 767px) {
-  .services-hero {
-    min-height: auto;
-    height: auto;
-    padding-bottom: 4rem;
-  }
-
-  .hero-container {
-    padding: 1rem;
-  }
-
-  /* Esconde controles em mobile */
-  .slider-controls {
-    display: none;
-  }
-
-  /* Inverte ordem visual - imagem primeiro */
+/* Responsividade */
+@media (max-width: 900px) {
   .service-slide {
     flex-direction: column-reverse;
-    gap: 1rem;
-    padding: 0;
-  }
-
-  .service-content {
-    max-width: 100%;
-    padding: 1rem;
+    gap: 1.6rem;
     text-align: center;
   }
-
-  .service-visual {
-    margin-top: 0;
-    padding: 0;
-  }
-
-  .visual-container {
-    height: 250px;
+  .service-content {
     max-width: 100%;
-    border-radius: 12px;
   }
-
-  .service-title {
-    color: #e2e8f0;
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
+  .service-tag {
+    margin-left: auto;
+    margin-right: auto;
   }
-
-  .service-description {
-    font-size: 1rem;
-    margin-bottom: 1.5rem;
-  }
-
   .service-features {
-    margin-bottom: 2rem;
-    align-items: flex-start;
     text-align: left;
-    padding-left: 1rem;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1.6rem;
   }
-
-  .service-features li {
-    font-size: 0.9rem;
+  .service-image {
+    height: 240px;
+    max-width: 100%;
   }
+}
 
+@media (max-width: 520px) {
+  .services-hero {
+    padding: 3rem 1rem 2.5rem;
+  }
+  .service-features {
+    grid-template-columns: 1fr;
+  }
+  .service-image {
+    height: 200px;
+  }
   .service-cta {
     width: 100%;
     justify-content: center;
   }
-
-  /* Ajusta cards flutuantes */
-  .floating-cards {
-    display: none;
-  }
-
-  .scroll-indicator {
-    position: relative;
-    bottom: auto;
-    margin-top: 2rem;
-  }
-}
-
-/* Telas médias (tablet) - 768px a 1023px */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .services-hero {
-    min-height: 800px;
-  }
-
-  .service-slide {
-    flex-direction: column-reverse;
-    gap: 2rem;
-  }
-
-  .service-content {
-    max-width: 100%;
-    padding: 2rem;
-  }
-
-  .service-visual {
-    padding: 0 2rem;
-  }
-
-  .visual-container {
-    height: 350px;
-  }
-
-  /* Reduz tamanho dos controles */
-  .slider-controls {
-    gap: 1.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .control-button {
-    width: 44px;
-    height: 44px;
-  }
-}
-
-/* Telas grandes (desktop pequeno) - 1024px a 1199px */
-@media (min-width: 1024px) and (max-width: 1199px) {
-  .service-content {
-    padding-right: 2rem;
-  }
-
-  .visual-container {
-    height: 380px;
-  }
-}
-
-/* Telas extra grandes (desktop) - 1200px+ */
-@media (min-width: 1200px) {
-  /* Mantém estilos padrão */
 }
 </style>

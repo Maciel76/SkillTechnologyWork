@@ -12,6 +12,7 @@ export interface RecentProject {
   challenge: string;
   solution: string[];
   results: string[];
+  metrics?: { value: string; label: string }[];
   liveUrl: string;
   githubUrl: string;
   published: boolean;
@@ -162,6 +163,33 @@ class RecentProjectService {
     }
 
     return response.json();
+  }
+
+  // Enviar imagem e receber a URL salva no servidor
+  async uploadImage(file: File): Promise<{ url: string }> {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    const response = await fetch(`${API_URL}/recent-projects/upload`, {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      throw new Error(error.error || 'Erro ao enviar a imagem');
+    }
+
+    const data = await response.json();
+    return { url: this.resolveImageUrl(data.url) };
+  }
+
+  // Converte /uploads/... em URL completa do servidor
+  resolveImageUrl(url: string): string {
+    if (!url) return '';
+    if (/^(https?:|data:|blob:)/.test(url)) return url;
+    const base = API_URL.replace(/\/api\/?$/, '');
+    return `${base}${url.startsWith('/') ? url : '/' + url}`;
   }
 
   // Obter estatísticas (admin)

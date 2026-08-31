@@ -1,32 +1,35 @@
 <template>
-  <div class="benefits-section">
-    <div class="section-header">
-      <h2>
-        A Parceria Certa para
-        <span class="highlight">Resultados Reais</span>
-      </h2>
-      <p>
-        Unimos tecnologia, segurança e suporte dedicado para impulsionar o
-        crescimento do seu negócio.
-      </p>
-    </div>
-    <div class="benefits-grid">
-      <div
-        class="benefit-card"
-        v-for="(benefit, index) in benefits"
-        :key="index"
-      >
-        <div
-          class="benefit-icon-wrapper"
-          :style="{ backgroundColor: benefit.bgColor }"
+  <section class="beneficios">
+    <div class="beneficios-inner">
+      <div class="beneficios-header">
+        <h2>
+          A Parceria Certa para
+          <span class="highlight">Resultados Reais</span>
+        </h2>
+        <p>
+          Unimos tecnologia, segurança e suporte dedicado para impulsionar o
+          crescimento do seu negócio.
+        </p>
+      </div>
+
+      <div class="beneficios-grid">
+        <article
+          class="beneficio-card"
+          v-for="(benefit, index) in benefits"
+          :key="index"
         >
-          <i :class="benefit.icon" :style="{ color: benefit.color }"></i>
-        </div>
-        <h3>{{ benefit.title }}</h3>
-        <p>{{ benefit.description }}</p>
+          <span
+            class="beneficio-icone"
+            :style="{ backgroundColor: benefit.bgColor, color: benefit.color }"
+          >
+            <i :class="benefit.icon"></i>
+          </span>
+          <h3>{{ benefit.title }}</h3>
+          <p>{{ benefit.description }}</p>
+        </article>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -37,7 +40,7 @@ export default {
   props: {
     title: {
       type: String,
-      required: true,
+      default: "",
     },
   },
   data() {
@@ -46,7 +49,7 @@ export default {
         {
           icon: "fas fa-bolt",
           color: "#F59E0B", // Amber
-          bgColor: "rgba(245, 158, 11, 0.1)",
+          bgColor: "rgba(245, 158, 11, 0.12)",
           title: "Rápido e Eficiente",
           description:
             "Automatize tarefas e aumente a produtividade da sua equipe com soluções ágeis e de alta performance.",
@@ -54,15 +57,15 @@ export default {
         {
           icon: "fas fa-shield-alt",
           color: "#10B981", // Emerald
-          bgColor: "rgba(16, 185, 129, 0.1)",
+          bgColor: "rgba(16, 185, 129, 0.12)",
           title: "Segurança Garantida",
           description:
             "Proteja seus dados com criptografia de ponta a ponta e as melhores práticas de segurança do mercado.",
         },
         {
           icon: "fas fa-headset",
-          color: "#3B82F6", // Blue
-          bgColor: "rgba(59, 130, 246, 0.1)",
+          color: "#0052ff", // Azul da marca
+          bgColor: "rgba(0, 82, 255, 0.1)",
           title: "Suporte 24/7",
           description:
             "Nossa equipe de especialistas está sempre disponível para ajudar e resolver qualquer problema rapidamente.",
@@ -86,7 +89,7 @@ export default {
     );
 
     // Observa cada card
-    this.$el.querySelectorAll(".benefit-card").forEach((card) => {
+    this.$el.querySelectorAll(".beneficio-card").forEach((card) => {
       observer.observe(card);
     });
   },
@@ -94,142 +97,134 @@ export default {
 </script>
 
 <style scoped>
-.benefits-section {
-  margin-top: 4rem;
-  padding: 4rem 2rem;
-  background-color: #f8fafc;
-  border-radius: 16px;
+.beneficios {
+  padding: 5.5rem 5%;
+  background: #f6f5f1;
 }
 
-[data-theme="dark"] .benefits-section {
-  background-color: #1e293b;
+.beneficios-inner {
+  max-width: 1180px;
+  margin: 0 auto;
 }
 
-.section-header {
+.beneficios-header {
+  max-width: 640px;
+  margin: 0 auto 3rem;
   text-align: center;
-  margin-bottom: 3rem;
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
-  display: block; /* Garante que o container se comporte como um bloco */
 }
 
-.section-header h2 {
-  font-size: 2.25rem;
+.beneficios-header h2 {
+  margin: 0 0 1rem;
+  font-size: 2.5rem;
   font-weight: 800;
-  margin-bottom: 1rem;
-  color: #1e293b;
-}
-
-[data-theme="dark"] .section-header h2 {
-  color: #f8fafc;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: #131a4d;
 }
 
 .highlight {
-  color: #0052ff;
+  background: linear-gradient(90deg, #0052ff, #7c6ef2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-.section-header p {
-  font-size: 1.1rem;
-  color: #64748b;
+.beneficios-header p {
+  font-size: 1.08rem;
   line-height: 1.6;
+  color: #6b7194;
 }
 
-[data-theme="dark"] .section-header p {
-  color: #94a3b8;
+.beneficios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
 }
 
-.benefits-grid {
-  display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.benefit-card {
-  text-align: center;
-  max-width: 320px;
-  background: white;
-  padding: 2.5rem 2rem;
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e2e8f0;
-  /* Estado inicial para a animação */
+.beneficio-card {
+  padding: 2rem 1.75rem;
+  border: 1px solid #e6e5df;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(19, 26, 77, 0.06);
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out,
-    box-shadow 0.3s ease;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease,
+    border-color 0.3s ease;
 }
 
-/* Atraso escalonado para cada card */
-.benefit-card:nth-of-type(1) {
-  transition-delay: 0.1s;
-}
-.benefit-card:nth-of-type(2) {
-  transition-delay: 0.2s;
-}
-.benefit-card:nth-of-type(3) {
-  transition-delay: 0.3s;
-}
-
-.benefit-card.is-visible {
+.beneficio-card.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-[data-theme="dark"] .benefit-card {
-  background: #0f172a;
-  border-color: #334155;
+.beneficio-card:nth-child(2) {
+  transition-delay: 0.1s;
 }
 
-.benefit-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+.beneficio-card:nth-child(3) {
+  transition-delay: 0.2s;
 }
 
-.benefit-icon-wrapper {
-  width: 72px;
-  height: 72px;
-  border-radius: 16px;
+.beneficio-card:hover {
+  border-color: #d5d3f5;
+  box-shadow: 0 18px 40px rgba(19, 26, 77, 0.12);
+}
+
+.beneficio-icone {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 1.5rem;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 1.35rem;
+  border-radius: 14px;
+  font-size: 1.25rem;
 }
 
-.benefit-icon-wrapper i {
-  font-size: 2.25rem;
-}
-
-.benefit-card h3 {
+.beneficio-card h3 {
+  margin: 0 0 0.65rem;
   font-size: 1.25rem;
   font-weight: 700;
-  margin-bottom: 0.75rem;
-  color: #1e293b;
+  letter-spacing: -0.01em;
+  color: #131a4d;
 }
 
-[data-theme="dark"] .benefit-card h3 {
-  color: #f8fafc;
-}
-
-.benefit-card p {
-  font-size: 1rem;
-  color: #64748b;
-  line-height: 1.6;
-}
-
-[data-theme="dark"] .benefit-card p {
-  color: #94a3b8;
+.beneficio-card p {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: #6b7194;
 }
 
 @media (max-width: 768px) {
-  .benefits-grid {
-    flex-direction: column;
-    align-items: center;
+  .beneficios {
+    padding: 3.5rem 1.25rem;
   }
 
-  .section-header h2 {
-    font-size: 1.8rem;
+  .beneficios-header {
+    margin-bottom: 2.25rem;
+  }
+
+  .beneficios-header h2 {
+    font-size: 1.95rem;
+  }
+
+  .beneficios-header p {
+    font-size: 1rem;
+  }
+
+  .beneficio-card {
+    padding: 1.6rem 1.35rem;
+  }
+}
+
+/* Respeita quem prefere menos animação */
+@media (prefers-reduced-motion: reduce) {
+  .beneficio-card {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
 </style>

@@ -1,717 +1,906 @@
 <template>
-  <div>
-    <main>
-      <!-- Hero Section -->
-      <section class="institutional-hero">
-        <h1>Sobre a <span class="highlight">SkillTechnology</span></h1>
+  <main class="sobre-pagina">
+    <!-- Abertura -->
+    <section class="sobre-hero">
+      <div class="hero-inner">
+        <h1>
+          Sobre a
+          <span class="highlight">SkillTechnology</span>
+        </h1>
         <p>
-          Transformamos ideias em soluções digitais completas e funcionais usando
-          IA e as melhores ferramentas do mercado.
+          Somos a agência que coloca inteligência artificial para trabalhar
+          dentro do seu negócio — no sistema que você já usa ou em um novo,
+          feito sob medida.
         </p>
-      </section>
+        <div class="hero-acoes">
+          <router-link to="/contato" class="botao-principal">
+            Falar com a gente
+            <font-awesome-icon icon="arrow-right" />
+          </router-link>
+          <router-link to="/Portfolio" class="botao-secundario">
+            Ver nossos projetos
+          </router-link>
+        </div>
+      </div>
+    </section>
 
-      <!-- Main Content -->
-      <div class="institutional-content">
-        <!-- Company Introduction -->
-        <section class="content-section animate-on-scroll">
-          <div class="company-intro">
-            <div class="intro-text">
-              <h2>Quem Somos</h2>
-              <p>
-                A SkillTechnology é uma agência de tecnologia focada em
-                transformar ideias em soluções digitais completas e funcionais.
-                Nascemos com a missão de democratizar o acesso à tecnologia de
-                ponta, ajudando empresas de todos os portes a automatizar
-                processos, desenvolver sistemas inteligentes e acelerar seu
-                crescimento digital.
-              </p>
+    <!-- Quem somos -->
+    <section class="secao secao-clara">
+      <div class="secao-inner grid-duplo">
+        <div class="texto-coluna">
+          <h2>Quem <span class="gradiente">Somos</span></h2>
+          <p>
+            A SkillTechnology é uma agência de tecnologia focada em transformar
+            ideias em soluções digitais completas e funcionais. Nascemos com a
+            missão de democratizar o acesso à tecnologia de ponta, ajudando
+            empresas de todos os portes a automatizar processos, desenvolver
+            sistemas inteligentes e acelerar seu crescimento digital.
+          </p>
 
-              <h3 class="intro-subtitle">O Que Fazemos</h3>
-              <p>
-                Desenvolvemos qualquer tipo de sistema web, aplicativo mobile,
-                loja virtual, automação de processos e integração com APIs.
-                Utilizamos as inteligências artificiais mais avançadas do mercado
-                como parceiras no desenvolvimento, o que nos permite entregar
-                projetos com velocidade, qualidade e custo significativamente
-                menores.
-              </p>
+          <h3>O que fazemos</h3>
+          <p>
+            Desenvolvemos sistemas web, aplicativos, lojas virtuais, automações
+            e integrações. E, em cada projeto, aplicamos inteligência artificial
+            onde ela resolve um problema real: atendimento, leitura de
+            documentos, previsão de demanda, geração de propostas e relatórios.
+          </p>
 
-              <h3 class="intro-subtitle">Por Que Somos Diferentes</h3>
-              <p>
-                Enquanto outras agências trabalham de forma tradicional, nós
-                combinamos expertise humana com inteligência artificial de última
-                geração. Isso significa que podemos pegar a sua ideia — seja um
-                site simples, um sistema complexo ou uma automação — e
-                transformá-la em realidade digital em tempo recorde. Não importa
-                o tamanho ou a complexidade: se você sonha, nós construímos.
-              </p>
+          <h3>Por que somos diferentes</h3>
+          <p>
+            Enquanto outras agências trabalham de forma tradicional, nós
+            combinamos experiência humana com IA de última geração. Isso
+            significa entregar mais rápido, com custo menor — e deixar o sistema
+            trabalhando por você depois da entrega, não só rodando.
+          </p>
+        </div>
 
-              <h3 class="intro-subtitle">Nossa Promessa</h3>
-              <p>
-                Economizar seu tempo, seu dinheiro e entregar resultados reais.
-                Cada projeto que assumimos é tratado como se fosse nosso próprio
-                negócio, com dedicação total para garantir que funcione
-                perfeitamente.
-              </p>
+        <aside class="promessa-card">
+          <span class="promessa-selo">
+            <font-awesome-icon icon="rocket" />
+          </span>
+          <h3>Nossa promessa</h3>
+          <p>
+            Economizar seu tempo, seu dinheiro e entregar resultados reais. Cada
+            projeto é tratado como se fosse nosso próprio negócio.
+          </p>
+          <ul>
+            <li v-for="item in promessas" :key="item">
+              <font-awesome-icon icon="circle-check" />
+              {{ item }}
+            </li>
+          </ul>
+          <router-link to="/contato" class="promessa-cta">
+            Solicitar diagnóstico gratuito
+            <font-awesome-icon icon="arrow-right" />
+          </router-link>
+        </aside>
+      </div>
+    </section>
 
-              <router-link to="/contato" class="cta-button"
-                >Fale Conosco</router-link
-              >
-            </div>
-            <div class="intro-image">
-              <img
-                src="https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=2070&auto=format&fit=crop"
-                alt="Equipe de tecnologia trabalhando"
-              />
-            </div>
-          </div>
-        </section>
+    <!-- Caminhos da IA -->
+    <section class="secao secao-branca">
+      <div class="secao-inner">
+        <header class="secao-header">
+          <h2>
+            Como levamos
+            <span class="gradiente">IA para o seu negócio</span>
+          </h2>
+          <p>
+            Três caminhos, dependendo de onde a sua empresa está hoje.
+          </p>
+        </header>
 
-        <!-- Timeline Section -->
-        <section class="content-section animate-on-scroll">
-          <h2>Por Que Nos Escolher</h2>
-          <div class="timeline">
-            <div class="timeline-item">
-              <div class="timeline-content">
-                <h3>Expertise Técnica</h3>
-                <p>
-                  Domínio completo de tecnologias modernas: Vue.js, Node.js,
-                  React Native, MongoDB, AWS e mais.
-                </p>
-              </div>
+        <div class="caminhos-grid">
+          <article
+            v-for="caminho in caminhos"
+            :key="caminho.titulo"
+            class="caminho-card"
+          >
+            <span class="caminho-icone">
+              <font-awesome-icon :icon="caminho.icone" />
+            </span>
+            <h3>{{ caminho.titulo }}</h3>
+            <p>{{ caminho.texto }}</p>
+            <ul>
+              <li v-for="exemplo in caminho.exemplos" :key="exemplo">
+                <font-awesome-icon icon="circle-check" />
+                {{ exemplo }}
+              </li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Por que nos escolher -->
+    <section class="secao secao-clara">
+      <div class="secao-inner">
+        <header class="secao-header">
+          <h2>Por que nos <span class="gradiente">escolher</span></h2>
+        </header>
+
+        <div class="motivos-grid">
+          <article
+            v-for="motivo in motivos"
+            :key="motivo.titulo"
+            class="motivo-card"
+          >
+            <span class="motivo-icone">
+              <font-awesome-icon :icon="motivo.icone" />
+            </span>
+            <div>
+              <h3>{{ motivo.titulo }}</h3>
+              <p>{{ motivo.texto }}</p>
+              <router-link v-if="motivo.link" :to="motivo.link" class="motivo-link">
+                Ver portfólio
+                <font-awesome-icon icon="arrow-right" />
+              </router-link>
             </div>
-            <div class="timeline-item">
-              <div class="timeline-content">
-                <h3>IA como Parceira</h3>
-                <p>
-                  Utilizamos inteligência artificial de ponta para acelerar cada
-                  etapa do desenvolvimento.
-                </p>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-content">
-                <h3>Entrega Rápida</h3>
-                <p>
-                  Projetos entregues até 3x mais rápido que métodos
-                  tradicionais, sem comprometer a qualidade.
-                </p>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-content">
-                <h3>Suporte Dedicado</h3>
-                <p>
-                  Acompanhamento contínuo, suporte técnico e manutenção
-                  preventiva para seu projeto.
-                </p>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-content">
-                <h3>Resultados Comprovados</h3>
-                <p>
-                  Projetos reais entregues para clientes satisfeitos em diversas
-                  áreas do mercado.
-                </p>
-                <router-link to="/Portfolio">
-                  <h4 style="color: #0041cc">ver portfólio...</h4>
-                </router-link>
-              </div>
-            </div>
-          </div>
-        </section>
-        <!-- =====================================================
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
 Assim que tiver as fotos e mais de 3 profissionais trabalhando na agencia liberar e edita essa area -->
 
-        <!-- Team Section
-        <section class="content-section animate-on-scroll">
+    <!-- Team Section
+    <section class="secao secao-branca">
+      <div class="secao-inner">
+        <header class="secao-header">
           <h2>Nossa Equipe</h2>
-          <div class="team-grid">
-            <div class="team-member">
-              <div class="member-image">
-                <img
-                  src="@/assets/images/avatars/user1.png"
-                  alt="Maciel Barbosa"
-                />
-              </div>
-              <h3>Maciel Barbosa</h3>
-              <p class="member-role">CEO & Fundador</p>
-              <div class="social-links">
-                <a href="#" target="_blank"
-                  ><img
-                    src="https://api.iconify.design/mdi:linkedin.svg"
-                    alt="LinkedIn"
-                /></a>
-                <a href="#" target="_blank"
-                  ><img
-                    src="https://api.iconify.design/mdi:github.svg"
-                    alt="GitHub"
-                /></a>
-                <a href="#" target="_blank"
-                  ><img
-                    src="https://api.iconify.design/mdi:instagram.svg"
-                    alt="Instagram"
-                /></a>
-              </div>
+        </header>
+        <div class="team-grid">
+          <div class="team-member">
+            <div class="member-image">
+              <img src="@/assets/images/avatars/user1.png" alt="Maciel Barbosa" />
             </div>
-            <div class="team-member">
-              <div class="member-image">
-                <img src="@/assets/images/avatars/user4.png" alt="Ana Silva" />
-              </div>
-              <h3>Ana Silva</h3>
-              <p class="member-role">CTO</p>
-              <div class="social-links">
-                <a href="#" target="_blank"
-                  ><img
-                    src="https://api.iconify.design/mdi:linkedin.svg"
-                    alt="LinkedIn"
-                /></a>
-                <a href="#" target="_blank"
-                  ><img
-                    src="https://api.iconify.design/mdi:github.svg"
-                    alt="GitHub"
-                /></a>
-                <a href="#" target="_blank"
-                  ><img
-                    src="https://api.iconify.design/mdi:instagram.svg"
-                    alt="Instagram"
-                /></a>
-              </div>
-            </div>
-
-            <div class="team-member">
-              <div class="member-image">
-                <img
-                  src="@/assets/images/avatars/user5.png"
-                  alt="Carlos Santos"
-                />
-              </div>
-              <h3>Carlos Santos</h3>
-              <p class="member-role">Diretor de Projetos</p>
-              <div class="social-links">
-                <a href="#" target="_blank"
-                  ><img
-                    src="https://api.iconify.design/mdi:linkedin.svg"
-                    alt="LinkedIn"
-                /></a>
-                <a href="#" target="_blank"
-                  ><img
-                    src="https://api.iconify.design/mdi:instagram.svg"
-                    alt="Instagram"
-                /></a>
-              </div>
-            </div>
+            <h3>Maciel Barbosa</h3>
+            <p class="member-role">CEO & Fundador</p>
           </div>
-        </section> -->
-
-        <!-- Statistics Section -->
-        <section class="content-section animate-on-scroll stats-section">
-          <h2>Nossos Números</h2>
-          <div class="stats-grid">
-            <div class="stat-item">
-              <div class="stat-number">150+</div>
-              <div class="stat-label">Projetos Entregues</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-number">98%</div>
-              <div class="stat-label">Taxa de Satisfação</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-number">200+</div>
-              <div class="stat-label">Empresas Atendidas</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-number">24/7</div>
-              <div class="stat-label">Suporte Disponível</div>
-            </div>
-          </div>
-        </section>
-
-        <!-- Technologies Section -->
-        <section class="content-section animate-on-scroll tech-section">
-          <h2>Tecnologias que Dominamos</h2>
-          <p class="tech-subtitle">
-            Combinamos as melhores ferramentas do mercado com inteligência
-            artificial de última geração
-          </p>
-          <div class="tech-grid">
-            <div class="tech-category">
-              <h3>Frontend</h3>
-              <div class="tech-items">
-                <span class="tech-badge">Vue.js</span>
-                <span class="tech-badge">React</span>
-                <span class="tech-badge">TypeScript</span>
-                <span class="tech-badge">Nuxt.js</span>
-                <span class="tech-badge">HTML5 / CSS3</span>
-              </div>
-            </div>
-            <div class="tech-category">
-              <h3>Backend</h3>
-              <div class="tech-items">
-                <span class="tech-badge">Node.js</span>
-                <span class="tech-badge">Python</span>
-                <span class="tech-badge">Express</span>
-                <span class="tech-badge">REST APIs</span>
-                <span class="tech-badge">WebSockets</span>
-              </div>
-            </div>
-            <div class="tech-category">
-              <h3>Banco de Dados & Cloud</h3>
-              <div class="tech-items">
-                <span class="tech-badge">MongoDB</span>
-                <span class="tech-badge">PostgreSQL</span>
-                <span class="tech-badge">AWS</span>
-                <span class="tech-badge">Firebase</span>
-                <span class="tech-badge">Docker</span>
-              </div>
-            </div>
-            <div class="tech-category">
-              <h3>Mobile</h3>
-              <div class="tech-items">
-                <span class="tech-badge">React Native</span>
-                <span class="tech-badge">Flutter</span>
-                <span class="tech-badge">iOS</span>
-                <span class="tech-badge">Android</span>
-              </div>
-            </div>
-            <div class="tech-category">
-              <h3>Inteligência Artificial</h3>
-              <div class="tech-items">
-                <span class="tech-badge">GPT-4</span>
-                <span class="tech-badge">Claude</span>
-                <span class="tech-badge">Midjourney</span>
-                <span class="tech-badge">GitHub Copilot</span>
-                <span class="tech-badge">Automações IA</span>
-              </div>
-            </div>
-          </div>
-        </section>
+        </div>
       </div>
-      <ContatoService />
-    </main>
-  </div>
+    </section> -->
+
+    <!-- Números -->
+    <section class="secao secao-numeros">
+      <div class="secao-inner">
+        <header class="secao-header">
+          <h2>Nossos <span class="gradiente">Números</span></h2>
+        </header>
+
+        <div class="numeros-grid">
+          <div v-for="numero in numeros" :key="numero.label" class="numero-item">
+            <strong>{{ numero.valor }}</strong>
+            <span>{{ numero.label }}</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tecnologias -->
+    <!-- <section class="secao secao-branca">
+      <div class="secao-inner">
+        <header class="secao-header">
+          <h2>Tecnologias que <span class="gradiente">dominamos</span></h2>
+          <p>
+            Combinamos as melhores ferramentas do mercado com inteligência
+            artificial de última geração.
+          </p>
+        </header>
+
+        <div class="tech-grid">
+          <div
+            v-for="categoria in tecnologias"
+            :key="categoria.nome"
+            class="tech-card"
+          >
+            <h3>
+              <font-awesome-icon :icon="categoria.icone" />
+              {{ categoria.nome }}
+            </h3>
+            <div class="tech-badges">
+              <span v-for="item in categoria.itens" :key="item">{{ item }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> -->
+
+    <ContatoService />
+  </main>
 </template>
 
 <script>
 import ContatoService from "../celulas/ContatoService.vue";
+
 export default {
   name: "SobreView",
   components: { ContatoService },
+
+  data() {
+    return {
+      promessas: [
+        "Diagnóstico antes de qualquer proposta",
+        "Entrega em fases, com você acompanhando",
+        "Suporte e manutenção depois do lançamento",
+      ],
+
+      caminhos: [
+        {
+          icone: "plug",
+          titulo: "IA no sistema que você já usa",
+          texto:
+            "Não precisa trocar de ERP nem recomeçar do zero. Conectamos a IA ao que já está rodando na sua empresa.",
+          exemplos: [
+            "Atendimento automático no WhatsApp",
+            "Leitura de notas fiscais e contratos",
+            "Integração entre sistemas e planilhas",
+          ],
+        },
+        {
+          icone: "layer-group",
+          titulo: "Sistema novo, já com IA",
+          texto:
+            "Quando o que existe não dá conta, construímos do zero — com a inteligência artificial dentro desde o primeiro dia.",
+          exemplos: [
+            "CRM que prioriza os melhores leads",
+            "ERP que prevê compras e estoque",
+            "Dashboard que avisa antes do problema",
+          ],
+        },
+        {
+          icone: "bolt",
+          titulo: "Automação da operação",
+          texto:
+            "Mapeamos o que sua equipe faz na mão todo dia e colocamos no automático, com segurança e rastreabilidade.",
+          exemplos: [
+            "Propostas e cobranças automáticas",
+            "Relatórios gerados e enviados sozinhos",
+            "Aprovações e fluxos internos",
+          ],
+        },
+      ],
+
+      motivos: [
+        {
+          icone: "code",
+          titulo: "Expertise técnica",
+          texto:
+            "Domínio de tecnologias modernas: Vue.js, Node.js, React Native, MongoDB, AWS e mais.",
+        },
+        {
+          icone: "robot",
+          titulo: "IA como parceira",
+          texto:
+            "Usamos inteligência artificial de ponta para acelerar cada etapa do desenvolvimento.",
+        },
+        {
+          icone: "rocket",
+          titulo: "Entrega rápida",
+          texto:
+            "Projetos entregues até 3x mais rápido que métodos tradicionais, sem comprometer a qualidade.",
+        },
+        {
+          icone: "headset",
+          titulo: "Suporte dedicado",
+          texto:
+            "Acompanhamento contínuo, suporte técnico e manutenção preventiva para seu projeto.",
+        },
+        {
+          icone: "shield-halved",
+          titulo: "Segurança em primeiro lugar",
+          texto:
+            "Boas práticas de segurança, backup e controle de acesso em todos os projetos.",
+        },
+        {
+          icone: "chart-line",
+          titulo: "Resultados comprovados",
+          texto:
+            "Projetos reais entregues para clientes satisfeitos em diversas áreas do mercado.",
+          link: "/Portfolio",
+        },
+      ],
+
+      numeros: [
+        { valor: "200+", label: "Projetos entregues" },
+        { valor: "98%", label: "Taxa de satisfação" },
+        { valor: "20+", label: "Serviços oferecidos" },
+        { valor: "24/7", label: "Suporte disponível" },
+      ],
+
+      tecnologias: [
+        {
+          nome: "Inteligência Artificial",
+          icone: "brain",
+          itens: [
+            "Claude",
+            "GPT",
+            "Gemini",
+            "Agentes de IA",
+            "Automações com IA",
+          ],
+        },
+        {
+          nome: "Frontend",
+          icone: "code",
+          itens: ["Vue.js", "React", "TypeScript", "Nuxt.js", "HTML5 / CSS3"],
+        },
+        {
+          nome: "Backend",
+          icone: "layer-group",
+          itens: ["Node.js", "Python", "Express", "REST APIs", "WebSockets"],
+        },
+        {
+          nome: "Banco de dados & Cloud",
+          icone: "database",
+          itens: ["MongoDB", "PostgreSQL", "AWS", "Firebase", "Docker"],
+        },
+        {
+          nome: "Mobile",
+          icone: "mobile-screen-button",
+          itens: ["React Native", "Flutter", "iOS", "Android"],
+        },
+      ],
+    };
+  },
+
   mounted() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
+            entry.target.classList.add("visivel");
+            observer.unobserve(entry.target);
           }
         });
       },
       { threshold: 0.1 }
     );
 
-    document.querySelectorAll(".animate-on-scroll").forEach((section) => {
-      observer.observe(section);
-    });
+    this.$el
+      .querySelectorAll(".caminho-card, .motivo-card, .tech-card")
+      .forEach((card) => observer.observe(card));
   },
 };
 </script>
 
 <style scoped>
-/* Hero Section */
-.institutional-hero {
+.sobre-pagina {
+  font-family: "Inter", sans-serif;
+}
+
+/* Abertura */
+.sobre-hero {
+  padding: 5.5rem 5% 5rem;
   text-align: center;
-  padding: 6rem 5%;
-  background: #f8f9fa; /* Substituído --inst-light-gray */
+  background-color: #f6f5f1;
+  background-image: linear-gradient(rgba(26, 35, 90, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26, 35, 90, 0.05) 1px, transparent 1px);
+  background-size: 120px 120px;
 }
 
-.institutional-hero h1 {
-  font-size: 3.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.highlight {
-  color: #0052ff;
-  position: relative;
-}
-
-.highlight::after {
-  content: "";
-  position: absolute;
-  bottom: 5px;
-  left: 0;
-  width: 100%;
-  height: 15px;
-  background: rgba(199, 87, 180, 0.2);
-  z-index: 0;
-  border-radius: 4px;
-  transform: skewX(-15deg);
-}
-
-.institutional-hero p {
-  color: #666666; /* Substituído --inst-gray */
-  font-size: 1.2rem;
-  max-width: 800px;
+.hero-inner {
+  max-width: 780px;
   margin: 0 auto;
 }
 
-/* Main Content */
-.institutional-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 4rem 5%;
+.sobre-hero h1 {
+  margin: 0;
+  font-size: 3.2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: #131a4d;
 }
 
-.content-section {
-  margin-bottom: 6rem;
+.highlight,
+.gradiente {
+  background: linear-gradient(90deg, #0052ff, #7c6ef2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-.content-section h2 {
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
-  color: #1a1d1f; /* Substituído --inst-text */
-  text-align: center;
+.sobre-hero p {
+  margin: 1.25rem auto 0;
+  max-width: 620px;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: #3d4570;
 }
 
-/* Company Introduction */
-.company-intro {
-  display: flex;
-  align-items: center;
-  gap: 3rem;
-}
-
-.intro-text {
-  flex: 1;
-}
-
-.intro-text h2 {
-  font-size: 2.2rem;
-  margin-bottom: 1.5rem;
-}
-
-.intro-text p {
-  font-size: 1.1rem;
-  line-height: 1.8;
-  color: #666666; /* Substituído --inst-gray */
-  margin-bottom: 2rem;
-}
-
-.cta-button {
-  padding: 12px 24px;
-  background: #0052ff; /* Substituído --inst-primary */
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background 0.3s ease;
-}
-
-.cta-button:hover {
-  background: #0041cc; /* Cor hover para o botão */
-}
-
-.intro-image img {
-  width: 100%;
-  max-width: 500px;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); /* Substituído --inst-card-shadow */
-}
-
-/* Timeline Section */
-.timeline {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  position: relative;
-}
-
-.timeline::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: #e5e7eb; /* Substituído --inst-secondary */
-  transform: translateX(-50%);
-}
-
-.timeline-item {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  position: relative;
-}
-
-.timeline-item:nth-child(odd) {
-  flex-direction: row-reverse;
-  text-align: right;
-}
-
-.timeline-content {
-  background: #f8f9fa; /* Substituído --inst-light-gray */
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); /* Substituído --inst-card-shadow */
-  flex: 1;
-}
-
-.timeline-content h3 {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
-  color: #0052ff; /* Substituído --inst-primary */
-}
-
-.timeline-content h4 {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-  color: #1a1d1f; /* Substituído --inst-text */
-}
-
-.timeline-content p {
-  font-size: 1rem;
-  color: #666666; /* Substituído --inst-gray */
-}
-
-/* Team Section */
-.team-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-}
-
-.team-member {
-  text-align: center;
-  background: #f8f9fa; /* Substituído --inst-light-gray */
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); /* Substituído --inst-card-shadow */
-}
-
-.member-image img {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 1rem;
-}
-
-.team-member h3 {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-  color: #1a1d1f; /* Substituído --inst-text */
-}
-
-.member-role {
-  font-size: 1rem;
-  color: #666666; /* Substituído --inst-gray */
-  margin-bottom: 1rem;
-}
-
-.social-links {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.social-links img {
-  width: 24px;
-  height: 24px;
-  transition: transform 0.3s ease;
-}
-
-.social-links img:hover {
-  transform: scale(1.1);
-}
-
-/* Statistics Section */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 2rem;
-}
-
-.stat-item {
-  text-align: center;
-  background: #f8f9fa; /* Substituído --inst-light-gray */
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); /* Substituído --inst-card-shadow */
-}
-
-.stat-number {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #0052ff; /* Substituído --inst-primary */
-  margin-bottom: 0.5rem;
-}
-
-.stat-label {
-  font-size: 1rem;
-  color: #666666; /* Substituído --inst-gray */
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .company-intro {
-    flex-direction: column;
-  }
-
-  .timeline::before {
-    left: 20px;
-  }
-
-  .timeline-item {
-    flex-direction: column;
-    text-align: left;
-  }
-
-  .timeline-item:nth-child(odd) {
-    flex-direction: column;
-    text-align: left;
-  }
-
-  .tech-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .institutional-hero h1 {
-    font-size: 2.2rem;
-  }
-}
-
-/* Intro Subtitles */
-.intro-subtitle {
-  font-size: 1.3rem;
-  color: #0052ff;
-  margin-top: 1.5rem;
-  margin-bottom: 0.5rem;
-}
-
-/* Technologies Section */
-.tech-subtitle {
-  text-align: center;
-  color: #666666;
-  font-size: 1.1rem;
-  margin-bottom: 3rem;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.tech-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 2rem;
-}
-
-.tech-category {
-  background: #f8f9fa;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-.tech-category h3 {
-  font-size: 1.1rem;
-  color: #0052ff;
-  margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid rgba(0, 82, 255, 0.15);
-}
-
-.tech-items {
+.hero-acoes {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.botao-principal,
+.botao-secundario {
+  display: inline-flex;
+  align-items: center;
   gap: 0.5rem;
+  padding: 0.9rem 1.6rem;
+  border-radius: 10px;
+  font-size: 0.98rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
 }
 
-.tech-badge {
-  display: inline-block;
-  padding: 0.35rem 0.75rem;
+.botao-principal {
+  background: #0052ff;
+  color: #fff;
+  box-shadow: 0 8px 22px rgba(0, 82, 255, 0.25);
+}
+
+.botao-principal:hover {
+  background: #0040c9;
+  transform: translateY(-1px);
+}
+
+.botao-secundario {
+  border: 1px solid #dcdcd4;
+  background: #fff;
+  color: #131a4d;
+}
+
+.botao-secundario:hover {
+  border-color: #7c6ef2;
+  color: #0052ff;
+}
+
+/* Estrutura das seções */
+.secao {
+  padding: 5.5rem 5%;
+}
+
+.secao-clara {
+  background: #f6f5f1;
+}
+
+.secao-branca {
+  background: #fff;
+}
+
+.secao-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.secao-header {
+  max-width: 640px;
+  margin: 0 auto 3rem;
+  text-align: center;
+}
+
+.secao-header h2,
+.texto-coluna h2 {
+  margin: 0;
+  font-size: 2.4rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: #131a4d;
+}
+
+.secao-header p {
+  margin: 1rem 0 0;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #6b7194;
+}
+
+/* Quem somos */
+.grid-duplo {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  align-items: start;
+  gap: 3.5rem;
+}
+
+.texto-coluna h3 {
+  margin: 2rem 0 0.75rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #131a4d;
+}
+
+.texto-coluna p {
+  margin: 1.25rem 0 0;
+  font-size: 1.02rem;
+  line-height: 1.75;
+  color: #4b5280;
+}
+
+.texto-coluna h3 + p {
+  margin-top: 0;
+}
+
+.promessa-card {
+  position: sticky;
+  top: 6rem;
+  padding: 2rem 1.75rem;
+  border: 1px solid #e6e5df;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 18px 45px rgba(19, 26, 77, 0.08);
+}
+
+.promessa-selo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1.25rem;
+  border-radius: 14px;
+  background: rgba(0, 82, 255, 0.1);
+  color: #0052ff;
+  font-size: 1.15rem;
+}
+
+.promessa-card h3 {
+  margin: 0 0 0.75rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #131a4d;
+}
+
+.promessa-card > p {
+  margin: 0 0 1.5rem;
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: #6b7194;
+}
+
+.promessa-card ul {
+  list-style: none;
+  margin: 0 0 1.75rem;
+  padding: 0;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.promessa-card li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: 0.94rem;
+  line-height: 1.5;
+  color: #4b5280;
+}
+
+.promessa-card li svg,
+.caminho-card li svg {
+  margin-top: 0.2rem;
+  flex: 0 0 auto;
+  color: #22c55e;
+}
+
+.promessa-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.25rem;
+  border-radius: 10px;
+  background: #0052ff;
+  color: #fff;
+  font-size: 0.94rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.promessa-cta:hover {
+  background: #0040c9;
+}
+
+/* Caminhos da IA */
+.caminhos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.caminho-card {
+  padding: 2rem 1.75rem;
+  border: 1px solid #e6e5df;
+  border-radius: 16px;
+  background: #fbfbf9;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.caminho-card:hover {
+  border-color: #d5d3f5;
+  box-shadow: 0 18px 40px rgba(19, 26, 77, 0.1);
+  transform: translateY(-4px);
+}
+
+.caminho-icone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  margin-bottom: 1.25rem;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #0052ff, #7c6ef2);
+  color: #fff;
+  font-size: 1.15rem;
+}
+
+.caminho-card h3 {
+  margin: 0 0 0.65rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #131a4d;
+}
+
+.caminho-card > p {
+  margin: 0 0 1.35rem;
+  font-size: 0.96rem;
+  line-height: 1.65;
+  color: #6b7194;
+}
+
+.caminho-card ul {
+  list-style: none;
+  margin: 0;
+  padding: 1.25rem 0 0;
+  border-top: 1px solid #eeede7;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.caminho-card li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: #4b5280;
+}
+
+/* Por que nos escolher */
+.motivos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.25rem;
+}
+
+.motivo-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.6rem;
+  border: 1px solid #e6e5df;
+  border-radius: 16px;
+  background: #fff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.motivo-card:hover {
+  border-color: #d5d3f5;
+  box-shadow: 0 14px 34px rgba(19, 26, 77, 0.08);
+}
+
+.motivo-icone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
   background: rgba(0, 82, 255, 0.08);
-  color: #1a1d1f;
-  border-radius: 20px;
+  color: #0052ff;
+  font-size: 1.05rem;
+}
+
+.motivo-card h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: #131a4d;
+}
+
+.motivo-card p {
+  margin: 0;
+  font-size: 0.94rem;
+  line-height: 1.6;
+  color: #6b7194;
+}
+
+.motivo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+  color: #0052ff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.motivo-link:hover {
+  text-decoration: underline;
+}
+
+/* Números */
+.secao-numeros {
+  color: #fff;
+  background-color: #131a4d;
+  background-image: linear-gradient(135deg, #131a4d 0%, #1e2a6b 100%);
+}
+
+.secao-numeros .secao-header h2 {
+  color: #fff;
+}
+
+.secao-numeros .gradiente {
+  background: linear-gradient(90deg, #7cb0ff, #b9a8ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.numeros-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.25rem;
+}
+
+.numero-item {
+  padding: 1.75rem 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.06);
+  text-align: center;
+}
+
+.numero-item strong {
+  display: block;
+  font-size: 2.4rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.numero-item span {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* Tecnologias */
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.tech-card {
+  padding: 1.6rem;
+  border: 1px solid #e6e5df;
+  border-radius: 16px;
+  background: #fbfbf9;
+}
+
+.tech-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0 1.1rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #131a4d;
+}
+
+.tech-card h3 svg {
+  color: #7c6ef2;
+}
+
+.tech-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.tech-badges span {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #e2e1da;
+  border-radius: 999px;
+  background: #fff;
   font-size: 0.85rem;
-  font-weight: 500;
-  transition: background 0.3s ease, transform 0.2s ease;
+  color: #4b5280;
 }
 
-.tech-badge:hover {
-  background: rgba(0, 82, 255, 0.18);
-  transform: translateY(-2px);
+/* Entrada suave */
+.caminho-card,
+.motivo-card,
+.tech-card {
+  opacity: 0;
+  transform: translateY(20px);
 }
 
-/* Dark Mode */
-[data-theme="dark"] .institutional-hero {
-  background: #1a1d1f;
+.caminho-card.visivel,
+.motivo-card.visivel,
+.tech-card.visivel {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-[data-theme="dark"] .institutional-hero p {
-  color: #adb5bd;
+/* Responsivo */
+@media (max-width: 992px) {
+  .grid-duplo {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .promessa-card {
+    position: static;
+  }
 }
 
-[data-theme="dark"] .content-section h2 {
-  color: #f1f3f5;
+@media (max-width: 768px) {
+  .sobre-hero {
+    padding: 3.5rem 1.25rem;
+    background-size: 80px 80px;
+  }
+
+  .sobre-hero h1 {
+    font-size: 2.1rem;
+  }
+
+  .sobre-hero p {
+    font-size: 1rem;
+  }
+
+  .hero-acoes {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .botao-principal,
+  .botao-secundario {
+    justify-content: center;
+  }
+
+  .secao {
+    padding: 3.5rem 1.25rem;
+  }
+
+  .secao-header {
+    margin-bottom: 2.25rem;
+  }
+
+  .secao-header h2,
+  .texto-coluna h2 {
+    font-size: 1.9rem;
+  }
+
+  .caminho-card,
+  .promessa-card {
+    padding: 1.6rem 1.35rem;
+  }
+
+  .numero-item strong {
+    font-size: 2rem;
+  }
 }
 
-[data-theme="dark"] .intro-text p {
-  color: #adb5bd;
-}
-
-[data-theme="dark"] .intro-subtitle {
-  color: #4d8fff;
-}
-
-[data-theme="dark"] .timeline-content {
-  background: #2a2d30;
-}
-
-[data-theme="dark"] .timeline-content h3 {
-  color: #4d8fff;
-}
-
-[data-theme="dark"] .timeline-content p {
-  color: #adb5bd;
-}
-
-[data-theme="dark"] .timeline::before {
-  background: #3a3d40;
-}
-
-[data-theme="dark"] .stat-item {
-  background: #2a2d30;
-}
-
-[data-theme="dark"] .stat-number {
-  color: #4d8fff;
-}
-
-[data-theme="dark"] .stat-label {
-  color: #adb5bd;
-}
-
-[data-theme="dark"] .tech-category {
-  background: #2a2d30;
-}
-
-[data-theme="dark"] .tech-category h3 {
-  color: #4d8fff;
-  border-bottom-color: rgba(77, 143, 255, 0.2);
-}
-
-[data-theme="dark"] .tech-badge {
-  background: rgba(77, 143, 255, 0.12);
-  color: #e1e3e5;
-}
-
-[data-theme="dark"] .tech-badge:hover {
-  background: rgba(77, 143, 255, 0.25);
-}
-
-[data-theme="dark"] .tech-subtitle {
-  color: #adb5bd;
+@media (prefers-reduced-motion: reduce) {
+  .caminho-card,
+  .motivo-card,
+  .tech-card {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 </style>
