@@ -539,6 +539,126 @@
                   </div>
                 </div>
 
+                <!-- SEO e descoberta por IAs -->
+                <div class="form-section">
+                  <div class="secao-com-acao">
+                    <h4>
+                      <i class="fas fa-magnifying-glass-chart"></i>
+                      SEO e descoberta por IAs
+                    </h4>
+                    <span class="seo-hint">
+                      Vira meta tag e JSON-LD na página publicada
+                    </span>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="seoTitle">Título de busca (meta title)</label>
+                      <input
+                        id="seoTitle"
+                        type="text"
+                        v-model="formData.seo.metaTitle"
+                        maxlength="70"
+                        placeholder="Aparece como título azul no Google"
+                      />
+                      <small
+                        class="char-count"
+                        :class="{ excedido: (formData.seo.metaTitle || '').length > 60 }"
+                      >
+                        {{ (formData.seo.metaTitle || "").length }}/60
+                      </small>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="seoKeywords">Palavras-chave</label>
+                      <input
+                        id="seoKeywords"
+                        type="text"
+                        v-model="seoKeywordsTexto"
+                        placeholder="separadas por vírgula"
+                      />
+                      <small class="help-text">
+                        Termos que a pessoa digitaria no Google
+                      </small>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="seoDesc">Descrição de busca (meta description)</label>
+                    <textarea
+                      id="seoDesc"
+                      v-model="formData.seo.metaDescription"
+                      rows="2"
+                      maxlength="170"
+                      placeholder="Texto que aparece abaixo do título no Google"
+                    ></textarea>
+                    <small
+                      class="char-count"
+                      :class="{ excedido: (formData.seo.metaDescription || '').length > 155 }"
+                    >
+                      {{ (formData.seo.metaDescription || "").length }}/155
+                    </small>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="seoResumoIA">
+                      Resumo para IAs
+                      <span class="badge-ia">ChatGPT, Perplexity, Gemini</span>
+                    </label>
+                    <textarea
+                      id="seoResumoIA"
+                      v-model="formData.seo.resumoIA"
+                      rows="3"
+                      maxlength="400"
+                      placeholder="Parágrafo autossuficiente que uma IA possa citar ao responder alguém"
+                    ></textarea>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="seoPontos">Pontos principais (um por linha)</label>
+                    <textarea
+                      id="seoPontos"
+                      v-model="seoPontosTexto"
+                      rows="3"
+                      placeholder="Conclusões objetivas do artigo"
+                    ></textarea>
+                  </div>
+
+                  <div class="form-group">
+                    <label>
+                      Perguntas frequentes
+                      <span class="badge-ia">rich snippet no Google</span>
+                    </label>
+                    <div
+                      v-for="(item, i) in formData.seo.faq"
+                      :key="'faq-' + i"
+                      class="faq-editor"
+                    >
+                      <input
+                        type="text"
+                        v-model="item.pergunta"
+                        placeholder="Pergunta"
+                      />
+                      <textarea
+                        v-model="item.resposta"
+                        rows="2"
+                        placeholder="Resposta curta e direta"
+                      ></textarea>
+                      <button
+                        type="button"
+                        class="btn-remove-faq"
+                        @click="removerFaq(i)"
+                        title="Remover"
+                      >
+                        <i class="fas fa-times"></i>
+                      </button>
+                    </div>
+                    <button type="button" class="btn-add-faq" @click="adicionarFaq">
+                      <i class="fas fa-plus"></i> Adicionar pergunta
+                    </button>
+                  </div>
+                </div>
+
                 <!-- Configurações -->
                 <div class="form-section">
                   <h4>Configurações</h4>
@@ -674,6 +794,17 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import articleService from "@/services/articleService";
 import aiService from "@/services/aiService";
 
+// Bloco de SEO em branco. Fica fora do componente porque tambem e usado
+// pelos metodos que recriam o formulario.
+const seoVazio = () => ({
+  metaTitle: "",
+  metaDescription: "",
+  keywords: [],
+  faq: [],
+  resumoIA: "",
+  pontosChave: [],
+});
+
 export default {
   name: "BlogManagement",
   components: {
@@ -714,6 +845,14 @@ export default {
         tags: [],
         status: "draft",
         destaque: false,
+        seo: {
+          metaTitle: "",
+          metaDescription: "",
+          keywords: [],
+          faq: [],
+          resumoIA: "",
+          pontosChave: [],
+        },
       },
 
       // Análise do artigo pela IA configurada no painel
@@ -739,6 +878,31 @@ export default {
     };
   },
   computed: {
+    // Listas viram texto no formulario e voltam a ser array no model
+    seoKeywordsTexto: {
+      get() {
+        return (this.formData.seo?.keywords || []).join(", ");
+      },
+      set(valor) {
+        this.formData.seo.keywords = valor
+          .split(",")
+          .map((k) => k.trim().toLowerCase())
+          .filter(Boolean);
+      },
+    },
+
+    seoPontosTexto: {
+      get() {
+        return (this.formData.seo?.pontosChave || []).join("\n");
+      },
+      set(valor) {
+        this.formData.seo.pontosChave = valor
+          .split("\n")
+          .map((t) => t.trim())
+          .filter(Boolean);
+      },
+    },
+
     // Vale para os dois modos: no editor o HTML vazio ainda tem tags
     temConteudo() {
       return this.limparConteudo(this.formData.conteudo).length > 0;
@@ -799,6 +963,7 @@ export default {
         tags: [],
         status: "draft",
         destaque: false,
+        seo: seoVazio(),
       };
     },
 
@@ -836,6 +1001,7 @@ export default {
         tags: article.tags || [],
         status: article.status,
         destaque: article.destaque || false,
+        seo: { ...seoVazio(), ...(article.seo || {}) },
       };
       this.showHtmlPreview = false;
       this.iaErro = "";
@@ -878,6 +1044,7 @@ export default {
           tags: this.formData.tags,
           status: this.formData.status,
           destaque: this.formData.destaque,
+          seo: this.formData.seo,
         };
 
         if (this.isEditing) {
@@ -961,6 +1128,15 @@ export default {
       // Abrir em nova aba
       const route = this.$router.resolve({ path: `/blog/${article._id}` });
       window.open(route.href, "_blank");
+    },
+
+    adicionarFaq() {
+      if (!Array.isArray(this.formData.seo.faq)) this.formData.seo.faq = [];
+      this.formData.seo.faq.push({ pergunta: "", resposta: "" });
+    },
+
+    removerFaq(indice) {
+      this.formData.seo.faq.splice(indice, 1);
     },
 
     addTag() {
@@ -1090,6 +1266,11 @@ export default {
         if (dados.imagem) {
           this.formData.imagem = dados.imagem;
           preenchidos.push("capa");
+        }
+        // Metadados de busca: viram meta tags e JSON-LD na pagina publicada
+        if (dados.seo) {
+          this.formData.seo = { ...seoVazio(), ...dados.seo };
+          preenchidos.push("SEO (meta tags, FAQ e dados para IA)");
         }
 
         if (!preenchidos.length) {
@@ -2381,6 +2562,34 @@ export default {
   gap: 1rem;
   flex-wrap: wrap;
 }
+
+/* Painel de SEO / descoberta por IAs */
+.seo-hint { font-size: 12px; color: #64748b; font-style: italic; }
+.badge-ia {
+  display: inline-block; margin-left: 8px; padding: 2px 8px;
+  background: #eef2ff; color: #4338ca; border-radius: 10px;
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .3px; vertical-align: middle;
+}
+.char-count.excedido { color: #dc2626; font-weight: 700; }
+.faq-editor {
+  position: relative; display: flex; flex-direction: column; gap: 6px;
+  padding: 12px 40px 12px 12px; margin-bottom: 10px;
+  border: 1px solid #e2e8f0; border-radius: 10px; background: #f8fafc;
+}
+.btn-remove-faq {
+  position: absolute; top: 10px; right: 10px;
+  width: 26px; height: 26px; border: none; border-radius: 6px;
+  background: #fee2e2; color: #dc2626; cursor: pointer; font-size: 12px;
+}
+.btn-remove-faq:hover { background: #fecaca; }
+.btn-add-faq {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 14px; border: 1px dashed #c7d2fe; background: #f5f3ff;
+  color: #4f46e5; border-radius: 8px; font-size: 13px; font-weight: 600;
+  cursor: pointer;
+}
+.btn-add-faq:hover { background: #ede9fe; }
 
 /* Alterna o corpo do artigo entre editor visual e código HTML */
 .tipo-conteudo-tabs {
