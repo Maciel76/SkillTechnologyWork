@@ -34,6 +34,12 @@ export const logout = () => {
 };
 
 export const isAuthenticated = () => {
+  // O token é a fonte de verdade: sem ele o backend responde 401.
+  // Checar só o "user" deixava o app se achando logado sem sessão,
+  // e qualquer rota protegida entrava em loop de redirecionamento.
+  const token = localStorage.getItem("authToken");
+  if (!token) return false;
+
   const user = localStorage.getItem("user");
   if (user) {
     const userData = JSON.parse(user);

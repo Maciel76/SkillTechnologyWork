@@ -1,5 +1,9 @@
 // composables/useStats.js
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
+
+// Caminho relativo mandava a chamada para o dev server, que devolve o
+// index.html do site: o JSON.parse quebrava com "Unexpected token <".
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5006/api";
 
 export function useStats() {
   const stats = ref({
@@ -27,7 +31,7 @@ export function useStats() {
       const visitorId = getVisitorId();
       const isUnique = !sessionStorage.getItem("hasVisited");
 
-      const response = await fetch("/api/stats/visit", {
+      const response = await fetch(`${API_URL}/stats/visit`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,8 +45,8 @@ export function useStats() {
       if (response.ok) {
         sessionStorage.setItem("hasVisited", "true");
       }
-    } catch (error) {
-      console.error("Erro ao registrar visita:", error);
+    } catch {
+      // Registrar visita é acessório: nunca deve quebrar a página
     }
   };
 
@@ -50,22 +54,17 @@ export function useStats() {
   const fetchStats = async () => {
     try {
       loading.value = true;
-      const response = await fetch("/api/stats");
+      const response = await fetch(`${API_URL}/stats`);
       if (response.ok) {
         const data = await response.json();
         stats.value = data;
       }
-    } catch (error) {
-      console.error("Erro ao buscar estatísticas:", error);
+    } catch {
+      // Falha de rede: mantém os zeros em vez de quebrar o painel
     } finally {
       loading.value = false;
     }
   };
-
-  // Comentado para evitar erro 404 - descomentar quando a rota /api/stats for implementada
-  // onMounted(() => {
-  //   fetchStats();
-  // });
 
   return {
     stats,

@@ -63,8 +63,8 @@ export default {
 
       try {
         await login(this.username, this.password);
-        // Redirect to dashboard after successful login
-        this.$router.push("/dashboard");
+        // Volta para onde a pessoa estava antes da sessão cair
+        this.$router.push(this.$route.query.redirect || "/dashboard");
       } catch (err) {
         this.error = err.message || "Credenciais inválidas. Tente novamente.";
       } finally {
@@ -81,7 +81,7 @@ export default {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  background: linear-gradient(135deg, #131a4d 0%, #0052ff 55%, #7c6ef2 100%);
   padding: 20px;
   overflow: hidden;
   position: relative;
@@ -146,7 +146,7 @@ export default {
 
 .btn-login {
   width: 100%;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  background: linear-gradient(135deg, #131a4d 0%, #0052ff 55%, #7c6ef2 100%);
   color: white;
   border: none;
   padding: 14px;

@@ -29,16 +29,12 @@
         <ProposalsManagement v-if="activeMenu === 'propostas'" />
         <LeadsManagement v-if="activeMenu === 'leads'" />
         <BlogManagement v-if="activeMenu === 'blog'" />
-        <ServicesManagement v-if="activeMenu === 'services'" />
         <PortfolioManagement v-if="activeMenu === 'portfolio'" />
         <TestimonialsManagement v-if="activeMenu === 'testimonials'" />
         <EcommerceManagement v-if="activeMenu === 'ecommerce'" />
         <EventsManagement v-if="activeMenu === 'events'" />
         <ProjectsManagement v-if="activeMenu === 'projects'" />
         <ContactManagement v-if="activeMenu === 'contato'" />
-        <HeroSectionEditor v-if="activeMenu === 'hero-slides'" />
-        <TechnologiesEditor v-if="activeMenu === 'hero-tecnologias'" />
-        <ServicesEditor v-if="activeMenu === 'servicos-pagina'" />
         <AiIntegration v-if="activeMenu === 'ia'" />
         <AiLeads v-if="activeMenu === 'ia-leads'" />
         <StatsCards v-if="activeMenu === 'dashboard'" />
@@ -54,7 +50,6 @@ import DashboardOverview from "@/components/Dashboad/DashboardOverview.vue";
 import ProposalsManagement from "@/components/Dashboad/ProposalsManagement.vue";
 import LeadsManagement from "@/components/Dashboad/LeadsManagement.vue";
 import BlogManagement from "@/components/Dashboad/BlogManagement.vue";
-import ServicesManagement from "@/components/Dashboad/ServicesManagement.vue";
 import PortfolioManagement from "@/components/Dashboad/PortfolioManagement.vue";
 import TestimonialsManagement from "@/components/Dashboad/TestimonialsManagement.vue";
 import EcommerceManagement from "@/components/Dashboad/EcommerceManagement.vue";
@@ -62,9 +57,6 @@ import EventsManagement from "@/components/Dashboad/EventsManagement.vue";
 import ContactManagement from "@/components/Dashboad/ContactManagement.vue";
 import ProjectsManagement from "@/components/Dashboad/ProjectsManagement.vue";
 import StatsCards from "@/components/Dashboad/StatsCards.vue";
-import HeroSectionEditor from "@/components/Dashboad/HeroSectionEditor.vue";
-import TechnologiesEditor from "@/components/Dashboad/TechnologiesEditor.vue";
-import ServicesEditor from "@/components/Dashboad/ServicesEditor.vue";
 import AiIntegration from "@/components/Dashboad/AiIntegration.vue";
 import AiLeads from "@/components/Dashboad/AiLeads.vue";
 import { logout } from "@/services/authService";
@@ -78,7 +70,6 @@ export default {
     ProposalsManagement,
     LeadsManagement,
     BlogManagement,
-    ServicesManagement,
     PortfolioManagement,
     TestimonialsManagement,
     EcommerceManagement,
@@ -86,9 +77,6 @@ export default {
     ContactManagement,
     ProjectsManagement,
     StatsCards,
-    HeroSectionEditor,
-    TechnologiesEditor,
-    ServicesEditor,
     AiIntegration,
     AiLeads,
   },
@@ -100,52 +88,6 @@ export default {
       menuItems: [
         { id: "dashboard1", name: "Dashboard", icon: "fas fa-tachometer-alt" },
         {
-          id: "pagina-inicial",
-          name: "Página Inicial (Hero)",
-          icon: "fas fa-wand-magic-sparkles",
-          submenu: [
-            {
-              id: "hero-slides",
-              name: "Design do Hero",
-              icon: "fas fa-images",
-            },
-            {
-              id: "hero-tecnologias",
-              name: "Tecnologias",
-              icon: "fas fa-microchip",
-            },
-          ],
-        },
-        {
-          id: "contatos-mensagem",
-          name: "Contatos Mensagem",
-          icon: "fas fa-comments",
-          submenu: [
-            { id: "propostas", name: "Propostas", icon: "fas fa-gem" },
-            { id: "leads", name: "Leads", icon: "fas fa-users" },
-            { id: "testimonials", name: "Depoimentos", icon: "fas fa-comment" },
-            { id: "contato", name: "Contato", icon: "fas fa-envelope" },
-          ],
-        },
-        { id: "blog", name: "Blog", icon: "fas fa-blog" },
-        {
-          id: "servicos-grupo",
-          name: "Serviços",
-          icon: "fas fa-concierge-bell",
-          submenu: [
-            { id: "servicos-pagina", name: "Serviços da Página", icon: "fas fa-images" },
-            { id: "services", name: "Catálogo (preços)", icon: "fas fa-tags" },
-          ],
-        },
-        { id: "portfolio", name: "Portfólio", icon: "fas fa-briefcase" },
-        { id: "ecommerce", name: "Loja Virtual", icon: "fas fa-shopping-cart" },
-        { id: "events", name: "Eventos", icon: "fas fa-calendar" },
-        {
-          id: "projects",
-          name: "Projetos Recentes",
-          icon: "fas fa-folder-open",
-        },
-        {
           id: "ia-grupo",
           name: "Inteligência Artificial",
           icon: "fas fa-robot",
@@ -154,6 +96,33 @@ export default {
             { id: "ia-leads", name: "Leads da IA", icon: "fas fa-user-tie" },
           ],
         },
+        {
+          id: "contatos-mensagem",
+          name: "Contatos e Leads",
+          icon: "fas fa-comments",
+          submenu: [
+            { id: "contato", name: "Mensagens do site", icon: "fas fa-envelope" },
+            { id: "leads", name: "Leads", icon: "fas fa-users" },
+            { id: "propostas", name: "Propostas", icon: "fas fa-gem" },
+            { id: "testimonials", name: "Depoimentos", icon: "fas fa-comment" },
+          ],
+        },
+        {
+          id: "trabalhos",
+          name: "Trabalhos",
+          icon: "fas fa-briefcase",
+          submenu: [
+            {
+              id: "projects",
+              name: "Projetos (home e portfólio)",
+              icon: "fas fa-folder-open",
+            },
+            { id: "portfolio", name: "Portfólio da agência", icon: "fas fa-images" },
+          ],
+        },
+        { id: "blog", name: "Blog", icon: "fas fa-blog" },
+        { id: "ecommerce", name: "Loja Virtual", icon: "fas fa-shopping-cart" },
+        { id: "events", name: "Eventos", icon: "fas fa-calendar" },
       ],
     };
   },
@@ -195,16 +164,16 @@ export default {
 
 <style>
 :root {
-  --primary: #6366f1;
-  --primary-dark: #4f46e5;
-  --primary-light: #818cf8;
-  --secondary: #8b5cf6;
+  --primary: #0052ff;
+  --primary-dark: #0040c9;
+  --primary-light: #7c6ef2;
+  --secondary: #7c6ef2;
   --success: #10b981;
   --danger: #ef4444;
   --warning: #f59e0b;
   --info: #3b82f6;
   --light: #f9fafb;
-  --dark: #0f172a;
+  --dark: #131a4d;
   --gray-50: #f8fafc;
   --gray-100: #f1f5f9;
   --gray-200: #e2e8f0;
@@ -240,7 +209,7 @@ export default {
 body {
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     sans-serif;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e3e9f0 100%);
+  background: #f6f5f1;
   color: var(--gray-900);
   font-size: 15px;
   line-height: 1.6;
@@ -253,7 +222,7 @@ body {
   display: flex;
   min-height: 100vh;
   width: 100%;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e3e9f0 100%);
+  background: #f6f5f1;
   position: relative;
 }
 

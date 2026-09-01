@@ -87,6 +87,21 @@ export const publicChat = async (messages, categoria) => {
 };
 
 // Leads capturados pelo assistente (painel)
+
+// Pede para a IA ler o artigo e preencher a ficha do post:
+// titulo, resumo, slug, categorias, tags, tempo de leitura e capa.
+// As categorias vao junto para a IA escolher so as que existem no painel.
+export const analisarArtigo = async (conteudo, categoriasDisponiveis) => {
+  try {
+    const { data } = await api.post("/ai/blog/analisar", {
+      conteudo,
+      categoriasDisponiveis,
+    });
+    return data;
+  } catch (error) {
+    throw extrairErro(error, "Erro ao analisar o artigo.");
+  }
+};
 export const getLeads = async (status) => {
   try {
     const { data } = await api.get("/ai/leads", {
@@ -117,6 +132,7 @@ export const deleteLead = async (id) => {
 
 export default {
   getConfig,
+  analisarArtigo,
   updateConfig,
   removeKey,
   testConnection,

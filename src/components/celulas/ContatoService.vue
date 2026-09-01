@@ -126,6 +126,8 @@ export default {
 }
 
 .cta-button:hover {
+color: #fefeff;
+border: 1px solid #fff;
   transform: translateY(-2px);
   box-shadow: 0 18px 40px rgba(6, 10, 40, 0.35);
 }

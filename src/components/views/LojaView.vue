@@ -1,40 +1,21 @@
 <template>
   <div class="loja-digital">
-    <!-- Hero Section -->
-    <section class="hero-section">
-      <div class="hero-bg-shapes">
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-        <div class="shape shape-3"></div>
-        <div class="shape shape-grid"></div>
-      </div>
-      <div class="hero-content">
-        <span class="hero-badge">
-          <i class="fas fa-bolt"></i> Produtos Digitais de Alta Qualidade
-        </span>
+    <!-- Hero compacto -->
+    <section class="loja-hero">
+      <div class="hero-inner">
         <h1 class="hero-title">
-          Ferramentas <span class="highlight">Premium</span><br />
-          para seu Negócio Digital
+          Ferramentas <span class="gradiente">prontas para usar</span>
         </h1>
         <p class="hero-description">
-          Softwares, plugins, cursos e templates criados por especialistas
-          para acelerar seus resultados
+          Softwares, plugins, cursos e templates para acelerar seus
+          resultados.
         </p>
         <div class="hero-stats">
-          <div class="stat-item">
-            <span class="stat-number">{{ publishedProducts.length }}+</span>
-            <span class="stat-label">Produtos</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <span class="stat-number">5.0</span>
-            <span class="stat-label">Avaliação</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <span class="stat-number">24/7</span>
-            <span class="stat-label">Suporte</span>
-          </div>
+          <span v-if="publishedProducts.length">
+            <strong>{{ publishedProducts.length }}</strong> produtos
+          </span>
+          <span><strong>Download</strong> imediato</span>
+          <span><strong>Suporte</strong> incluso</span>
         </div>
       </div>
     </section>
@@ -119,7 +100,6 @@
     <!-- Filtros e Busca -->
     <section class="products-section">
       <div class="section-header">
-        <span class="section-badge"><i class="fas fa-box-open"></i> Catálogo</span>
         <h2 class="section-title">Todos os Produtos</h2>
       </div>
 
@@ -206,7 +186,6 @@
     <!-- Recursos e Benefícios -->
     <section class="benefits-section">
       <div class="section-header">
-        <span class="section-badge"><i class="fas fa-shield-alt"></i> Garantias</span>
         <h2 class="section-title">Por que Escolher Nossos Produtos?</h2>
       </div>
       <div class="benefits-grid">
@@ -241,11 +220,17 @@
       </div>
     </section>
 
-    <!-- CTA Newsletter -->
+    <!-- CTA -->
     <section class="cta-section">
       <div class="cta-content">
-        <h2>Fique por dentro das novidades</h2>
-        <p>Receba em primeira mão nossos lançamentos e ofertas exclusivas</p>
+        <h2>Não achou o que precisava?</h2>
+        <p>
+          A gente constrói a ferramenta sob medida para a sua operação.
+        </p>
+        <router-link to="/contato" class="cta-botao">
+          Falar com a equipe
+          <font-awesome-icon icon="arrow-right" />
+        </router-link>
       </div>
     </section>
 
@@ -465,201 +450,90 @@ export default defineComponent({
 <style scoped>
 .loja-digital {
   min-height: 100vh;
-  background: #f8fafc;
+  background: #fff;
+  font-family: "Inter", sans-serif;
 }
 
-/* ─── Hero Section ─── */
-.hero-section {
-  position: relative;
-  background: linear-gradient(160deg, #183253 0%, #1074d1 50%, #2266c0 100%);
-  padding: 140px 20px 100px;
-  overflow: hidden;
-  color: white;
-}
-
-.hero-bg-shapes {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.shape {
-  position: absolute;
-  border-radius: 50%;
-}
-
-.shape-1 {
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
-  top: -200px;
-  right: -150px;
-  animation: float 8s ease-in-out infinite;
-}
-
-.shape-2 {
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, rgba(251,191,36,0.12) 0%, transparent 70%);
-  bottom: -50px;
-  left: -50px;
-  animation: float 6s ease-in-out infinite reverse;
-}
-
-.shape-3 {
-  width: 150px;
-  height: 150px;
-  border: 2px solid rgba(255,255,255,0.08);
-  top: 20%;
-  left: 15%;
-  animation: float 10s ease-in-out infinite;
-}
-
-.shape-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 60px 60px;
-  border-radius: 0;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-20px) rotate(3deg); }
-}
-
-.hero-content {
-  max-width: 900px;
-  margin: 0 auto;
+/* ─── Hero compacto ─── */
+.loja-hero {
+  padding: 3rem 5% 2.75rem;
   text-align: center;
-  position: relative;
-  z-index: 2;
+  background-color: #f6f5f1;
+  background-image: linear-gradient(rgba(26, 35, 90, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26, 35, 90, 0.05) 1px, transparent 1px);
+  background-size: 120px 120px;
 }
 
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255,255,255,0.12);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.15);
-  padding: 10px 24px;
-  border-radius: 50px;
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 32px;
-  color: #fbbf24;
-  letter-spacing: 0.5px;
+.loja-hero .hero-inner {
+  max-width: 640px;
+  margin: 0 auto;
 }
 
 .hero-title {
-  font-size: 60px;
+  margin: 0;
+  font-size: 2.3rem;
   font-weight: 800;
-  margin-bottom: 24px;
-  line-height: 1.1;
-  letter-spacing: -1px;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: #131a4d;
 }
 
-.highlight {
-  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+.gradiente {
+  background: linear-gradient(90deg, #0052ff, #7c6ef2);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
+  color: transparent;
 }
 
 .hero-description {
-  font-size: 20px;
-  margin-bottom: 48px;
-  opacity: 0.85;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-  line-height: 1.7;
+  margin: 0.85rem auto 0;
+  max-width: 460px;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: #3d4570;
 }
 
 .hero-stats {
-  display: inline-flex;
-  align-items: center;
-  gap: 32px;
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.1);
-  padding: 24px 48px;
-  border-radius: 20px;
-}
-
-.stat-divider {
-  width: 1px;
-  height: 40px;
-  background: rgba(255,255,255,0.2);
-}
-
-.stat-item {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem 1.75rem;
+  margin-top: 1.35rem;
+  font-size: 0.9rem;
+  color: #6b7194;
 }
 
-.stat-number {
-  font-size: 32px;
-  font-weight: 800;
-  color: #fbbf24;
-}
-
-.stat-label {
-  font-size: 13px;
-  opacity: 0.8;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  font-weight: 500;
+.hero-stats strong {
+  color: #131a4d;
+  font-weight: 700;
 }
 
 /* ─── Section Headers ─── */
 .section-header {
-  margin-top: 80px;
+  margin: 3.5rem auto 2.25rem;
   text-align: center;
-  margin-bottom: 48px;
-}
-
-.section-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: linear-gradient(135deg, rgba(0,82,255,0.08), rgba(0,82,255,0.04));
-  border: 1px solid rgba(0,82,255,0.12);
-  color: #0052ff;
-  padding: 8px 20px;
-  border-radius: 50px;
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 16px;
 }
 
 .section-title {
-  font-size: 40px;
+  margin: 0;
+  font-size: 2.1rem;
   font-weight: 800;
-  color: #0f172a;
-  margin-bottom: 12px;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.02em;
+  color: #131a4d;
 }
 
 .section-subtitle {
-  font-size: 18px;
-  color: #64748b;
-  max-width: 500px;
-  margin: 0 auto;
+  max-width: 520px;
+  margin: 0.75rem auto 0;
+  font-size: 1rem;
   line-height: 1.6;
+  color: #6b7194;
 }
 
 /* ─── Featured Section ─── */
 .featured-section {
   max-width: 1200px;
-  margin: -60px auto 80px;
+  margin: 0 auto 4rem;
   padding: 0 20px;
   position: relative;
   z-index: 3;
@@ -1163,7 +1037,7 @@ export default defineComponent({
 }
 
 .cta-content {
-  background: linear-gradient(160deg, #183253 0%, #1074d1 50%, #2266c0 100%);
+  background: linear-gradient(135deg, #131a4d 0%, #0052ff 55%, #7c6ef2 100%);
   border-radius: 32px;
   padding: 64px 48px;
   text-align: center;
@@ -1192,9 +1066,30 @@ export default defineComponent({
 }
 
 .cta-content p {
-  font-size: 18px;
+  font-size: 1.05rem;
   opacity: 0.85;
   position: relative;
+}
+
+.cta-botao {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 1.75rem;
+  padding: 0.9rem 1.65rem;
+  border-radius: 10px;
+  background: #fff;
+  color: #0f1a4d;
+  font-size: 0.98rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 12px 30px rgba(6, 10, 40, 0.28);
+  transition: transform 0.2s ease;
+}
+
+.cta-botao:hover {
+  transform: translateY(-2px);
 }
 
 /* ─── States ─── */
@@ -1484,18 +1379,19 @@ export default defineComponent({
 }
 
 @media (max-width: 768px) {
-  .hero-section {
-    padding: 100px 16px 80px;
+  .loja-hero {
+    padding: 2.5rem 1.25rem 2.25rem;
+    background-size: 80px 80px;
   }
   .hero-title {
-    font-size: 36px;
+    font-size: 1.75rem;
   }
   .hero-description {
-    font-size: 16px;
+    font-size: 0.96rem;
   }
   .hero-stats {
-    padding: 20px 28px;
-    gap: 20px;
+    gap: 0.5rem 1.25rem;
+    font-size: 0.85rem;
   }
   .stat-number {
     font-size: 24px;
@@ -1534,20 +1430,7 @@ export default defineComponent({
 
 @media (max-width: 480px) {
   .hero-title {
-    font-size: 28px;
-  }
-  .hero-badge {
-    font-size: 12px;
-    padding: 8px 16px;
-  }
-  .hero-stats {
-    flex-direction: column;
-    gap: 16px;
-    padding: 20px 24px;
-  }
-  .stat-divider {
-    width: 60px;
-    height: 1px;
+    font-size: 1.55rem;
   }
   .products-grid {
     grid-template-columns: 1fr;

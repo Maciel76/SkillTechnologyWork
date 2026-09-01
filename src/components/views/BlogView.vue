@@ -1,24 +1,36 @@
 <template>
   <div class="blog-page">
     <header class="blog-header">
-      <nav>
-        <div class="search-bar">
-          <input
-            type="text"
-            v-model="searchQuery"
-            placeholder="Buscar artigos..."
-            @input="handleSearch"
-          />
-          <button class="search-button">
-            <img src="../../assets/svg/icons/seach1.svg" alt="Search" />
-          </button>
-        </div>
-        <div class="nav-controls">
-          <button @click="toggleTheme" class="theme-toggle">
+      <div class="blog-header-inner">
+        <h1 class="blog-titulo">
+          Nosso <span class="gradiente">Blog</span>
+        </h1>
+        <p class="blog-subtitulo">
+          O que a gente aprende aplicando IA e tecnologia no dia a dia de quem
+          nos contrata.
+        </p>
+
+        <div class="blog-ferramentas">
+          <div class="search-bar">
+            <input
+              type="text"
+              v-model="searchQuery"
+              placeholder="Buscar artigos..."
+              @input="handleSearch"
+            />
+            <button class="search-button" aria-label="Buscar">
+              <img src="../../assets/svg/icons/seach1.svg" alt="" />
+            </button>
+          </div>
+          <button
+            @click="toggleTheme"
+            class="theme-toggle"
+            :aria-label="isDarkMode ? 'Tema claro' : 'Tema escuro'"
+          >
             <i class="fas" :class="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
           </button>
         </div>
-      </nav>
+      </div>
     </header>
 
     <main class="blog-main">
@@ -49,8 +61,21 @@
       </section>
 
       <div class="blog-content">
+        <!-- Sem artigos: a área ficava em branco -->
+        <section v-if="!displayedPosts.length" class="blog-vazio">
+          <i class="fas fa-newspaper"></i>
+          <h2>Nenhum artigo por aqui ainda</h2>
+          <p>
+            Estamos preparando os primeiros conteúdos. Volte em breve — ou fale
+            com a gente enquanto isso.
+          </p>
+          <router-link to="/contato" class="blog-vazio-cta">
+            Falar com a equipe
+          </router-link>
+        </section>
+
         <!-- Posts Grid -->
-        <section class="post-grid">
+        <section v-else class="post-grid">
           <article
             v-for="post in displayedPosts"
             :key="post.id"
@@ -399,63 +424,180 @@ body {
 /* Container principal */
 .blog-page {
   margin: 0 auto;
-  padding: 20px;
+  font-family: "Inter", sans-serif;
 }
 
-/* Cabeçalho */
+/* Cabeçalho da página */
 .blog-header {
+  padding: 3.5rem 5% 3rem;
+  text-align: center;
+  background-color: #f6f5f1;
+  background-image: linear-gradient(rgba(26, 35, 90, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26, 35, 90, 0.05) 1px, transparent 1px);
+  background-size: 120px 120px;
+  margin-bottom: 2.5rem;
+}
+
+.blog-header-inner {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.blog-titulo {
+  margin: 0;
+  font-size: 2.6rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: #131a4d;
+}
+
+.gradiente {
+  background: linear-gradient(90deg, #0052ff, #7c6ef2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.blog-subtitulo {
+  margin: 0.9rem auto 0;
+  max-width: 520px;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: #3d4570;
+}
+
+.blog-ferramentas {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 40px;
-  padding: 20px 0;
-  border-bottom: 1px solid #e5e7eb;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 1.75rem;
 }
 
 .search-bar {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 0.4rem;
+  padding: 0.3rem 0.3rem 0.3rem 0.9rem;
+  border: 1px solid #e2e1da;
+  border-radius: 12px;
+  background: #fff;
 }
 
 .search-bar input {
-  padding: 10px;
-  border: 1px solid #e5e7eb;
-  border-radius: 5px;
-  width: 300px;
-  background-color: transparent;
-  color: #1f2937;
-  font-size: 1rem;
+  width: 260px;
+  padding: 0.5rem 0;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: #131a4d;
+}
+
+.search-bar input:focus {
+  outline: none;
 }
 
 .search-button {
-  background: #3498db; /* Substituído --primary-color */
-  border: none;
-  padding: 10px;
-  border-radius: 5px;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 9px;
+  background: #0052ff;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.search-button:hover {
+  background: #0040c9;
 }
 
 .search-button img {
-  width: 20px;
-  height: 20px;
+  width: 17px;
+  height: 17px;
+  filter: brightness(0) invert(1);
 }
 
 .theme-toggle {
-  background: none;
-  border: none;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid #e2e1da;
+  border-radius: 12px;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.theme-toggle:hover {
+  border-color: #7c6ef2;
 }
 
 .theme-toggle i {
-  font-size: 24px;
-  color: #4b5563;
+  font-size: 1rem;
+  color: #4b5280;
+}
+
+/* O conteúdo do blog respira dentro de um container */
+.blog-main {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 5% 4rem;
+}
+
+/* Estado vazio */
+.blog-vazio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1.5rem;
+  border: 1px dashed #e2e1da;
+  border-radius: 18px;
+  background: #fbfbf9;
+  text-align: center;
+}
+
+.blog-vazio i {
+  margin-bottom: 1.25rem;
+  font-size: 2.2rem;
+  color: #c9c8c0;
+}
+
+.blog-vazio h2 {
+  margin: 0 0 0.6rem;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #131a4d;
+}
+
+.blog-vazio p {
+  margin: 0 0 1.75rem;
+  max-width: 400px;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: #6b7194;
+}
+
+.blog-vazio-cta {
+  padding: 0.85rem 1.5rem;
+  border-radius: 10px;
+  background: #0052ff;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.blog-vazio-cta:hover {
+  background: #0040c9;
 }
 
 /* Post em Destaque */
@@ -536,9 +678,9 @@ body {
 /* Blog Content Layout */
 .blog-content {
   display: grid;
-  grid-template-columns: 1fr 400px;
-  gap: 4rem;
-  padding: 4rem 5%;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 2.5rem;
+  padding: 0 0 3rem;
 }
 
 /* Latest Posts */
@@ -547,12 +689,13 @@ body {
   margin-bottom: 2rem;
 }
 
+/* auto-fill em vez de 3 colunas fixas: com a sidebar do lado, três
+   colunas fixas espremiam cada card em ~165px. */
 .post-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  /* A linha abaixo foi removida para permitir que os cards tenham altura flexível */
-  /* grid-auto-rows: 1fr; */
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  align-content: start;
+  gap: 1.75rem;
 }
 
 .post-card-link {

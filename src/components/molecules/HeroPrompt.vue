@@ -160,7 +160,14 @@
 </template>
 
 <script>
-import { ref, computed, watch, onBeforeUnmount, nextTick } from "vue";
+import {
+  ref,
+  computed,
+  watch,
+  onMounted,
+  onBeforeUnmount,
+  nextTick,
+} from "vue";
 import { useRouter } from "vue-router";
 import aiService from "@/services/aiService";
 
@@ -307,7 +314,7 @@ export default {
     const ultimoIndice = computed(() => mensagens.value.length - 1);
 
     const botaoLabel = computed(() =>
-      emConversa.value ? "Enviar" : "Quero começar",
+      emConversa.value ? "Enviar" : "Enviar Agora",
     );
 
     const focusPrompt = () => {
@@ -478,7 +485,29 @@ export default {
       if (ativo) window.scrollTo(0, 0);
     });
 
+    // Outras seções da página (o FAQ, por exemplo) podem mandar uma
+    // pergunta para cá: o texto entra no campo e a tela sobe até a hero.
+    const receberPergunta = (evento) => {
+      const texto = evento.detail?.texto;
+      if (!texto) return;
+
+      prompt.value = texto;
+
+      if (!emConversa.value) {
+        document
+          .querySelector(".hero-prompt")
+          ?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      focusPrompt();
+    };
+
+    onMounted(() => {
+      window.addEventListener("hero-prompt:perguntar", receberPergunta);
+    });
+
     onBeforeUnmount(() => {
+      window.removeEventListener("hero-prompt:perguntar", receberPergunta);
       pararDigitacao();
       clearPreview();
       travarPagina(false);

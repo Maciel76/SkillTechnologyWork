@@ -31,9 +31,18 @@ api.interceptors.response.use(
     const isPublicAi = url.includes("/ai/public/");
 
     if (error.response?.status === 401 && !isLoginRequest && !isPublicAi) {
-      // Redirecionar para login se não autorizado
+      // Limpa a sessão inteira: apagar só o token deixava o "user" para trás,
+      // o app continuava se achando logado e voltava para o dashboard.
       localStorage.removeItem("authToken");
-      window.location.href = "/login";
+      localStorage.removeItem("user");
+
+      // Guarda de onde veio para voltar depois de entrar de novo
+      if (!window.location.pathname.startsWith("/login")) {
+        const destino = encodeURIComponent(
+          window.location.pathname + window.location.search
+        );
+        window.location.href = `/login?redirect=${destino}`;
+      }
     }
     return Promise.reject(error);
   }

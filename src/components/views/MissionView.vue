@@ -1,467 +1,531 @@
 <template>
-  <div>
-    <!-- Adicionando Font Awesome via CDN -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    />
-    <main>
-      <section class="institutional-hero">
-        <h1>Nossa <span class="highlight">Missão</span></h1>
+  <main class="missao-pagina">
+    <!-- Abertura -->
+    <section class="missao-hero">
+      <div class="hero-inner">
+        <h1>Nossa <span class="gradiente">Missão</span></h1>
         <p>
-          Transformar ideias em soluções digitais completas usando IA e as
-          melhores ferramentas do mercado.
+          Fazer a inteligência artificial trabalhar de verdade dentro de
+          empresas de qualquer porte — e não virar mais uma promessa parada.
         </p>
-      </section>
-
-      <div class="institutional-content">
-        <!-- Mission Statement Section -->
-        <section class="content-section">
-          <div class="mission-statement">
-            <div class="statement-card animate-card">
-              <div class="statement-icon mission">
-                <i class="fas fa-rocket"></i>
-              </div>
-              <h2>Missão</h2>
-              <p>
-                Transformar ideias em soluções digitais completas e funcionais,
-                utilizando inteligência artificial e as melhores ferramentas do
-                mercado para acelerar o crescimento dos nossos clientes. Nosso
-                compromisso é entregar tecnologia de ponta com rapidez,
-                qualidade e custo acessível — para que qualquer empresa possa
-                competir no mercado digital.
-              </p>
-            </div>
-            <div class="statement-card animate-card">
-              <div class="statement-icon vision">
-                <i class="fas fa-eye"></i>
-              </div>
-              <h2>Visão</h2>
-              <p>
-                Ser referência nacional em desenvolvimento de soluções digitais
-                com IA, reconhecida por transformar negócios através da
-                tecnologia e por democratizar o acesso a sistemas inteligentes
-                para empresas de todos os portes.
-              </p>
-            </div>
-            <div class="statement-card animate-card">
-              <div class="statement-icon values">
-                <i class="fas fa-gem"></i>
-              </div>
-              <h2>Valores</h2>
-              <ul>
-                <li>Velocidade com Qualidade — IA para entregar rápido sem comprometer a excelência</li>
-                <li>Transparência Total — Comunicação clara, sem surpresas nem custos ocultos</li>
-                <li>Inovação Constante — Sempre na vanguarda das tecnologias mais avançadas</li>
-                <li>Compromisso com Resultados — Nosso sucesso é medido pelo sucesso do cliente</li>
-                <li>Acessibilidade — Tecnologia de ponta não precisa ser cara</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <!-- Core Values Section -->
-        <section class="content-section">
-          <h2>Nossos Valores em Ação</h2>
-          <div class="values-grid">
-            <div class="value-card animate-card">
-              <i class="fas fa-lightbulb value-icon"></i>
-              <h3>Inovação</h3>
-              <p>
-                Aplicamos IA de última geração em cada projeto. Não seguimos
-                tendências, criamos soluções.
-              </p>
-              <div class="value-quote">
-                <p>
-                  "Utilizamos inteligência artificial como parceira para
-                  entregar mais rápido, com mais qualidade e menor custo."
-                </p>
-              </div>
-            </div>
-            <div class="value-card animate-card">
-              <i class="fas fa-star value-icon"></i>
-              <h3>Excelência</h3>
-              <p>
-                Cada linha de código é testada, cada design é pensado para
-                converter, cada sistema é feito para durar.
-              </p>
-              <div class="value-quote">
-                <p>
-                  "Qualidade não é negociável. Entregamos sistemas robustos,
-                  seguros e com performance excepcional."
-                </p>
-              </div>
-            </div>
-            <div class="value-card animate-card">
-              <i class="fas fa-users value-icon"></i>
-              <h3>Parceria</h3>
-              <p>
-                Não somos apenas fornecedores. Somos parceiros estratégicos
-                comprometidos com o crescimento do seu negócio.
-              </p>
-              <div class="value-quote">
-                <p>
-                  "Cada projeto que assumimos é tratado como se fosse nosso
-                  próprio negócio, com dedicação total."
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- Impact Section -->
-        <section class="content-section impact-section">
-          <h2>Nosso Impacto</h2>
-          <div class="impact-grid">
-            <div class="impact-stat animate-card" v-animate-counter>
-              <div class="stat-number">150+</div>
-              <div class="stat-label">Projetos Entregues</div>
-            </div>
-            <div class="impact-stat animate-card" v-animate-counter>
-              <div class="stat-number">200+</div>
-              <div class="stat-label">Empresas Transformadas</div>
-            </div>
-            <div class="impact-stat animate-card" v-animate-counter>
-              <div class="stat-number">5+</div>
-              <div class="stat-label">Países Alcançados</div>
-            </div>
-          </div>
-        </section>
-
-        <!-- CTA Section  -->
-        <section class="content-section cta-section">
-          <h2>Pronto para Transformar Seu Negócio?</h2>
-          <p>
-            Entre em contato e vamos criar juntos a solução digital que seu
-            negócio precisa.
-          </p>
-          <router-link to="/contato" class="cta-button"
-            >Solicitar Orçamento</router-link
-          >
-        </section>
       </div>
-    </main>
-  </div>
+    </section>
+
+    <!-- Missão, visão e valores -->
+    <section class="secao secao-branca">
+      <div class="secao-inner">
+        <div class="pilares-grid">
+          <article class="pilar-card">
+            <span class="pilar-icone missao">
+              <font-awesome-icon icon="rocket" />
+            </span>
+            <h2>Missão</h2>
+            <p>
+              Colocar inteligência artificial para trabalhar dentro do negócio
+              dos nossos clientes — no sistema que já usam ou em um novo, feito
+              sob medida — para que tarefas repetitivas parem de consumir o
+              tempo de quem deveria estar cuidando do crescimento da empresa.
+            </p>
+          </article>
+
+          <article class="pilar-card">
+            <span class="pilar-icone visao">
+              <font-awesome-icon icon="eye" />
+            </span>
+            <h2>Visão</h2>
+            <p>
+              Ser a agência que o pequeno e o médio negócio brasileiro procura
+              quando decide usar IA de verdade, e não só falar sobre ela.
+              Tecnologia de ponta não pode ser privilégio de quem tem um
+              departamento de TI inteiro.
+            </p>
+          </article>
+
+          <article class="pilar-card">
+            <span class="pilar-icone valores">
+              <font-awesome-icon icon="gem" />
+            </span>
+            <h2>Valores</h2>
+            <ul>
+              <li v-for="valor in valores" :key="valor.titulo">
+                <font-awesome-icon icon="circle-check" />
+                <span>
+                  <strong>{{ valor.titulo }}</strong>
+                  {{ valor.texto }}
+                </span>
+              </li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Valores em ação -->
+    <section class="secao secao-clara">
+      <div class="secao-inner">
+        <header class="secao-header">
+          <h2>Como isso aparece <span class="gradiente">no dia a dia</span></h2>
+          <p>Valor que não muda o jeito de trabalhar é só frase bonita.</p>
+        </header>
+
+        <div class="acoes-grid">
+          <article
+            v-for="acao in acoes"
+            :key="acao.titulo"
+            class="acao-card"
+          >
+            <span class="acao-icone">
+              <font-awesome-icon :icon="acao.icone" />
+            </span>
+            <h3>{{ acao.titulo }}</h3>
+            <p>{{ acao.texto }}</p>
+            <blockquote>{{ acao.citacao }}</blockquote>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Números -->
+    <section class="secao secao-numeros">
+      <div class="secao-inner">
+        <header class="secao-header">
+          <h2>Nosso <span class="gradiente">impacto</span></h2>
+        </header>
+
+        <div class="numeros-grid">
+          <div
+            v-for="numero in numeros"
+            :key="numero.label"
+            class="numero-item"
+            v-animate-counter
+          >
+            <div class="stat-number">{{ numero.valor }}</div>
+            <div class="stat-label">{{ numero.label }}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <ContatoService />
+  </main>
 </template>
 
 <script>
+import ContatoService from "../celulas/ContatoService.vue";
+
 export default {
   name: "MissaoView",
-  components: {},
+  components: { ContatoService },
+
+  data() {
+    return {
+      valores: [
+        {
+          titulo: "IA onde ela resolve.",
+          texto:
+            "Não aplicamos tecnologia por moda: ela só entra onde existe um problema real.",
+        },
+        {
+          titulo: "Sem trocar o que funciona.",
+          texto:
+            "Respeitamos o sistema que a empresa já usa em vez de recomeçar do zero.",
+        },
+        {
+          titulo: "Transparência total.",
+          texto: "Escopo, prazo e valor claros, sem surpresa no meio do caminho.",
+        },
+        {
+          titulo: "Entrega em fases.",
+          texto: "Você vê funcionando aos poucos, sem esperar o fim do projeto.",
+        },
+        {
+          titulo: "A decisão é sua.",
+          texto:
+            "A IA sugere e executa, mas quem define até onde ela vai é você.",
+        },
+      ],
+
+      acoes: [
+        {
+          icone: "lightbulb",
+          titulo: "Diagnóstico antes da proposta",
+          texto:
+            "Olhamos a operação antes de falar em preço. Às vezes o que resolve é uma automação simples, não um sistema inteiro.",
+          citacao:
+            "Se a IA não for resolver nada no seu caso, a gente fala isso na primeira conversa.",
+        },
+        {
+          icone: "sliders",
+          titulo: "IA com rédea curta",
+          texto:
+            "Definimos junto com você o que a IA pode fazer sozinha e o que precisa passar por uma pessoa. Tudo fica registrado e revisável.",
+          citacao:
+            "Automatizar não é abrir mão do controle — é decidir de forma consciente onde ele é necessário.",
+        },
+        {
+          icone: "handshake",
+          titulo: "Presença depois da entrega",
+          texto:
+            "O projeto não acaba no lançamento. Acompanhamos o uso real, corrigimos o que aparece e ajustamos o que a operação pedir.",
+          citacao:
+            "Sistema entregue e abandonado vira problema. Ficamos junto para isso não acontecer.",
+        },
+      ],
+
+      // Mesmos números do restante do site
+      numeros: [
+        { valor: "200+", label: "Projetos entregues" },
+        { valor: "98%", label: "Taxa de satisfação" },
+        { valor: "20+", label: "Serviços oferecidos" },
+        { valor: "24/7", label: "Suporte disponível" },
+      ],
+    };
+  },
+
   directives: {
     "animate-counter": {
       mounted(el) {
-        const statNumberEl = el.querySelector(".stat-number");
-        if (!statNumberEl) return;
+        const alvo = el.querySelector(".stat-number");
+        if (!alvo) return;
 
-        const targetText = statNumberEl.textContent || "0";
-        const targetNumber = parseInt(targetText.replace("+", ""), 10);
-        const suffix = targetText.includes("+") ? "+" : "";
+        const texto = alvo.textContent.trim();
+        const numero = parseInt(texto, 10);
+        const sufixo = texto.replace(/^\d+/, "");
 
-        const animate = () => {
-          const duration = 2000; // 2 segundos
-          let startTimestamp = null;
+        // Valores como "24/7" não são contagem: ficam parados
+        if (Number.isNaN(numero) || texto.includes("/")) return;
 
-          const step = (timestamp) => {
-            if (!startTimestamp) startTimestamp = timestamp;
-            const progress = Math.min(
-              (timestamp - startTimestamp) / duration,
-              1
-            );
-            const currentValue = Math.floor(progress * targetNumber);
-            statNumberEl.textContent = currentValue + suffix;
-            if (progress < 1) {
-              window.requestAnimationFrame(step);
-            }
+        const animar = () => {
+          const duracao = 1600;
+          let inicio = null;
+
+          const passo = (agora) => {
+            if (!inicio) inicio = agora;
+            const progresso = Math.min((agora - inicio) / duracao, 1);
+            alvo.textContent = Math.floor(progresso * numero) + sufixo;
+            if (progresso < 1) window.requestAnimationFrame(passo);
           };
-          window.requestAnimationFrame(step);
+
+          window.requestAnimationFrame(passo);
         };
 
         const observer = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
               if (entry.isIntersecting) {
-                animate();
-                observer.unobserve(el); // Anima apenas uma vez
+                animar();
+                observer.unobserve(el);
               }
             });
           },
-          { threshold: 0.5 } // Inicia quando 50% do elemento está visível
+          { threshold: 0.5 }
         );
+
         observer.observe(el);
       },
     },
-  },
-  mounted() {
-    const observer = new IntersectionObserver(
-      (entries, observer) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    document.querySelectorAll(".animate-card").forEach((card, index) => {
-      card.style.transitionDelay = `${index * 100}ms`;
-      observer.observe(card);
-    });
   },
 };
 </script>
 
 <style scoped>
-.institutional-hero {
-  color: rgb(44, 44, 44);
-  padding: 6rem 0;
+.missao-pagina {
+  font-family: "Inter", sans-serif;
+}
+
+/* Abertura */
+.missao-hero {
+  padding: 4.5rem 5% 4rem;
   text-align: center;
-  position: relative;
-  overflow: hidden;
+  background-color: #f6f5f1;
+  background-image: linear-gradient(rgba(26, 35, 90, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26, 35, 90, 0.05) 1px, transparent 1px);
+  background-size: 120px 120px;
 }
 
-.institutional-hero::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0.1;
+.hero-inner {
+  max-width: 720px;
+  margin: 0 auto;
 }
 
-.institutional-hero h1 {
+.missao-hero h1 {
+  margin: 0;
   font-size: 3rem;
-  margin-bottom: 1rem;
-  position: relative;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: #131a4d;
 }
 
-.highlight {
-  color: #3c23c9;
-  position: relative;
+.gradiente {
+  background: linear-gradient(90deg, #0052ff, #7c6ef2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-.highlight::after {
-  content: "";
-  position: absolute;
-  bottom: 5px;
-  left: 0;
-  width: 100%;
-  height: 8px;
-  background: rgba(89, 20, 209, 0.2);
-  z-index: 0;
-  border-radius: 4px;
-  transform: skewX(-15deg);
+.missao-hero p {
+  margin: 1.25rem auto 0;
+  max-width: 580px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #3d4570;
 }
 
-.institutional-hero p {
-  font-size: 1.25rem;
-  max-width: 800px;
+/* Seções */
+.secao {
+  padding: 4.5rem 5%;
+}
+
+.secao-branca {
+  background: #fff;
+}
+
+.secao-clara {
+  background: #f6f5f1;
+}
+
+.secao-inner {
+  max-width: 1180px;
   margin: 0 auto;
-  opacity: 0.9;
 }
 
-.institutional-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 4rem 1rem;
-}
-
-.content-section {
-  margin-bottom: 4rem;
-}
-
-.animate-card {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-.content-section h2 {
-  font-size: 2rem;
-  color: #2064bd;
-  margin-bottom: 2rem;
+.secao-header {
+  max-width: 620px;
+  margin: 0 auto 2.5rem;
   text-align: center;
 }
 
-.mission-statement {
+.secao-header h2 {
+  margin: 0;
+  font-size: 2.3rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #131a4d;
+}
+
+.secao-header p {
+  margin: 0.85rem 0 0;
+  font-size: 1.02rem;
+  color: #6b7194;
+}
+
+/* Missão, visão e valores */
+.pilares-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  margin-bottom: 4rem;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: 1.5rem;
 }
 
-.statement-card {
-  background: white;
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  text-align: center;
+.pilar-card {
+  padding: 2rem 1.75rem;
+  border: 1px solid #e6e5df;
+  border-radius: 16px;
+  background: #fbfbf9;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.statement-icon {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
+.pilar-card:hover {
+  border-color: #d5d3f5;
+  box-shadow: 0 18px 40px rgba(19, 26, 77, 0.1);
+}
+
+.pilar-icone {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 1.5rem;
-  font-size: 1.8rem;
-  color: white;
+  width: 50px;
+  height: 50px;
+  margin-bottom: 1.25rem;
+  border-radius: 14px;
+  font-size: 1.15rem;
 }
 
-.statement-icon.mission {
-  background: #3b82f6; /* Blue */
+.pilar-icone.missao {
+  background: rgba(0, 82, 255, 0.1);
+  color: #0052ff;
 }
 
-.statement-icon.vision {
-  background: #8b5cf6; /* Purple */
+.pilar-icone.visao {
+  background: rgba(124, 110, 242, 0.12);
+  color: #7c6ef2;
 }
 
-.statement-icon.values {
-  background: #10b981; /* Green */
+.pilar-icone.valores {
+  background: rgba(245, 158, 11, 0.12);
+  color: #f59e0b;
 }
 
-.animate-card.visible {
-  opacity: 1;
-  transform: translateY(0);
+.pilar-card h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #131a4d;
 }
 
-.statement-card h2 {
-  color: #2064bd;
-  margin-bottom: 1rem;
+.pilar-card p {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: #6b7194;
 }
 
-.statement-card ul {
+.pilar-card ul {
   list-style: none;
+  margin: 0;
   padding: 0;
-  text-align: left;
+  display: grid;
+  gap: 0.75rem;
 }
 
-.statement-card ul li {
-  margin-bottom: 0.5rem;
-  padding-left: 1.5rem;
-  position: relative;
+.pilar-card li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: 0.93rem;
+  line-height: 1.55;
+  color: #6b7194;
 }
 
-.statement-card ul li::before {
-  content: "→";
-  position: absolute;
-  left: 0;
-  color: #2064bd;
+.pilar-card li svg {
+  margin-top: 0.22rem;
+  flex: 0 0 auto;
+  color: #22c55e;
 }
 
-.values-grid {
+.pilar-card li strong {
+  color: #131a4d;
+  font-weight: 700;
+}
+
+/* Valores em ação */
+.acoes-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
-.value-card {
-  background: white;
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  transition: transform 0.3s ease;
+.acao-card {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.75rem;
+  border: 1px solid #e6e5df;
+  border-radius: 16px;
+  background: #fff;
 }
 
-.value-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+.acao-icone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  margin-bottom: 1.15rem;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #0052ff, #7c6ef2);
+  color: #fff;
+  font-size: 1.05rem;
 }
 
-.value-icon {
-  font-size: 2.5rem;
-  color: #2064bd;
-  margin-bottom: 1rem;
+.acao-card h3 {
+  margin: 0 0 0.6rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #131a4d;
 }
 
-.value-card img {
-  width: 48px;
-  height: 48px;
-  margin-bottom: 1rem;
+.acao-card p {
+  margin: 0 0 1.35rem;
+  font-size: 0.96rem;
+  line-height: 1.65;
+  color: #6b7194;
 }
 
-.value-quote {
-  margin-top: 1.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid #eee;
+.acao-card blockquote {
+  margin: auto 0 0;
+  padding: 1rem 1.15rem;
+  border-left: 3px solid #7c6ef2;
+  border-radius: 0 10px 10px 0;
+  background: #f6f5f1;
+  font-size: 0.92rem;
   font-style: italic;
+  line-height: 1.6;
+  color: #4b5280;
 }
 
-.value-quote p {
-  color: #666;
-  margin-bottom: 0.5rem;
+/* Números */
+.secao-numeros {
+  color: #fff;
+  background-color: #131a4d;
+  background-image: linear-gradient(135deg, #131a4d 0%, #1e2a6b 100%);
 }
 
-.value-quote span {
-  color: #2064bd;
-  font-weight: bold;
-  font-size: 0.9rem;
+.secao-numeros .secao-header h2 {
+  color: #fff;
 }
 
-.impact-section {
-  background: #f8f9fa;
-  padding: 4rem;
-  border-radius: 10px;
-  text-align: center;
+.secao-numeros .gradiente {
+  background: linear-gradient(90deg, #7cb0ff, #b9a8ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-.impact-grid {
+.numeros-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 2rem;
-  margin-top: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.25rem;
 }
 
-.impact-stat {
-  background: white;
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.cta-section {
+.numero-item {
+  padding: 1.75rem 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.06);
   text-align: center;
-  background: #2064bd;
-  color: white;
-  padding: 4rem;
-  border-radius: 10px;
-  margin-top: 4rem;
 }
 
-.cta-section h2 {
-  color: white;
+.stat-number {
+  font-size: 2.4rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
-.cta-button {
-  display: inline-block;
-  background: white;
-  color: #2064bd;
-  padding: 1rem 2rem;
-  border-radius: 5px;
-  text-decoration: none;
-  margin-top: 2rem;
-  transition: background 0.3s ease;
+.stat-label {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.72);
 }
 
-.cta-button:hover {
-  background: #f0f0f0;
-}
-
+/* Responsivo */
 @media (max-width: 768px) {
-  .mission-statement,
-  .values-grid {
-    grid-template-columns: 1fr;
+  .missao-hero {
+    padding: 3.5rem 1.25rem;
+    background-size: 80px 80px;
   }
 
-  .impact-section,
-  .cta-section {
-    padding: 2rem;
+  .missao-hero h1 {
+    font-size: 2.05rem;
+  }
+
+  .missao-hero p {
+    font-size: 1rem;
+  }
+
+  .secao {
+    padding: 3rem 1.25rem;
+  }
+
+  .secao-header h2 {
+    font-size: 1.85rem;
+  }
+
+  .pilar-card,
+  .acao-card {
+    padding: 1.6rem 1.35rem;
+  }
+
+  .stat-number {
+    font-size: 2rem;
   }
 }
 </style>

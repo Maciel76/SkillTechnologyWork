@@ -39,7 +39,9 @@
 
       <p class="faq-rodape">
         Não achou o que procurava?
-        <router-link to="/contato">Fale com a gente</router-link>
+        <button type="button" @click="perguntarParaIa">
+          Pergunte para a nossa IA
+        </button>
       </p>
     </div>
   </section>
@@ -53,35 +55,44 @@ export default {
       activeFaq: null,
       faqs: [
         {
-          question: "Qual é o prazo médio para desenvolvimento?",
+          question: "Preciso trocar o sistema que já uso?",
           answer:
-            "O prazo varia conforme a complexidade do projeto. Sites institucionais levam em média 4-6 semanas, enquanto aplicativos complexos podem levar de 3-6 meses. Entregamos em fases para que você possa acompanhar o progresso.",
+            "Não. Na maioria dos casos conectamos a inteligência artificial ao ERP, CRM ou planilhas que já rodam na sua empresa. Só sugerimos construir do zero quando o sistema atual realmente não dá conta do que você precisa — e isso a gente diz no diagnóstico, antes de qualquer proposta.",
         },
         {
-          question: "Oferecem manutenção após o lançamento?",
+          question: "Quanto tempo leva para a IA começar a trabalhar?",
           answer:
-            "Sim, todos nossos planos incluem um período de suporte pós-lançamento. Também oferecemos planos de manutenção contínua com atualizações, backups e monitoramento de performance.",
+            "Uma automação pontual ou um atendimento no WhatsApp costuma entrar no ar em 2 a 4 semanas. Um sistema completo com IA leva de 2 a 4 meses. Em todos os casos entregamos em fases: você vê funcionando aos poucos, sem esperar o fim do projeto.",
         },
         {
-          question:
-            "Posso fazer alterações no projeto durante o desenvolvimento?",
+          question: "A IA vai substituir a minha equipe?",
           answer:
-            "Claro! Utilizamos metodologias ágeis que permitem ajustes durante o processo. Alterações significativas podem impactar no prazo e custo, mas sempre comunicamos isso de forma transparente.",
+            "Não é essa a ideia. A IA assume o que é repetitivo — lançamento de dados, primeira resposta ao cliente, geração de relatório — e libera sua equipe para o que exige decisão humana. O que a gente costuma ver é o mesmo time dando conta de um volume bem maior.",
         },
         {
-          question: "Como funciona o pagamento?",
+          question: "E se a IA responder alguma coisa errada?",
           answer:
-            "Trabalhamos com parcelamento em até 12x sem juros. Para projetos maiores, dividimos em etapas com pagamentos vinculados a marcos de entrega. Aceitamos cartão, transferência e PIX.",
+            "A IA não fica solta. Ela trabalha dentro das regras e dos dados do seu negócio, e definimos junto com você o que ela pode resolver sozinha e o que precisa passar por uma pessoa. Tudo fica registrado, então dá para revisar qualquer resposta e ajustar o comportamento.",
         },
         {
-          question: "Vocês trabalham com tecnologias específicas?",
+          question: "Meus dados ficam seguros?",
           answer:
-            "Utilizamos as melhores tecnologias para cada tipo de projeto: React e Vue.js para frontend, Node.js e Laravel para backend, Flutter e React Native para mobile. Sempre escolhemos a stack mais adequada para suas necessidades.",
+            "Sim. Trabalhamos com controle de acesso por nível de usuário, criptografia e backup, e definimos no início quais dados a IA pode acessar. Nada é usado para treinar modelo de terceiros sem que você saiba e autorize.",
         },
         {
-          question: "Há desconto para projetos de longo prazo?",
+          question: "Funciona para o meu tipo de negócio?",
           answer:
-            "Sim, oferecemos descontos progressivos para projetos com duração superior a 6 meses. Planos anuais também têm desconto de até 20% em relação aos mensais.",
+            "Se a sua operação tem tarefa repetitiva, atendimento que demora ou informação espalhada em vários lugares, provavelmente sim. Já aplicamos em comércio, serviços, educação e logística — o que muda é onde a IA entra, não se ela entra.",
+        },
+        {
+          question: "Quanto custa e como funciona o pagamento?",
+          answer:
+            "Depende do que a sua operação precisa, por isso não trabalhamos com tabela fechada. Fazemos um diagnóstico gratuito, mostramos o escopo e o valor antes de você assumir qualquer compromisso. O pagamento é dividido em etapas, vinculado às entregas.",
+        },
+        {
+          question: "Vocês somem depois de entregar?",
+          answer:
+            "Não. Todo projeto inclui um período de suporte após o lançamento, com acompanhamento, correções e ajustes. Depois disso, quem quiser pode seguir com manutenção contínua — monitoramento, atualizações de segurança e melhorias.",
         },
       ],
     };
@@ -90,25 +101,23 @@ export default {
     toggleFaq(index) {
       this.activeFaq = this.activeFaq === index ? null : index;
     },
-  },
-  mounted() {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target); // Animação acontece apenas uma vez
-          }
-        });
-      },
-      {
-        threshold: 0.1, // A animação começa quando 10% do item está visível
-      }
-    );
 
-    this.$el.querySelectorAll(".faq-item").forEach((item) => {
-      observer.observe(item);
-    });
+    // Manda a dúvida para o assistente da hero e sobe a tela até ele.
+    // Se essa seção for reaproveitada numa página sem a hero, cai no contato.
+    perguntarParaIa() {
+      if (!document.querySelector(".hero-prompt")) {
+        this.$router.push("/contato");
+        return;
+      }
+
+      window.dispatchEvent(
+        new CustomEvent("hero-prompt:perguntar", {
+          detail: {
+            texto: "Minha dúvida não estava nas perguntas frequentes: ",
+          },
+        })
+      );
+    },
   },
 };
 </script>
@@ -156,20 +165,14 @@ export default {
   gap: 0.75rem;
 }
 
+/* Sem fade de entrada aqui de propósito: o card depender de uma classe
+   para ficar visível já fez a pergunta sumir da tela uma vez. */
 .faq-item {
   border: 1px solid #e6e5df;
   border-radius: 14px;
   background: #fff;
   overflow: hidden;
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.25s ease,
-    box-shadow 0.25s ease;
-}
-
-.faq-item.is-visible {
-  opacity: 1;
-  transform: translateY(0);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .faq-item:hover {
@@ -217,28 +220,25 @@ export default {
   color: #fff;
 }
 
+/* max-height em vez de grid-template-rows 0fr->1fr: aquele truque não
+   completa a transição em parte dos navegadores e a resposta some.
+   O teto é bem maior que qualquer resposta, então nada fica cortado. */
 .faq-resposta {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.3s ease;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
 }
 
 .faq-item.aberto .faq-resposta {
-  grid-template-rows: 1fr;
+  max-height: 60rem;
 }
 
 .faq-resposta p {
-  overflow: hidden;
   margin: 0;
-  padding: 0 1.4rem;
+  padding: 0 1.4rem 1.35rem;
   font-size: 0.98rem;
   line-height: 1.7;
   color: #6b7194;
-  transition: padding 0.3s ease;
-}
-
-.faq-item.aberto .faq-resposta p {
-  padding: 0 1.4rem 1.35rem;
 }
 
 .faq-rodape {
@@ -248,14 +248,19 @@ export default {
   color: #6b7194;
 }
 
-.faq-rodape a {
-  color: #0052ff;
-  font-weight: 600;
-  text-decoration: none;
+.faq-rodape button {
+  padding: 0;
+  border: none;
   border-bottom: 1px solid transparent;
+  background: none;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 600;
+  color: #0052ff;
+  cursor: pointer;
 }
 
-.faq-rodape a:hover {
+.faq-rodape button:hover {
   border-bottom-color: #0052ff;
 }
 
@@ -282,19 +287,14 @@ export default {
   }
 
   .faq-resposta p {
-    padding: 0 1.1rem;
-    font-size: 0.94rem;
-  }
-
-  .faq-item.aberto .faq-resposta p {
     padding: 0 1.1rem 1.2rem;
+    font-size: 0.94rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .faq-item {
-    opacity: 1;
-    transform: none;
+  .faq-item,
+  .faq-resposta {
     transition: none;
   }
 }

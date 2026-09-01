@@ -1,208 +1,294 @@
-<!-- src/components/Footer.vue 💚 -->
+<!-- src/components/organisms/AppFooter.vue -->
 <template>
-  <footer>
-    <!-- Adicionando Font Awesome via CDN -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    />
-    <div class="footer-content">
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <!-- Marca -->
       <div class="footer-brand">
         <router-link to="/" class="logo">
           <img src="@/assets/svg/icons/logo.svg" alt="Logo" class="logo-icon" />
           <span>Skill Technology Work</span>
         </router-link>
-        <p>Transformamos sua ideia em soluções digitais completas com IA.</p>
+
+        <p class="brand-texto">
+          Colocamos inteligência artificial para trabalhar dentro do seu
+          negócio — no sistema que você já usa ou em um novo, feito sob medida.
+        </p>
+
+        <h3 class="redes-titulo">Siga nosso trabalho</h3>
         <RedesSocias />
-        <!-- Usando o componente SigaNos importando as redes sociais -->
       </div>
-      <div class="footer-links">
+
+      <!-- Links -->
+      <nav class="footer-links">
         <div class="footer-column">
-          <h3>Navegação do site</h3>
+          <h3>Navegação</h3>
           <ul>
-            <li><router-link to="/Services">Nossos Serviços</router-link></li>
-            <li><router-link to="/Portfolio">Nossos Projetos</router-link></li>
-            <li><router-link to="/loja">Nossa loja</router-link></li>
-            <li><router-link to="/blog">Nosso Blog</router-link></li>
+            <li><router-link to="/services">Serviços</router-link></li>
+            <li><router-link to="/portfolio">Projetos</router-link></li>
+            <li><router-link to="/clientes">Clientes</router-link></li>
+            <li><router-link to="/blog">Blog</router-link></li>
+            <li><router-link to="/Loja">Loja</router-link></li>
           </ul>
         </div>
+
         <div class="footer-column">
-          <h3>Sobre Nos</h3>
+          <h3>A agência</h3>
           <ul>
-            <li><router-link to="/Sobre">Sobre Nos</router-link></li>
-            <li>
-              <router-link to="/Eventos">Eventos e Programação</router-link>
-            </li>
-            <li><router-link to="/Missao">Nossa missão</router-link></li>
+            <li><router-link to="/sobre">Sobre nós</router-link></li>
+            <li><router-link to="/missao">Nossa missão</router-link></li>
+            <li><router-link to="/eventos">Eventos</router-link></li>
           </ul>
         </div>
+
         <div class="footer-column">
-          <h3>Informação útil</h3>
+          <h3>Fale com a gente</h3>
           <ul>
             <li>
-              <router-link to="/Privacidade"
-                >Política de Privacidade</router-link
-              >
+              <router-link to="/contato" class="link-destaque">
+                Solicitar diagnóstico
+                <font-awesome-icon icon="arrow-right" />
+              </router-link>
             </li>
-            <li><router-link to="/Termos">Termos de Uso</router-link></li>
-          </ul>
-        </div>
-        <div class="footer-column">
-          <h3>Contato</h3>
-          <ul>
             <li>
-              <router-link to="/contato">Entre em contato</router-link>
-            </li>
-            <li class="contact-item">
-              <i class="fab fa-whatsapp"></i>
               <a
-                href="https://wa.me/5562982809010"
+                href="https://wa.me/5563982809010"
                 target="_blank"
                 rel="noopener"
-                >+55 (62) 98280-9010</a
+                class="contato-linha"
               >
+                <font-awesome-icon icon="comment-dots" />
+                +55 (63) 98280-9010
+              </a>
             </li>
-            <li class="contact-item">
-              <i class="fas fa-envelope"></i>
-              <a href="mailto:contato@skilltechnologywork.com"
-                >contato@skilltechnologywork.com</a
+            <li>
+              <a
+                href="mailto:contato@skilltechnologywork.com"
+                class="contato-linha"
               >
+                <font-awesome-icon icon="envelope" />
+                contato@skilltechnologywork.com
+              </a>
+            </li>
+            <li class="contato-linha texto">
+              <font-awesome-icon icon="location-dot" />
+              Goiânia - GO
             </li>
           </ul>
         </div>
-      </div>
+      </nav>
     </div>
+
     <div class="footer-bottom">
-      <p>© 2025 Skill Technology Work. Todos os direitos reservados.</p>
+      <p>© {{ ano }} Skill Technology Work. Todos os direitos reservados.</p>
+      <div class="footer-legal">
+        <router-link to="/privacidade">Política de Privacidade</router-link>
+        <span aria-hidden="true">·</span>
+        <router-link to="/termos">Termos de Uso</router-link>
+      </div>
     </div>
   </footer>
 </template>
 
 <script>
 import RedesSocias from "@/components/organisms/RedesSocias.vue";
+
 export default {
   name: "AppFooter",
-  components: {
-    RedesSocias,
+  components: { RedesSocias },
+  computed: {
+    ano() {
+      return new Date().getFullYear();
+    },
   },
 };
 </script>
 
 <style scoped>
-/* Footer  */
-footer {
-  background: var(--dark-bg);
-  color: white;
-  padding: 5rem 5% 2rem;
+.site-footer {
+  padding: 4.5rem 5% 2rem;
+  background: #101736;
+  color: #fff;
 }
 
-.footer-content {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 3rem;
-  margin-bottom: 4rem;
+.footer-inner {
+  display: grid;
+  grid-template-columns: 1.3fr 2fr;
+  gap: 4rem;
+  max-width: 1280px;
+  margin: 0 auto 3rem;
 }
 
-.footer-brand {
-  max-width: 300px;
-  flex-shrink: 0;
-}
-
+/* Marca */
 .logo {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
-  font-size: 1.2rem;
+  gap: 0.7rem;
+  margin-bottom: 1.1rem;
+  font-size: 1.1rem;
   font-weight: 700;
-  color: white;
+  letter-spacing: -0.01em;
+  color: #fff;
   text-decoration: none;
-  margin-bottom: 1rem;
 }
 
 .logo-icon {
-  width: 38px;
-  height: 38px;
+  width: 34px;
+  height: 34px;
   border-radius: 8px;
 }
 
-.footer-brand p {
-  color: rgba(255, 255, 255, 0.8);
-  margin: 1rem 0 1.5rem;
+.brand-texto {
+  margin: 0 0 1.85rem;
+  max-width: 340px;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.62);
 }
 
+.redes-titulo {
+  margin: 0 0 0.9rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* Colunas */
+/* align-items explícito: o style.css global tem `nav { align-items: center }`
+   e centralizava as colunas, desalinhando os títulos entre si. */
 .footer-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 3rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.35fr;
+  align-items: start;
+  gap: 2.5rem;
 }
 
 .footer-column h3 {
-  margin-bottom: 1.5rem;
-  font-size: 1.2rem;
+  margin: 0 0 1.15rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
 }
 
 .footer-column ul {
+  margin: 0;
   padding: 0;
   list-style: none;
-}
-
-.footer-column li {
-  margin-bottom: 1rem;
-}
-
-.contact-item {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.contact-item i {
-  font-size: 1.2rem;
-  width: 20px; /* Garante alinhamento */
-}
-
-.contact-item .fa-whatsapp {
-  color: #25d366; /* Verde do WhatsApp */
-}
-
-.contact-item .fa-envelope {
-  color: #3498db; /* Azul para o e-mail */
+  display: grid;
+  gap: 0.8rem;
 }
 
 .footer-column a {
-  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.72);
   text-decoration: none;
-  transition: color 0.3s;
+  transition: color 0.2s ease;
 }
 
 .footer-column a:hover {
-  color: white;
+  color: #fff;
 }
 
+.link-destaque {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-weight: 600;
+  color: #8ab4ff !important;
+}
+
+.link-destaque:hover {
+  color: #b9cfff !important;
+}
+
+.contato-linha {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.92rem;
+}
+
+.contato-linha svg {
+  flex: 0 0 auto;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.contato-linha.texto {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* Base */
 .footer-bottom {
-  padding-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-top: 1.85rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  text-align: center;
-  color: rgba(255, 255, 255, 0.8);
 }
 
-/* Responsividade */
-@media (max-width: 1024px) {
-  .footer-content {
-    flex-direction: column;
-    gap: 3rem;
+.footer-bottom p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.footer-legal {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.88rem;
+}
+
+.footer-legal a {
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-legal a:hover {
+  color: #fff;
+}
+
+.footer-legal span {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+  .footer-inner {
+    grid-template-columns: 1fr;
+    gap: 2.75rem;
   }
 
-  .footer-links {
-    justify-content: space-between;
-    width: 100%;
+  .brand-texto {
+    max-width: none;
   }
 }
 
 @media (max-width: 768px) {
+  .site-footer {
+    padding: 3rem 1.25rem 1.75rem;
+  }
+
+  .footer-inner {
+    margin-bottom: 2.25rem;
+  }
+
   .footer-links {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 2rem;
+  }
+
+  .footer-bottom {
     flex-direction: column;
+    align-items: flex-start;
   }
 }
 </style>

@@ -231,222 +231,209 @@ export default {
 </script>
 
 <style scoped>
-/* Institutional Pages Shared Styles   */
+/* ─── Abertura ─── */
 .institutional-hero {
-  color: rgb(49, 49, 49);
-  padding: 6rem 0;
+  padding: 4rem 5% 3.5rem;
   text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.institutional-hero::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0.1;
+  background-color: #f6f5f1;
+  background-image: linear-gradient(rgba(26, 35, 90, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26, 35, 90, 0.05) 1px, transparent 1px);
+  background-size: 120px 120px;
+  color: #131a4d;
 }
 
 .institutional-hero h1 {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  position: relative;
+  margin: 0;
+  font-size: 2.6rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
 }
 
 .highlight {
-  color: #0052ff;
-  position: relative;
-}
-
-.highlight::after {
-  content: "";
-  position: absolute;
-  bottom: 5px;
-  left: 0;
-  width: 100%;
-  height: 8px;
-  background: rgba(151, 11, 128, 0.2);
-  z-index: 0;
-  border-radius: 4px;
-  transform: skewX(-15deg);
+  background: linear-gradient(90deg, #0052ff, #7c6ef2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .institutional-hero p {
-  font-size: 1.25rem;
-  max-width: 800px;
-  margin: 0 auto;
-  opacity: 0.9;
+  max-width: 620px;
+  margin: 1rem auto 0;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #3d4570;
 }
 
+.update-date {
+  display: inline-block;
+  margin-top: 1.25rem !important;
+  padding: 0.35rem 0.9rem;
+  border: 1px solid #e2e1da;
+  border-radius: 999px;
+  background: #fff;
+  font-size: 0.82rem !important;
+  font-weight: 600;
+  color: #6b7194 !important;
+}
+
+/* ─── Corpo ─── */
 .institutional-content {
-  max-width: 1200px;
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 4rem 1rem;
-}
-
-.content-section {
-  margin-bottom: 4rem;
-}
-
-.content-section h2 {
-  font-size: 2rem;
-  color: #2064bd;
-  margin-bottom: 2rem;
-  text-align: center;
-}
-
-.animate-on-scroll {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-.animate-on-scroll.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.privacy-summary {
-  background: rgba(20, 214, 123, 0.1);
-  padding: 1.5rem;
-  border-radius: 10px;
-  margin-top: 2rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.privacy-summary i {
-  font-size: 2rem;
-  color: #14d67b;
+  padding: 3.5rem 5% 4.5rem;
+  background: #fff;
 }
 
 .privacy-container {
   display: grid;
-  grid-template-columns: 250px 1fr;
-  gap: 2rem;
+  grid-template-columns: 260px 1fr;
+  align-items: start;
+  gap: 3rem;
 }
 
+/* Índice fixo ao lado do texto */
 .privacy-nav {
   position: sticky;
-  top: 2rem;
-  height: fit-content;
-  background: white;
-  padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  top: 6rem;
+  padding: 1.35rem;
+  border: 1px solid #e6e5df;
+  border-radius: 16px;
+  background: #fbfbf9;
 }
 
 .privacy-nav ul {
-  list-style: none;
+  margin: 0;
   padding: 0;
-}
-
-.privacy-nav li {
-  margin-bottom: 1rem;
+  list-style: none;
+  display: grid;
+  gap: 0.15rem;
 }
 
 .privacy-nav a {
-  color: #333;
-  text-decoration: none;
-  transition: color 0.3s ease;
-  font-size: 0.9rem;
   display: block;
-  padding: 0.5rem;
-  border-radius: 5px;
+  padding: 0.5rem 0.7rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #6b7194;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .privacy-nav a:hover {
-  color: #2064bd;
-  background: #f8f9fa;
+  background: rgba(0, 82, 255, 0.07);
+  color: #0052ff;
 }
 
-.section-header {
+.privacy-content .content-section,
+.privacy-content section {
+  scroll-margin-top: 6rem;
+  margin: 0 0 2.5rem;
+  padding: 1.75rem;
+  border: 1px solid #e6e5df;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.privacy-content h2 {
+  margin: 0 0 1rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-align: left;
+  color: #131a4d;
+}
+
+.privacy-content p {
+  margin: 0 0 1rem;
+  font-size: 0.98rem;
+  line-height: 1.75;
+  color: #4b5280;
+}
+
+.privacy-content p:last-child {
+  margin-bottom: 0;
+}
+
+.privacy-content ul {
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.privacy-content ul li {
+  position: relative;
+  padding-left: 1.15rem;
+  font-size: 0.96rem;
+  line-height: 1.7;
+  color: #4b5280;
+}
+
+.privacy-content ul li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.65rem;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #7c6ef2;
+}
+
+
+.privacy-content .section-header {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  gap: 0.7rem;
+  margin: 0 0 1rem;
 }
 
-.section-header i {
-  font-size: 1.8rem;
-  width: 40px;
-  text-align: center;
+.privacy-content .section-header i {
+  font-size: 1.05rem;
+  color: #7c6ef2;
 }
 
-.icon-coleta {
-  color: #2064bd;
+.privacy-content .section-header h2 {
+  margin: 0;
 }
 
-.icon-uso {
-  color: #8b5cf6;
+.privacy-content .content-section {
+  opacity: 1;
 }
-
-.icon-cookies {
-  color: #d97706;
-}
-
-.icon-direitos {
-  color: #10b981;
-}
-
-.icon-seguranca {
-  color: #ef4444;
-}
-
-.icon-contato {
-  color: #64748b;
-}
-
-.contact-info {
-  background: #f8f9fa;
-  padding: 2rem;
-  border-radius: 10px;
-  text-align: center;
-}
-
-.contact-button {
-  display: inline-block;
-  margin-top: 1rem;
-  padding: 0.75rem 2rem;
-  background: #2064bd;
-  color: white;
-  text-decoration: none;
-  border-radius: 5px;
-  transition: background 0.3s ease;
-}
-
-.contact-button:hover {
-  background: #1a4f96;
-}
-
-.update-date {
-  text-align: center;
-  color: #888;
-  font-size: 0.85rem;
-  margin-top: 0.5rem;
-}
-
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .privacy-container {
     grid-template-columns: 1fr;
+    gap: 2rem;
   }
 
   .privacy-nav {
-    position: relative;
-    top: 0;
-    margin-bottom: 2rem;
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .institutional-hero {
+    padding: 3rem 1.25rem 2.75rem;
+    background-size: 80px 80px;
   }
 
-  .privacy-summary {
-    flex-direction: column;
-    text-align: center;
+  .institutional-hero h1 {
+    font-size: 1.95rem;
+  }
+
+  .institutional-hero p {
+    font-size: 0.98rem;
+  }
+
+  .institutional-content {
+    padding: 2.5rem 1.25rem 3.5rem;
+  }
+
+  .privacy-content .content-section,
+  .privacy-content section {
+    padding: 1.35rem;
   }
 }
 </style>

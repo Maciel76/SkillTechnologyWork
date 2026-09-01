@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar" :class="{ 'sidebar-collapsed': collapsed }">
     <div class="sidebar-header">
-      <h2 v-if="!collapsed">Agência Web</h2>
+      <h2 v-if="!collapsed">Skill Technology</h2>
       <h2 v-else></h2>
       <button class="toggle-sidebar" @click="$emit('toggle')">
         <i
@@ -404,7 +404,7 @@ export default {
 }
 
 .submenu-item.active::before {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  background: linear-gradient(135deg, #0052ff, #7c6ef2);
   width: 10px;
   height: 10px;
   box-shadow: 0 0 12px rgba(99, 102, 241, 0.8);

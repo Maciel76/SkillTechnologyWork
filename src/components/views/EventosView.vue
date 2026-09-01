@@ -2,28 +2,22 @@
   <div>
     <main>
       <section class="institutional-hero">
-        <div class="hero-particles"></div>
         <div class="hero-content">
-          <!-- <div class="hero-badge">Eventos Exclusivos</div> -->
           <h1 class="hero-title">
-            <span class="title-line"> Eventos que Conectam</span>
-            <span class="title-line highlight">Pessoas & Conhecimento</span>
+            Eventos que conectam
+            <span class="highlight">pessoas e conhecimento</span>
           </h1>
           <p class="hero-subtitle">
-            Participe de experiências transformadoras que conectam
-            profissionais, compartilham conhecimento e impulsionam carreiras em
-            tecnologia e inovação.
+            Encontros para trocar experiência sobre tecnologia, IA e o que
+            realmente funciona na prática.
           </p>
           <div class="hero-stats">
-            <div class="stat-item">
-              <span class="stat-number">{{ upcomingEvents.length }}</span>
-              <span class="stat-label">Próximos Eventos</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-item">
-              <span class="stat-number">{{ pastEvents.length }}+</span>
-              <span class="stat-label">Eventos Realizados</span>
-            </div>
+            <span v-if="upcomingEvents.length">
+              <strong>{{ upcomingEvents.length }}</strong> próximos
+            </span>
+            <span v-if="pastEvents.length">
+              <strong>{{ pastEvents.length }}</strong> já realizados
+            </span>
           </div>
         </div>
       </section>
@@ -471,174 +465,58 @@ export default defineComponent({
 </script>
 
 <style scoped>
-/* Hero Section - Elegant Design */
+/* ─── Abertura ─── */
 .institutional-hero {
-  position: relative;
-  padding: 8rem 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  overflow: hidden;
-  min-height: 500px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hero-particles {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(
-      circle at 20% 50%,
-      rgba(255, 255, 255, 0.1) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      circle at 80% 80%,
-      rgba(255, 255, 255, 0.1) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      circle at 40% 20%,
-      rgba(255, 255, 255, 0.05) 0%,
-      transparent 50%
-    );
-  animation: float 20s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
+  padding: 3.5rem 5% 3rem;
+  text-align: center;
+  background-color: #f6f5f1;
+  background-image: linear-gradient(rgba(26, 35, 90, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26, 35, 90, 0.05) 1px, transparent 1px);
+  background-size: 120px 120px;
+  color: #131a4d;
 }
 
 .hero-content {
-  position: relative;
-  z-index: 1;
-  max-width: 900px;
-  text-align: center;
-}
-
-.hero-badge {
-  display: inline-block;
-  padding: 8px 20px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 50px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  margin-bottom: 2rem;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  animation: fadeInDown 0.8s ease;
-}
-
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  max-width: 680px;
+  margin: 0 auto;
 }
 
 .hero-title {
-  font-size: 3.5rem;
+  margin: 0;
+  font-size: 2.4rem;
   font-weight: 800;
-  line-height: 1.2;
-  margin-bottom: 1.5rem;
-  animation: fadeInUp 0.8s ease 0.2s backwards;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
 }
 
-.title-line {
-  display: block;
-}
-
-.title-line.highlight {
-  background: linear-gradient(90deg, #fff, #ffd700);
+.highlight {
+  background: linear-gradient(90deg, #0052ff, #7c6ef2);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
-  position: relative;
-}
-
-.title-line.highlight::after {
-  content: "";
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 200px;
-  height: 4px;
-  background: linear-gradient(90deg, transparent, #ffd700, transparent);
-  border-radius: 2px;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  color: transparent;
 }
 
 .hero-subtitle {
-  font-size: 1.25rem;
-  line-height: 1.8;
-  opacity: 0.95;
-  max-width: 700px;
-  margin: 0 auto 3rem;
-  animation: fadeInUp 0.8s ease 0.4s backwards;
+  margin: 0.9rem auto 0;
+  max-width: 520px;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: #3d4570;
 }
 
 .hero-stats {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
-  gap: 3rem;
-  animation: fadeInUp 0.8s ease 0.6s backwards;
+  gap: 0.5rem 1.75rem;
+  margin-top: 1.35rem;
+  font-size: 0.9rem;
+  color: #6b7194;
 }
 
-.stat-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.stat-number {
-  font-size: 3rem;
-  font-weight: 800;
-  line-height: 1;
-  background: linear-gradient(90deg, #fff, #ffd700);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.stat-label {
-  font-size: 0.875rem;
-  opacity: 0.9;
-  margin-top: 0.5rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.stat-divider {
-  width: 1px;
-  height: 60px;
-  background: rgba(255, 255, 255, 0.3);
+.hero-stats strong {
+  color: #131a4d;
+  font-weight: 700;
 }
 
 .institutional-content {
@@ -970,7 +848,7 @@ export default defineComponent({
 .subscription-container {
   max-width: 100%;
   margin: 0 auto;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #131a4d 0%, #0052ff 55%, #7c6ef2 100%);
   border-radius: 20px;
   padding: 3rem 2rem;
   box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
@@ -1040,7 +918,7 @@ export default defineComponent({
   width: 100%;
   padding: 1.5rem 2rem;
   background: white;
-  color: #667eea;
+  color: #0052ff;
   border: none;
   border-radius: 15px;
   font-size: 1.1rem;
@@ -1164,7 +1042,7 @@ export default defineComponent({
   flex: 2;
   padding: 1rem;
   background: white;
-  color: #667eea;
+  color: #0052ff;
   border: none;
   border-radius: 10px;
   font-size: 1rem;
@@ -1196,7 +1074,7 @@ export default defineComponent({
   width: 16px;
   height: 16px;
   border: 2px solid rgba(102, 126, 234, 0.3);
-  border-top-color: #667eea;
+  border-top-color: #0052ff;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -1310,25 +1188,21 @@ export default defineComponent({
 /* Responsive */
 @media (max-width: 768px) {
   .institutional-hero {
-    padding: 5rem 1.5rem;
+    padding: 2.75rem 1.25rem 2.5rem;
+    background-size: 80px 80px;
   }
 
   .hero-title {
-    font-size: 2.5rem;
+    font-size: 1.85rem;
   }
 
   .hero-subtitle {
-    font-size: 1rem;
+    font-size: 0.96rem;
   }
 
   .hero-stats {
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  .stat-divider {
-    width: 60px;
-    height: 1px;
+    gap: 0.5rem 1.25rem;
+    font-size: 0.85rem;
   }
 
   .subscription-container {
