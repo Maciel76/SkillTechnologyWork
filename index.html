@@ -4,15 +4,147 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <meta name="description" content="Skill Technology Work - Transformamos ideias em soluções digitais inovadoras. Desenvolvimento web, apps, e-commerce e consultoria.">
+
+    <!--
+      Este bloco e o unico HTML que existe antes do JavaScript rodar. O router
+      reescreve tudo isso por rota (src/seo/aplicarSeo.ts), mas o robo que
+      chega primeiro, ou que nao executa JS, le exatamente o que esta aqui.
+      Por isso os valores da home ficam gravados no arquivo.
+    -->
+    <title>Agencia de IA para Empresas | Skill Technology Work</title>
+    <meta name="description" content="Colocamos inteligencia artificial para trabalhar no seu negocio: integramos IA ao ERP ou CRM que voce ja usa, automatizamos processos e criamos sistemas sob medida. Diagnostico gratuito.">
+    <meta name="keywords" content="agencia de inteligencia artificial, automacao com IA para empresas, integrar IA no ERP, chatbot com IA no WhatsApp, desenvolvimento de sistemas sob medida, criacao de sites, loja virtual, aplicativos">
+    <meta name="author" content="Skill Technology Work">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <link rel="canonical" href="https://skilltechnologywork.com/">
+    <link rel="alternate" hreflang="pt-BR" href="https://skilltechnologywork.com/">
+    <link rel="alternate" hreflang="x-default" href="https://skilltechnologywork.com/">
+
+    <!-- Sinal geografico: entra no pacote local de "agencia de IA perto de mim" -->
+    <meta name="geo.region" content="BR-GO">
+    <meta name="geo.placename" content="Goiania">
+    <meta name="geo.position" content="-16.6869;-49.2648">
+    <meta name="ICBM" content="-16.6869, -49.2648">
+
+    <!-- Preview do link no WhatsApp, LinkedIn e Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Skill Technology Work">
+    <meta property="og:title" content="Agencia de IA para Empresas | Skill Technology Work">
+    <meta property="og:description" content="Integramos inteligencia artificial ao sistema que sua empresa ja usa, automatizamos processos manuais e criamos sistemas sob medida. Diagnostico gratuito.">
+    <meta property="og:url" content="https://skilltechnologywork.com/">
+    <meta property="og:image" content="https://skilltechnologywork.com/favicon.svg">
+    <meta property="og:locale" content="pt_BR">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Agencia de IA para Empresas | Skill Technology Work">
+    <meta name="twitter:description" content="Integramos inteligencia artificial ao sistema que sua empresa ja usa, automatizamos processos manuais e criamos sistemas sob medida.">
+    <meta name="twitter:image" content="https://skilltechnologywork.com/favicon.svg">
+
     <meta name="theme-color" content="#3b82f6">
-    <link rel="icon" type="image/svg+xml" href="/src/assets/svg/icons/logo.svg">
-    <link rel="icon" href="/src/assets/svg/icons/logo.svg">
-    <title>Skill Technology Work | Agência Digital</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="/favicon.svg">
+
+    <!--
+      JSON-LD estatico da agencia.
+      O JavaScript troca este bloco pelo grafo completo da rota, mas ele fica
+      aqui para o caso de o robo ler o HTML cru: mesmo assim ele sai sabendo o
+      nome da empresa, o que ela vende, onde fica e como falar com ela.
+    -->
+    <script type="application/ld+json" id="seo-jsonld-estatico">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": ["Organization", "ProfessionalService"],
+          "@id": "https://skilltechnologywork.com/#organizacao",
+          "name": "Skill Technology Work",
+          "alternateName": "SkillTech",
+          "url": "https://skilltechnologywork.com",
+          "logo": "https://skilltechnologywork.com/favicon.svg",
+          "description": "Agencia brasileira de inteligencia artificial e desenvolvimento de software. Integra IA ao ERP, CRM e sistemas que a empresa ja usa, automatiza processos manuais, cria sistemas sob medida, atendimento com IA no WhatsApp, sites, lojas virtuais e aplicativos.",
+          "slogan": "Aplicamos IA ao seu negocio para automatizar o que hoje e feito na mao",
+          "foundingDate": "2023",
+          "email": "contato@skilltechnologywork.com",
+          "telephone": "+5563982809010",
+          "priceRange": "$$",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Goiania",
+            "addressRegion": "GO",
+            "addressCountry": "BR"
+          },
+          "areaServed": [
+            { "@type": "Country", "name": "Brasil" },
+            { "@type": "State", "name": "Goias" },
+            { "@type": "City", "name": "Goiania" }
+          ],
+          "knowsAbout": [
+            "agencia de inteligencia artificial",
+            "automacao com inteligencia artificial para empresas",
+            "integrar IA no ERP",
+            "chatbot com IA no WhatsApp",
+            "desenvolvimento de sistemas sob medida",
+            "criacao de loja virtual",
+            "desenvolvimento web"
+          ],
+          "sameAs": [
+            "https://facebook.com/skilltechnologywork",
+            "https://instagram.com/skilltechnologywork",
+            "https://linkedin.com/company/skilltechnologywork",
+            "https://www.youtube.com/@elenavossia"
+          ],
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "sales",
+            "telephone": "+5563982809010",
+            "email": "contato@skilltechnologywork.com",
+            "availableLanguage": ["Portuguese"],
+            "areaServed": "BR",
+            "url": "https://skilltechnologywork.com/contato"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://skilltechnologywork.com/#site",
+          "url": "https://skilltechnologywork.com",
+          "name": "Skill Technology Work",
+          "publisher": { "@id": "https://skilltechnologywork.com/#organizacao" },
+          "inLanguage": "pt-BR"
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
+    <!--
+      Sem JavaScript o site seria uma pagina em branco. Este bloco garante que
+      exista texto real, com os termos que a empresa quer ranquear, e um
+      caminho de contato mesmo nesse cenario.
+    -->
     <noscript>
-      <strong>Este aplicativo necessita de JavaScript habilitado para funcionar corretamente.</strong>
+      <h1>Skill Technology Work — Agencia de IA para Empresas</h1>
+      <p>
+        Integramos inteligencia artificial ao ERP ou CRM que sua empresa ja usa,
+        automatizamos processos manuais e desenvolvemos sistemas sob medida,
+        sites, lojas virtuais e aplicativos. Atendemos todo o Brasil, com base em
+        Goiania (GO).
+      </p>
+      <h2>Servicos</h2>
+      <ul>
+        <li>IA no sistema que a empresa ja usa (ERP, CRM e planilhas)</li>
+        <li>Sistemas sob medida com IA</li>
+        <li>Automacao da operacao</li>
+        <li>Atendimento com IA no WhatsApp e no site</li>
+        <li>Sites e lojas virtuais</li>
+        <li>Aplicativos Android e iOS</li>
+      </ul>
+      <p>
+        Fale com a gente:
+        <a href="https://wa.me/5563982809010">WhatsApp +55 63 98280-9010</a> ou
+        <a href="mailto:contato@skilltechnologywork.com">contato@skilltechnologywork.com</a>.
+      </p>
+      <p><strong>Este site precisa de JavaScript habilitado para funcionar por completo.</strong></p>
     </noscript>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>

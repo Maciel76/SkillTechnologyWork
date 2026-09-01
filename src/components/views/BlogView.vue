@@ -197,6 +197,8 @@
 <script>
 import { ref, computed, onMounted, onUnmounted, watch } from "vue";
 import { useBlog } from "../composables/useBlog";
+import { aplicarSeoComExtras } from "@/seo/aplicarSeo";
+import { SITE } from "@/seo/siteConfig";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 export default {
@@ -214,57 +216,35 @@ export default {
     const newsletterEmail = ref("");
     let searchTimeout = null;
 
-    // SEO: Update page meta
-    const updateMeta = () => {
-      document.title = "Blog | Artigos sobre Tecnologia, Design e Marketing";
-      let metaDesc = document.querySelector('meta[name="description"]');
-      if (!metaDesc) {
-        metaDesc = document.createElement("meta");
-        metaDesc.setAttribute("name", "description");
-        document.head.appendChild(metaDesc);
-      }
-      metaDesc.setAttribute("content", "Confira nossos artigos sobre tecnologia, design, marketing digital e muito mais. Dicas, tutoriais e novidades do mercado.");
+    // SEO
+    //
+    // Titulo, descricao, canonical e o grafo base vem de src/seo. Aqui so
+    // acrescentamos a lista de artigos, que so existe depois do fetch. A
+    // versao anterior montava meta tag e um segundo <script ld+json> na mao:
+    // ficavam dois grafos soltos no head, nenhum ligado a organizacao, e o
+    // titulo falava de "design e marketing", que nao e o que a agencia vende.
+    const atualizarSeo = () => {
+      const listaDeArtigos = posts.value.slice(0, 10).map((post) => ({
+        "@type": "BlogPosting",
+        headline: post.title,
+        description: post.summary,
+        author: { "@type": "Person", name: post.author },
+        datePublished: post.date,
+        image: post.image,
+        url: `${SITE.url}/blog/post/${post.id || post._id}`,
+      }));
 
-      // Open Graph
-      const ogTags = {
-        "og:title": "Blog | Artigos e Novidades",
-        "og:description": "Confira nossos artigos sobre tecnologia, design, marketing digital e muito mais.",
-        "og:type": "website",
-        "og:url": window.location.href,
-      };
-      Object.entries(ogTags).forEach(([property, content]) => {
-        let tag = document.querySelector(`meta[property="${property}"]`);
-        if (!tag) {
-          tag = document.createElement("meta");
-          tag.setAttribute("property", property);
-          document.head.appendChild(tag);
-        }
-        tag.setAttribute("content", content);
-      });
-    };
-
-    // SEO: JSON-LD for Blog
-    let jsonLdScript = null;
-    const injectJsonLd = () => {
-      const jsonLd = {
-        "@context": "https://schema.org",
-        "@type": "Blog",
-        "name": "Blog",
-        "description": "Artigos sobre tecnologia, design, marketing digital e muito mais.",
-        "url": window.location.href,
-        "blogPost": posts.value.slice(0, 10).map(post => ({
-          "@type": "BlogPosting",
-          "headline": post.title,
-          "description": post.summary,
-          "author": { "@type": "Person", "name": post.author },
-          "datePublished": post.date,
-          "image": post.image,
-        })),
-      };
-      jsonLdScript = document.createElement("script");
-      jsonLdScript.type = "application/ld+json";
-      jsonLdScript.textContent = JSON.stringify(jsonLd);
-      document.head.appendChild(jsonLdScript);
+      aplicarSeoComExtras("blog", "/blog", [
+        {
+          "@type": "ItemList",
+          name: "Artigos do blog",
+          itemListElement: listaDeArtigos.map((artigo, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            item: artigo,
+          })),
+        },
+      ]);
     };
 
     // Filter and pagination logic
@@ -344,13 +324,11 @@ export default {
       }
     };
 
-    // Inject JSON-LD when posts load
+    // Os artigos chegam por fetch, entao o grafo e reescrito quando a lista muda.
     watch(
       () => posts.value.length,
       (len) => {
-        if (len > 0 && !jsonLdScript) {
-          injectJsonLd();
-        }
+        if (len > 0) atualizarSeo();
       }
     );
 
@@ -360,16 +338,10 @@ export default {
         isDarkMode.value = true;
         document.documentElement.setAttribute("data-theme", "dark");
       }
-      updateMeta();
-      if (posts.value.length > 0) {
-        injectJsonLd();
-      }
+      atualizarSeo();
     });
 
     onUnmounted(() => {
-      if (jsonLdScript && jsonLdScript.parentNode) {
-        jsonLdScript.parentNode.removeChild(jsonLdScript);
-      }
       clearTimeout(searchTimeout);
     });
 

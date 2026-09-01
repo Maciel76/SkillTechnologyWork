@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import { isAuthenticated, isAdmin } from '@/services/authService';
+import { aplicarSeo, seoDaRota } from "@/seo/aplicarSeo";
 import HomeView from "../views/HomeView.vue";
 
 // ========== 🛣️ CONFIGURAÇÃO DAS ROTAS ========== //
@@ -163,6 +164,15 @@ router.beforeEach((to, from, next) => {
   }
 
   next();
+});
+
+/**
+ * Reescreve titulo, descricao, canonical, Open Graph e JSON-LD a cada troca de
+ * rota. Vai no afterEach (e nao no beforeEach) porque so depois da navegacao
+ * confirmada a URL do canonical corresponde ao que o visitante esta vendo.
+ */
+router.afterEach((to) => {
+  aplicarSeo(seoDaRota(to.name as string | undefined), to.path);
 });
 
 export default router;
