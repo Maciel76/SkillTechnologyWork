@@ -65,8 +65,9 @@ const servicesService = {
   async uploadImage(file: File): Promise<string> {
     const formData = new FormData();
     formData.append('image', file);
+    // Sem Content-Type manual: o browser gera o boundary do multipart
     const res = await api.post('/services/upload', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
+      timeout: 120000,
     });
     return res.data.url;
   },

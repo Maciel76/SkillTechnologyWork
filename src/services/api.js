@@ -2,7 +2,9 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:5006/api",
-  timeout: 10000,
+  // 10s derrubava upload de imagem em producao: a conexao do usuario e bem
+  // mais lenta que o localhost. Envios de arquivo passam timeout proprio.
+  timeout: 30000,
 });
 
 // Interceptor para adicionar token de autenticação se necessário

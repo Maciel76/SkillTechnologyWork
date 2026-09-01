@@ -76,8 +76,10 @@ const heroService = {
   async uploadImage(file: File): Promise<string> {
     const formData = new FormData();
     formData.append('image', file);
+    // Sem Content-Type manual: o browser precisa gerar o boundary do
+    // multipart. Forcar o header derrubava o parse no servidor.
     const response = await api.post('/hero-config/upload', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
+      timeout: 120000,
     });
     return response.data.url;
   },
