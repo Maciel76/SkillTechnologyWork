@@ -34,6 +34,7 @@
         <EcommerceManagement v-if="activeMenu === 'ecommerce'" />
         <EventsManagement v-if="activeMenu === 'events'" />
         <ProjectsManagement v-if="activeMenu === 'projects'" />
+        <AuthorsManagement v-if="activeMenu === 'autores'" />
         <ContactManagement v-if="activeMenu === 'contato'" />
         <AiIntegration v-if="activeMenu === 'ia'" />
         <AiLeads v-if="activeMenu === 'ia-leads'" />
@@ -56,6 +57,7 @@ import EcommerceManagement from "@/components/Dashboad/EcommerceManagement.vue";
 import EventsManagement from "@/components/Dashboad/EventsManagement.vue";
 import ContactManagement from "@/components/Dashboad/ContactManagement.vue";
 import ProjectsManagement from "@/components/Dashboad/ProjectsManagement.vue";
+import AuthorsManagement from "@/components/Dashboad/AuthorsManagement.vue";
 import StatsCards from "@/components/Dashboad/StatsCards.vue";
 import AiIntegration from "@/components/Dashboad/AiIntegration.vue";
 import AiLeads from "@/components/Dashboad/AiLeads.vue";
@@ -76,6 +78,7 @@ export default {
     EventsManagement,
     ContactManagement,
     ProjectsManagement,
+    AuthorsManagement,
     StatsCards,
     AiIntegration,
     AiLeads,
@@ -118,6 +121,7 @@ export default {
               icon: "fas fa-folder-open",
             },
             { id: "portfolio", name: "Portfólio da agência", icon: "fas fa-images" },
+            { id: "autores", name: "Autores", icon: "fas fa-user-astronaut" },
           ],
         },
         { id: "blog", name: "Blog", icon: "fas fa-blog" },

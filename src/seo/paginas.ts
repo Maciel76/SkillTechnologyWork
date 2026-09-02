@@ -159,6 +159,45 @@ export const PAGINAS: Record<string, SeoPagina> = {
     ],
   },
 
+  autores: {
+    titulo: "Time de Desenvolvedores | Skill Technology Work",
+    descricao:
+      "Conheca quem constroi os projetos da Skill Technology Work. Cada perfil reune " +
+      "os sistemas, sites e aplicativos que o desenvolvedor assinou e as tecnologias " +
+      "que domina.",
+    palavras: [
+      "time de desenvolvedores",
+      "equipe de tecnologia",
+      "portfolio de desenvolvedor",
+    ],
+    schema: (url) => [
+      breadcrumb([inicio, { nome: "Portfolio", url: `${SITE.url}/portfolio` }, { nome: "Time", url }]),
+      paginaWeb({
+        url,
+        titulo: "Time de desenvolvedores",
+        descricao: "Os profissionais por tras dos projetos entregues pela agencia.",
+        tipo: "CollectionPage",
+      }),
+    ],
+  },
+
+  // O titulo real e escrito pela propria pagina, que so conhece o nome do autor
+  // depois de carregar o perfil. Aqui fica o texto de fallback.
+  autorportfolio: {
+    titulo: "Portfolio do Desenvolvedor | Skill Technology Work",
+    descricao:
+      "Portfolio pessoal de um desenvolvedor da Skill Technology Work: projetos " +
+      "entregues, tecnologias, trajetoria e contato direto.",
+    schema: (url) => [
+      breadcrumb([
+        inicio,
+        { nome: "Portfolio", url: `${SITE.url}/portfolio` },
+        { nome: "Time", url: `${SITE.url}/portfolio/autores` },
+        { nome: "Perfil", url },
+      ]),
+    ],
+  },
+
   contato: {
     titulo: "Contato e Diagnostico Gratuito | Skill Technology Work",
     descricao:

@@ -197,6 +197,26 @@ export const useRecentProjectStore = defineStore('recentProject', {
     },
 
     // Alternar publicação
+    // Alterna só a visibilidade na página do autor; o site da agência não muda
+    async toggleAuthorPublish(id: string) {
+      this.error = null;
+
+      try {
+        const response = await recentProjectService.toggleAuthorPublish(id);
+
+        const index = this.projects.findIndex((p) => p._id === id);
+        if (index !== -1) {
+          this.projects[index] = response.data;
+        }
+
+        return response.data;
+      } catch (error: any) {
+        this.error = error.message || 'Erro ao alternar publicação no perfil do autor';
+        console.error('Erro ao alternar publicação no perfil do autor:', error);
+        throw error;
+      }
+    },
+
     async togglePublish(id: string) {
       this.loading = true;
       this.error = null;

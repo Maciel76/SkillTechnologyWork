@@ -28,6 +28,18 @@ const routes: Array<RouteRecordRaw> = [
   { path: "/missao", name: "missao", component: () => import("@/components/views/MissionView.vue") },
   { path: "/services", name: "servicos", component: () => import("@/components/views/ServiceView.vue") },
   { path: "/portfolio", name: "portfolio", component: () => import("@/components/views/PortfolioView.vue") },
+  // Portfolios pessoais: a lista do time e a pagina de cada autor.
+  {
+    path: "/portfolio/autores",
+    name: "autores",
+    component: () => import("@/components/views/AutoresView.vue"),
+  },
+  {
+    path: "/portfolio/autor/:slug",
+    name: "autorportfolio",
+    component: () => import("@/components/views/AuthorPortfolioView.vue"),
+    props: true,
+  },
   // Página de planos e preços desativada: quem chegava nela saía sem falar com a gente.
   // O link antigo agora leva direto para o contato (o componente segue em PricinglogView.vue).
   { path: "/Planos/precos", redirect: "/contato" },

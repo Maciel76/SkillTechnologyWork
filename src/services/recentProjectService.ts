@@ -16,6 +16,11 @@ export interface RecentProject {
   liveUrl: string;
   githubUrl: string;
   published: boolean;
+  position?: number;
+  /** Ids dos autores marcados. Vem populado (objetos) nas leituras da API. */
+  authors?: any[];
+  /** Visibilidade na página pessoal do autor, independente de `published`. */
+  authorPublished?: boolean;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -146,6 +151,20 @@ class RecentProjectService {
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.error || 'Erro ao deletar projeto');
+    }
+
+    return response.json();
+  }
+
+  // Alternar publicação no portfólio do autor (não mexe no site da agência)
+  async toggleAuthorPublish(id: string): Promise<ProjectResponse> {
+    const response = await fetch(`${API_URL}/recent-projects/${id}/author-publish`, {
+      method: 'PATCH',
+    });
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      throw new Error(error.error || 'Erro ao alternar publicação no perfil do autor');
     }
 
     return response.json();

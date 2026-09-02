@@ -43,9 +43,22 @@
           </div>
           <div
             class="project-status-badge"
-            :class="{ published: project.published }"
+            :class="statusDoProjeto(project).classe"
           >
-            {{ project.published ? "Publicado" : "Rascunho" }}
+            {{ statusDoProjeto(project).texto }}
+          </div>
+          <div
+            v-if="project.authors && project.authors.length"
+            class="project-author-badge"
+            :class="{ on: project.authorPublished !== false }"
+            :title="
+              project.authorPublished !== false
+                ? 'Visível no portfólio do autor'
+                : 'Oculto no portfólio do autor'
+            "
+          >
+            <i class="fas fa-user-astronaut"></i>
+            {{ project.authorPublished !== false ? "No perfil" : "Fora do perfil" }}
           </div>
         </div>
         <div class="project-content-dashboard">
@@ -53,6 +66,10 @@
           <div class="project-meta">
             <span><i class="fas fa-user"></i> {{ project.client }}</span>
             <span><i class="fas fa-calendar"></i> {{ project.year }}</span>
+            <span
+              ><i class="fas fa-sort-numeric-down"></i> Posição
+              {{ project.position ?? 0 }}</span
+            >
           </div>
           <div class="tech-tags-dashboard">
             <span
@@ -82,7 +99,20 @@
                 class="fas"
                 :class="project.published ? 'fa-eye-slash' : 'fa-eye'"
               ></i>
-              {{ project.published ? "Despublicar" : "Publicar" }}
+              {{ project.published ? "Tirar da agência" : "Pôr na agência" }}
+            </button>
+            <button
+              v-if="project.authors && project.authors.length"
+              class="btn-author-publish"
+              :class="{ on: project.authorPublished !== false }"
+              @click.stop="toggleAuthorPublish(project._id)"
+            >
+              <i class="fas fa-user-astronaut"></i>
+              {{
+                project.authorPublished !== false
+                  ? "Tirar do perfil"
+                  : "Pôr no perfil"
+              }}
             </button>
           </div>
         </div>
@@ -208,6 +238,25 @@
                   </div>
 
                   <div class="form-group-new">
+                    <label for="projectPosition">
+                      <i class="fas fa-sort-numeric-down"></i>
+                      Posição no Portfólio
+                    </label>
+                    <input
+                      id="projectPosition"
+                      name="position"
+                      type="number"
+                      min="0"
+                      step="1"
+                      v-model.number="formData.position"
+                      placeholder="0"
+                    />
+                    <small class="field-hint">
+                      Começa em 0. Quanto menor o número, mais no início da página de portfólio o projeto aparece.
+                    </small>
+                  </div>
+
+                  <div class="form-group-new">
                     <label for="projectLiveUrl">
                       <i class="fas fa-link"></i>
                       URL ao Vivo
@@ -297,15 +346,108 @@
                     </div>
                   </div>
 
-                  <div class="form-group-new">
-                    <label class="checkbox-container">
-                      <input type="checkbox" v-model="formData.published" />
-                      <span class="checkbox-custom"></span>
-                      <span class="checkbox-label">
-                        <i class="fas fa-eye"></i>
-                        Publicar no site
-                      </span>
+                  <div class="form-group-new full-width">
+                    <label>
+                      <i class="fas fa-user-astronaut"></i>
+                      Autores do projeto
                     </label>
+
+                    <div v-if="autoresSelecionados.length" class="selected-authors">
+                      <span
+                        v-for="autor in autoresSelecionados"
+                        :key="autor._id"
+                        class="author-chip"
+                      >
+                        <img v-if="autor.avatar" :src="autor.avatar" :alt="autor.name" />
+                        <span v-else class="author-chip-initials">{{ iniciaisAutor(autor.name) }}</span>
+                        {{ autor.name }}
+                        <button type="button" @click="toggleAutor(autor._id)">
+                          <i class="fas fa-times"></i>
+                        </button>
+                      </span>
+                    </div>
+
+                    <div v-if="authorStore.authors.length" class="authors-picker">
+                      <label
+                        v-for="autor in authorStore.authors"
+                        :key="autor._id"
+                        class="author-option"
+                        :class="{ selected: formData.authors.includes(autor._id) }"
+                      >
+                        <input
+                          type="checkbox"
+                          :checked="formData.authors.includes(autor._id)"
+                          @change="toggleAutor(autor._id)"
+                        />
+                        <img v-if="autor.avatar" :src="autor.avatar" :alt="autor.name" />
+                        <span v-else class="author-option-initials">{{ iniciaisAutor(autor.name) }}</span>
+                        <span class="author-option-text">
+                          <strong>{{ autor.name }}</strong>
+                          <small v-if="autor.role">{{ autor.role }}</small>
+                        </span>
+                      </label>
+                    </div>
+
+                    <p v-else class="field-hint">
+                      Nenhum autor cadastrado ainda. Crie os autores em
+                      <strong>Trabalhos &gt; Autores</strong> para poder marcá-los aqui.
+                    </p>
+
+                    <small class="field-hint">
+                      Todo autor marcado recebe este projeto automaticamente na
+                      página pessoal dele.
+                    </small>
+                  </div>
+
+                  <div class="form-group-new full-width">
+                    <label>
+                      <i class="fas fa-eye"></i>
+                      Onde este projeto aparece
+                    </label>
+
+                    <div class="destinos-publicacao">
+                      <label
+                        class="destino-item"
+                        :class="{ ativo: formData.published }"
+                      >
+                        <input type="checkbox" v-model="formData.published" />
+                        <span class="destino-texto">
+                          <strong>
+                            <i class="fas fa-building"></i>
+                            Portfólio da agência
+                          </strong>
+                          <small>Aparece na home e na página /portfolio do site.</small>
+                        </span>
+                      </label>
+
+                      <label
+                        class="destino-item"
+                        :class="{
+                          ativo: formData.authorPublished,
+                          inerte: !formData.authors.length,
+                        }"
+                      >
+                        <input type="checkbox" v-model="formData.authorPublished" />
+                        <span class="destino-texto">
+                          <strong>
+                            <i class="fas fa-user-astronaut"></i>
+                            Portfólio do autor
+                          </strong>
+                          <small v-if="formData.authors.length">
+                            Aparece na página pessoal de
+                            {{ nomesDosAutoresSelecionados }}.
+                          </small>
+                          <small v-else>
+                            Marque um autor acima para este destino ter efeito.
+                          </small>
+                        </span>
+                      </label>
+                    </div>
+
+                    <small class="field-hint">
+                      Os dois são independentes: dá para publicar só no perfil do
+                      autor sem colocar o projeto no portfólio da agência.
+                    </small>
                   </div>
                 </div>
               </div>
@@ -776,6 +918,7 @@
 import { defineComponent } from "vue";
 import { useRecentProjectStore } from "@/stores/recentProjectStore";
 import recentProjectService from "@/services/recentProjectService";
+import { useAuthorStore } from "@/stores/authorStore";
 
 export default defineComponent({
   name: "ProjectsManagement",
@@ -783,6 +926,7 @@ export default defineComponent({
   data() {
     return {
       projectStore: useRecentProjectStore(),
+      authorStore: useAuthorStore(),
       showModal: false,
       showDeleteModal: false,
       isEditing: false,
@@ -896,11 +1040,29 @@ export default defineComponent({
         liveUrl: "",
         githubUrl: "",
         published: false,
+        position: 0,
+        authors: [],
+        authorPublished: true,
       },
     };
   },
 
   computed: {
+    // Objetos completos dos autores marcados, na ordem do cadastro
+    autoresSelecionados() {
+      return (this.authorStore.authors || []).filter((autor) =>
+        this.formData.authors.includes(autor._id)
+      );
+    },
+
+    // Usado no texto do destino "Portfólio do autor"
+    nomesDosAutoresSelecionados() {
+      const nomes = this.autoresSelecionados.map((autor) => autor.name);
+      if (nomes.length <= 1) return nomes[0] || "";
+      if (nomes.length === 2) return nomes.join(" e ");
+      return `${nomes.slice(0, -1).join(", ")} e ${nomes[nomes.length - 1]}`;
+    },
+
     canProceedToNextStep() {
       if (this.currentStep === 1) {
         return !!(
@@ -922,6 +1084,8 @@ export default defineComponent({
 
   mounted() {
     this.projectStore.fetchAllProjects();
+    // Os autores alimentam o seletor do formulario
+    this.authorStore.fetchAllAuthors();
   },
 
   methods: {
@@ -1066,6 +1230,60 @@ export default defineComponent({
       this.formData.images.splice(index, 1);
     },
 
+    iniciaisAutor(nome) {
+      return String(nome || "")
+        .trim()
+        .split(/\s+/)
+        .slice(0, 2)
+        .map((parte) => parte.charAt(0).toUpperCase())
+        .join("");
+    },
+
+    /*
+     * Status real do projeto. Antes a etiqueta olhava so o `published` e um
+     * projeto publicado apenas no perfil do autor aparecia como "Rascunho",
+     * o que dava a entender que ele nao estava no ar em lugar nenhum.
+     */
+    statusDoProjeto(project) {
+      const temAutor = (project.authors || []).length > 0;
+      const noPerfil = temAutor && project.authorPublished !== false;
+
+      if (project.published) {
+        return { texto: "Publicado", classe: "published" };
+      }
+      if (noPerfil) {
+        return { texto: "Só no perfil", classe: "so-perfil" };
+      }
+      return { texto: "Rascunho", classe: "rascunho" };
+    },
+
+    // Liga/desliga o projeto na pagina pessoal, sem mexer no site da agencia
+    async toggleAuthorPublish(id) {
+      try {
+        await this.projectStore.toggleAuthorPublish(id);
+      } catch (error) {
+        console.error("Erro ao alternar publicação no perfil do autor:", error);
+      }
+    },
+
+    // Marca ou desmarca um autor no projeto
+    toggleAutor(id) {
+      const index = this.formData.authors.indexOf(id);
+      if (index > -1) {
+        this.formData.authors.splice(index, 1);
+      } else {
+        this.formData.authors.push(id);
+      }
+    },
+
+    // Sugere a proxima posicao livre para um projeto novo
+    proximaPosicao() {
+      const posicoes = (this.projectStore.projects || []).map((p) =>
+        Number.isFinite(Number(p.position)) ? Number(p.position) : 0
+      );
+      return posicoes.length ? Math.max(...posicoes) + 1 : 0;
+    },
+
     openCreateModal() {
       this.isEditing = false;
       this.currentStep = 1;
@@ -1084,6 +1302,9 @@ export default defineComponent({
         liveUrl: "",
         githubUrl: "",
         published: false,
+        position: this.proximaPosicao(),
+        authors: [],
+        authorPublished: true,
       };
       this.showModal = true;
     },
@@ -1107,6 +1328,14 @@ export default defineComponent({
         liveUrl: project.liveUrl || "",
         githubUrl: project.githubUrl || "",
         published: project.published,
+        position: Number.isFinite(Number(project.position))
+          ? Number(project.position)
+          : 0,
+        authors: (project.authors || []).map((autor) =>
+          typeof autor === "object" && autor ? autor._id : autor
+        ),
+        // Projetos criados antes deste campo nao tem o valor: contam como visiveis
+        authorPublished: project.authorPublished !== false,
       };
       this.closeProjectModal();
       this.showModal = true;
@@ -1116,6 +1345,10 @@ export default defineComponent({
       if (this.isSaving) return;
 
       this.isSaving = true;
+
+      const posicao = Number(this.formData.position);
+      this.formData.position =
+        Number.isFinite(posicao) && posicao >= 0 ? Math.floor(posicao) : 0;
 
       try {
         if (this.isEditing && this.formData._id) {
@@ -1217,6 +1450,267 @@ export default defineComponent({
 </script>
 
 <style scoped>
+/* Publicado apenas na página do autor: nem verde de publicado, nem cinza de rascunho */
+.project-status-badge.so-perfil {
+  background: rgba(79, 70, 229, 0.95);
+}
+
+/* Destinos de publicação */
+.destinos-publicacao {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.destino-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 0;
+}
+
+.destino-item:hover {
+  border-color: #c7d2fe;
+  background: #f9fafb;
+}
+
+.destino-item.ativo {
+  border-color: #667eea;
+  background: #eef2ff;
+}
+
+/* Marcado sem autor selecionado: fica claro que ainda não surte efeito */
+.destino-item.inerte {
+  opacity: 0.75;
+}
+
+.destino-item input {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: #667eea;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.destino-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.destino-texto strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.9rem;
+  color: #111827;
+}
+
+.destino-texto strong i {
+  color: #667eea;
+}
+
+.destino-texto small {
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: #6b7280;
+}
+
+/* Etiqueta e botão do perfil do autor no card */
+.project-author-badge {
+  position: absolute;
+  top: 48px;
+  right: 12px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(107, 114, 128, 0.9);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 600;
+  backdrop-filter: blur(6px);
+}
+
+.project-author-badge.on {
+  background: rgba(79, 70, 229, 0.92);
+}
+
+.btn-author-publish {
+  background: #eef2ff;
+  color: #4338ca;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 14px;
+  font-size: 0.83rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-author-publish:hover {
+  background: #e0e7ff;
+}
+
+/* Fora do perfil: cor neutra, para nao competir com o estado publicado */
+.btn-author-publish:not(.on) {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.btn-author-publish:not(.on):hover {
+  background: #e5e7eb;
+}
+
+/* Seletor de autores */
+.selected-authors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.author-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px 5px 5px;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #4338ca;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.author-chip img,
+.author-chip-initials {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.author-chip-initials {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  font-size: 0.68rem;
+}
+
+.author-chip button {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: 0.72rem;
+  padding: 0;
+}
+
+.authors-picker {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+  max-height: 260px;
+  overflow-y: auto;
+  padding: 4px;
+}
+
+.author-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 0;
+}
+
+.author-option:hover {
+  border-color: #c7d2fe;
+  background: #f9fafb;
+}
+
+.author-option.selected {
+  border-color: #667eea;
+  background: #eef2ff;
+}
+
+.author-option input {
+  width: 16px;
+  height: 16px;
+  accent-color: #667eea;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.author-option img,
+.author-option-initials {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.author-option-initials {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.author-option-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.author-option-text strong {
+  font-size: 0.88rem;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.author-option-text small {
+  font-size: 0.75rem;
+  color: #6b7280;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.field-hint {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: #94a3b8;
+}
+
 /* Reusing styles from EventsManagement */
 .projects-management {
   padding: 20px;

@@ -186,6 +186,26 @@
                 </div>
               </div>
 
+              <div v-if="projetoAberto.equipe.length" class="projeto-bloco">
+                <h4>Time do projeto</h4>
+                <div class="projeto-equipe">
+                  <router-link
+                    v-for="pessoa in projetoAberto.equipe"
+                    :key="pessoa._id"
+                    :to="`/portfolio/autor/${pessoa.slug}`"
+                    class="equipe-item"
+                    @click="fecharProjeto"
+                  >
+                    <img v-if="pessoa.avatar" :src="pessoa.avatar" :alt="pessoa.name" />
+                    <span v-else class="equipe-iniciais">{{ iniciaisDe(pessoa.name) }}</span>
+                    <span class="equipe-texto">
+                      <strong>{{ pessoa.name }}</strong>
+                      <small v-if="pessoa.role">{{ pessoa.role }}</small>
+                    </span>
+                  </router-link>
+                </div>
+              </div>
+
               <div class="projeto-acoes">
                 <a
                   v-if="linkExterno"
@@ -322,19 +342,46 @@ export default {
       const lista = [];
 
       if (recentes.status === "fulfilled") {
-        lista.push(...(recentes.value?.data || []).map(this.deProjetoRecente));
+        lista.push(...(recentes.value?.data || []).map((item) => this.deProjetoRecente(item)));
       } else {
         console.warn("Projetos recentes indisponíveis:", recentes.reason);
       }
 
       if (portfolio.status === "fulfilled") {
-        lista.push(...(portfolio.value?.data || []).map(this.doPortfolio));
+        lista.push(...(portfolio.value?.data || []).map((item) => this.doPortfolio(item)));
       } else {
         console.warn("Portfólio da agência indisponível:", portfolio.reason);
       }
 
-      this.projetos = lista.filter((projeto) => projeto.titulo);
+      this.projetos = lista
+        .filter((projeto) => projeto.titulo)
+        .sort((a, b) => a.posicao - b.posicao);
       this.carregando = false;
+    },
+
+    iniciaisDe(nome) {
+      return String(nome || "")
+        .trim()
+        .split(/\s+/)
+        .slice(0, 2)
+        .map((parte) => parte.charAt(0).toUpperCase())
+        .join("");
+    },
+
+    // Autores marcados no painel. So os perfis publicados viram link.
+    montarEquipe(autores) {
+      return (autores || [])
+        .filter((pessoa) => pessoa && pessoa.slug && pessoa.published !== false)
+        .map((pessoa) => ({
+          ...pessoa,
+          avatar: recentProjectService.resolveImageUrl(pessoa.avatar || ""),
+        }));
+    },
+
+    // Posicao definida no painel (0 = primeiro). Sem posicao, vai para o fim.
+    posicaoDe(projeto) {
+      const valor = Number(projeto?.position);
+      return Number.isFinite(valor) ? valor : Number.MAX_SAFE_INTEGER;
     },
 
     imagemCompleta(caminho) {
@@ -363,6 +410,8 @@ export default {
           .map((m) => ({ valor: m.value, rotulo: m.label })),
         liveUrl: projeto.liveUrl || "",
         destaque: false,
+        posicao: this.posicaoDe(projeto),
+        equipe: this.montarEquipe(projeto.authors),
       };
     },
 
@@ -390,6 +439,8 @@ export default {
         metricas: [],
         liveUrl: projeto.liveUrl || "",
         destaque: projeto.featured === true,
+        posicao: this.posicaoDe(projeto),
+        equipe: this.montarEquipe(projeto.authors),
       };
     },
 
@@ -960,6 +1011,64 @@ export default {
   border-radius: 999px;
   font-size: 0.85rem;
   color: #4b5280;
+}
+
+.projeto-equipe {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.equipe-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid #e6e5df;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.equipe-item:hover {
+  border-color: #c9c6f0;
+  background: #faf9ff;
+}
+
+.equipe-item img,
+.equipe-iniciais {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.equipe-iniciais {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0052ff, #7c6ef2);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.equipe-texto {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.equipe-texto strong {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #131a4d;
+}
+
+.equipe-texto small {
+  font-size: 0.74rem;
+  color: #6b7194;
 }
 
 .projeto-acoes {
