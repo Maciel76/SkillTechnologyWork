@@ -1,22 +1,26 @@
 <template>
   <section class="empresas">
     <p class="empresas-label">
-      Empresas que já colocaram IA para trabalhar com a gente
+      Projetos desenvolvidos pela nossa equipe
     </p>
 
     <div class="carrossel">
       <!-- A lista é repetida duas vezes para o laço ficar contínuo -->
       <div class="trilho" :style="{ animationDuration: duracao }">
-        <div
+        <component
+          :is="empresa.url ? 'a' : 'div'"
           v-for="(empresa, index) in empresasDuplicadas"
           :key="index"
           class="empresa"
+          :href="empresa.url"
+          :target="empresa.url ? '_blank' : undefined"
+          :rel="empresa.url ? 'noopener noreferrer' : undefined"
         >
-          <span class="empresa-marca">
-            <font-awesome-icon :icon="empresa.icone" />
+          <span class="empresa-marca" :class="{ 'empresa-marca-ampla': empresa.logoAmpla, 'empresa-marca-imagem': empresa.logo, 'empresa-marca-compacta': empresa.logoCompacta }">
+            <img :src="empresa.logo" :alt="empresa.logoAmpla ? empresa.nome : ''" class="empresa-logo" />
           </span>
-          <span class="empresa-nome">{{ empresa.nome }}</span>
-        </div>
+          <span v-if="!empresa.logoAmpla" class="empresa-nome">{{ empresa.nome }}</span>
+        </component>
       </div>
     </div>
   </section>
@@ -24,22 +28,31 @@
 
 <script>
 import { computed, ref } from "vue";
+import linkabioLogo from "@/assets/linkabio.svg";
+import kallilLogo from "@/assets/kallil-logo.png";
+import rammisIcon from "@/assets/rammis-icon-transparent.png";
+import zapflowIcon from "@/assets/zapflow-icon.svg";
+import flashrubIcon from "@/assets/flashrub-icon-transparent.png";
+import nexlivroIcon from "@/assets/nexlivro-icon-transparent.png";
+import zpagoLogo from "@/assets/zpago-logo.png";
+import neoblogLogo from "@/assets/neoblog-logo.png";
+import fexpLogo from "@/assets/fexp-logo.png";
+import multsenseLogo from "@/assets/multsense-logo.png";
 
 export default {
   name: "EmpresasCarrossel",
   setup() {
-    // Empresas fictícias: trocar pelos logos reais dos clientes
     const empresas = ref([
-      { nome: "Nortech", icone: "cube" },
-      { nome: "Vallure", icone: "gem" },
-      { nome: "Meridian Log", icone: "truck-fast" },
-      { nome: "Orbita Saúde", icone: "heart-pulse" },
-      { nome: "AgroPrime", icone: "leaf" },
-      { nome: "FinNext", icone: "chart-line" },
-      { nome: "Solvo Energia", icone: "bolt" },
-      { nome: "Grupo Aurora", icone: "mountain-sun" },
-      { nome: "Vetra Seguros", icone: "shield-halved" },
-      { nome: "Conecta Mais", icone: "circle-nodes" },
+      { nome: "Linkabio", logo: linkabioLogo, url: "https://linkab.io/" },
+      { nome: "Kallil 2.0", logo: kallilLogo, logoAmpla: true, url: "https://kallil.net/" },
+      { nome: "Rammis", logo: rammisIcon, url: "https://www.rammis.app/" },
+      { nome: "ZapFlow", logo: zapflowIcon, url: "https://whatsappflow.app/" },
+      { nome: "Flashrub", logo: flashrubIcon, url: "https://flashub-auditoria.vercel.app/dashboard" },
+      { nome: "Nexlivro", logo: nexlivroIcon, url: "https://nextlivro.com/" },
+      { nome: "ZPAGO", logo: zpagoLogo, logoAmpla: true, logoCompacta: true, url: "https://zpago.com/" },
+      { nome: "NeoBlog", logo: neoblogLogo, logoAmpla: true, logoCompacta: true, url: "https://neoblog.com.br/" },
+      { nome: "FEXP", logo: fexpLogo, logoAmpla: true, logoCompacta: true, url: "https://fexp.com.br/" },
+      { nome: "Multsense", logo: multsenseLogo, logoAmpla: true, logoCompacta: true, url: "https://multsense.com.br/" },
     ]);
 
     const empresasDuplicadas = computed(() => [
@@ -120,10 +133,12 @@ export default {
   gap: 0.6rem;
   flex: 0 0 auto;
   color: #8b90a8;
+  text-decoration: none;
   transition: color 0.25s ease;
 }
 
-.empresa:hover {
+.empresa:hover,
+.empresa:focus-visible {
   color: #131a4d;
 }
 
@@ -149,6 +164,33 @@ export default {
   font-weight: 700;
   letter-spacing: -0.01em;
   white-space: nowrap;
+}
+
+.empresa-logo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.empresa .empresa-marca.empresa-marca-imagem {
+  background: transparent;
+}
+
+.empresa .empresa-marca.empresa-marca-ampla {
+  width: 180px;
+  height: 48px;
+  background: transparent;
+  border-radius: 0;
+}
+
+.carrossel:focus-within .trilho {
+  animation-play-state: paused;
+}
+
+.empresa .empresa-marca.empresa-marca-compacta {
+  width: 130px;
+  height: 36px;
 }
 
 @media (max-width: 768px) {

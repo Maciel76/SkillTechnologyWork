@@ -3,11 +3,11 @@
     <HeroPrompt />
     <EmpresasCarrossel />
     <!-- <HeroSection /> -->
-    <SobreNosResumo />
+    <PortfolioSection />
     <!-- <ComoFunciona /> -->
     <!-- <ServicesLink /> -->
     <!-- <ProjectSection /> -->
-    <PortfolioSection />
+    <SobreNosResumo />
     <BeneficSection title="Por que Escolher a SkillTechnology" />
     <FreedbackView />
     <!-- <PricingSection /> -->

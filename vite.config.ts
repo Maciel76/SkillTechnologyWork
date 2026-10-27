@@ -23,6 +23,12 @@ export default defineConfig({
   },
   server: {
     port: 8080,
+    hmr: true,
+    watch: {
+      // Detecta alterações também quando os eventos do sistema de arquivos falham.
+      usePolling: true,
+      interval: 300,
+    },
   },
   build: {
     outDir: 'dist',

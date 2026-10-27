@@ -1,6 +1,6 @@
 <template>
   <div class="portfolio-container">
-    <h2 class="section-title">Nossos <span class="highlight">Projetos</span></h2>
+    <h2 class="section-title">Nosso <span class="highlight">Portfólio</span></h2>
 
     <div v-if="carregando" class="portfolio-loading">
       <span class="spinner"></span>
