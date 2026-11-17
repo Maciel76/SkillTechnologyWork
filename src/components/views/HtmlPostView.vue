@@ -13,12 +13,13 @@
       <router-link to="/blog" class="back-link">Voltar ao Blog</router-link>
     </div>
 
-    <!-- HTML Content - Full Page Iframe via Blob URL -->
+    <!-- Documento HTML isolado, renderizado diretamente no iframe -->
     <iframe
       v-else
       ref="htmlIframe"
       class="html-fullpage-iframe"
-      :src="blobUrl"
+      :srcdoc="htmlDocument"
+      :title="post.title"
       allow="autoplay; fullscreen"
       @load="onIframeLoad"
     ></iframe>
@@ -26,7 +27,8 @@
 </template>
 
 <script>
-import { ref, onMounted, onUnmounted, watch } from "vue";
+import { ref, computed, onMounted, onUnmounted } from "vue";
+import { prepareBlogPreview } from "@/content/blogDesign";
 import { useRoute } from "vue-router";
 import { useBlog } from "@/components/composables/useBlog.js";
 
@@ -37,10 +39,10 @@ export default {
     const { getPost } = useBlog();
 
     const post = ref(null);
+    const htmlDocument = computed(() => prepareBlogPreview(post.value?.content || ""));
     const loading = ref(true);
     const error = ref(null);
     const htmlIframe = ref(null);
-    const blobUrl = ref(null);
 
     // Limpar meta tags adicionadas ao sair
     const addedMetaTags = [];
@@ -84,16 +86,6 @@ export default {
       }
     };
 
-    const createBlobUrl = (htmlContent) => {
-      // Limpar blob URL anterior
-      if (blobUrl.value) {
-        URL.revokeObjectURL(blobUrl.value);
-      }
-
-      const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
-      blobUrl.value = URL.createObjectURL(blob);
-    };
-
     const loadPost = async () => {
       try {
         loading.value = true;
@@ -111,8 +103,6 @@ export default {
         // Extrair e aplicar meta tags do HTML no documento pai
         extractAndApplyMeta(postData.content);
 
-        // Criar blob URL para renderizar o HTML com fidelidade total
-        createBlobUrl(postData.content);
       } catch (err) {
         error.value = err.message || "Erro ao carregar página";
       } finally {
@@ -121,7 +111,7 @@ export default {
     };
 
     const onIframeLoad = () => {
-      // Nada a fazer - o blob URL renderiza o HTML nativamente
+      // O srcdoc preserva o documento completo, com seus próprios estilos.
       // O iframe ocupa 100% da viewport e o scroll interno funciona sozinho
     };
 
@@ -148,10 +138,10 @@ export default {
 
     return {
       post,
+      htmlDocument,
       loading,
       error,
       htmlIframe,
-      blobUrl,
       onIframeLoad,
     };
   },

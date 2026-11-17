@@ -4,13 +4,12 @@
     <section class="servicos-hero">
       <div class="hero-inner">
         <h1>
-          O que a
-          <span class="gradiente">IA faz pelo seu negócio</span>
+          Soluções para
+          <span class="gradiente">o seu negócio</span>
         </h1>
         <p>
-          Aplicamos inteligência artificial no sistema que você já usa ou em um
-          novo, feito sob medida — sempre onde ela resolve um problema de
-          verdade.
+          Integração de IA e MCP, desenvolvimento de sistemas e sites, e automação
+          para simplificar a operação da sua empresa.
         </p>
       </div>
     </section>
@@ -39,6 +38,15 @@
               <span>{{ item }}</span>
             </li>
           </ul>
+
+          <router-link
+            :to="{ name: 'contato', query: { servico: servico.assunto } }"
+            class="servico-contratar"
+            :aria-label="`Contratar serviço: ${servico.titulo}`"
+          >
+            <span>Contratar serviço</span>
+            <font-awesome-icon icon="arrow-right" aria-hidden="true" />
+          </router-link>
         </article>
       </div>
     </section>
@@ -61,28 +69,30 @@ export default {
           icone: "plug",
           cor: "#0052ff",
           fundo: "rgba(0, 82, 255, 0.1)",
-          titulo: "IA no sistema que você já usa",
+          titulo: "Integração de IA e MCP",
+          assunto: "integrar-ia",
           descricao:
-            "Não precisa trocar de ERP nem recomeçar do zero. Conectamos a inteligência artificial ao que já está rodando na sua empresa.",
+            "Integramos IA ao sistema que você já usa. Com MCP, o ChatGPT ou o Claude pode consultar dados e executar ações autorizadas apenas pela conversa.",
           itens: [
-            "Integração com o ERP ou CRM atual",
-            "Leitura automática de notas fiscais e contratos",
-            "Conexão entre sistemas e planilhas soltas",
-            "Sincronização de dados em tempo real",
+            "Conexão da IA ao seu ERP, CRM ou sistema",
+            "Ferramentas MCP para consultar e atualizar dados",
+            "Criação de registros e conteúdos pela conversa",
+            "Permissões de acesso e ações sob seu controle",
           ],
         },
         {
           icone: "layer-group",
           cor: "#7C6EF2",
           fundo: "rgba(124, 110, 242, 0.12)",
-          titulo: "Sistemas sob medida com IA",
+          titulo: "Sistemas próprios e sites institucionais",
+          assunto: "criar-sistema",
           descricao:
-            "Quando o que existe não dá conta, construímos do zero — com a IA dentro desde o primeiro dia.",
+            "Desenvolvemos sistemas próprios e sites institucionais para a sua empresa, com as funcionalidades e a identidade visual que o seu negócio precisa.",
           itens: [
-            "CRM que prioriza os melhores leads",
-            "ERP que prevê compras e evita ruptura de estoque",
-            "Dashboards que avisam antes do problema aparecer",
-            "Acesso por níveis de usuário e relatórios sob demanda",
+            "Sistemas de gestão, portais e painéis sob medida",
+            "Sites institucionais para apresentar sua empresa",
+            "Layout responsivo para computador e celular",
+            "Perfis de acesso e integrações conforme o projeto",
           ],
         },
         {
@@ -90,13 +100,14 @@ export default {
           cor: "#F59E0B",
           fundo: "rgba(245, 158, 11, 0.12)",
           titulo: "Automação da operação",
+          assunto: "automacao",
           descricao:
-            "Mapeamos o que sua equipe repete todo dia e colocamos no automático, com segurança e rastreabilidade.",
+            "Conectamos as etapas da sua operação para reduzir tarefas manuais, organizar o fluxo de trabalho e acompanhar cada execução.",
           itens: [
-            "Propostas e orçamentos gerados sozinhos",
-            "Cobranças, lembretes e conciliação financeira",
-            "Relatórios enviados automaticamente",
-            "Aprovações e fluxos internos sem travar por e-mail",
+            "Propostas, orçamentos e documentos automáticos",
+            "Cobranças e lembretes conforme as regras da operação",
+            "Relatórios programados e dados sincronizados",
+            "Fluxos de aprovação com histórico de execução",
           ],
         },
         {
@@ -104,6 +115,7 @@ export default {
           cor: "#10B981",
           fundo: "rgba(16, 185, 129, 0.12)",
           titulo: "Atendimento com IA",
+          assunto: "atendimento-ia",
           descricao:
             "Um assistente que responde seus clientes em segundos, a qualquer hora, e só passa para a equipe o que realmente precisa.",
           itens: [
@@ -118,6 +130,7 @@ export default {
           cor: "#0099DD",
           fundo: "rgba(0, 153, 221, 0.1)",
           titulo: "Sites e lojas virtuais",
+          assunto: "site-loja",
           descricao:
             "Presença digital que converte, com atendimento e recomendação inteligentes rodando por trás.",
           itens: [
@@ -132,6 +145,7 @@ export default {
           cor: "#EC4899",
           fundo: "rgba(236, 72, 153, 0.1)",
           titulo: "Aplicativos",
+          assunto: "aplicativo",
           descricao:
             "Apps Android e iOS para seus clientes ou para a equipe em campo, conectados ao seu sistema.",
           itens: [
@@ -296,6 +310,33 @@ export default {
   margin-top: 0.2rem;
   flex: 0 0 auto;
   color: #22c55e;
+}
+
+.servico-contratar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 44px;
+  margin-top: 1.5rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: #0052ff;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.servico-contratar:hover {
+  background: #0040c9;
+}
+
+.servico-contratar:focus-visible {
+  outline: 3px solid #7c6ef2;
+  outline-offset: 3px;
 }
 
 /* Responsivo */

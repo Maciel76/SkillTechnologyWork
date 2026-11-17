@@ -1,7 +1,7 @@
 <template>
   <section class="empresas">
     <p class="empresas-label">
-      Projetos desenvolvidos pela nossa equipe
+      Nossos clientes
     </p>
 
     <div class="carrossel">

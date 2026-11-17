@@ -202,8 +202,8 @@ export default {
 
       // Mesmos caminhos oferecidos na home e na página de serviços
       assuntos: [
-        { valor: "integrar-ia", rotulo: "IA no sistema que já uso" },
-        { valor: "criar-sistema", rotulo: "Criar um sistema com IA" },
+        { valor: "integrar-ia", rotulo: "Integração de IA e MCP" },
+        { valor: "criar-sistema", rotulo: "Sistemas e sites institucionais" },
         { valor: "automacao", rotulo: "Automatizar processos" },
         { valor: "atendimento-ia", rotulo: "Atendimento com IA" },
         { valor: "site-loja", rotulo: "Site ou loja virtual" },
@@ -267,6 +267,20 @@ export default {
         },
       ],
     };
+  },
+
+  watch: {
+    "$route.query.servico": {
+      immediate: true,
+      handler(valor) {
+        if (
+          typeof valor === "string" &&
+          this.assuntos.some((assunto) => assunto.valor === valor)
+        ) {
+          this.form.subject = valor;
+        }
+      },
+    },
   },
 
   methods: {

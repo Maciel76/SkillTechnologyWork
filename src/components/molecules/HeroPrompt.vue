@@ -1,5 +1,10 @@
 <template>
-  <section class="hero-prompt" :class="{ 'chat-mode': emConversa }">
+  <section
+    ref="heroSection"
+    class="hero-prompt"
+    :class="{ 'chat-mode': emConversa }"
+    :style="alturaChat ? { '--chat-height': `${alturaChat}px` } : undefined"
+  >
     <div class="hero-inner">
       <!-- Vitrine: some assim que a conversa começa -->
       <template v-if="!emConversa">
@@ -91,31 +96,7 @@
           @keydown.enter.meta.prevent="submit"
         ></textarea>
 
-        <div v-if="attachment" class="attachment">
-          <img :src="attachment.preview" :alt="attachment.name" />
-          <span class="attachment-name">{{ attachment.name }}</span>
-          <button
-            type="button"
-            class="attachment-remove"
-            @click="removeAttachment"
-          >
-            <font-awesome-icon icon="xmark" />
-          </button>
-        </div>
-
         <div class="prompt-actions">
-          <button type="button" class="attach-button" @click="openFilePicker">
-            <font-awesome-icon icon="image" />
-            <span>Anexar imagem</span>
-          </button>
-          <input
-            ref="fileField"
-            type="file"
-            accept="image/*"
-            class="file-input"
-            @change="handleFile"
-          />
-
           <button
             type="button"
             class="send-button"
@@ -150,10 +131,6 @@
           </button>
         </div>
 
-        <p class="hero-trust">
-          <font-awesome-icon icon="circle-check" />
-          Mais de 200 projetos entregues para empresas de todo o Brasil
-        </p>
       </template>
     </div>
   </section>
@@ -177,6 +154,22 @@ const INTERVALO_MS = 18;
 // Distância do fim em que ainda consideramos que o usuário está "no fim"
 const MARGEM_FIM_PX = 60;
 
+const PERGUNTA_MCP =
+  "Como posso usar o ChatGPT ou o Claude para criar e editar conteúdos no meu sistema com MCP?";
+const RESPOSTA_MCP =
+  "MCP (Model Context Protocol) é um padrão que conecta assistentes de IA às ferramentas do seu sistema. Com essa integração configurada, você pode conversar com o ChatGPT ou o Claude e pedir para criar um projeto, editar uma publicação do blog ou cadastrar um produto. A IA executa as ações autorizadas diretamente no sistema, sem você precisar abrir o painel para cada alteração.\n\nAqui na Skill Technology, preparamos essa conexão e definimos com você quais dados e ferramentas a IA poderá acessar. Qual sistema você quer conectar e o que gostaria de criar ou editar pela conversa?";
+const normalizarPergunta = (texto) =>
+  texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
+    .trim().replace(/[.!?]+$/, "").replace(/\s+/g, " ").trim();
+const PERGUNTAS_MCP = new Set([
+  PERGUNTA_MCP,
+  "O que é MCP?",
+  "O que é o MCP?",
+  "Como funciona o MCP?",
+  "Como funciona MCP?",
+  "MCP",
+].map(normalizarPergunta));
+
 export default {
   name: "HeroPrompt",
   setup() {
@@ -185,11 +178,15 @@ export default {
     const tabs = ref([
       {
         key: "integrar",
-        label: "Integrar ao meu sistema",
+        label: "Integrar IA ao meu sistema",
         icon: "plug",
         placeholder:
           "Já uso um ERP e quero conectar uma IA que leia os pedidos e responda meus clientes sozinha...",
         chips: [
+          {
+            label: "MCP: ChatGPT e Claude",
+            text: PERGUNTA_MCP,
+          },
           {
             label: "IA no meu ERP ou CRM",
             text: "Quero conectar uma IA ao ERP que já uso, sem trocar de sistema.",
@@ -202,34 +199,30 @@ export default {
             label: "Ler notas e contratos",
             text: "Preciso de uma IA que leia notas fiscais e contratos e jogue os dados no meu sistema.",
           },
-          {
-            label: "Unir planilhas e sistemas",
-            text: "Quero integrar minhas planilhas e sistemas para a IA trabalhar com tudo em um lugar só.",
-          },
         ],
       },
       {
         key: "criar",
-        label: "Criar sistema com IA",
+        label: "Quero criar meu sistema",
         icon: "layer-group",
         placeholder:
-          "Quero um CRM com IA que priorize os melhores leads e escreva os follow-ups da minha equipe...",
+          "Quero criar um sistema sob medida para organizar os processos da minha empresa...",
         chips: [
           {
-            label: "CRM com IA",
-            text: "Quero um CRM com IA que priorize leads e sugira o próximo contato com cada cliente.",
+            label: "CRM para vendas",
+            text: "Quero um CRM para organizar meus clientes, acompanhar oportunidades e gerenciar as vendas.",
           },
           {
-            label: "ERP inteligente",
-            text: "Preciso de um ERP com IA para prever compras e evitar ruptura de estoque.",
+            label: "ERP para gestão",
+            text: "Preciso de um ERP para integrar estoque, vendas e financeiro da minha empresa.",
           },
           {
-            label: "Portal do RH com IA",
-            text: "Quero um portal de RH com IA para triagem de currículos e respostas aos funcionários.",
+            label: "Portal de clientes",
+            text: "Quero um portal onde meus clientes possam acompanhar pedidos, documentos e solicitações.",
           },
           {
-            label: "Dashboard preditivo",
-            text: "Quero um dashboard com IA que aponte tendências e me avise quando algo sair do normal.",
+            label: "Sistema sob medida",
+            text: "Quero criar um sistema adaptado aos processos e às necessidades do meu negócio.",
           },
         ],
       },
@@ -259,27 +252,27 @@ export default {
         ],
       },
       {
-        key: "atendimento",
-        label: "Atendimento com IA",
-        icon: "robot",
+        key: "institucional",
+        label: "Quero um site institucional",
+        icon: "globe",
         placeholder:
-          "Quero um assistente de IA que atenda no WhatsApp, tire dúvidas e agende horários sozinho...",
+          "Quero um site institucional para apresentar minha empresa, mostrar meus serviços e receber contatos...",
         chips: [
           {
-            label: "Assistente no WhatsApp",
-            text: "Quero um assistente de IA atendendo meus clientes no WhatsApp 24 horas por dia.",
+            label: "Site para empresa",
+            text: "Quero um site institucional para apresentar minha empresa e transmitir confiança aos visitantes.",
           },
           {
-            label: "Chat no meu site",
-            text: "Quero um chat com IA no meu site que responda dúvidas e capte contatos.",
+            label: "Apresentar serviços",
+            text: "Quero um site para apresentar meus serviços, mostrar projetos e facilitar pedidos de orçamento.",
           },
           {
-            label: "Agendamento automático",
-            text: "Quero uma IA que agende horários com os clientes e envie os lembretes.",
+            label: "Receber contatos",
+            text: "Quero um site institucional com formulário de contato e acesso ao WhatsApp da minha empresa.",
           },
           {
-            label: "Suporte com IA",
-            text: "Preciso de uma IA que responda o suporte e só passe para a equipe o que for complexo.",
+            label: "Renovar meu site",
+            text: "Quero modernizar o site da minha empresa, melhorar a navegação e deixá-lo adaptado ao celular.",
           },
         ],
       },
@@ -291,8 +284,8 @@ export default {
       (tabs.value[0].placeholder || "").replace(/\.{3}$/, "."),
     );
     const promptField = ref(null);
-    const fileField = ref(null);
-    const attachment = ref(null);
+    const heroSection = ref(null);
+    const alturaChat = ref(null);
 
     // Conversa com o assistente
     const mensagens = ref([]);
@@ -385,38 +378,12 @@ export default {
       focusPrompt();
     };
 
-    const openFilePicker = () => {
-      fileField.value?.click();
-    };
-
-    const clearPreview = () => {
-      if (attachment.value?.preview) {
-        URL.revokeObjectURL(attachment.value.preview);
-      }
-    };
-
-    const handleFile = (event) => {
-      const file = event.target.files?.[0];
-      if (!file) return;
-
-      clearPreview();
-      attachment.value = {
-        name: file.name,
-        preview: URL.createObjectURL(file),
-        file,
-      };
-    };
-
-    const removeAttachment = () => {
-      clearPreview();
-      attachment.value = null;
-      if (fileField.value) fileField.value.value = "";
-    };
-
     // O envio conversa com o assistente em vez de sair da página
     const submit = async () => {
       const texto = prompt.value.trim();
       if (!texto || ocupado.value) return;
+      const respostaProntaMcp = mensagens.value.length === 0 &&
+        PERGUNTAS_MCP.has(normalizarPergunta(texto));
 
       erroChat.value = null;
       mensagens.value.push({ role: "user", content: texto });
@@ -425,6 +392,14 @@ export default {
       // Mensagem própria sempre traz a tela de volta para o fim
       seguirScroll.value = true;
       rolarParaFim(true);
+
+      if (respostaProntaMcp) {
+        carregando.value = false;
+        mensagens.value.push({ role: "assistant", content: RESPOSTA_MCP });
+        rolarParaFim(true);
+        focusPrompt();
+        return;
+      }
 
       try {
         const resposta = await aiService.publicChat(
@@ -453,7 +428,7 @@ export default {
         JSON.stringify({
           categoria: currentTab.value.label,
           mensagem: primeira?.content || prompt.value.trim(),
-          anexo: attachment.value?.name || null,
+          anexo: null,
           conversa: mensagens.value,
         }),
       );
@@ -480,9 +455,27 @@ export default {
       document.body.style.overflow = valor;
     };
 
+    // Reserva o espaço real do cabeçalho, inclusive quando a janela muda.
+    const atualizarAlturaChat = () => {
+      if (!emConversa.value || !heroSection.value) return;
+      const viewport = window.visualViewport;
+      const fimDaTela = viewport
+        ? viewport.height + viewport.offsetTop
+        : window.innerHeight;
+      alturaChat.value = Math.max(
+        0,
+        fimDaTela - heroSection.value.getBoundingClientRect().top,
+      );
+    };
+
     watch(emConversa, (ativo) => {
       travarPagina(ativo);
-      if (ativo) window.scrollTo(0, 0);
+      if (ativo) {
+        window.scrollTo({ top: 0, behavior: "instant" });
+        nextTick(atualizarAlturaChat);
+      } else {
+        alturaChat.value = null;
+      }
     });
 
     // Outras seções da página (o FAQ, por exemplo) podem mandar uma
@@ -504,12 +497,17 @@ export default {
 
     onMounted(() => {
       window.addEventListener("hero-prompt:perguntar", receberPergunta);
+      window.addEventListener("resize", atualizarAlturaChat);
+      window.visualViewport?.addEventListener("resize", atualizarAlturaChat);
+      window.visualViewport?.addEventListener("scroll", atualizarAlturaChat);
     });
 
     onBeforeUnmount(() => {
       window.removeEventListener("hero-prompt:perguntar", receberPergunta);
+      window.removeEventListener("resize", atualizarAlturaChat);
+      window.visualViewport?.removeEventListener("resize", atualizarAlturaChat);
+      window.visualViewport?.removeEventListener("scroll", atualizarAlturaChat);
       pararDigitacao();
-      clearPreview();
       travarPagina(false);
     });
 
@@ -519,8 +517,8 @@ export default {
       currentTab,
       prompt,
       promptField,
-      fileField,
-      attachment,
+      heroSection,
+      alturaChat,
       mensagens,
       carregando,
       digitando,
@@ -533,9 +531,6 @@ export default {
       aoRolar,
       selectTab,
       useChip,
-      openFilePicker,
-      handleFile,
-      removeAttachment,
       submit,
       falarComEquipe,
       novaConversa,
@@ -567,8 +562,9 @@ export default {
 /* Altura definida (não min-height): sem isso a seção cresce com o texto
    e quem rola vira a página, não o chat. */
 .hero-prompt.chat-mode {
-  height: 100vh;
-  max-height: 100vh;
+  box-sizing: border-box;
+  height: var(--chat-height, 100dvh);
+  max-height: var(--chat-height, 100dvh);
   display: flex;
   padding: 1.5rem 5% 2rem;
 }
@@ -586,6 +582,12 @@ export default {
   flex: 1;
   max-height: none;
   min-height: 0;
+}
+
+.chat-mode .chat-bar,
+.chat-mode .prompt-card,
+.chat-mode .chat-footer {
+  flex-shrink: 0;
 }
 
 .hero-title {
@@ -620,20 +622,20 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.6rem;
+  gap: 0.5rem;
   margin: 2.25rem 0 1.5rem;
 }
 
 .tab {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.65rem 1rem;
+  gap: 0.4rem;
+  padding: 0.65rem 0.85rem;
   border: 1px solid #dcdcd4;
   border-radius: 10px;
   background: transparent;
   color: #4b5280;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -861,72 +863,13 @@ export default {
   color: #9aa0b8;
 }
 
-.attachment {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  margin-bottom: 0.75rem;
-  padding: 0.35rem 0.6rem;
-  border: 1px solid #e6e5df;
-  border-radius: 8px;
-  max-width: 100%;
-}
-
-.attachment img {
-  width: 28px;
-  height: 28px;
-  border-radius: 5px;
-  object-fit: cover;
-}
-
-.attachment-name {
-  font-size: 0.85rem;
-  color: #4b5280;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 220px;
-}
-
-.attachment-remove {
-  border: none;
-  background: transparent;
-  color: #9aa0b8;
-  cursor: pointer;
-  padding: 0 2px;
-}
-
-.attachment-remove:hover {
-  color: #131a4d;
-}
-
 .prompt-actions {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 1rem;
   border-top: 1px solid #f0efe9;
   padding-top: 0.75rem;
-}
-
-.file-input {
-  display: none;
-}
-
-.attach-button {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  border: none;
-  background: transparent;
-  color: #6b7194;
-  font-size: 0.92rem;
-  cursor: pointer;
-  padding: 0.4rem 0;
-}
-
-.attach-button:hover {
-  color: #0052ff;
 }
 
 .send-button {
@@ -1017,17 +960,6 @@ export default {
   color: #131a4d;
 }
 
-.hero-trust {
-  margin-top: 2rem;
-  font-size: 0.9rem;
-  color: #6b7194;
-}
-
-.hero-trust svg {
-  color: #22c55e;
-  margin-right: 0.35rem;
-}
-
 /* Responsivo */
 @media (max-width: 768px) {
   .hero-prompt {
@@ -1037,9 +969,6 @@ export default {
 
   .hero-prompt.chat-mode {
     padding: 1rem 1rem 1.25rem;
-    /* Em celular, 100vh estoura com a barra do navegador */
-    height: 100svh;
-    max-height: 100svh;
   }
 
   .hero-title {
@@ -1138,9 +1067,5 @@ export default {
     justify-content: center;
   }
 
-  .hero-trust {
-    margin-top: 1.5rem;
-    font-size: 0.85rem;
-  }
 }
 </style>

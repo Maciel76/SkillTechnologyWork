@@ -2,8 +2,8 @@
   <div class="projects-management">
     <div class="section-header">
       <div>
-        <h2>Gerenciamento de Projetos Recentes</h2>
-        <p class="subtitle">Crie e gerencie projetos para seu portfólio</p>
+        <h2>Projetos</h2>
+        <p class="subtitle">Organize os trabalhos da agência e dos desenvolvedores.</p>
       </div>
       <button class="btn-primary-new" @click="openCreateModal">
         <i class="fas fa-plus"></i> Criar Projeto

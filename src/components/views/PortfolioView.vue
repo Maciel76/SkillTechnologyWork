@@ -4,12 +4,12 @@
     <section class="portfolio-hero">
       <div class="hero-inner">
         <h1>
-          Projetos que resolveram
-          <span class="gradiente">problemas reais</span>
+          Portfólio da<br />
+          <span class="gradiente">Skill Technology Work</span>
         </h1>
         <p>
-          Sistemas, lojas, aplicativos e automações com IA que entregamos para
-          empresas de portes e setores diferentes.
+          Conheça os sites, sistemas, lojas virtuais, aplicativos e automações
+          que fazem parte do portfólio da nossa empresa.
         </p>
       </div>
     </section>
@@ -24,7 +24,7 @@
       <!-- Todos os projetos -->
       <section class="secao secao-branca">
         <header class="secao-header">
-          <h2>Nossos <span class="gradiente">Projetos</span></h2>
+          <h2>Nosso <span class="gradiente">portfólio</span></h2>
         </header>
 
         <div v-if="projetos.length" class="galeria-grid">
@@ -34,22 +34,19 @@
             class="galeria-card"
             @click="abrirProjeto(projeto)"
           >
-            <div class="galeria-media">
+            <button type="button" class="galeria-media" :aria-label="`Ampliar capa de ${projeto.titulo}`" @click.stop="abrirImagem(projeto, projeto.thumbnail)">
               <img :src="projeto.thumbnail" :alt="projeto.titulo" loading="lazy" />
               <span class="etiqueta">{{ projeto.categoria }}</span>
-            </div>
+              <span class="galeria-ampliar" aria-hidden="true">Ampliar ↗</span>
+            </button>
 
             <div class="galeria-corpo">
-              <h3>{{ projeto.titulo }}</h3>
+              <h3><button type="button" class="galeria-titulo" @click.stop="abrirProjeto(projeto)">{{ projeto.titulo }}</button></h3>
               <p v-if="projeto.resumo">{{ projeto.resumo }}</p>
 
               <div v-if="projeto.tecnologias.length" class="galeria-techs">
-                <span
-                  v-for="tech in projeto.tecnologias.slice(0, 4)"
-                  :key="tech"
-                  >{{ tech }}</span
-                >
-                <span v-if="projeto.tecnologias.length > 4" class="mais">
+                <TechnologyIcon v-for="tech in projeto.tecnologias.slice(0, 4)" :key="tech" :name="tech" />
+                <span v-if="projeto.tecnologias.length > 4" class="mais" :title="projeto.tecnologias.slice(4).join(', ')">
                   +{{ projeto.tecnologias.length - 4 }}
                 </span>
               </div>
@@ -98,13 +95,16 @@
         class="projeto-overlay"
         @click.self="fecharProjeto"
       >
-        <div class="projeto-painel">
+        <div class="projeto-painel" :inert="Boolean(visualizador)" :aria-hidden="visualizador ? true : undefined">
           <button class="projeto-fechar" @click="fecharProjeto" aria-label="Fechar">
             <font-awesome-icon icon="xmark" />
           </button>
 
           <header class="projeto-capa">
-            <img :src="imagemAtiva" :alt="projetoAberto.titulo" />
+            <button type="button" class="projeto-ampliar-capa" :aria-label="`Ampliar imagem de ${projetoAberto.titulo}`" @click="abrirImagem(projetoAberto, imagemAtiva)">
+              <img :src="imagemAtiva" :alt="projetoAberto.titulo" />
+              <span class="projeto-ampliar-dica" aria-hidden="true">Ampliar imagem ↗</span>
+            </button>
             <div class="projeto-capa-texto">
               <span class="etiqueta">{{ projetoAberto.categoria }}</span>
               <h2>{{ projetoAberto.titulo }}</h2>
@@ -122,7 +122,9 @@
               type="button"
               class="projeto-miniatura"
               :class="{ ativa: imagem === imagemAtiva }"
-              @click="imagemAtiva = imagem"
+              :aria-label="`Ampliar imagem ${index + 1} de ${projetoAberto.titulo}`"
+              :aria-pressed="imagem === imagemAtiva"
+              @click="abrirImagem(projetoAberto, imagem)"
             >
               <img :src="imagem" :alt="`Imagem ${index + 1}`" />
             </button>
@@ -180,9 +182,7 @@
               <div v-if="projetoAberto.tecnologias.length" class="projeto-bloco">
                 <h4>Tecnologias</h4>
                 <div class="projeto-techs">
-                  <span v-for="tech in projetoAberto.tecnologias" :key="tech">{{
-                    tech
-                  }}</span>
+                  <TechnologyIcon v-for="tech in projetoAberto.tecnologias" :key="tech" :name="tech" />
                 </div>
               </div>
 
@@ -240,18 +240,30 @@
       </div>
     </transition>
 
+    <ImageLightbox
+      v-if="visualizador"
+      :images="visualizador.imagens"
+      :title="visualizador.titulo"
+      :start-index="visualizador.indice"
+      :return-focus="visualizador.focoAnterior"
+      @close="fecharImagem"
+      @change="selecionarImagem"
+    />
+
     <ContatoService />
   </main>
 </template>
 
 <script>
 import ContatoService from "../celulas/ContatoService.vue";
+import ImageLightbox from "../molecules/ImageLightbox.vue";
+import TechnologyIcon from "../molecules/TechnologyIcon.vue";
 import recentProjectService from "@/services/recentProjectService";
 import agencyPortfolioService from "@/services/agencyPortfolioService";
 
 export default {
   name: "PortfolioPremium",
-  components: { ContatoService },
+  components: { ContatoService, ImageLightbox, TechnologyIcon },
 
   data() {
     return {
@@ -259,6 +271,8 @@ export default {
       carregando: true,
       projetoAberto: null,
       imagemAtiva: "",
+      visualizador: null,
+      rolagemOriginal: "",
       etapas: [
         {
           icone: "magnifying-glass",
@@ -290,12 +304,7 @@ export default {
 
   computed: {
     galeria() {
-      if (!this.projetoAberto) return [];
-      const todas = [
-        this.projetoAberto.thumbnail,
-        ...this.projetoAberto.imagens,
-      ].filter(Boolean);
-      return [...new Set(todas)];
+      return this.imagensDoProjeto(this.projetoAberto);
     },
 
     itensDesafio() {
@@ -322,13 +331,14 @@ export default {
   },
 
   async mounted() {
+    this.rolagemOriginal = document.body.style.overflow;
     await this.carregarProjetos();
     window.addEventListener("keydown", this.aoTeclar);
   },
 
   beforeUnmount() {
     window.removeEventListener("keydown", this.aoTeclar);
-    document.body.style.overflow = "auto";
+    document.body.style.overflow = this.rolagemOriginal;
   },
 
   methods: {
@@ -444,19 +454,47 @@ export default {
       };
     },
 
+    imagensDoProjeto(projeto) {
+      if (!projeto) return [];
+      return [...new Set([projeto.thumbnail, ...(projeto.imagens || [])].filter(Boolean))];
+    },
+
+    atualizarRolagem() {
+      document.body.style.overflow = this.projetoAberto || this.visualizador ? "hidden" : this.rolagemOriginal;
+    },
+
+    abrirImagem(projeto, imagem) {
+      const imagens = this.imagensDoProjeto(projeto);
+      if (!imagens.length) return;
+      this.visualizador = { focoAnterior: document.activeElement, titulo: projeto.titulo, projetoId: projeto.id, imagens, indice: Math.max(0, imagens.indexOf(imagem)) };
+      if (this.projetoAberto?.id === projeto.id) this.imagemAtiva = imagem || imagens[0];
+      this.atualizarRolagem();
+    },
+
+    selecionarImagem(imagem) {
+      if (this.projetoAberto?.id === this.visualizador?.projetoId) this.imagemAtiva = imagem;
+    },
+
+    fecharImagem() {
+      this.visualizador = null;
+      this.atualizarRolagem();
+    },
+
     abrirProjeto(projeto) {
       this.projetoAberto = projeto;
-      this.imagemAtiva = projeto.thumbnail;
-      document.body.style.overflow = "hidden";
+      this.imagemAtiva = this.imagensDoProjeto(projeto)[0] || "";
+      this.atualizarRolagem();
     },
 
     fecharProjeto() {
+      this.visualizador = null;
       this.projetoAberto = null;
       this.imagemAtiva = "";
-      document.body.style.overflow = "auto";
+      this.atualizarRolagem();
     },
 
     aoTeclar(evento) {
+      if (this.visualizador) return;
       if (evento.key === "Escape" && this.projetoAberto) this.fecharProjeto();
     },
   },
@@ -658,7 +696,14 @@ export default {
   margin-bottom: 1rem;
 }
 
-.galeria-techs span {
+.galeria-techs > .mais {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  min-width: 32px;
+  min-height: 32px;
+  box-sizing: border-box;
   padding: 0.25rem 0.6rem;
   border: 1px solid #e2e1da;
   border-radius: 999px;
@@ -741,6 +786,15 @@ export default {
   line-height: 1.6;
   color: #6b7194;
 }
+
+.galeria-media { display: block; width: 100%; padding: 0; border: 0; text-align: left; font: inherit; cursor: zoom-in; }
+.galeria-ampliar, .projeto-ampliar-dica { position: absolute; right: 12px; top: 12px; padding: 7px 10px; border-radius: 8px; background: #fff; color: #131a4d; font: 600 12px/1.2 "Inter", sans-serif; box-shadow: 0 2px 12px #0002; }
+.galeria-titulo { display: block; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.galeria-titulo:hover { color: #0052ff; }
+.galeria-media:focus-visible, .galeria-titulo:focus-visible, .projeto-ampliar-capa:focus-visible, .projeto-miniatura:focus-visible { outline: 3px solid #0052ff; outline-offset: -3px; }
+.projeto-ampliar-capa { position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; border: 0; background: #131a4d; cursor: zoom-in; }
+.projeto-ampliar-dica { right: auto; left: 16px; z-index: 2; }
+.projeto-capa::after, .projeto-capa-texto { pointer-events: none; }
 
 /* Detalhes do projeto */
 .projeto-overlay {
@@ -1005,13 +1059,6 @@ export default {
   gap: 0.45rem;
 }
 
-.projeto-techs span {
-  padding: 0.4rem 0.8rem;
-  border: 1px solid #e2e1da;
-  border-radius: 999px;
-  font-size: 0.85rem;
-  color: #4b5280;
-}
 
 .projeto-equipe {
   display: flex;

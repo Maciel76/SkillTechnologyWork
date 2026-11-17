@@ -60,6 +60,16 @@ export default {
             "Não. Na maioria dos casos conectamos a inteligência artificial ao ERP, CRM ou planilhas que já rodam na sua empresa. Só sugerimos construir do zero quando o sistema atual realmente não dá conta do que você precisa — e isso a gente diz no diagnóstico, antes de qualquer proposta.",
         },
         {
+          question: "A IA pode responder com base nos documentos da minha empresa (RAG)?",
+          answer:
+            "Sim. RAG é uma técnica em que a IA busca informações relevantes em uma base de conhecimento antes de montar a resposta. Essa base pode reunir manuais, políticas, catálogos e materiais aprovados pela empresa. Por exemplo: um assistente que consulta seus documentos para tirar dúvidas sobre produtos ou processos. A qualidade das respostas depende da organização e da atualização dessa base.",
+        },
+        {
+          question: "O que é MCP e como ele conecta a IA aos meus sistemas?",
+          answer:
+            "Com uma integração MCP configurada, você pode conversar com o ChatGPT ou o Claude e pedir alterações diretamente no seu sistema, como criar um projeto, editar uma publicação do blog ou cadastrar um produto na loja. A IA executa essas ações pelas ferramentas autorizadas, sem você precisar abrir o painel para cada alteração. MCP (Model Context Protocol) é o padrão que permite essa conexão. Os acessos dependem das permissões definidas na integração, e algumas ações podem exigir sua confirmação.",
+        },
+        {
           question: "Quanto tempo leva para a IA começar a trabalhar?",
           answer:
             "Uma automação pontual ou um atendimento no WhatsApp costuma entrar no ar em 2 a 4 semanas. Um sistema completo com IA leva de 2 a 4 meses. Em todos os casos entregamos em fases: você vê funcionando aos poucos, sem esperar o fim do projeto.",

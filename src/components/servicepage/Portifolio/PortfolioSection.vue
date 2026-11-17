@@ -1,80 +1,43 @@
 <template>
-  <div class="portfolio-container">
-    <h2 class="section-title">Nosso <span class="highlight">Portfólio</span></h2>
+  <section class="portfolio-container" aria-labelledby="home-portfolio-title">
+    <header class="portfolio-heading">
+      <div>
+        <h2 id="home-portfolio-title" class="section-title">Nosso portfólio</h2>
+        <p>Conheça alguns dos sistemas que colocamos no ar.</p>
+      </div>
+      <router-link to="/portfolio" class="ver-todos">Ver todos os projetos <font-awesome-icon icon="arrow-right" /></router-link>
+    </header>
 
-    <div v-if="carregando" class="portfolio-loading">
-      <span class="spinner"></span>
-      Carregando projetos...
+    <div v-if="carregando" class="portfolio-loading" role="status">
+      <span class="spinner" aria-hidden="true"></span>
+      Carregando projetos…
     </div>
 
-    <template v-else>
-      <div class="carousel">
-        <div class="carousel-track" ref="track" @scroll.passive="atualizarIndice">
-          <article
-            v-for="project in projects"
-            :key="project.id"
-            class="case-card"
-            @click="openModal(project)"
-          >
-            <div
-              class="case-bg"
-              :style="{ backgroundImage: `url(${project.thumbnail})` }"
-            ></div>
-
-            <span class="case-tag">{{ project.category }}</span>
-
-            <div class="case-info">
-              <h3>{{ project.title }}</h3>
-
-              <div v-if="project.metricas.length" class="case-metrics">
-                <div
-                  v-for="(metrica, index) in project.metricas"
-                  :key="index"
-                  class="metric"
-                >
-                  <strong>{{ metrica.valor }}</strong>
-                  <span>{{ metrica.rotulo }}</span>
-                </div>
-              </div>
-
-              <div v-else class="case-techs">
-                <span
-                  v-for="tech in project.technologies.slice(0, 3)"
-                  :key="tech"
-                >
-                  {{ tech }}
-                </span>
-              </div>
+    <div v-else-if="projects.length" class="home-projects-grid">
+      <article v-for="project in projects" :key="project.id" class="case-card" @click="openModal(project)">
+        <button type="button" class="case-media" :aria-label="`Ver detalhes de ${project.title}`" @click.stop="openModal(project)">
+          <img :src="project.thumbnail" :alt="project.title" loading="lazy" decoding="async" />
+        </button>
+        <div class="case-info">
+          <div class="case-meta"><span>{{ project.category }}</span><span v-if="project.year">{{ project.year }}</span></div>
+          <h3><button type="button" @click.stop="openModal(project)">{{ nomeDoProjeto(project) }}</button></h3>
+          <p class="case-description">{{ resumoDoProjeto(project) }}</p>
+          <div class="case-footer">
+            <div v-if="project.technologies.length" class="case-techs" aria-label="Tecnologias do projeto">
+              <TechnologyIcon v-for="tech in project.technologies.slice(0, 4)" :key="tech" :name="tech" />
             </div>
-          </article>
+            <button type="button" class="case-open" :aria-label="`Conhecer o projeto ${nomeDoProjeto(project)}`" @click.stop="openModal(project)">Ver projeto <font-awesome-icon icon="arrow-right" /></button>
+          </div>
         </div>
-      </div>
-
-      <div v-if="podeRolar && projects.length > 1" class="carousel-dots">
-        <button
-          v-for="(project, index) in projects"
-          :key="project.id"
-          type="button"
-          class="dot"
-          :class="{ active: index === indiceAtivo }"
-          :aria-label="`Ir para ${project.title}`"
-          @click="irPara(index)"
-        ></button>
-      </div>
-
-      <div class="carousel-rodape">
-        <router-link to="/portfolio" class="ver-todos">
-          Ver todos os projetos
-          <font-awesome-icon icon="arrow-right" />
-        </router-link>
-      </div>
-    </template>
+      </article>
+    </div>
+    <p v-else class="portfolio-empty">{{ erroProjetos ? 'Não foi possível carregar os projetos agora. Acesse o portfólio para continuar.' : 'Novos projetos serão publicados em breve.' }}</p>
 
     <!-- Detalhes do projeto -->
     <transition name="fade">
       <div v-if="selectedProject" class="projeto-overlay" @click.self="closeModal">
-        <div class="projeto-painel">
-          <button class="projeto-fechar" @click="closeModal" aria-label="Fechar">
+        <div ref="painelProjeto" class="projeto-painel" role="dialog" aria-modal="true" aria-labelledby="home-project-title">
+          <button ref="fecharProjeto" type="button" class="projeto-fechar" @click="closeModal" aria-label="Fechar">
             <font-awesome-icon icon="xmark" />
           </button>
 
@@ -82,7 +45,7 @@
             <img :src="imagemAtiva" :alt="selectedProject.title" />
             <div class="projeto-capa-texto">
               <span class="projeto-tag">{{ selectedProject.category }}</span>
-              <h2>{{ selectedProject.title }}</h2>
+              <h2 id="home-project-title">{{ selectedProject.title }}</h2>
               <p class="projeto-meta">
                 <span>{{ selectedProject.client }}</span>
                 <span v-if="selectedProject.year">{{
@@ -150,11 +113,7 @@
               <div v-if="selectedProject.technologies.length" class="projeto-bloco">
                 <h4>Tecnologias</h4>
                 <div class="projeto-techs">
-                  <span
-                    v-for="tech in selectedProject.technologies"
-                    :key="tech"
-                    >{{ tech }}</span
-                  >
+                  <TechnologyIcon v-for="tech in selectedProject.technologies" :key="tech" :name="tech" />
                 </div>
               </div>
 
@@ -191,133 +150,26 @@
         </div>
       </div>
     </transition>
-  </div>
+  </section>
 </template>
 
 <script>
 import recentProjectService from "@/services/recentProjectService";
-
-// Usados só enquanto não houver nenhum projeto publicado no painel
-const PROJETOS_EXEMPLO = [
-  {
-    id: "exemplo-1",
-    title: "Dashboard com IA para Controle de Estoque",
-    category: "Website & Sistema",
-    client: "TechCorp Inc.",
-    year: "2023",
-    thumbnail: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800",
-    images: ["https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800"],
-    technologies: ["Vue.js", "Node.js", "TensorFlow.js", "MongoDB"],
-    challenge:
-      "A empresa enfrentava dificuldades em manter o controle preciso de seus estoques, com erros manuais nos lançamentos e falta de previsibilidade sobre a reposição.",
-    solution: [
-      "Analisa os padrões de entrada e saída de produtos em tempo real.",
-      "Prevê demandas futuras com base em histórico e sazonalidade.",
-      "Automatiza alertas de reposição com regras inteligentes.",
-    ],
-    results: [
-      "Redução de 70% no tempo de processos",
-      "Aumento de 40% na satisfação do cliente",
-      "Crescimento de 25% na retenção",
-    ],
-    metricas: [
-      { valor: "-70%", rotulo: "Tempo gasto" },
-      { valor: "+40%", rotulo: "Satisfação" },
-    ],
-    liveUrl: "/portfolio",
-  },
-  {
-    id: "exemplo-2",
-    title: "Instituto Educar: Educação Digital",
-    category: "Plataforma Educacional",
-    client: "EduTech Solutions",
-    year: "2024",
-    thumbnail: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800",
-    images: ["https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800"],
-    technologies: ["React", "Firebase", "Stripe", "WebRTC"],
-    challenge:
-      "O instituto precisava modernizar a matrícula e melhorar a comunicação com pais e alunos, que dependia de processos manuais.",
-    solution: [
-      "Área restrita para pais e alunos com login individual.",
-      "Matrícula online com upload de documentos e assinatura digital.",
-      "Painel administrativo para turmas, calendários e relatórios.",
-    ],
-    results: [
-      "85% das matrículas digitalizadas em 3 meses",
-      "Redução de 60% no atendimento telefônico",
-    ],
-    metricas: [
-      { valor: "85%", rotulo: "Matrículas digitais" },
-      { valor: "-60%", rotulo: "Ligações" },
-    ],
-    liveUrl: "/portfolio",
-  },
-  {
-    id: "exemplo-3",
-    title: "Loja Virtual Boutique Elegance",
-    category: "E-commerce",
-    client: "Boutique Elegance",
-    year: "2023",
-    thumbnail: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800",
-    images: ["https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800"],
-    technologies: ["Vue.js", "Shopify", "Tailwind CSS", "Algolia"],
-    challenge:
-      "A marca precisava lançar sua primeira loja online com identidade refinada, navegação fluida e gestão simples de produtos.",
-    solution: [
-      "Layout responsivo e performance otimizada para mobile.",
-      "Catálogo com controle de estoque, variações e categorias.",
-      "Integração com gateway de pagamento seguro.",
-    ],
-    results: [
-      "Primeira venda em menos de 48h após o lançamento",
-      "Crescimento de 70% nas visitas orgânicas em 2 meses",
-      "Redução de 50% no abandono de carrinho",
-    ],
-    metricas: [
-      { valor: "+70%", rotulo: "Visitas orgânicas" },
-      { valor: "-50%", rotulo: "Abandono" },
-    ],
-    liveUrl: "/portfolio",
-  },
-  {
-    id: "exemplo-4",
-    title: "Mascote Oficial do Neoblog",
-    category: "Identidade Visual / Ilustração",
-    client: "Neoblog",
-    year: "2025",
-    thumbnail: "https://images.unsplash.com/photo-1626785774573-4b799315345d?w=800",
-    images: ["https://images.unsplash.com/photo-1626785774573-4b799315345d?w=800"],
-    technologies: ["Adobe Photoshop"],
-    challenge:
-      "O Neoblog precisava de uma identidade visual única e memorável para se aproximar de um público jovem e criativo.",
-    solution: [
-      "Mascote exclusivo em estilo cartoon, simpático e dinâmico.",
-      "Personagem pensado para várias aplicações no site e redes sociais.",
-    ],
-    results: [
-      "Aumento do engajamento em postagens com o mascote",
-      "Fortalecimento da marca visual do Neoblog",
-    ],
-    metricas: [
-      { valor: "2025", rotulo: "Ano de criação" },
-      { valor: "100%", rotulo: "Arte original" },
-    ],
-    liveUrl: "/portfolio",
-  },
-];
+import TechnologyIcon from "@/components/molecules/TechnologyIcon.vue";
 
 export default {
   name: "PortfolioSection",
+  components: { TechnologyIcon },
 
   data() {
     return {
       projects: [],
       carregando: true,
-      usandoExemplos: false,
+      erroProjetos: false,
+      focoAnterior: null,
+      rolagemOriginal: "",
       selectedProject: null,
       imagemAtiva: "",
-      indiceAtivo: 0,
-      podeRolar: false,
     };
   },
 
@@ -355,44 +207,38 @@ export default {
   },
 
   async mounted() {
+    this.rolagemOriginal = document.body.style.overflow;
     await this.carregarProjetos();
-    window.addEventListener("resize", this.atualizarIndice);
     window.addEventListener("keydown", this.aoTeclar);
   },
 
   beforeUnmount() {
-    window.removeEventListener("resize", this.atualizarIndice);
     window.removeEventListener("keydown", this.aoTeclar);
-    document.body.style.overflow = "auto";
+    document.body.style.overflow = this.rolagemOriginal;
   },
 
   methods: {
-    // Busca o que foi publicado pelo painel; sem nada publicado, mostra exemplos
     async carregarProjetos() {
       try {
-        const resposta = await recentProjectService.getPublishedProjects({
-          limit: 12,
-        });
-        const lista = (resposta?.data || []).map(this.normalizar);
-
-        if (lista.length) {
-          this.projects = lista;
-          this.usandoExemplos = false;
-        } else {
-          this.projects = PROJETOS_EXEMPLO;
-          this.usandoExemplos = true;
-        }
+        const resposta = await recentProjectService.getPublishedProjects({ limit: 3 });
+        this.projects = (resposta?.data || []).slice(0, 3).map(this.normalizar);
       } catch (error) {
-        console.warn(
-          "Não foi possível carregar os projetos do painel, usando exemplos.",
-          error
-        );
-        this.projects = PROJETOS_EXEMPLO;
-        this.usandoExemplos = true;
+        console.warn("Não foi possível carregar os projetos da home.", error);
+        this.erroProjetos = true;
       } finally {
         this.carregando = false;
-        this.$nextTick(this.atualizarIndice);
       }
+    },
+
+    nomeDoProjeto(project) {
+      return String(project.title || "").split(/\s[—–-]\s/)[0];
+    },
+
+    resumoDoProjeto(project) {
+      const partes = String(project.title || "").split(/\s[—–-]\s/);
+      if (partes.length > 1) return partes.slice(1).join(" — ");
+      const texto = String(project.challenge || "").replace(/\s+/g, " ").trim();
+      return texto.length > 150 ? texto.slice(0, 147).replace(/\s+\S*$/, "") + "…" : texto;
     },
 
     // Converte o projeto do painel para o formato usado no card
@@ -423,290 +269,69 @@ export default {
       };
     },
 
-    irPara(index) {
-      const track = this.$refs.track;
-      const card = track && track.children[index];
-      if (!track || !card) return;
-      track.scrollTo({
-        left: card.offsetLeft - track.offsetLeft,
-        behavior: "smooth",
-      });
-    },
-
-    atualizarIndice() {
-      const track = this.$refs.track;
-      if (!track) return;
-
-      const maxScroll = track.scrollWidth - track.clientWidth;
-      this.podeRolar = maxScroll > 8;
-
-      if (maxScroll > 0 && track.scrollLeft >= maxScroll - 2) {
-        this.indiceAtivo = track.children.length - 1;
-        return;
-      }
-
-      const inicio = track.scrollLeft;
-      let maisProximo = 0;
-      let menorDistancia = Infinity;
-      Array.from(track.children).forEach((card, index) => {
-        const posicao = card.offsetLeft - track.offsetLeft;
-        const distancia = Math.abs(posicao - inicio);
-        if (distancia < menorDistancia) {
-          menorDistancia = distancia;
-          maisProximo = index;
-        }
-      });
-      this.indiceAtivo = maisProximo;
-    },
-
     aoTeclar(evento) {
-      if (evento.key === "Escape" && this.selectedProject) this.closeModal();
+      if (!this.selectedProject) return;
+      if (evento.key === "Escape") this.closeModal();
+      if (evento.key === "Tab") {
+        const painel = this.$refs.painelProjeto;
+        const itens = [...painel.querySelectorAll('a[href], button:not([disabled]), [tabindex="0"]')].filter(item => item.getClientRects().length);
+        const primeiro = itens[0], ultimo = itens[itens.length - 1];
+        if (evento.shiftKey && (document.activeElement === primeiro || !painel.contains(document.activeElement))) {
+          evento.preventDefault(); ultimo?.focus();
+        } else if (!evento.shiftKey && (document.activeElement === ultimo || !painel.contains(document.activeElement))) {
+          evento.preventDefault(); primeiro?.focus();
+        }
+      }
     },
 
     openModal(project) {
+      this.focoAnterior = document.activeElement;
       this.selectedProject = project;
       this.imagemAtiva = project.thumbnail;
       document.body.style.overflow = "hidden";
+      this.$nextTick(() => this.$refs.fecharProjeto?.focus());
     },
 
     closeModal() {
+      const anterior = this.focoAnterior;
       this.selectedProject = null;
       this.imagemAtiva = "";
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = this.rolagemOriginal;
+      this.$nextTick(() => { if (anterior?.isConnected) anterior.focus({ preventScroll: true }); });
     },
   },
 };
 </script>
 
 <style scoped>
-.portfolio-container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 5rem 2rem;
-  font-family: "Inter", sans-serif;
-}
+.portfolio-container, .portfolio-container * { box-sizing: border-box; }
+.portfolio-container { max-width: 1240px; margin: 0 auto; padding: 64px 30px 72px; font-family: "Inter", sans-serif; }
+.portfolio-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 28px; margin-bottom: 28px; padding: 0; }
+.section-title { margin: 0; color: #131a4d; font-size: 32px; line-height: 1.2; font-weight: 750; letter-spacing: -0.025em; }
+.portfolio-heading p { margin: 10px 0 0; color: #566079; font-size: 15px; line-height: 1.6; }
+.ver-todos { display: inline-flex; align-items: center; gap: 10px; flex-shrink: 0; padding: 8px 0; color: #0052ff; font-size: 14px; font-weight: 650; text-decoration: none; }
+.ver-todos:hover { text-decoration: underline; text-underline-offset: 5px; }
+.home-projects-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+.case-card { display: flex; flex-direction: column; min-width: 0; border: 1px solid #dde3ef; border-radius: 14px; background: #fff; cursor: pointer; transition: border-color 0.2s ease; }
+.case-card:hover { border-color: #a6baf0; }
+.case-media { display: block; width: 100%; aspect-ratio: 1.6; margin: 0; padding: 0; border: 0; border-bottom: 1px solid #e6eaf2; border-radius: 13px 13px 0 0; overflow: hidden; background: #f5f7fb; cursor: pointer; }
+.case-media img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.case-info { display: flex; flex: 1; flex-direction: column; min-width: 0; padding: 20px; }
+.case-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; color: #68738a; font-size: 12px; line-height: 1.4; }
+.case-info h3 { margin: 0 0 8px; color: #131a4d; font-size: 22px; font-weight: 720; line-height: 1.25; letter-spacing: -0.02em; }
+.case-info h3 button { padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.case-description { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin: 0 0 22px; color: #566079; font-size: 14px; line-height: 1.6; }
+.case-footer { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: auto; padding-top: 16px; border-top: 1px solid #edf0f5; }
+.case-techs { display: flex; align-items: center; gap: 5px; }
+.case-open { display: inline-flex; align-items: center; gap: 7px; margin-left: auto; padding: 8px 0; border: 0; background: none; color: #0052ff; font: 650 13px/1.4 "Inter", sans-serif; cursor: pointer; }
+.case-open svg { width: 13px; height: 13px; }
+.case-media:focus-visible, .case-info h3 button:focus-visible, .case-open:focus-visible, .ver-todos:focus-visible { outline: 3px solid #0052ff; outline-offset: 4px; }
+.portfolio-loading { display: flex; align-items: center; justify-content: center; gap: 12px; min-height: 320px; color: #566079; }
+.portfolio-empty { margin: 0; padding: 30px 0; color: #566079; line-height: 1.6; }
+.spinner { width: 18px; height: 18px; border: 2px solid #dde3ef; border-top-color: #0052ff; border-radius: 50%; animation: girar 0.8s linear infinite; }
+@keyframes girar { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .case-card { transition: none; } .spinner { animation: none; } }
 
-.section-title {
-  text-align: center;
-  font-size: 2.75rem;
-  font-weight: 800;
-  margin-bottom: 2.5rem;
-  color: #131a4d;
-  letter-spacing: -0.02em;
-}
-
-.highlight {
-  background: linear-gradient(90deg, #0052ff, #7c6ef2);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.portfolio-loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  padding: 3rem 0;
-  color: #6b7194;
-}
-
-.spinner {
-  width: 18px;
-  height: 18px;
-  border: 2px solid #e2e1da;
-  border-top-color: #0052ff;
-  border-radius: 50%;
-  animation: girar 0.8s linear infinite;
-}
-
-@keyframes girar {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Carrossel de cases */
-.carousel-track {
-  display: flex;
-  gap: 1.25rem;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  padding: 0.5rem 0.25rem 1.75rem;
-}
-
-.carousel-track::-webkit-scrollbar {
-  display: none;
-}
-
-.case-card {
-  position: relative;
-  flex: 0 0 320px;
-  height: 430px;
-  border-radius: 16px;
-  overflow: hidden;
-  cursor: pointer;
-  scroll-snap-align: start;
-  box-shadow: 0 14px 34px rgba(19, 26, 77, 0.12);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.case-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 22px 48px rgba(19, 26, 77, 0.2);
-}
-
-.case-bg {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  transition: transform 0.5s ease;
-}
-
-.case-card:hover .case-bg {
-  transform: scale(1.06);
-}
-
-.case-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(10, 14, 40, 0.4) 0%,
-    rgba(10, 14, 40, 0) 32%,
-    rgba(10, 14, 40, 0.55) 62%,
-    rgba(10, 14, 40, 0.92) 100%
-  );
-}
-
-.case-tag {
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-  z-index: 2;
-  padding: 0.35rem 0.8rem;
-  border-radius: 999px;
-  background: rgba(12, 16, 45, 0.6);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: #fff;
-}
-
-.case-info {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 2;
-  padding: 1.35rem;
-}
-
-.case-info h3 {
-  margin: 0;
-  font-size: 1.35rem;
-  font-weight: 800;
-  line-height: 1.25;
-  letter-spacing: -0.01em;
-  color: #fff;
-}
-
-.case-metrics {
-  display: flex;
-  gap: 1.35rem;
-  margin-top: 1rem;
-  padding-top: 0.95rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.28);
-}
-
-.metric strong {
-  display: block;
-  font-size: 1.5rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: #fff;
-}
-
-.metric span {
-  font-size: 0.74rem;
-  white-space: nowrap;
-  color: rgba(255, 255, 255, 0.72);
-}
-
-.case-techs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-top: 1rem;
-  padding-top: 0.95rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.28);
-}
-
-.case-techs span {
-  padding: 0.25rem 0.6rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.16);
-  font-size: 0.75rem;
-  color: #fff;
-}
-
-/* Indicadores */
-.carousel-dots {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.45rem;
-}
-
-.dot {
-  width: 8px;
-  height: 8px;
-  padding: 0;
-  border: none;
-  border-radius: 999px;
-  background: #d6d5cd;
-  cursor: pointer;
-  transition: width 0.25s ease, background 0.25s ease;
-}
-
-.dot:hover {
-  background: #b9b7f0;
-}
-
-.dot.active {
-  width: 26px;
-  background: #0052ff;
-}
-
-.carousel-rodape {
-  text-align: center;
-  margin-top: 2.25rem;
-}
-
-.ver-todos {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding-bottom: 3px;
-  border-bottom: 1px solid #c9c8c0;
-  color: #131a4d;
-  font-size: 0.98rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: color 0.2s ease, border-color 0.2s ease;
-}
-
-.ver-todos:hover {
-  color: #0052ff;
-  border-color: #0052ff;
-}
-
-/* Detalhes do projeto */
 .projeto-overlay {
   position: fixed;
   inset: 0;
@@ -973,13 +598,7 @@ export default {
   gap: 0.45rem;
 }
 
-.projeto-techs span {
-  padding: 0.4rem 0.8rem;
-  border: 1px solid #e2e1da;
-  border-radius: 999px;
-  font-size: 0.85rem;
-  color: #4b5280;
-}
+
 
 .projeto-acoes {
   display: grid;
@@ -1040,23 +659,13 @@ export default {
 }
 
 @media (max-width: 768px) {
-  .portfolio-container {
-    padding: 3.5rem 1.25rem;
-  }
-
-  .section-title {
-    font-size: 2rem;
-  }
-
-  .carousel-track {
-    margin: 0 -1.25rem;
-    padding: 0.5rem 1.25rem 1.5rem;
-  }
-
-  .case-card {
-    flex: 0 0 84%;
-    height: 400px;
-  }
+  .portfolio-container { padding: 42px 20px 48px; }
+  .portfolio-heading { align-items: flex-start; flex-direction: column; gap: 12px; margin-bottom: 22px; }
+  .section-title { font-size: 28px; }
+  .home-projects-grid { grid-template-columns: 1fr; gap: 20px; }
+  .case-media { aspect-ratio: 1.7; }
+  .case-info { padding: 18px; }
+  .case-description { margin-bottom: 18px; }
 
   .projeto-overlay {
     padding: 0;

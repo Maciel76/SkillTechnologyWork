@@ -1,7 +1,7 @@
 <template>
   <div class="ecommerce-management">
     <div class="section-header">
-      <h2>Gerenciamento de Produtos Digitais</h2>
+      <h2>Loja</h2>
       <button class="btn-primary" @click="showProductModal = true">
         <i class="fas fa-plus"></i> Novo Produto
       </button>

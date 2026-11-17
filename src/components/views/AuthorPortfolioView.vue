@@ -69,7 +69,23 @@
               <router-link v-else to="/contato" class="botao-secundario">
                 Falar comigo
               </router-link>
+              <button
+                type="button"
+                class="botao-secundario botao-curriculo"
+                :disabled="gerandoCurriculo"
+                :aria-busy="gerandoCurriculo"
+                aria-describedby="curriculo-status"
+                @click="baixarCurriculo"
+              >
+                <span v-if="gerandoCurriculo" class="spinner" aria-hidden="true"></span>
+                <i v-else class="fas fa-file-arrow-down" aria-hidden="true"></i>
+                {{ gerandoCurriculo ? "Gerando PDF…" : "Baixar currículo" }}
+              </button>
             </div>
+
+            <p id="curriculo-status" class="curriculo-status" :class="{ 'curriculo-erro': erroCurriculo }" role="status" aria-live="polite">
+              {{ erroCurriculo || (gerandoCurriculo ? "Preparando seu currículo com o perfil e os projetos…" : "PDF com perfil, contatos e resumo dos projetos.") }}
+            </p>
 
             <div v-if="redesAtivas.length" class="hero-redes">
               <a
@@ -334,6 +350,8 @@ export default {
       autor: null,
       projetos: [],
       carregando: true,
+      gerandoCurriculo: false,
+      erroCurriculo: "",
       erro: "",
       projetoAberto: null,
       imagemAtiva: "",
@@ -435,11 +453,36 @@ export default {
   },
 
   methods: {
+    async baixarCurriculo() {
+      if (this.gerandoCurriculo || !this.autor?.slug) return;
+      const slug = this.autor.slug;
+      this.gerandoCurriculo = true;
+      this.erroCurriculo = "";
+      try {
+        const arquivo = await authorService.downloadResume(slug);
+        const url = URL.createObjectURL(arquivo);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `curriculo-${slug}.pdf`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.setTimeout(() => URL.revokeObjectURL(url), 60000);
+      } catch (error) {
+        this.erroCurriculo = error.name === "TimeoutError"
+          ? "A geração demorou mais que o esperado. Clique em Baixar currículo para tentar novamente."
+          : error.message || "Não foi possível baixar o currículo. Tente novamente.";
+      } finally {
+        this.gerandoCurriculo = false;
+      }
+    },
+
     async carregarPerfil() {
       const slug = this.$route.params.slug;
 
       this.carregando = true;
       this.erro = "";
+      this.erroCurriculo = "";
       this.projetoAberto = null;
 
       try {
@@ -831,6 +874,16 @@ export default {
   color: #0052ff;
   border-color: #c9c6f0;
   transform: translateY(-3px);
+}
+
+.botao-curriculo { color: #0052ff; border-color: #c8d6ff; }
+.botao-curriculo:disabled { cursor: wait; opacity: 0.7; transform: none; }
+.botao-curriculo:focus-visible { outline: 3px solid #0052ff; outline-offset: 4px; }
+.curriculo-status { margin: 0.75rem 0 0; color: #63708a; font-size: 0.8rem; line-height: 1.5; }
+.curriculo-erro { color: #ad2434; }
+@media (prefers-reduced-motion: reduce) {
+  .botao-curriculo { transition: none; }
+  .botao-curriculo .spinner { animation: none; }
 }
 
 /* Números */

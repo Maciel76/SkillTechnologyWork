@@ -1,523 +1,103 @@
 <template>
-  <div
-    class="dashboard-container"
-    :class="{ 'sidebar-collapsed-global': sidebarCollapsed }"
-  >
-    <Sidebar
-      :collapsed="sidebarCollapsed"
-      :active-menu="activeMenu"
-      :menu-items="menuItems"
-      @toggle="toggleSidebar"
-      @menu-change="setActiveMenu"
-    />
-
-    <div class="main-content" :class="{ expanded: sidebarCollapsed }">
-      <AppHeader
-        :title="getActiveMenuTitle"
-        @toggle-mobile-menu="toggleMobileMenu"
-      />
-
-      <div
-        v-if="mobileMenuOpen"
-        class="mobile-overlay"
-        @click="toggleMobileMenu"
-      ></div>
-
-      <div class="content">
-        <DashboardOverview v-if="activeMenu === 'dashboard'" />
-        <DashboardOverview v-if="activeMenu === 'dashboard1'" />
-        <ProposalsManagement v-if="activeMenu === 'propostas'" />
-        <LeadsManagement v-if="activeMenu === 'leads'" />
-        <BlogManagement v-if="activeMenu === 'blog'" />
-        <PortfolioManagement v-if="activeMenu === 'portfolio'" />
-        <TestimonialsManagement v-if="activeMenu === 'testimonials'" />
-        <EcommerceManagement v-if="activeMenu === 'ecommerce'" />
-        <EventsManagement v-if="activeMenu === 'events'" />
-        <ProjectsManagement v-if="activeMenu === 'projects'" />
-        <AuthorsManagement v-if="activeMenu === 'autores'" />
-        <ContactManagement v-if="activeMenu === 'contato'" />
-        <AiIntegration v-if="activeMenu === 'ia'" />
-        <AiLeads v-if="activeMenu === 'ia-leads'" />
-        <StatsCards v-if="activeMenu === 'dashboard'" />
-      </div>
+  <div class="dashboard-container" :class="{ 'admin-nav-open': mobileMenuOpen }" @keydown.esc="closeMobileMenu">
+    <a class="admin-skip" href="#admin-content">Ir para o conteúdo</a>
+    <button v-if="mobileMenuOpen" class="admin-overlay" aria-label="Fechar navegação" @click="closeMobileMenu"></button>
+    <aside id="admin-navigation" class="admin-sidebar" :inert="mobileViewport && !mobileMenuOpen ? true : undefined" aria-label="Navegação do painel">
+      <router-link class="admin-brand" to="/" aria-label="Skill Technology Work, abrir site">
+        <img src="@/assets/svg/icons/logo.svg" alt="" /><span>Skill Technology<small>Administração do site</small></span>
+      </router-link>
+      <nav class="admin-navigation">
+        <button :class="{ selected: activeMenu === 'dashboard' }" :aria-current="activeMenu === 'dashboard' ? 'page' : undefined" @click="setActiveMenu('dashboard')"><i class="fas fa-border-all" aria-hidden="true"></i><span>Visão geral</span></button>
+        <p class="admin-nav-label">Conteúdo do site</p>
+        <button v-for="item in coreMenu" :key="item.id" :class="{ selected: activeMenu === item.id }" :aria-current="activeMenu === item.id ? 'page' : undefined" @click="setActiveMenu(item.id)"><i :class="item.icon" aria-hidden="true"></i><span>{{ item.name }}</span></button>
+        <details class="admin-more" :open="secondaryActive || undefined">
+          <summary>Outras ferramentas<i class="fas fa-chevron-down" aria-hidden="true"></i></summary>
+          <button v-for="item in secondaryMenu" :key="item.id" :class="{ selected: activeMenu === item.id }" :aria-current="activeMenu === item.id ? 'page' : undefined" @click="setActiveMenu(item.id)"><i :class="item.icon" aria-hidden="true"></i><span>{{ item.name }}</span></button>
+        </details>
+        <button :class="{ selected: activeMenu === 'integrations' }" :aria-current="activeMenu === 'integrations' ? 'page' : undefined" @click="setActiveMenu('integrations')"><i class="fas fa-plug" aria-hidden="true"></i><span>Integrações</span></button>
+      </nav>
+      <div class="admin-sidebar-footer"><a href="/" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>Ver site</a><button @click="signOut"><i class="fas fa-arrow-right-from-bracket" aria-hidden="true"></i>Sair da conta</button></div>
+    </aside>
+    <div class="admin-main">
+      <header class="admin-topbar">
+        <div class="admin-topbar-title"><button ref="menuButton" class="admin-menu-button" :aria-expanded="mobileMenuOpen" aria-controls="admin-navigation" aria-label="Abrir navegação" @click="mobileMenuOpen = !mobileMenuOpen"><i class="fas fa-bars" aria-hidden="true"></i></button><span>Seu site</span><span class="admin-breadcrumb" aria-hidden="true">/</span><strong>{{ activeTitle }}</strong></div>
+        <a class="admin-site-link" href="/" target="_blank" rel="noopener">Abrir site <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+      </header>
+      <main id="admin-content" ref="content" class="admin-content" tabindex="-1"><DashboardOverview v-if="activeMenu === 'dashboard'" @navigate="setActiveMenu" /><component v-else :is="activeComponent" :key="activeMenu" /></main>
+      <footer class="admin-bottom">Skill Technology Work<span>Painel de conteúdo</span></footer>
     </div>
   </div>
 </template>
-
 <script>
-import Sidebar from "@/components/Dashboad/SidebarDashboad.vue";
-import AppHeader from "@/components/Dashboad/HeaderDashboad.vue";
-import DashboardOverview from "@/components/Dashboad/DashboardOverview.vue";
-import ProposalsManagement from "@/components/Dashboad/ProposalsManagement.vue";
-import LeadsManagement from "@/components/Dashboad/LeadsManagement.vue";
-import BlogManagement from "@/components/Dashboad/BlogManagement.vue";
-import PortfolioManagement from "@/components/Dashboad/PortfolioManagement.vue";
-import TestimonialsManagement from "@/components/Dashboad/TestimonialsManagement.vue";
-import EcommerceManagement from "@/components/Dashboad/EcommerceManagement.vue";
-import EventsManagement from "@/components/Dashboad/EventsManagement.vue";
-import ContactManagement from "@/components/Dashboad/ContactManagement.vue";
-import ProjectsManagement from "@/components/Dashboad/ProjectsManagement.vue";
-import AuthorsManagement from "@/components/Dashboad/AuthorsManagement.vue";
-import StatsCards from "@/components/Dashboad/StatsCards.vue";
-import AiIntegration from "@/components/Dashboad/AiIntegration.vue";
-import AiLeads from "@/components/Dashboad/AiLeads.vue";
-import { logout } from "@/services/authService";
-
+import { defineAsyncComponent, h } from 'vue';
+import DashboardOverview from '@/components/Dashboad/DashboardOverview.vue';
+import { logout } from '@/services/authService';
+const loadManager = loader => defineAsyncComponent({
+  loader, delay: 120, timeout: 60000,
+  loadingComponent: { render: () => h('div', { class: 'admin-module-loading', role: 'status' }, [h('i', { class: 'fas fa-spinner fa-spin', 'aria-hidden': 'true' }), h('p', 'Carregando editor…')]) },
+  errorComponent: { render: () => h('div', { class: 'admin-module-error', role: 'alert' }, 'Não foi possível abrir o editor. Atualize a página para tentar novamente.') },
+});
+const managers = {
+  integrations: loadManager(() => import('@/components/Dashboad/McpIntegration.vue')),
+  blog: loadManager(() => import('@/components/Dashboad/BlogManagement.vue')),
+  projects: loadManager(() => import('@/components/Dashboad/ProjectsManagement.vue')),
+  ecommerce: loadManager(() => import('@/components/Dashboad/EcommerceManagement.vue')),
+  autores: loadManager(() => import('@/components/Dashboad/AuthorsManagement.vue')),
+  portfolio: loadManager(() => import('@/components/Dashboad/PortfolioManagement.vue')),
+  contato: loadManager(() => import('@/components/Dashboad/ContactManagement.vue')),
+  leads: loadManager(() => import('@/components/Dashboad/LeadsManagement.vue')),
+  propostas: loadManager(() => import('@/components/Dashboad/ProposalsManagement.vue')),
+  testimonials: loadManager(() => import('@/components/Dashboad/TestimonialsManagement.vue')),
+  events: loadManager(() => import('@/components/Dashboad/EventsManagement.vue')),
+  ia: loadManager(() => import('@/components/Dashboad/AiIntegration.vue')),
+  'ia-leads': loadManager(() => import('@/components/Dashboad/AiLeads.vue')),
+};
 export default {
-  name: "DashboardView",
-  components: {
-    Sidebar,
-    AppHeader,
-    DashboardOverview,
-    ProposalsManagement,
-    LeadsManagement,
-    BlogManagement,
-    PortfolioManagement,
-    TestimonialsManagement,
-    EcommerceManagement,
-    EventsManagement,
-    ContactManagement,
-    ProjectsManagement,
-    AuthorsManagement,
-    StatsCards,
-    AiIntegration,
-    AiLeads,
-  },
-  data() {
-    return {
-      sidebarCollapsed: false,
-      mobileMenuOpen: false,
-      activeMenu: "dashboard",
-      menuItems: [
-        { id: "dashboard1", name: "Dashboard", icon: "fas fa-tachometer-alt" },
-        {
-          id: "ia-grupo",
-          name: "Inteligência Artificial",
-          icon: "fas fa-robot",
-          submenu: [
-            { id: "ia", name: "Configuração", icon: "fas fa-sliders" },
-            { id: "ia-leads", name: "Leads da IA", icon: "fas fa-user-tie" },
-          ],
-        },
-        {
-          id: "contatos-mensagem",
-          name: "Contatos e Leads",
-          icon: "fas fa-comments",
-          submenu: [
-            { id: "contato", name: "Mensagens do site", icon: "fas fa-envelope" },
-            { id: "leads", name: "Leads", icon: "fas fa-users" },
-            { id: "propostas", name: "Propostas", icon: "fas fa-gem" },
-            { id: "testimonials", name: "Depoimentos", icon: "fas fa-comment" },
-          ],
-        },
-        {
-          id: "trabalhos",
-          name: "Trabalhos",
-          icon: "fas fa-briefcase",
-          submenu: [
-            {
-              id: "projects",
-              name: "Projetos (home e portfólio)",
-              icon: "fas fa-folder-open",
-            },
-            { id: "portfolio", name: "Portfólio da agência", icon: "fas fa-images" },
-            { id: "autores", name: "Autores", icon: "fas fa-user-astronaut" },
-          ],
-        },
-        { id: "blog", name: "Blog", icon: "fas fa-blog" },
-        { id: "ecommerce", name: "Loja Virtual", icon: "fas fa-shopping-cart" },
-        { id: "events", name: "Eventos", icon: "fas fa-calendar" },
-      ],
-    };
-  },
+  name: 'DashboardView', components: { DashboardOverview },
+  data: () => ({ activeMenu: 'dashboard', mobileMenuOpen: false, mobileViewport: false,
+    coreMenu: [
+      { id: 'blog', name: 'Blog', icon: 'fas fa-pen-nib' },
+      { id: 'projects', name: 'Projetos', icon: 'fas fa-layer-group' },
+      { id: 'ecommerce', name: 'Loja', icon: 'fas fa-bag-shopping' },
+      { id: 'autores', name: 'Desenvolvedores', icon: 'fas fa-code' },
+    ],
+    secondaryMenu: [
+      { id: 'portfolio', name: 'Portfólio da agência', icon: 'fas fa-images' },
+      { id: 'contato', name: 'Mensagens do site', icon: 'fas fa-envelope' },
+      { id: 'leads', name: 'Leads', icon: 'fas fa-users' },
+      { id: 'propostas', name: 'Propostas', icon: 'fas fa-file-lines' },
+      { id: 'testimonials', name: 'Depoimentos', icon: 'fas fa-comment' },
+      { id: 'events', name: 'Eventos', icon: 'fas fa-calendar' },
+      { id: 'ia', name: 'Configuração de IA', icon: 'fas fa-sliders' },
+      { id: 'ia-leads', name: 'Leads da IA', icon: 'fas fa-user-tie' },
+    ],
+  }),
   computed: {
-    getActiveMenuTitle() {
-      // Primeiro procura nos itens principais
-      const item = this.menuItems.find((item) => item.id === this.activeMenu);
-      if (item) return item.name;
-
-      // Se não encontrar, procura nos submenus
-      for (const menuItem of this.menuItems) {
-        if (menuItem.submenu) {
-          const subitem = menuItem.submenu.find(
-            (subitem) => subitem.id === this.activeMenu
-          );
-          if (subitem) return subitem.name;
-        }
-      }
-
-      return "Dashboard";
-    },
+    activeTitle() { if (this.activeMenu === 'integrations') return 'Integrações'; return [...this.coreMenu, ...this.secondaryMenu].find(item => item.id === this.activeMenu)?.name || 'Visão geral'; },
+    activeComponent() { return managers[this.activeMenu]; },
+    secondaryActive() { return this.secondaryMenu.some(item => item.id === this.activeMenu); },
   },
+  watch: { '$route.query.area': 'restoreArea' },
+  mounted() {
+    this.restoreArea();
+    this.mediaQuery = window.matchMedia('(max-width: 900px)');
+    this.updateViewport = () => { this.mobileViewport = this.mediaQuery.matches; if (!this.mobileViewport) this.mobileMenuOpen = false; };
+    this.updateViewport(); this.mediaQuery.addEventListener('change', this.updateViewport);
+  },
+  beforeUnmount() { this.mediaQuery?.removeEventListener('change', this.updateViewport); },
   methods: {
-    toggleSidebar() {
-      this.sidebarCollapsed = !this.sidebarCollapsed;
+    restoreArea() { const area = this.$route.query.area; this.activeMenu = managers[area] ? area : 'dashboard'; },
+    closeMobileMenu() { this.mobileMenuOpen = false; this.$nextTick(() => this.$refs.menuButton?.focus()); },
+    setActiveMenu(id) {
+      this.activeMenu = id; this.mobileMenuOpen = false;
+      const query = { ...this.$route.query };
+      if (id === 'dashboard') delete query.area; else query.area = id;
+      this.$router.replace({ query });
+      this.$nextTick(() => this.$refs.content?.focus({ preventScroll: true }));
+      window.scrollTo({ top: 0, behavior: 'instant' });
     },
-    toggleMobileMenu() {
-      this.mobileMenuOpen = !this.mobileMenuOpen;
-    },
-    setActiveMenu(menuId) {
-      this.activeMenu = menuId;
-      if (this.mobileMenuOpen) {
-        this.mobileMenuOpen = false;
-      }
-    },
+    signOut() { logout(); this.$router.push('/login'); },
   },
 };
 </script>
-
-<style>
-:root {
-  --primary: #0052ff;
-  --primary-dark: #0040c9;
-  --primary-light: #7c6ef2;
-  --secondary: #7c6ef2;
-  --success: #10b981;
-  --danger: #ef4444;
-  --warning: #f59e0b;
-  --info: #3b82f6;
-  --light: #f9fafb;
-  --dark: #131a4d;
-  --gray-50: #f8fafc;
-  --gray-100: #f1f5f9;
-  --gray-200: #e2e8f0;
-  --gray-300: #cbd5e1;
-  --gray-400: #94a3b8;
-  --gray-500: #64748b;
-  --gray-600: #475569;
-  --gray-700: #334155;
-  --gray-800: #1e293b;
-  --gray-900: #0f172a;
-  --sidebar-width: 280px;
-  --sidebar-collapsed-width: 80px;
-  --header-height: 80px;
-  --border-radius: 16px;
-  --border-radius-sm: 12px;
-  --border-radius-lg: 20px;
-  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05),
-    0 1px 2px -1px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05),
-    0 2px 4px -2px rgba(0, 0, 0, 0.05);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08),
-    0 4px 6px -4px rgba(0, 0, 0, 0.08);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08),
-    0 8px 10px -6px rgba(0, 0, 0, 0.08);
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    sans-serif;
-  background: #f6f5f1;
-  color: var(--gray-900);
-  font-size: 15px;
-  line-height: 1.6;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-}
-
-.dashboard-container {
-  display: flex;
-  min-height: 100vh;
-  width: 100%;
-  background: #f6f5f1;
-  position: relative;
-}
-
-.main-content {
-  flex: 1;
-  margin-left: var(--sidebar-width);
-  width: calc(100% - var(--sidebar-width));
-  min-height: 100vh;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-
-.main-content.expanded {
-  margin-left: var(--sidebar-collapsed-width);
-  width: calc(100% - var(--sidebar-collapsed-width));
-}
-
-.content {
-  flex: 1;
-  padding: 36px 40px;
-  background: transparent;
-  min-height: calc(100vh - var(--header-height));
-}
-
-.mobile-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 999;
-  display: none;
-}
-
-/* Common Styles */
-.btn-primary {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 14.5px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
-  position: relative;
-  overflow: hidden;
-}
-
-.btn-primary::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.2),
-    transparent
-  );
-  transition: left 0.5s;
-}
-
-.btn-primary:hover::before {
-  left: 100%;
-}
-
-.btn-primary:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
-}
-
-.btn-secondary {
-  background: white;
-  color: var(--primary);
-  border: 2px solid var(--gray-200);
-  padding: 10px 20px;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 14.5px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.btn-secondary:hover {
-  background: var(--gray-50);
-  border-color: var(--primary);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-}
-
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 28px;
-}
-
-.section-header h2 {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--gray-900);
-  letter-spacing: -0.5px;
-}
-
-.data-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  background: white;
-  border-radius: var(--border-radius);
-  overflow: hidden;
-  box-shadow: var(--shadow-md);
-  border: 1px solid var(--gray-200);
-}
-
-.data-table thead {
-  background: linear-gradient(135deg, var(--gray-50), var(--gray-100));
-}
-
-.data-table th {
-  padding: 18px 20px;
-  text-align: left;
-  font-weight: 700;
-  color: var(--gray-700);
-  border-bottom: 2px solid var(--gray-200);
-  font-size: 13.5px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.data-table td {
-  padding: 18px 20px;
-  border-bottom: 1px solid var(--gray-200);
-  color: var(--gray-700);
-  font-size: 14.5px;
-}
-
-.data-table tr:last-child td {
-  border-bottom: none;
-}
-
-.data-table tbody tr {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.data-table tbody tr:hover {
-  background: var(--gray-50);
-  transform: scale(1.01);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.status-badge {
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 12.5px;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-  display: inline-block;
-}
-
-.status-badge.novo {
-  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
-  color: #1e40af;
-}
-
-.status-badge.contatado {
-  background: linear-gradient(135deg, #fef3c7, #fde68a);
-  color: #b45309;
-}
-
-.status-badge.proposta {
-  background: linear-gradient(135deg, #d1fae5, #a7f3d0);
-  color: #065f46;
-}
-
-.status-badge.fechado {
-  background: linear-gradient(135deg, #fce7f3, #fbcfe8);
-  color: #9f1239;
-}
-
-.status-badge.ativo {
-  background: linear-gradient(135deg, #d1fae5, #a7f3d0);
-  color: #065f46;
-}
-
-.status-badge.esgotado {
-  background: linear-gradient(135deg, #fee2e2, #fecaca);
-  color: #991b1b;
-}
-
-.action-btn {
-  background: var(--gray-100);
-  border: none;
-  cursor: pointer;
-  padding: 8px;
-  width: 36px;
-  height: 36px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  margin: 0 4px;
-}
-
-.action-btn.edit {
-  color: var(--primary);
-}
-
-.action-btn.edit:hover {
-  background: var(--primary);
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-}
-
-.action-btn.delete {
-  color: var(--danger);
-}
-
-.action-btn.delete:hover {
-  background: var(--danger);
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
-}
-
-@media (max-width: 768px) {
-  .main-content {
-    margin-left: 0 !important;
-    width: 100% !important;
-  }
-
-  .mobile-overlay {
-    display: block;
-  }
-
-  .content {
-    padding: 20px 16px;
-  }
-
-  .section-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-  }
-
-  .section-header h2 {
-    font-size: 1.6rem;
-  }
-}
-
-.stats-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 16px;
-}
-.card {
-  background: white;
-  border-radius: 12px;
-  padding: 14px;
-  box-shadow: var(--shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.05));
-  text-align: left;
-}
-.card-title {
-  font-size: 0.9rem;
-  color: var(--gray-600, #64748b);
-  margin-bottom: 6px;
-  font-weight: 600;
-}
-.card-value {
-  font-size: 1.4rem;
-  font-weight: 800;
-  color: var(--primary, #6366f1);
-}
-.card-sub {
-  font-size: 0.8rem;
-  color: var(--gray-400, #94a3b8);
-  margin-top: 6px;
-}
-</style>
+<style src="@/assets/css/admin.css"></style>

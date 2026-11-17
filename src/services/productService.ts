@@ -1,3 +1,4 @@
+import { authenticatedFetch } from './authenticatedFetch';
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5006/api';
 
 export interface Product {
@@ -93,7 +94,7 @@ class ProductService {
     if (params?.sort) queryParams.append('sort', params.sort);
     if (params?.search) queryParams.append('search', params.search);
 
-    const response = await fetch(
+    const response = await authenticatedFetch(
       `${API_URL}/products/published?${queryParams.toString()}`,
       {
         method: 'GET',
@@ -130,7 +131,7 @@ class ProductService {
     if (params?.sort) queryParams.append('sort', params.sort);
     if (params?.search) queryParams.append('search', params.search);
 
-    const response = await fetch(`${API_URL}/products?${queryParams.toString()}`, {
+    const response = await authenticatedFetch(`${API_URL}/products?${queryParams.toString()}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -146,7 +147,7 @@ class ProductService {
 
   // Buscar produto por ID
   async getProductById(id: string): Promise<ProductResponse> {
-    const response = await fetch(`${API_URL}/products/${id}`, {
+    const response = await authenticatedFetch(`${API_URL}/products/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -162,7 +163,7 @@ class ProductService {
 
   // Buscar produto por slug (público)
   async getProductBySlug(slug: string): Promise<ProductResponse> {
-    const response = await fetch(`${API_URL}/products/slug/${slug}`, {
+    const response = await authenticatedFetch(`${API_URL}/products/slug/${slug}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -178,7 +179,7 @@ class ProductService {
 
   // Criar novo produto (admin)
   async createProduct(product: Omit<Product, '_id' | 'createdAt' | 'updatedAt'>): Promise<ProductResponse> {
-    const response = await fetch(`${API_URL}/products`, {
+    const response = await authenticatedFetch(`${API_URL}/products`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -196,7 +197,7 @@ class ProductService {
 
   // Atualizar produto (admin)
   async updateProduct(id: string, product: Partial<Product>): Promise<ProductResponse> {
-    const response = await fetch(`${API_URL}/products/${id}`, {
+    const response = await authenticatedFetch(`${API_URL}/products/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -214,7 +215,7 @@ class ProductService {
 
   // Deletar produto (admin)
   async deleteProduct(id: string): Promise<{ success: boolean; message: string }> {
-    const response = await fetch(`${API_URL}/products/${id}`, {
+    const response = await authenticatedFetch(`${API_URL}/products/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -230,7 +231,7 @@ class ProductService {
 
   // Alternar publicação (admin)
   async togglePublish(id: string): Promise<ProductResponse> {
-    const response = await fetch(`${API_URL}/products/${id}/publish`, {
+    const response = await authenticatedFetch(`${API_URL}/products/${id}/publish`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -246,7 +247,7 @@ class ProductService {
 
   // Alternar destaque (admin)
   async toggleFeatured(id: string): Promise<ProductResponse> {
-    const response = await fetch(`${API_URL}/products/${id}/featured`, {
+    const response = await authenticatedFetch(`${API_URL}/products/${id}/featured`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -262,7 +263,7 @@ class ProductService {
 
   // Buscar estatísticas (admin)
   async getStats(): Promise<StatsResponse> {
-    const response = await fetch(`${API_URL}/products/stats`, {
+    const response = await authenticatedFetch(`${API_URL}/products/stats`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

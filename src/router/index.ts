@@ -114,6 +114,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       hideHeader: true,
       hideFooter: true,
+      hideWhatsApp: true,
       requiresAuth: true,
       requiresAdmin: true,
     },

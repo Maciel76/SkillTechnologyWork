@@ -1,3 +1,4 @@
+import { authenticatedFetch } from './authenticatedFetch';
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5006/api';
 
 export interface RecentProject {
@@ -63,7 +64,7 @@ class RecentProjectService {
     if (params?.limit) queryParams.append('limit', params.limit.toString());
     if (params?.page) queryParams.append('page', params.page.toString());
 
-    const response = await fetch(`${API_URL}/recent-projects?${queryParams.toString()}`);
+    const response = await authenticatedFetch(`${API_URL}/recent-projects?${queryParams.toString()}`);
 
     if (!response.ok) {
       throw new Error('Erro ao buscar projetos');
@@ -86,7 +87,7 @@ class RecentProjectService {
     if (params?.limit) queryParams.append('limit', params.limit.toString());
     if (params?.page) queryParams.append('page', params.page.toString());
 
-    const response = await fetch(`${API_URL}/admin/recent-projects?${queryParams.toString()}`);
+    const response = await authenticatedFetch(`${API_URL}/admin/recent-projects?${queryParams.toString()}`);
 
     if (!response.ok) {
       throw new Error('Erro ao buscar projetos');
@@ -97,7 +98,7 @@ class RecentProjectService {
 
   // Obter projeto por ID
   async getProjectById(id: string): Promise<ProjectResponse> {
-    const response = await fetch(`${API_URL}/recent-projects/${id}`);
+    const response = await authenticatedFetch(`${API_URL}/recent-projects/${id}`);
 
     if (!response.ok) {
       throw new Error('Erro ao buscar projeto');
@@ -108,7 +109,7 @@ class RecentProjectService {
 
   // Criar novo projeto
   async createProject(project: Omit<RecentProject, '_id' | 'createdAt' | 'updatedAt'>): Promise<ProjectResponse> {
-    const response = await fetch(`${API_URL}/recent-projects`, {
+    const response = await authenticatedFetch(`${API_URL}/recent-projects`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -126,7 +127,7 @@ class RecentProjectService {
 
   // Atualizar projeto
   async updateProject(id: string, project: Partial<RecentProject>): Promise<ProjectResponse> {
-    const response = await fetch(`${API_URL}/recent-projects/${id}`, {
+    const response = await authenticatedFetch(`${API_URL}/recent-projects/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -144,7 +145,7 @@ class RecentProjectService {
 
   // Deletar projeto
   async deleteProject(id: string): Promise<{ message: string }> {
-    const response = await fetch(`${API_URL}/recent-projects/${id}`, {
+    const response = await authenticatedFetch(`${API_URL}/recent-projects/${id}`, {
       method: 'DELETE',
     });
 
@@ -158,7 +159,7 @@ class RecentProjectService {
 
   // Alternar publicação no portfólio do autor (não mexe no site da agência)
   async toggleAuthorPublish(id: string): Promise<ProjectResponse> {
-    const response = await fetch(`${API_URL}/recent-projects/${id}/author-publish`, {
+    const response = await authenticatedFetch(`${API_URL}/recent-projects/${id}/author-publish`, {
       method: 'PATCH',
     });
 
@@ -172,7 +173,7 @@ class RecentProjectService {
 
   // Alternar publicação
   async togglePublish(id: string): Promise<ProjectResponse> {
-    const response = await fetch(`${API_URL}/recent-projects/${id}/publish`, {
+    const response = await authenticatedFetch(`${API_URL}/recent-projects/${id}/publish`, {
       method: 'PATCH',
     });
 
@@ -189,7 +190,7 @@ class RecentProjectService {
     const formData = new FormData();
     formData.append('image', file);
 
-    const response = await fetch(`${API_URL}/recent-projects/upload`, {
+    const response = await authenticatedFetch(`${API_URL}/recent-projects/upload`, {
       method: 'POST',
       body: formData,
     });
@@ -213,7 +214,7 @@ class RecentProjectService {
 
   // Obter estatísticas (admin)
   async getStats(): Promise<StatsResponse> {
-    const response = await fetch(`${API_URL}/admin/recent-projects/stats`);
+    const response = await authenticatedFetch(`${API_URL}/admin/recent-projects/stats`);
 
     if (!response.ok) {
       throw new Error('Erro ao buscar estatísticas');

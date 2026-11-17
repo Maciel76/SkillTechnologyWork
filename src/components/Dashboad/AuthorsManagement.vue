@@ -2,14 +2,14 @@
   <div class="authors-management">
     <div class="section-header">
       <div>
-        <h2>Autores e Portfólios Pessoais</h2>
+        <h2>Desenvolvedores</h2>
         <p class="subtitle">
           Cadastre os desenvolvedores da agência. Ao marcar um autor em um
           projeto, ele aparece automaticamente na página pessoal dele.
         </p>
       </div>
       <button class="btn-primary-new" @click="openCreateModal">
-        <i class="fas fa-user-plus"></i> Criar Autor
+        <i class="fas fa-user-plus"></i> Novo desenvolvedor
       </button>
     </div>
 
@@ -39,7 +39,7 @@
         Crie o primeiro autor para começar a marcar quem assinou cada projeto.
       </p>
       <button class="btn-primary-new" @click="openCreateModal">
-        <i class="fas fa-user-plus"></i> Criar Autor
+        <i class="fas fa-user-plus"></i> Novo desenvolvedor
       </button>
     </div>
 

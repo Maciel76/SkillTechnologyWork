@@ -96,41 +96,38 @@ export interface ServicoSeo {
 export const SERVICOS: ServicoSeo[] = [
   {
     slug: "ia-no-sistema-atual",
-    nome: "IA no sistema que a empresa ja usa",
+    nome: "Integração de IA e MCP",
     descricao:
-      "Integracao de inteligencia artificial ao ERP, CRM e planilhas que ja rodam " +
-      "na empresa, sem trocar de sistema nem recomecar do zero.",
+      "Integramos IA ao sistema que você já usa. Com MCP, o ChatGPT ou o Claude pode consultar dados e executar ações autorizadas apenas pela conversa.",
     itens: [
-      "Integracao com o ERP ou CRM atual",
-      "Leitura automatica de notas fiscais e contratos",
-      "Conexao entre sistemas e planilhas soltas",
-      "Sincronizacao de dados em tempo real",
+      "Conexão da IA ao seu ERP, CRM ou sistema",
+      "Ferramentas MCP para consultar e atualizar dados",
+      "Criação de registros e conteúdos pela conversa",
+      "Permissões de acesso e ações sob seu controle",
     ],
   },
   {
     slug: "sistemas-sob-medida",
-    nome: "Sistemas sob medida com IA",
+    nome: "Sistemas próprios e sites institucionais",
     descricao:
-      "Desenvolvimento de CRM, ERP e dashboards feitos do zero, com inteligencia " +
-      "artificial embarcada desde o primeiro dia.",
+      "Desenvolvemos sistemas próprios e sites institucionais para a sua empresa, com as funcionalidades e a identidade visual que o seu negócio precisa.",
     itens: [
-      "CRM que prioriza os melhores leads",
-      "ERP que preve compras e evita ruptura de estoque",
-      "Dashboards que avisam antes do problema aparecer",
-      "Acesso por niveis de usuario e relatorios sob demanda",
+      "Sistemas de gestão, portais e painéis sob medida",
+      "Sites institucionais para apresentar sua empresa",
+      "Layout responsivo para computador e celular",
+      "Perfis de acesso e integrações conforme o projeto",
     ],
   },
   {
     slug: "automacao-da-operacao",
-    nome: "Automacao da operacao",
+    nome: "Automação da operação",
     descricao:
-      "Mapeamento das tarefas repetitivas da equipe e automacao delas com " +
-      "seguranca e rastreabilidade.",
+      "Conectamos as etapas da sua operação para reduzir tarefas manuais, organizar o fluxo de trabalho e acompanhar cada execução.",
     itens: [
-      "Propostas e orcamentos gerados sozinhos",
-      "Cobrancas, lembretes e conciliacao financeira",
-      "Relatorios enviados automaticamente",
-      "Aprovacoes e fluxos internos sem travar por e-mail",
+      "Propostas, orçamentos e documentos automáticos",
+      "Cobranças e lembretes conforme as regras da operação",
+      "Relatórios programados e dados sincronizados",
+      "Fluxos de aprovação com histórico de execução",
     ],
   },
   {
@@ -191,6 +188,16 @@ export const FAQ: { pergunta: string; resposta: string }[] = [
       "artificial ao ERP, CRM ou planilhas que ja rodam na empresa. Construir do " +
       "zero so e sugerido quando o sistema atual realmente nao da conta, e isso e " +
       "apontado no diagnostico gratuito, antes de qualquer proposta.",
+  },
+  {
+    pergunta: "A IA pode responder com base nos documentos da minha empresa (RAG)?",
+    resposta:
+      "Sim. RAG é uma técnica em que a IA busca informações relevantes em uma base de conhecimento antes de montar a resposta. Essa base pode reunir manuais, políticas, catálogos e materiais aprovados pela empresa. Por exemplo: um assistente que consulta seus documentos para tirar dúvidas sobre produtos ou processos. A qualidade das respostas depende da organização e da atualização dessa base.",
+  },
+  {
+    pergunta: "O que é MCP e como ele conecta a IA aos meus sistemas?",
+    resposta:
+      "Com uma integração MCP configurada, você pode conversar com o ChatGPT ou o Claude e pedir alterações diretamente no seu sistema, como criar um projeto, editar uma publicação do blog ou cadastrar um produto na loja. A IA executa essas ações pelas ferramentas autorizadas, sem você precisar abrir o painel para cada alteração. MCP (Model Context Protocol) é o padrão que permite essa conexão. Os acessos dependem das permissões definidas na integração, e algumas ações podem exigir sua confirmação.",
   },
   {
     pergunta: "Quanto tempo leva para a IA comecar a trabalhar no negocio?",

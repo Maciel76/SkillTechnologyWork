@@ -13,7 +13,7 @@
         <div class="stat-content">
           <h3>{{ stats.publicados }}</h3>
 
-          <p>Publicados1</p>
+          <p>Publicados</p>
         </div>
       </div>
       <div class="stat-card">
@@ -60,7 +60,7 @@
     <!-- Header com Ações -->
     <div class="section-header">
       <div class="header-left">
-        <h2>Gerenciamento do Blog</h2>
+        <h2>Blog</h2>
         <div class="filter-tabs">
           <button
             :class="{ active: currentFilter === 'all' }"
@@ -397,7 +397,16 @@
                       <i class="fas fa-info-circle"></i>
                       Cole o código HTML completo da página. Ele será
                       renderizado isoladamente, sem os estilos do blog.
+                      Defina fundo, cores legíveis e layout para celular.
                     </p>
+                    <div class="html-design-tools">
+                      <button v-if="!formData.conteudo.trim()" type="button" class="btn-secondary" @click="applyModernHtmlTemplate">Aplicar modelo moderno</button>
+                      <button type="button" class="btn-secondary" @click="copyHtmlDesignGuide">Copiar instruções para o chat</button>
+                    </div>
+                    <details class="html-design-guide">
+                      <summary>Design, leitura e quando usar CTAs</summary>
+                      <pre>{{ blogDesignGuide }}</pre>
+                    </details>
                     <div class="form-group">
                       <textarea
                         v-model="formData.conteudo"
@@ -406,6 +415,11 @@
                         spellcheck="false"
                         @input="onContentChange"
                       ></textarea>
+                    </div>
+                    <div v-if="htmlDesignReview" class="html-design-review" :class="{ 'has-errors': !htmlDesignReview.readyToPublish }" aria-live="polite">
+                      <strong>{{ htmlDesignReview.readyToPublish ? "Estrutura pronta para revisão visual" : "Corrija antes de publicar" }}</strong>
+                      <ul v-if="htmlDesignReview.errors.length"><li v-for="item in htmlDesignReview.errors" :key="item">{{ item }}</li></ul>
+                      <details v-if="htmlDesignReview.warnings.length"><summary>Notas para a revisão</summary><ul><li v-for="item in htmlDesignReview.warnings" :key="item">{{ item }}</li></ul></details>
                     </div>
                     <div v-if="formData.conteudo" class="html-preview-toggle">
                       <button
@@ -425,8 +439,9 @@
                       class="html-preview-container"
                     >
                       <iframe
-                        :srcdoc="formData.conteudo"
+                        :srcdoc="prepareBlogPreview(formData.conteudo)"
                         class="html-preview-iframe"
+                        title="Prévia da página HTML"
                         sandbox="allow-scripts allow-same-origin"
                       ></iframe>
                     </div>
@@ -793,6 +808,7 @@ import TipTapEditor from "@/components/TipTapEditor.vue";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import articleService from "@/services/articleService";
 import aiService from "@/services/aiService";
+import { BLOG_DESIGN_GUIDE, createBlogTemplate, reviewBlogHtml, prepareBlogPreview } from "@/content/blogDesign";
 
 // Bloco de SEO em branco. Fica fora do componente porque tambem e usado
 // pelos metodos que recriam o formulario.
@@ -812,6 +828,7 @@ export default {
   },
   data() {
     return {
+      blogDesignGuide: BLOG_DESIGN_GUIDE,
       loading: false,
       saving: false,
       deleting: false,
@@ -878,6 +895,11 @@ export default {
     };
   },
   computed: {
+    htmlDesignReview() {
+      return this.formData.tipoConteudo === "html" && this.formData.conteudo
+        ? reviewBlogHtml(this.formData.conteudo)
+        : null;
+    },
     // Listas viram texto no formulario e voltam a ser array no model
     seoKeywordsTexto: {
       get() {
@@ -922,6 +944,26 @@ export default {
     await this.loadStats();
   },
   methods: {
+    prepareBlogPreview,
+    applyModernHtmlTemplate() {
+      if (this.formData.conteudo.trim()) return;
+      this.formData.conteudo = createBlogTemplate({
+        title: this.formData.titulo || undefined,
+        summary: this.formData.resumo || undefined,
+        image: this.formData.imagem || undefined,
+        author: this.formData.autor === "Admin" ? "Skill Technology Work" : this.formData.autor,
+      });
+      this.showHtmlPreview = true;
+    },
+
+    async copyHtmlDesignGuide() {
+      try {
+        await navigator.clipboard.writeText(BLOG_DESIGN_GUIDE);
+        this.showToast("Instruções de design e CTAs copiadas", "success");
+      } catch {
+        this.showToast("Abra o guia abaixo para selecionar e copiar as instruções", "info");
+      }
+    },
     async loadArticles() {
       try {
         this.loading = true;
@@ -1011,6 +1053,11 @@ export default {
 
     async saveArticle() {
       const ehHtml = this.formData.tipoConteudo === "html";
+      if (ehHtml && this.formData.status === "published" && !this.htmlDesignReview?.readyToPublish) {
+        this.showToast("Revise o HTML antes de publicar: " + (this.htmlDesignReview?.errors[0] || "o conteúdo está vazio"), "error");
+        this.showHtmlPreview = true;
+        return;
+      }
 
       if (!this.formData.titulo.trim()) {
         this.showToast("O título é obrigatório", "error");
@@ -1031,14 +1078,14 @@ export default {
         this.saving = true;
 
         const articleData = {
-          titulo: this.formData.titulo.trim(),
+          title: this.formData.titulo.trim(),
           slug: this.formData.slug || undefined,
-          conteudo: this.formData.conteudo,
+          content: this.formData.conteudo,
           tipoConteudo: this.formData.tipoConteudo,
           // O resumo é obrigatório no backend: cai no título se ficou vazio
-          resumo: this.formData.resumo || this.formData.titulo.trim(),
-          imagem: this.formData.imagem || undefined,
-          autor: this.formData.autor,
+          summary: this.formData.resumo || this.formData.titulo.trim(),
+          image: this.formData.imagem || undefined,
+          author: this.formData.autor,
           tempoLeitura: this.formData.tempoLeitura,
           categorias: this.formData.categorias,
           tags: this.formData.tags,
@@ -2281,6 +2328,12 @@ export default {
   overflow-x: auto;
 }
 
+.blog-management .html-code-editor {
+  background: #f8faff !important;
+  color: #18233b !important;
+  min-height: 280px !important;
+}
+
 .html-code-editor:focus {
   outline: none;
   border-color: #89b4fa;
@@ -2303,6 +2356,16 @@ export default {
 .html-hint i {
   color: #f59e0b;
 }
+
+.html-design-tools { display:flex; flex-wrap:wrap; gap:10px; margin:12px 0; }
+.html-design-guide { margin:12px 0 18px; padding:14px 16px; background:#f3f6ff; border:1px solid #d9e2ff; border-radius:10px; color:#24375d; }
+.html-design-guide summary, .html-design-review summary { cursor:pointer; font-weight:600; }
+.html-design-guide pre { max-height:380px; overflow:auto; white-space:pre-wrap; overflow-wrap:anywhere; font:inherit; font-size:.9rem; line-height:1.65; margin:14px 0 0; }
+.html-design-review { padding:14px 16px; margin:12px 0; border:1px solid #bee4d2; background:#effaf5; color:#185d40; border-radius:10px; font-size:.9rem; line-height:1.6; }
+.html-design-review.has-errors { border-color:#f4d7aa; background:#fff8eb; color:#7a4c11; }
+.html-design-review ul { padding-left:20px; margin:10px 0; }
+.html-design-review li + li { margin-top:6px; }
+.html-design-review details { margin-top:10px; }
 
 .html-preview-toggle {
   margin-top: 12px;

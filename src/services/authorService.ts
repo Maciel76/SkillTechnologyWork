@@ -1,3 +1,4 @@
+import { authenticatedFetch } from './authenticatedFetch';
 import { RecentProject } from './recentProjectService';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5006/api';
@@ -65,7 +66,7 @@ class AuthorService {
     if (params?.limit) queryParams.append('limit', params.limit.toString());
     if (params?.page) queryParams.append('page', params.page.toString());
 
-    const response = await fetch(`${API_URL}/authors?${queryParams.toString()}`);
+    const response = await authenticatedFetch(`${API_URL}/authors?${queryParams.toString()}`);
 
     if (!response.ok) {
       throw new Error('Erro ao buscar autores');
@@ -79,7 +80,7 @@ class AuthorService {
    * É a chamada única que alimenta a página /portfolio/autor/:slug.
    */
   async getProfileBySlug(slug: string): Promise<AuthorProfileResponse> {
-    const response = await fetch(`${API_URL}/authors/${encodeURIComponent(slug)}`);
+    const response = await authenticatedFetch(`${API_URL}/authors/${encodeURIComponent(slug)}`);
 
     if (!response.ok) {
       if (response.status === 404) {
@@ -89,6 +90,21 @@ class AuthorService {
     }
 
     return response.json();
+  }
+
+  /** Fresh public résumé, generated on the server with embedded photos and projects. */
+  async downloadResume(slug: string): Promise<Blob> {
+    const response = await fetch(`${API_URL}/authors/${encodeURIComponent(slug)}/curriculo.pdf`, {
+      signal: AbortSignal.timeout(45000),
+    });
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      throw new Error(error.error || 'Não foi possível baixar o currículo. Tente novamente.');
+    }
+    if (!response.headers.get('Content-Type')?.includes('application/pdf')) {
+      throw new Error('O currículo não foi gerado corretamente. Tente novamente.');
+    }
+    return response.blob();
   }
 
   // Listar todos os autores (admin)
@@ -103,7 +119,7 @@ class AuthorService {
     if (params?.limit) queryParams.append('limit', params.limit.toString());
     if (params?.page) queryParams.append('page', params.page.toString());
 
-    const response = await fetch(`${API_URL}/admin/authors?${queryParams.toString()}`);
+    const response = await authenticatedFetch(`${API_URL}/admin/authors?${queryParams.toString()}`);
 
     if (!response.ok) {
       throw new Error('Erro ao buscar autores');
@@ -114,7 +130,7 @@ class AuthorService {
 
   // Criar autor
   async createAuthor(author: Omit<Author, '_id' | 'createdAt' | 'updatedAt'>): Promise<AuthorResponse> {
-    const response = await fetch(`${API_URL}/authors`, {
+    const response = await authenticatedFetch(`${API_URL}/authors`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(author),
@@ -130,7 +146,7 @@ class AuthorService {
 
   // Atualizar autor
   async updateAuthor(id: string, author: Partial<Author>): Promise<AuthorResponse> {
-    const response = await fetch(`${API_URL}/authors/${id}`, {
+    const response = await authenticatedFetch(`${API_URL}/authors/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(author),
@@ -146,7 +162,7 @@ class AuthorService {
 
   // Deletar autor
   async deleteAuthor(id: string): Promise<{ message: string }> {
-    const response = await fetch(`${API_URL}/authors/${id}`, { method: 'DELETE' });
+    const response = await authenticatedFetch(`${API_URL}/authors/${id}`, { method: 'DELETE' });
 
     if (!response.ok) {
       const error = await response.json().catch(() => ({}));
@@ -158,7 +174,7 @@ class AuthorService {
 
   // Alternar publicação do perfil
   async togglePublish(id: string): Promise<AuthorResponse> {
-    const response = await fetch(`${API_URL}/authors/${id}/publish`, { method: 'PATCH' });
+    const response = await authenticatedFetch(`${API_URL}/authors/${id}/publish`, { method: 'PATCH' });
 
     if (!response.ok) {
       const error = await response.json().catch(() => ({}));
@@ -173,7 +189,7 @@ class AuthorService {
     const formData = new FormData();
     formData.append('image', file);
 
-    const response = await fetch(`${API_URL}/authors/upload`, {
+    const response = await authenticatedFetch(`${API_URL}/authors/upload`, {
       method: 'POST',
       body: formData,
     });
