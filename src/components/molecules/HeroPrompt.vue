@@ -36,7 +36,7 @@
       <!-- Barra do chat: só no modo conversa -->
       <div v-if="emConversa" class="chat-bar">
         <span class="chat-bar-title">
-          <font-awesome-icon icon="robot" />
+          <img src="@/assets/svg/icons/logo.svg" alt="" class="assistant-logo" />
           Assistente SkillTechnology
         </span>
         <button type="button" class="chat-bar-close" @click="novaConversa">
@@ -59,10 +59,18 @@
           :class="msg.role === 'user' ? 'bubble-user' : 'bubble-bot'"
         >
           <span v-if="msg.role === 'assistant'" class="bubble-tag">
-            <font-awesome-icon icon="robot" />
+            <img src="@/assets/svg/icons/logo.svg" alt="" class="assistant-logo" />
             Assistente SkillTechnology
           </span>
-          <p><span class="texto">{{ msg.content }}</span><span
+          <p><span class="texto"><template v-if="msg.role === 'assistant'">
+            <template v-for="(part, partIndex) in partesResposta(msg.content)" :key="partIndex">
+              <a v-if="part.href" :href="part.href"
+                :target="part.external ? '_blank' : undefined"
+                :rel="part.external ? 'noopener noreferrer' : undefined"
+                @click="abrirLink($event, part.href)"
+              >{{ part.text }}</a><template v-else>{{ part.text }}</template>
+            </template>
+          </template><template v-else>{{ msg.content }}</template></span><span
             v-if="msg.role === 'assistant' && index === ultimoIndice && digitando"
             class="cursor"
           ></span></p>
@@ -70,7 +78,7 @@
 
         <div v-if="carregando" class="bubble bubble-bot">
           <span class="bubble-tag">
-            <font-awesome-icon icon="robot" />
+            <img src="@/assets/svg/icons/logo.svg" alt="" class="assistant-logo" />
             Assistente SkillTechnology
           </span>
           <p class="typing"><span></span><span></span><span></span></p>
@@ -113,8 +121,11 @@
       <div v-if="emConversa" class="chat-footer">
         <button type="button" class="team-button" @click="falarComEquipe">
           <font-awesome-icon icon="arrow-right" />
-          Falar com a equipe
+          Entrar em contato
         </button>
+        <a class="team-button" :href="site.whatsapp" target="_blank" rel="noopener noreferrer">
+          WhatsApp {{ site.telefone }}
+        </a>
       </div>
 
       <template v-if="!emConversa">
@@ -147,6 +158,8 @@ import {
 } from "vue";
 import { useRouter } from "vue-router";
 import aiService from "@/services/aiService";
+import { SITE } from "@/seo/siteConfig";
+import { assistantLinks } from "@/services/assistantLinks";
 
 // Ritmo da digitação: ~110 caracteres por segundo
 const PASSO_CARACTERES = 2;
@@ -157,7 +170,7 @@ const MARGEM_FIM_PX = 60;
 const PERGUNTA_MCP =
   "Como posso usar o ChatGPT ou o Claude para criar e editar conteúdos no meu sistema com MCP?";
 const RESPOSTA_MCP =
-  "MCP (Model Context Protocol) é um padrão que conecta assistentes de IA às ferramentas do seu sistema. Com essa integração configurada, você pode conversar com o ChatGPT ou o Claude e pedir para criar um projeto, editar uma publicação do blog ou cadastrar um produto. A IA executa as ações autorizadas diretamente no sistema, sem você precisar abrir o painel para cada alteração.\n\nAqui na Skill Technology, preparamos essa conexão e definimos com você quais dados e ferramentas a IA poderá acessar. Qual sistema você quer conectar e o que gostaria de criar ou editar pela conversa?";
+  `Aqui na Skill Technology, integramos sua IA às ferramentas do seu sistema com MCP. Essa conexão permite consultar dados e executar ações autorizadas, como cadastrar produtos ou editar publicações, pela conversa. Nossa equipe avalia os recursos disponíveis e define com você os acessos necessários.\n\nPara planejar essa integração, fale com nossa equipe em /contato ou pelo WhatsApp: ${SITE.whatsapp}.`;
 const normalizarPergunta = (texto) =>
   texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
     .trim().replace(/[.!?]+$/, "").replace(/\s+/g, " ").trim();
@@ -410,7 +423,7 @@ export default {
         // Resposta vazia deixaria um balão em branco na tela
         animarDigitacao(
           (resposta || "").trim() ||
-            "Não consegui formular uma resposta agora. Pode reformular a pergunta?",
+            `Não consegui responder agora. Nossa equipe pode ajudar com seu projeto em /contato ou pelo WhatsApp: ${SITE.whatsapp}.`,
         );
       } catch (error) {
         carregando.value = false;
@@ -436,6 +449,14 @@ export default {
       router.push({ name: "contato" });
     };
 
+    const partesResposta = (texto) => assistantLinks(texto, SITE);
+    const abrirLink = (evento, href) => {
+      if (!href.startsWith("/") || evento.ctrlKey || evento.metaKey || evento.shiftKey || evento.altKey) return;
+      evento.preventDefault();
+      if (href === "/contato") falarComEquipe();
+      else router.push(href);
+    };
+
     const novaConversa = () => {
       pararDigitacao();
       mensagens.value = [];
@@ -450,6 +471,7 @@ export default {
     // Precisa ser no <html> também — só no <body> não segura quando quem
     // rola é o documentElement.
     const travarPagina = (travar) => {
+      document.body.classList.toggle("skill-chat-open", travar);
       const valor = travar ? "hidden" : "";
       document.documentElement.style.overflow = valor;
       document.body.style.overflow = valor;
@@ -512,6 +534,9 @@ export default {
     });
 
     return {
+      site: SITE,
+      partesResposta,
+      abrirLink,
       tabs,
       activeTab,
       currentTab,
@@ -673,8 +698,11 @@ export default {
   color: #131a4d;
 }
 
-.chat-bar-title svg {
-  color: #7c6ef2;
+.assistant-logo {
+  width: 1.2em;
+  height: 1.2em;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .chat-bar-close {
@@ -729,6 +757,13 @@ export default {
 
 .bubble p {
   white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.bubble-bot a {
+  color: #0052ff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .bubble-user {
@@ -902,12 +937,15 @@ export default {
 /* Ação de virar lead */
 .chat-footer {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   align-items: center;
   justify-content: center;
   margin-top: 0.85rem;
 }
 
 .team-button {
+  text-decoration: none;
   display: flex;
   align-items: center;
   gap: 0.5rem;

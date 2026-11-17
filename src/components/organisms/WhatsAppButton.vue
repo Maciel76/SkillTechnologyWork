@@ -18,11 +18,13 @@
 </template>
 
 <script>
+import { SITE } from "@/seo/siteConfig";
+
 export default {
   data() {
     return {
       showTooltip: false,
-      phoneNumber: "5562982809010", // Substitua pelo seu número
+      whatsappUrl: SITE.whatsapp,
       defaultMessage: "Olá, gostaria de mais informações!", // Mensagem padrão
     };
   },
@@ -30,7 +32,7 @@ export default {
     openWhatsApp() {
       const encodedMessage = encodeURIComponent(this.defaultMessage);
       window.open(
-        `https://wa.me/${this.phoneNumber}?text=${encodedMessage}`,
+        `${this.whatsappUrl}?text=${encodedMessage}`,
         "_blank"
       );
     },
@@ -49,6 +51,11 @@ export default {
 </script>
 
 <style scoped>
+/* O chat já oferece seu próprio acesso ao WhatsApp. */
+.skill-chat-open .whatsapp-float {
+  display: none;
+}
+
 .whatsapp-float {
   position: fixed;
   bottom: 30px;

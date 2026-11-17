@@ -269,6 +269,25 @@ export default {
     };
   },
 
+  mounted() {
+    // O visitante revisa a mensagem antes de enviar; navegar não envia o formulário.
+    try {
+      const contexto = JSON.parse(sessionStorage.getItem("heroPrompt") || "null");
+      if (!contexto || typeof contexto.mensagem !== "string") return;
+      this.form.message = contexto.mensagem;
+      const assuntos = {
+        "Integrar IA ao meu sistema": "integrar-ia",
+        "Quero criar meu sistema": "criar-sistema",
+        "Automatizar operação": "automacao",
+        "Quero um site institucional": "criar-sistema",
+      };
+      if (!this.form.subject) this.form.subject = assuntos[contexto.categoria] || "outro";
+      sessionStorage.removeItem("heroPrompt");
+    } catch {
+      // Um rascunho inválido não impede o contato direto.
+    }
+  },
+
   watch: {
     "$route.query.servico": {
       immediate: true,
